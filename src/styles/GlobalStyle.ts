@@ -12,10 +12,23 @@ import "normalize.css";
 // `;
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
   :root {
     --font-size-md: 1.5rem;
-    --font-size-base: 1.125rem;
-    --color-white: #ffffff; // 예시 
+    --font-size-small: 0.9rem;
+
+    --color-blue: #345DFD; 
+    --color-purple: #7061F0; 
+    --color-pink: #DE8DFA; 
+
+    --color-green: #4FFC91; 
+    --color-yellow: #D6F84C;
+    --color-black: #161616;
+    --color-gray: #36363E;
+
+    --font-size-base: 1rem; /* 기본 폰트 크기 */
+    --font-family-base: "Pretendard", sans-serif;
   }
 
   /* 기본적인 HTML 및 Body 스타일 추가 */
@@ -25,6 +38,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
   }
 
   body {
