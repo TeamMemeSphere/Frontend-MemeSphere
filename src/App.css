@@ -1,42 +1,50 @@
+//GlobalStyles.ts
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+html {
+  color-scheme: light;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 수평 스크롤 숨기기 */
+  background-color: #ffffff;
+  color: #000000;
+  width: 100%;
+  display: block; /* 기존의 flex나 grid 설정이 있으면 block으로 변경 */
 }
 
-.card {
-  padding: 2em;
+button {
+  font: inherit;
+  outline: none;
+  border: none;
+  background-color: transparent;
 }
 
-.read-the-docs {
-  color: #888;
+textarea {
+  font: inherit;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input,
+select {
+  font: inherit;
 }
