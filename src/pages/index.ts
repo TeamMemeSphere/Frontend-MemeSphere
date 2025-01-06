@@ -1,0 +1,11 @@
+import AlertDashBoard from "./AlertDashboard";
+import CoinCollection from "./CoinCollection";
+import CoinDetailPage from "./CoinDetailPage";
+import Community from "./Community";
+import DashBoard from "./DashBoard";
+import LandingPage from "./LandingPage";
+import NewsFeed from "./NewsFeed";
+import SearchResults from "./SearchResults";
+import SignUp from "./SignUp";
+
+export {AlertDashBoard, CoinCollection, CoinDetailPage, Community, DashBoard, LandingPage, NewsFeed, SearchResults, SignUp};
