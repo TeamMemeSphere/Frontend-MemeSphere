@@ -1,4 +1,5 @@
-import "./App.css";
+//import "./App.css";
+import GlobalStyle from "./styles/GlobalStyle.ts";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   AlertDashBoard,
@@ -15,6 +16,7 @@ import {
 function App() {
   return (
     <>
+      <GlobalStyle />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
