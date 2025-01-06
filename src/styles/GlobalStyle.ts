@@ -1,7 +1,6 @@
 // src/styles/GlobalStyle.js
 import { createGlobalStyle } from "styled-components";
 import "normalize.css";
-import "./fonts/font.css";
 
 // 변수명 앞에 두 개의 대시(--)를 붙여서 사용합니다.
 // :root 의사 클래스는 문서 트리의 루트 요소를 선택합니다. <html> 요소와 동일합니다.
@@ -13,9 +12,11 @@ import "./fonts/font.css";
 // `;
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
   :root {
     --font-size-md: 1.5rem;
-    --font-size-base: 1.125rem;
+    --font-size-small: 0.9rem;
 
     --color-blue: #345DFD; 
     --color-purple: #7061F0; 
@@ -27,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
     --color-gray: #36363E;
 
     --font-size-base: 1rem; /* 기본 폰트 크기 */
-    --font-family-base: "Pretendard"; /* Pretendard 폰트 */
+    --font-family-base: "Pretendard", sans-serif;
   }
 
   /* 기본적인 HTML 및 Body 스타일 추가 */
