@@ -12,12 +12,15 @@ import {
   SearchResults,
   SignUp,
 } from "./pages";
+import Navbar from "./components/Layout/Navbar.tsx";
+import Footer from "./components/Layout/Footer.tsx";
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
+      <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/AlertDashBoard" element={<AlertDashBoard />}></Route>
@@ -29,6 +32,7 @@ function App() {
           <Route path="/SearchResults" element={<SearchResults />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
         </Routes>
+      <Footer />
       </BrowserRouter>
     </>
   );
