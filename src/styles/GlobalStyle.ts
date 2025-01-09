@@ -15,20 +15,40 @@ const GlobalStyle = createGlobalStyle`
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
   :root {
+    // 색상 전역변수  적용
+    --background-black: #161616;
+    --dark-grey: #1E1E20;
+
+    // Grey
+    --grey-100: rgb(38, 38, 42);
+    --grey-50: rgba(38, 38, 42, 0.5);
+    --grey-10: rgba(38, 38, 42, 0.1);
+
+    // White
+    --white-100: rgb(255, 255, 255);
+    --white-60: rgba(255, 255, 255, 0.6);
+    --white-50: rgba(255, 255, 255, 0.5);
+    --white-30: rgba(255, 255, 255, 0.3);
+    --white-10: rgba(255, 255, 255, 0.1);
+    --white-5: rgba(255, 255, 255, 0.05);
+
+    // Primary
+    --blue: #345DFD; 
+    --purple: #7061F0; 
+    --pink: #DE8DFA; 
+
+    // Secondary
+    --green: #4FFC91; 
+    --yellow: #D6F84C;
+    --red: #FB6571;
+
+    // font-family 전역변수 
+    --font-family-base: "Pretendard", sans-serif;
+    
+    // font-size 전역변수
+    --font-size-base: 1rem; /* 기본 폰트 크기 */
     --font-size-md: 1.5rem;
     --font-size-small: 0.9rem;
-
-    --color-blue: #345DFD; 
-    --color-purple: #7061F0; 
-    --color-pink: #DE8DFA; 
-
-    --color-green: #4FFC91; 
-    --color-yellow: #D6F84C;
-    --color-black: #161616;
-    --color-gray: #36363E;
-
-    --font-size-base: 1rem; /* 기본 폰트 크기 */
-    --font-family-base: "Pretendard", sans-serif;
   }
 
   /* 기본적인 HTML 및 Body 스타일 추가 */
@@ -40,6 +60,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
+    background-color: var(--background-black);
   }
 
   body {
