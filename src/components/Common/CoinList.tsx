@@ -40,15 +40,10 @@ const Container = styled.div`
 
 const List = styled.div`
     display: grid;
-    /* grid-template-columns: repeat(3, 1fr); */
-    /* grid-template-columns: repeat(3, 340px); */
     grid-template-columns: repeat(3, 340px);
     width: fit-content;
-    /* width: 100%; */
-    /* width: min(75vw, 1440px); */
     height: fit-content;
     place-items: center;
-    /* gap: 39px clamp(30px, 1.563vw, 50px); */
     gap: 39px 1.563vw;
 
     @media (max-width: 1339px) {
