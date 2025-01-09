@@ -45,10 +45,17 @@ const GlobalStyle = createGlobalStyle`
     // font-family 전역변수 
     --font-family-base: "Pretendard", sans-serif;
     
-    // font-size 전역변수
+    // font-size 전역변수(TODO: 수정 예정)
     --font-size-base: 1rem; /* 기본 폰트 크기 */
     --font-size-md: 1.5rem;
     --font-size-small: 0.9rem;
+
+    // font-weight 전역변수
+    --font-weight-bold : 700;
+    --font-weight-semibold: 600;
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+    --font-weight-light: 300;
   }
 
   /* 기본적인 HTML 및 Body 스타일 추가 */
@@ -83,7 +90,8 @@ const GlobalStyle = createGlobalStyle`
   margin: 0;
   padding: 0;
 }
-
 `;
+
+// TODO: 타이포 전역변수화
 
 export default GlobalStyle;
