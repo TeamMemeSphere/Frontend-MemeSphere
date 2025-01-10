@@ -1,4 +1,4 @@
-// src/styles/GlobalStyle.js
+ // src/styles/GlobalStyle.js
 import { createGlobalStyle } from "styled-components";
 import "normalize.css";
 
