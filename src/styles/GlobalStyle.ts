@@ -1,7 +1,5 @@
-// src/styles/GlobalStyle.js
 import { createGlobalStyle } from "styled-components";
-import "normalize.css";
-
+import "./reset.css";
 // 변수명 앞에 두 개의 대시(--)를 붙여서 사용합니다.
 // :root 의사 클래스는 문서 트리의 루트 요소를 선택합니다. <html> 요소와 동일합니다.
 
@@ -44,9 +42,14 @@ const GlobalStyle = createGlobalStyle`
     --font-family-base: "Pretendard", sans-serif;
     
     // font-size 전역변수(TODO: 수정 예정)
-    --font-size-base: 1rem; /* 기본 폰트 크기 */
     --font-size-title: 1.75rem;
-    --font-size-card-title: 1.125rem; /* 18px */
+    --font-size-subtitle1: 1.5rem; 
+    --font-size-subtitle2: 1.125rem; 
+    --font-size-subtitle3: 1rem;
+    --font-size-body: 1rem;
+    --font-size-chat-text: 0.875rem;
+    --font-size-small-caption: 0.75rem;
+    --font-size-caption: 0.875rem;
 
     // font-weight 전역변수
     --font-weight-bold : 700;
@@ -64,13 +67,13 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-body);
     background-color: var(--background-black);
     color: var(--white-100);
   }
 
   body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-family-base);
     font-size: var(--font-size-base);
     line-height: 1.5;
   }
