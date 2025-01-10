@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
     // font-family 전역변수 
     --font-family-base: "Pretendard", sans-serif;
     
-    // font-size 전역변수(TODO: 수정 예정)
+    // font-size 전역변수
     --font-size-title: 1.75rem;
     --font-size-subtitle1: 1.5rem; 
     --font-size-subtitle2: 1.125rem; 

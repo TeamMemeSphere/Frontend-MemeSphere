@@ -1,16 +1,20 @@
 import styled from "styled-components";
+import { useState } from "react";
 
-interface CoinCardProps {
+export interface Coin {
     name: string;
     symbol: string;
-    price: number;
-    priceChange: number;
+    tradePrice: number;
+    highPrice: number;
+    lowPrice: number;
+    change: "RISE" | "FALL" | "EVEN";
+    changePrice: number;
+    changeRate: number;
+    isCollected?: boolean;
 }
 
-const CoinCard = ({ name, symbol, price, priceChange }: CoinCardProps) => {
-    const changeStatus = priceChange > 0 ? "rise" : priceChange < 0 ? "fall" : "same";
-    const priceChangePercent = priceChange / price * 100;
-    const formattedPrice = price.toLocaleString();
+const CoinCard = ({ name, symbol, tradePrice, highPrice, lowPrice, change, changePrice, changeRate, isCollected }: Coin) => {
+    const [collected, setCollected] = useState<boolean | undefined>(isCollected);
 
     return (
         <Container>
@@ -22,27 +26,29 @@ const CoinCard = ({ name, symbol, price, priceChange }: CoinCardProps) => {
                     {name} / {symbol}
                 </NameWrapper>
                 <StarIcon>
-                    <img src="public\assets\common\star-2 1.svg" alt="star"></img>
+                    {
+                        isCollected ? <Icon src="assets/common/collect-star-fill.svg" alt="star-fill"></Icon> : 
+                        <Icon src="assets/common/collect-star.svg" alt="star"></Icon>
+                    }
                 </StarIcon>
             </HeaderSection>
             <PriceInfoSection>
                 <UpDownSection>
-                    ▲ 4,844
-                    ▼ 4,555
+                    <Icon src="assets/common/trending-down.svg" alt="trending-down" $margin="0px 6px 0px 0px" /> {lowPrice.toLocaleString()}
+                    <Icon src="assets/common/trending-up.svg" alt="trending-up" $margin="0px 6px 0px 10.5px"/> {highPrice.toLocaleString()}
                 </UpDownSection>
                 <CurrentSection>
                     <CurrentPrice>
-                        &#36; {formattedPrice}
+                        &#36; {tradePrice.toLocaleString()}
                     </CurrentPrice>
-                    <CurrentPriceChange change={changeStatus}>
-                        {changeStatus === "same" ? "-" : changeStatus === "rise" ? "▲" : "▼"}
-                        {priceChange}
-                        ({priceChangePercent.toFixed(2)}%)
+                    <CurrentPriceChange $change={change}>
+                        {change === "EVEN" ? "-" : change === "RISE" ? "▲" : "▼"}
+                        &nbsp;{changePrice.toLocaleString()}
+                        &nbsp;({changeRate.toLocaleString()}%)
                     </CurrentPriceChange>
                 </CurrentSection>
             </PriceInfoSection>
             <ChartSection>
-                차트
             </ChartSection>
         </Container>
     );
@@ -56,7 +62,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     background-color: #26262A80;
-    border-radius: 10px;
+    border-radius: 20px;
 `
 
 // 헤더
@@ -84,9 +90,6 @@ const Thumbnail = styled.img`
 
 const NameWrapper = styled.div`
     margin-left: 17px;
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center; */
     color: #FFF;
     font-size: 18px;
     font-style: normal;
@@ -101,6 +104,7 @@ const StarIcon = styled.div`
     flex-shrink: 0;
     margin-left: auto;
     margin-right: 21px;
+    cursor: pointer;
 `
 
 // 가격정보
@@ -112,14 +116,13 @@ const PriceInfoSection = styled.div`
     background-color: #FFFFFF0D;
     border-radius: 10px;
     margin: 18px 17px 0px 17px;
+    padding: 15px 22px;
 `
 
 const UpDownSection = styled.div`
     display: flex;
     color: #B5B7C0;
     font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
 `
 
 const CurrentSection = styled.div`
@@ -127,30 +130,41 @@ const CurrentSection = styled.div`
     width: 100%;
     display: flex;
     align-items: baseline;
+    margin: 6px 0 0 0;
 `
 
 const CurrentPrice = styled.div`
     color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 `
 
 interface CurrentPriceChangeProps {
-    change: "rise" | "fall" | "same";
+    $change: "RISE" | "FALL" | "EVEN";
 }
 
 const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
-    color: ${props => props.change === "rise" ? "red" : props.change === "fall" ? "#345DFD" : "white"};
-    margin-left: 1rem;
+    color: ${props => props.$change === "RISE" ? "red" : props.$change === "FALL" ? "var(--color-blue)" : "white"};
+    margin-left: 16px;
 `
 
 // 차트
 const ChartSection = styled.div`
-    width: 100%;
-    height: 200px;
-    background-color: #FFFFFF0D;
-    border-radius: 10px;
-    margin-top: 1rem;
+    width: 306px;
+    height: 254px;
+    margin-top: 23px;
+    border: 1px solid #FFFFFF0D;
+`
+
+// 아이콘
+interface IconProps {
+    $margin?: string;
+}
+
+const Icon = styled.img<IconProps>`
+    margin: ${props => props.$margin};
 `
 
 export default CoinCard;
