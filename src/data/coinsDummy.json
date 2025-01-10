@@ -1,0 +1,217 @@
+[
+  {
+    "market": "KRW-BTC",
+    "korean_name": "비트코인",
+    "english_name": "Bitcoin"
+  },
+  {
+    "market": "KRW-LINK",
+    "korean_name": "체인링크",
+    "english_name": "Chainlink"
+  },
+  {
+    "market": "USDT-SAFE",
+    "korean_name": "세이프",
+    "english_name": "Safe"
+  },
+  {
+    "market": "KRW-DRIFT",
+    "korean_name": "드리프트",
+    "english_name": "Drift"
+  },
+  {
+    "market": "BTC-DRIFT",
+    "korean_name": "드리프트",
+    "english_name": "Drift"
+  },
+  {
+    "market": "USDT-DRIFT",
+    "korean_name": "드리프트",
+    "english_name": "Drift"
+  },
+  {
+    "market": "KRW-AGLD",
+    "korean_name": "어드벤처골드",
+    "english_name": "Adventure Gold"
+  },
+  {
+    "market": "USDT-AGLD",
+    "korean_name": "어드벤처골드",
+    "english_name": "Adventure Gold"
+  },
+  {
+    "market": "USDT-AHT",
+    "korean_name": "아하토큰",
+    "english_name": "AhaToken"
+  },
+  {
+    "market": "USDT-ARPA",
+    "korean_name": "알파",
+    "english_name": "ARPA"
+  },
+  {
+    "market": "USDT-ASTR",
+    "korean_name": "아스타",
+    "english_name": "Astar"
+  },
+  {
+    "market": "USDT-BNT",
+    "korean_name": "뱅코르",
+    "english_name": "Bancor"
+  },
+  {
+    "market": "USDT-EGLD",
+    "korean_name": "멀티버스엑스",
+    "english_name": "MultiversX"
+  },
+  {
+    "market": "USDT-FIL",
+    "korean_name": "파일코인",
+    "english_name": "Filecoin"
+  },
+  {
+    "market": "USDT-LWA",
+    "korean_name": "루미웨이브",
+    "english_name": "LumiWave"
+  },
+  {
+    "market": "USDT-NEAR",
+    "korean_name": "니어프로토콜",
+    "english_name": "NEAR Protocol"
+  },
+  {
+    "market": "USDT-OXT",
+    "korean_name": "오키드",
+    "english_name": "Orchid"
+  },
+  {
+    "market": "USDT-RAD",
+    "korean_name": "래드웍스",
+    "english_name": "Radworks"
+  },
+  {
+    "market": "USDT-XLM",
+    "korean_name": "스텔라루멘",
+    "english_name": "Lumen"
+  },
+  {
+    "market": "KRW-PEPE",
+    "korean_name": "페페",
+    "english_name": "Pepe"
+  },
+  {
+    "market": "KRW-BONK",
+    "korean_name": "봉크",
+    "english_name": "Bonk"
+  },
+  {
+    "market": "BTC-JASMY",
+    "korean_name": "재스미코인",
+    "english_name": "JasmyCoin"
+  },
+  {
+    "market": "USDT-JASMY",
+    "korean_name": "재스미코인",
+    "english_name": "JasmyCoin"
+  },
+  {
+    "market": "BTC-NCT",
+    "korean_name": "폴리스웜",
+    "english_name": "Polyswarm"
+  },
+  {
+    "market": "USDT-NCT",
+    "korean_name": "폴리스웜",
+    "english_name": "Polyswarm"
+  },
+  {
+    "market": "KRW-RENDER",
+    "korean_name": "렌더토큰",
+    "english_name": "Render Token"
+  },
+  {
+    "market": "USDT-RENDER",
+    "korean_name": "렌더토큰",
+    "english_name": "Render Token"
+  },
+  {
+    "market": "BTC-PUFFER",
+    "korean_name": "퍼퍼",
+    "english_name": "Puffer"
+  },
+  {
+    "market": "USDT-PUFFER",
+    "korean_name": "퍼퍼",
+    "english_name": "Puffer"
+  },
+  {
+    "market": "BTC-SWELL",
+    "korean_name": "스웰네트워크",
+    "english_name": "Swell Network"
+  },
+  {
+    "market": "USDT-SWELL",
+    "korean_name": "스웰네트워크",
+    "english_name": "Swell Network"
+  },
+  {
+    "market": "KRW-MOVE",
+    "korean_name": "무브먼트",
+    "english_name": "Movement"
+  },
+  {
+    "market": "BTC-MOVE",
+    "korean_name": "무브먼트",
+    "english_name": "Movement"
+  },
+  {
+    "market": "USDT-MOVE",
+    "korean_name": "무브먼트",
+    "english_name": "Movement"
+  },
+  {
+    "market": "KRW-ME",
+    "korean_name": "매직에덴",
+    "english_name": "Magic Eden"
+  },
+  {
+    "market": "BTC-ME",
+    "korean_name": "매직에덴",
+    "english_name": "Magic Eden"
+  },
+  {
+    "market": "USDT-ME",
+    "korean_name": "매직에덴",
+    "english_name": "Magic Eden"
+  },
+  {
+    "market": "KRW-MOCA",
+    "korean_name": "모카버스",
+    "english_name": "Mocaverse"
+  },
+  {
+    "market": "BTC-MOCA",
+    "korean_name": "모카버스",
+    "english_name": "Mocaverse"
+  },
+  {
+    "market": "USDT-MOCA",
+    "korean_name": "모카버스",
+    "english_name": "Mocaverse"
+  },
+  {
+    "market": "KRW-VANA",
+    "korean_name": "바나",
+    "english_name": "Vana"
+  },
+  {
+    "market": "BTC-VANA",
+    "korean_name": "바나",
+    "english_name": "Vana"
+  },
+  {
+    "market": "USDT-SONIC",
+    "korean_name": "소닉SVM",
+    "english_name": "Sonic SVM"
+  }
+]

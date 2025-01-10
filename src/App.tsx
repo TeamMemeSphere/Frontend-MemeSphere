@@ -20,7 +20,7 @@ function App() {
     <>
       <GlobalStyle />
       <BrowserRouter>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/AlertDashBoard" element={<AlertDashBoard />}></Route>
@@ -32,7 +32,7 @@ function App() {
           <Route path="/SearchResults" element={<SearchResults />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
         </Routes>
-      <Footer />
+        <Footer />
       </BrowserRouter>
     </>
   );
