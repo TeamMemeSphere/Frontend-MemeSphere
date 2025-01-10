@@ -47,8 +47,8 @@ const GlobalStyle = createGlobalStyle`
     
     // font-size 전역변수(TODO: 수정 예정)
     --font-size-base: 1rem; /* 기본 폰트 크기 */
-    --font-size-md: 1.5rem;
-    --font-size-small: 0.9rem;
+    --font-size-title: 1.75rem;
+    --font-size-card-title: 1.125rem; /* 18px */
 
     // font-weight 전역변수
     --font-weight-bold : 700;
@@ -57,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
     --font-weight-regular: 400;
     --font-weight-light: 300;
   }
-
+    
   /* 기본적인 HTML 및 Body 스타일 추가 */
   html, body {
     margin: 0;
@@ -68,6 +68,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
     background-color: var(--background-black);
+    color: var(--white-100);
   }
 
   body {
@@ -91,7 +92,5 @@ const GlobalStyle = createGlobalStyle`
   padding: 0;
 }
 `;
-
-// TODO: 타이포 전역변수화
 
 export default GlobalStyle;
