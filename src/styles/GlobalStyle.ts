@@ -12,8 +12,6 @@ import "normalize.css";
 // `;
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
   :root {
     // 색상 전역변수  적용
     --background-black: #161616;
