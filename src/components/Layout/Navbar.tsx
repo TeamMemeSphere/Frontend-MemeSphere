@@ -77,7 +77,6 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-// 폰트 사이즈, 색깔 추후 수정
 const Logo = styled(TitleTypo)`
   margin-left: 4.306vw;
   color: var(--white-100);
