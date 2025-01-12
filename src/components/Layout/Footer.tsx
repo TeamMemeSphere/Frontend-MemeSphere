@@ -34,9 +34,6 @@ const FooterWrapper = styled.footer`
   left: 0;
   width: 100%;
   height: 180px;
-
-  position: absolute;
-  bottom: 0;
 `;
 
 const Content = styled.div`
