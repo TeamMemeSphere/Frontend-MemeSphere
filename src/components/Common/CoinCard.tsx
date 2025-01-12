@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useState } from "react";
 
 export interface Coin {
   name: string;
@@ -11,6 +10,8 @@ export interface Coin {
   changePrice: number;
   changeRate: number;
   isCollected?: boolean;
+  marketCap: number;
+  volume: number;
 }
 
 const CoinCard = ({
@@ -24,7 +25,6 @@ const CoinCard = ({
   changeRate,
   isCollected,
 }: Coin) => {
-  const [collected, setCollected] = useState<boolean | undefined>(isCollected);
 
   return (
     <Container>
