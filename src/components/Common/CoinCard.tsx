@@ -67,9 +67,14 @@ const CoinCard = ({
         <CurrentSection>
           <CurrentPrice>&#36; {tradePrice.toLocaleString()}</CurrentPrice>
           <CurrentPriceChange $change={change}>
-            {change === "EVEN" ? "-" : change === "RISE" ? "▲" : "▼"}
-            &nbsp;{changePrice.toLocaleString()}
-            &nbsp;({changeRate.toLocaleString()}%)
+            {change === "EVEN" ? "⏤" : (
+              <>
+              {change === "RISE" ? "▲" : "▼"}
+              &nbsp;{changePrice.toLocaleString()}
+              &nbsp;({changeRate.toLocaleString()}%)
+              </>
+            )
+            }
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>
@@ -172,9 +177,9 @@ interface CurrentPriceChangeProps {
 const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
   color: ${(props) =>
     props.$change === "RISE"
-      ? "red"
+      ? "var(--red)"
       : props.$change === "FALL"
-        ? "var(--color-blue)"
+        ? "var(--blue)"
         : "white"};
   margin-left: 16px;
 `;

@@ -26,7 +26,7 @@ const Container = styled.div`
     height: 24px;
     justify-content: center;
     align-items: flex-start;
-    /* gap: 9px; */
+    gap: 0.625vw;
     padding: 0 0.5vw;
 `
 
