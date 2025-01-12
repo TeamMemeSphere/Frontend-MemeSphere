@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Coin } from "./CoinCard";
-import { BodyTypo } from "../../styles/Typography";
 
 const CoinRow = ({
     name,
@@ -33,16 +32,13 @@ const CoinRow = ({
             </Text>
         </Container>
     )
-
 }
-
 
 export default CoinRow;
 
 const Container = styled.div`
     box-sizing: border-box;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     width: 100%;
     height: 64px;
@@ -60,5 +56,4 @@ interface TextProps {
 const Text = styled.div<TextProps>`
     width: ${(props) => props.$width};
     text-align: center;
-    /* ${BodyTypo} */
 `
