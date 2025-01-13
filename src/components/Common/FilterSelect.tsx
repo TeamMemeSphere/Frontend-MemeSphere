@@ -22,7 +22,7 @@ const FilterSelect : React.FC<OptionProps> = ( { options, onChange } ) => {
         <Container>
             <StyledButton onClick={toggleDropdown}>
                 {selectedValue} 
-                <DropdownIcon />
+                <DropdownIcon src="assets/common/FilterSelectIcon.svg" />
             </StyledButton>
             {isOpen && (
                 <Dropdown>
@@ -45,13 +45,13 @@ const Container = styled.div`
 `;
 
 const StyledButton = styled.button`
-    display : flex;
+    display : inline-flex;
     justify-content : space-between;
     align-items : center;
 
     width : 100%;
     height : 3.125vh;
-    padding : 0.879vh 0.903vw;
+    padding : 0.879vh 0.703vw;
     border : 1px solid rgba(255, 255, 255, 0.30);
     background : transparent; // 투명하게
     color : var(--White-100, #FFF);
@@ -65,11 +65,10 @@ const StyledButton = styled.button`
     position : relative;
 `;
 
-const DropdownIcon = styled.div`
+const DropdownIcon = styled.img`
     margin-left : 1.389vw;
-    width: 0.972vw;
-    height: 1.367vh;
-    background : url('assets/common/FilterSelectIcon.svg');
+    width: 0.875rem;
+    height: 0.875rem;
     background-size: contain;
 `;
 
