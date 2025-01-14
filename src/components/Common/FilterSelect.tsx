@@ -50,10 +50,10 @@ const StyledButton = styled.button`
     align-items : center;
 
     width : 100%;
-    height : 3.125vh;
-    padding : 0.879vh 0.703vw;
+    height : 2rem;
+    padding : 0.563rem 0.813rem;
     border : 1px solid rgba(255, 255, 255, 0.30);
-    background : transparent; // 투명하게
+    background: var(--White-5, rgba(255, 255, 255, 0.05));
     color : var(--White-100, #FFF);
     border-radius: 0;
 
@@ -74,9 +74,9 @@ const DropdownIcon = styled.img`
 
 const Dropdown = styled.div`
     position: absolute;
-    top: 3.223vh;
+    top: 2.063rem;
     width: 100%;
-    background: var(--color-black);
+    background: var(--background-black);
     border: 1px solid rgba(255, 255, 255, 0.30);
     z-index: 1000;
 `;
