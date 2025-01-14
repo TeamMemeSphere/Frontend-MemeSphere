@@ -24,7 +24,7 @@ const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelect
 
     if (totalPages <= 1) return null;
     if (totalPages >= 1) {
-        let pages = Array.from({ length: 5 }, (_, i) => i + 1 + Math.floor((currentPage - 1)/ 5) * 5);
+        let pages = Array.from({ length: 5 }, (_, i) => i + 1 + Math.floor((currentPage - 1) / 5) * 5);
         if (pages[pages.length - 1] > totalPages) {
             pages = pages.filter(page => page <= totalPages);
         }
@@ -32,7 +32,9 @@ const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelect
             <Container>
                 <Pagination>
                     {
-                        currentPage > 1 && <img src="/assets/common/chevron-left.svg" alt="previous" onClick={() => handlePageChange(currentPage - 1)} />
+                        currentPage > 1 ? <Chevron src="/assets/common/chevron-left.svg" alt="previous" onClick={() => handlePageChange(currentPage - 1)} />
+                            :
+                            <Chevron src="/assets/common/chevron-left-disabled.svg" alt="previous disabled"/>
                     }
                     {
                         pages.map((page: number, index: number) => {
@@ -48,7 +50,9 @@ const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelect
                         })
                     }
                     {
-                        currentPage < totalPages && <img src="/assets/common/chevron-right.svg" alt="next" onClick={() => handlePageChange(currentPage + 1)} />
+                        currentPage < totalPages ? <img src="/assets/common/chevron-right.svg" alt="next" onClick={() => handlePageChange(currentPage + 1)} />
+                            :
+                            <img src="/assets/common/chevron-right-disabled.svg" alt="next disabled"></img>
                     }
                 </Pagination>
             </Container>
@@ -71,6 +75,10 @@ const Pagination = styled.div`
     gap: 15px;
 `
 
+const Chevron = styled.img`
+    cursor: pointer;
+`
+
 interface PageNumberProps {
     $isActive?: boolean;
 }
@@ -91,6 +99,7 @@ const PageNumber = styled.button<PageNumberProps>`
     border: none;
     background-color: transparent;
     border-radius: 0;
+    cursor: pointer;
 
     &:focus, &:active {
         border: none;
