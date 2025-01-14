@@ -1,21 +1,18 @@
 import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
-import { useState } from "react";
 import ViewTypeButton from "./ViewTypeButton";
 import FilterSelect from "./FilterSelect";
 
 interface CoinListHeaderProps {
     title?: string;
     options: string[];
+    onOptionChange: (value: string) => void;
     viewType: "card" | "list";
     onTypeChange: () => void;
     marginBottom: string
 }
 
-const CoinListHeader = ({ title, options, viewType, onTypeChange, marginBottom }: CoinListHeaderProps) => {
-    const defaultOption = options[0];
-    const [selectedOption, setSelectedOption] = useState<string>(defaultOption);
-
+const CoinListHeader = ({ title, options, onOptionChange, viewType, onTypeChange, marginBottom }: CoinListHeaderProps) => {
     return (
         <Container $marginBottom={marginBottom}>
             <S.SubTitle1Typo>{title}</S.SubTitle1Typo>
@@ -23,7 +20,7 @@ const CoinListHeader = ({ title, options, viewType, onTypeChange, marginBottom }
                 <ViewTypeButton viewType={viewType} onClick={onTypeChange}></ViewTypeButton>
             </ViewTypeButtonWrapper>
             <FilterSelectWrapper>
-                <FilterSelect options={options} onChange={setSelectedOption}></FilterSelect>
+                <FilterSelect options={options} onChange={onOptionChange}></FilterSelect>
             </FilterSelectWrapper>
         </Container>
     )
