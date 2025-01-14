@@ -2,17 +2,18 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import { NavLink } from "react-router-dom";
 import ChatContent from "./ChatContent.tsx";
-import { chatInfo } from "./chatInfo.ts";
+import { chatInfo } from "./communityTypes.ts";
 
 type CoinTalkProps = {
     id : number,
     name : string,
     symbol : string,
+    imgSrc : string,
     chatInfo? : chatInfo
 }
 
 
-const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, chatInfo}) => {
+const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, imgSrc, chatInfo}) => {
 
 
     return <Card>
@@ -31,9 +32,7 @@ const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, chatInfo}) => {
         </CoinHeader>
         <TalkContent>
             {chatInfo 
-                ? <ChatContent {...chatInfo}>
-
-                </ChatContent>
+                ? <ChatContent {...chatInfo}></ChatContent>
                 : <NoContent><NoContentComment>아직 등록된 글이 없습니다.</NoContentComment></NoContent>}
         </TalkContent>
     </Card>;

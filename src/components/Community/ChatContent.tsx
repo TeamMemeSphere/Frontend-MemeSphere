@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { chatInfo } from "./chatInfo";
 import DefaultProfile from "./DefaultProfile";
 import * as S from "./../../styles/Typography.ts";
 
@@ -8,7 +7,7 @@ type ChatContentProps = {
     time : string,
     content : string,
     like : number,
-    profileImgSrc : string
+    profileImgSrc? : string
 };
 const ChatContent : React.FC<ChatContentProps> = ({author, time, content, like, profileImgSrc}) => (
     <CommentContainer>
