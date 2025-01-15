@@ -3,7 +3,6 @@ import styled from "styled-components";
 interface ViewTypeButtonProps {
     viewType: "card" | "list";
     onClick: () => void;
-    isActive: boolean;
 }
 
 const ViewTypeButton = ({viewType, onClick}: ViewTypeButtonProps) => {
@@ -27,7 +26,6 @@ const Container = styled.div`
     justify-content: center;
     align-items: flex-start;
     gap: 0.625vw;
-    padding: 0 0.5vw;
 `
 
 interface ButtonProps {

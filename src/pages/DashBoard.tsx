@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import CoinList from "../components/common/CoinList";
-import ViewTypeButton from "../components/common/ViewTypeButton";
 import { useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
 import { Coin } from "../components/common/CoinCard";
-import * as S from "../styles/Typography";
+import CoinListHeader from "../components/common/CoinListHeader";
 
 const dummyData: Coin[] = [
   {
@@ -922,12 +921,23 @@ const DashBoard = () => {
     setCurrentPage(1);
   }
 
+  const selectOption = ["MKT cap", "price"];
+  const [options, setOptions] = useState<string>("MKT cap");
+  const onChangeOption = (value: string) => {
+    setOptions(value);
+  };
+
   return (
     <Container>
       <h3>DashBoard</h3>
-      <CoinListHeader>
-        <S.SubTitle1Typo>차트</S.SubTitle1Typo>
-        <ViewTypeButton viewType={viewType} onClick={handleViewTypeChange} isActive={true}></ViewTypeButton>
+      <CoinListHeader
+        title="차트"
+        options={selectOption}
+        onOptionChange={onChangeOption}
+        viewType={viewType}
+        onTypeChange={handleViewTypeChange}
+        marginBottom="1.5rem"
+      >
       </CoinListHeader>
       <CoinList coins={dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)} viewType={viewType}></CoinList>
       <PageSelector
@@ -949,10 +959,4 @@ const Container = styled.div`
   padding: 143px 12.5vw;
   width: 100%;
   height: fit-content;
-`
-
-const CoinListHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 21px;
 `
