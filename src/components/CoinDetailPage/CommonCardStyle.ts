@@ -7,6 +7,6 @@ export const CommonCard = styled.div`
 `;
 
 export const StyledCardTitle = styled(SubTitle3Typo)`
-  margin-left: 2.708vw;
-  margin-top: 3.516vh;
+  padding-left: 1.125rem;
+  padding-top: 1rem;
 `;
