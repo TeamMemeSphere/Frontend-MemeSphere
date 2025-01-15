@@ -1,22 +1,22 @@
 import styled from "styled-components";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
 
-const ChartCard = () => {
+const LiveChatCard = () => {
   return (
     <>
       <CardLayout>
-        <StyledCardTitle>차트</StyledCardTitle>
+        <StyledCardTitle>실시간 채팅</StyledCardTitle>
       </CardLayout>
     </>
   );
 };
 
-export default ChartCard;
+export default LiveChatCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 48.194vw;
-  height: 42.285vh;
+  width: 24.722vw;
+  height: 46.667vh;
   margin-top: 0.813rem;
   margin-bottom: 1.625rem;
 `;

@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import NavItem from "../Common/Navbar/NavItem";
 import SearchBar from "../Common/Navbar/SearchBar";
-import HeaderButton from "../Common/Navbar/HeaderButton";
-import bell from "../../../public/assets/common/navbar/bell.svg";
-import user from "../../../public/assets/common/navbar/user.svg";
-import settings from "../../../public/assets/common/navbar/settings.svg";
+import AlarmButton from "../../components/Common/Navbar/AlarmButton";
+import SettingButton from "../../components/Common/Navbar/SettingButton";
+import UserButton from "../../components/Common/Navbar/UserButton";
 import { TitleTypo } from "../../styles/Typography";
 
 const Navbar: React.FC = () => {
@@ -67,9 +66,9 @@ const Navbar: React.FC = () => {
 
       <NavRight>
         <SearchBar></SearchBar>
-        <HeaderButton icon={bell} color="var(--green)"></HeaderButton>
-        <HeaderButton icon={user} color="var(--purple)"></HeaderButton>
-        <HeaderButton icon={settings} color="var(--blue)"></HeaderButton>
+        <AlarmButton></AlarmButton>
+        <UserButton></UserButton>
+        <SettingButton></SettingButton>
       </NavRight>
     </Nav>
   );
