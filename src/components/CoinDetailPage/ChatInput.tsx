@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { useRef } from "react";
+import { forwardRef, useRef } from "react";
 
-const ChatInput = () => {
-
+const ChatInput = forwardRef<HTMLDivElement>((props, containerRef) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleResize = () => {
@@ -10,11 +9,12 @@ const ChatInput = () => {
         if (textarea) {
             textarea.style.height = "auto";
             textarea.style.height = textarea.scrollHeight + "px";
+            textarea.style.maxHeight = "10rem";
         }
     }
 
     return (
-        <Container>
+        <Container ref={containerRef}>
             <InputWrapper>
                 <TextArea
                     ref={textareaRef}
@@ -26,7 +26,7 @@ const ChatInput = () => {
             </SendButton>
         </Container>
     )
-}
+})
 
 export default ChatInput;
 
@@ -34,13 +34,14 @@ const Container = styled.div`
     box-sizing: border-box;
     width: 100%;
     min-height: 4.563rem;
+    max-height: 50%;
     height: auto;
     display: flex;
     padding: 1.063rem 1.25rem;
-    position: absolute;
-    bottom: 0;
+    flex-shrink: 0;
     background-color: var(--grey-100);
     align-items: end;
+    border-radius: 0 0 1.25rem 1.25rem;
 `;
 
 const InputWrapper = styled.div`

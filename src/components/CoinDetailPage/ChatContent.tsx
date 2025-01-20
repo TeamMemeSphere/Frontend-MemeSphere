@@ -50,11 +50,23 @@ const ChatContent = ({ message, nickname, likes, created_at }: ChatContentProps)
                 </ChatMessage>
             </ChatContentWrapper>
             <ChatInfoWrapper $isSentByMe={isSentByMe}>
-                <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-                <LikeWrapper>
-                    <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
-                    {likes}
-                </LikeWrapper>
+                {isSentByMe ?
+                    <>
+                        <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
+                        <LikeWrapper>
+                            <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+                            {likes}
+                        </LikeWrapper>
+                    </>
+                    :
+                    <>
+                        <LikeWrapper>
+                            <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+                            {likes}
+                        </LikeWrapper>
+                        <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
+                    </>
+                }
             </ChatInfoWrapper>
         </Container>
     );

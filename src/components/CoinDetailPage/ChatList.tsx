@@ -1,24 +1,12 @@
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import chatDummy from "../../data/chatDummy.json";
-import { useEffect, useRef } from "react";
+import { forwardRef } from "react";
 
-const ChatList = () => {
-    const chatListRef = useRef<HTMLDivElement>(null);
-
-    const scrollToEnd = () => {
-        chatListRef.current?.scrollTo(0, chatListRef.current.scrollHeight);
-    }
-
-    useEffect(() => {
-        scrollToEnd();
-    }, [])
-
+const ChatList = forwardRef<HTMLDivElement>((props, chatListRef) => {
     return (
         <>
-            <Container
-                ref={chatListRef}
-            >
+            <Container ref={chatListRef}>
                 {chatDummy.map((chat, index) => (
                     <ChatContent
                         key={index}
@@ -31,22 +19,23 @@ const ChatList = () => {
             </Container>
         </>
     )
-}
+})
 
 export default ChatList;
 
 const Container = styled.div`
     box-sizing: border-box;
-    width: 100%;
-    height: 23.563rem;
-    overflow-y: scroll;
+    width: calc(100% - 0.75rem);
+    flex-grow: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 0.563rem;
-    padding: 0 1.25rem;
+    padding: 0 1.188rem 0 0.688rem;
+    position: relative;
 
     &::-webkit-scrollbar {
-        width: 5px;
+        width: 3px;
         margin-bottom: 0.5rem;
     }
 
