@@ -84,8 +84,10 @@ const CoinCard = ({
 };
 
 const Container = styled.div`
-  width: 340px;
-  height: 473px;
+  /* width: 340px; */
+  width: max(340px, 23.611vw);
+  /* height: 473px; */
+  height: 29.563rem;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -138,7 +140,9 @@ const StarIcon = styled.div`
 
 // 가격정보
 const PriceInfoSection = styled.div`
-  width: 306px;
+  box-sizing: border-box;
+  /* width: 306px; */
+  width: max(306px, 21.25vw);
   height: 79px;
   flex-shrink: 0;
   box-sizing: border-box;
@@ -186,7 +190,8 @@ const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
 
 // 차트
 const ChartSection = styled.div`
-  width: 306px;
+  /* width: 306px; */
+  width: max(306px, 21.25vw);
   height: 254px;
   margin-top: 23px;
   border: 1px solid #ffffff0d;
