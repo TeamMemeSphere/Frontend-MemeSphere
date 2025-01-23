@@ -26,12 +26,15 @@ export default Footer;
 
 // 폰트 사이즈, 색깔 추후 수정
 const FooterWrapper = styled.footer`
-  background-color: #1E1E20;
+  background-color: var(--color-gray);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 180px;
+  // 주현 (삭제?)
+  position: relative;
+  transform: translateY(0%);
 `;
 
 const Content = styled.div`

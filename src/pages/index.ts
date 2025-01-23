@@ -6,6 +6,5 @@ import DashBoard from "./DashBoard";
 import LandingPage from "./LandingPage";
 import NewsFeed from "./NewsFeed";
 import SearchResults from "./SearchResults";
-import SignUp from "./SignUp";
 
-export {AlertDashBoard, CoinCollection, CoinDetailPage, Community, DashBoard, LandingPage, NewsFeed, SearchResults, SignUp};
+export {AlertDashBoard, CoinCollection, CoinDetailPage, Community, DashBoard, LandingPage, NewsFeed, SearchResults};
