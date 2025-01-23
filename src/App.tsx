@@ -10,7 +10,6 @@ import {
   LandingPage,
   NewsFeed,
   SearchResults,
-  SignUp,
 } from "./pages";
 import Navbar from "./components/Layout/Navbar.tsx";
 import Footer from "./components/Layout/Footer.tsx";
@@ -30,7 +29,6 @@ function App() {
           <Route path="/DashBoard" element={<DashBoard />}></Route>
           <Route path="/NewsFeed" element={<NewsFeed />}></Route>
           <Route path="/SearchResults" element={<SearchResults />}></Route>
-          <Route path="/SignUp" element={<SignUp />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

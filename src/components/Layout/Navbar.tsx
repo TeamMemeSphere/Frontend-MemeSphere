@@ -16,13 +16,13 @@ const Navbar: React.FC = () => {
           <NavItem
             icon1={
               <img
-                src="../../../public/assets/common/CollectionIcon-On.svg"
+                src="../../../public/assets/common/navbar/CollectionIcon-On.svg"
                 alt="Collection Icon"
               />
             }
             icon2={
               <img
-                src="../../../public/assets/common/CollectionIcon-Off.svg"
+                src="../../../public/assets/common/navbar/CollectionIcon-Off.svg"
                 alt="Collection Icon"
               />
             }
@@ -32,13 +32,13 @@ const Navbar: React.FC = () => {
           <NavItem
             icon1={
               <img
-                src="../../../public/assets/common/DashboradIcon-On.svg"
+                src="../../../public/assets/common/navbar/DashboradIcon-On.svg"
                 alt="DashBoard Icon"
               />
             }
             icon2={
               <img
-                src="../../../public/assets/common/DashboradIcon-Off.svg"
+                src="../../../public/assets/common/navbar/DashboradIcon-Off.svg"
                 alt="DashBoard Icon"
               />
             }
@@ -48,13 +48,13 @@ const Navbar: React.FC = () => {
           <NavItem
             icon1={
               <img
-                src="../../../public/assets/common/CommunityIcon-On.svg"
+                src="../../../public/assets/common/navbar/CommunityIcon-On.svg"
                 alt="Community Icon"
               />
             }
             icon2={
               <img
-                src="../../../public/assets/common/CommunityIcon-Off.svg"
+                src="../../../public/assets/common/navbar/CommunityIcon-Off.svg"
                 alt="Community Icon"
               />
             }
