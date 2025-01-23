@@ -7,10 +7,10 @@ import * as S from "../styles/Typography";
 import CoinListHeader from "../components/common/CoinListHeader";
 import ContentHeader from "../components/Common/ContentHeader";
 
-const dummyData: Coin[] = [
+export const dummyData: Coin[] = [
   {
     name: "DOGE",
-    symbol: "USDT",
+    symbol: "DOGEUSDT",
     tradePrice: 4634,
     highPrice: 4891,
     lowPrice: 4213,
@@ -22,8 +22,8 @@ const dummyData: Coin[] = [
     volume: 250000
   },
   {
-    name: "QWER",
-    symbol: "ASDF",
+    name: "BONK",
+    symbol: "BONKUSDT",
     tradePrice: 4212,
     highPrice: 4291,
     lowPrice: 4123,
@@ -34,100 +34,14 @@ const dummyData: Coin[] = [
     volume: 250000
   },
   {
-    name: "HDVS",
-    symbol: "KHEA",
+    name: "PEPE",
+    symbol: "PEPEUSDT",
     tradePrice: 2413,
     highPrice: 2491,
     lowPrice: 2123,
     change: "EVEN",
     changePrice: 0,
     changeRate: 0,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "NDVS",
-    symbol: "SDFG",
-    tradePrice: 164,
-    highPrice: 191,
-    lowPrice: 123,
-    change: "RISE",
-    changePrice: 76,
-    changeRate: 46.3,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "DOGE",
-    symbol: "USDT",
-    tradePrice: 4634,
-    highPrice: 4891,
-    lowPrice: 4213,
-    change: "FALL",
-    changePrice: -142,
-    changeRate: -3.1,
-    isCollected: true,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "QWER",
-    symbol: "ASDF",
-    tradePrice: 4212,
-    highPrice: 4291,
-    lowPrice: 4123,
-    change: "RISE",
-    changePrice: 721,
-    changeRate: 17.1,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "HDVS",
-    symbol: "KHEA",
-    tradePrice: 2413,
-    highPrice: 2491,
-    lowPrice: 2123,
-    change: "EVEN",
-    changePrice: 0,
-    changeRate: 0,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "NDVS",
-    symbol: "SDFG",
-    tradePrice: 164,
-    highPrice: 191,
-    lowPrice: 123,
-    change: "RISE",
-    changePrice: 76,
-    changeRate: 46.3,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "DOGE",
-    symbol: "USDT",
-    tradePrice: 4634,
-    highPrice: 4891,
-    lowPrice: 4213,
-    change: "FALL",
-    changePrice: -142,
-    changeRate: -3.1,
-    isCollected: true,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "QWER",
-    symbol: "ASDF",
-    tradePrice: 4212,
-    highPrice: 4291,
-    lowPrice: 4123,
-    change: "RISE",
-    changePrice: 721,
-    changeRate: 17.1,
     marketCap: 23000,
     volume: 250000
   },

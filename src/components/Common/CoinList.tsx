@@ -81,7 +81,6 @@ const CardList = styled.div`
     /* grid-template-columns: repeat(3, 340px); */
     /* grid-template-columns: repeat(3, max(340px, 23.611vw)); */
     grid-template-columns: repeat(3, minmax(23.611vw, 340px));
-    width: fit-content;
     height: fit-content;
     place-items: center;
     /* gap: 39px 1.563vw; */
