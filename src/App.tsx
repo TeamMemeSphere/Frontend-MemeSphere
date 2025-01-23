@@ -33,7 +33,6 @@ function App() {
             <Route path="/DashBoard" element={<DashBoard />}></Route>
             <Route path="/NewsFeed" element={<NewsFeed />}></Route>
             <Route path="/SearchResults" element={<SearchResults />}></Route>
-            <Route path="/SignUp" element={<SignUp />}></Route>
           </Routes>
           <Footer />
         </BrowserRouter>
