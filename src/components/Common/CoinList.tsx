@@ -78,18 +78,20 @@ const Container = styled.div`
 
 const CardList = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 340px);
-    width: fit-content;
+    /* grid-template-columns: repeat(3, 340px); */
+    /* grid-template-columns: repeat(3, max(340px, 23.611vw)); */
+    grid-template-columns: repeat(3, minmax(23.611vw, 340px));
     height: fit-content;
     place-items: center;
-    gap: 39px 1.563vw;
+    /* gap: 39px 1.563vw; */
+    gap: 39px 2.083vw;
 
     @media (max-width: 1339px) {
-        grid-template-columns: repeat(2, 340px);
+        grid-template-columns: repeat(2, max(340px, 23.611vw));
     }
 
     @media (max-width: 768px) {
-        grid-template-columns: repeat(1, 340px);
+        grid-template-columns: repeat(1, max(340px, 23.611vw));
     }
 `
 
