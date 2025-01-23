@@ -20,7 +20,7 @@ const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, imgSrc, chatInfo}
         <CoinHeader>
             <HeaderLeft>
                 <CoinImgContainer>
-                    <CoinImg src="https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg" alt="img"></CoinImg>
+                    <CoinImg src={imgSrc} alt="img"></CoinImg>
                 </CoinImgContainer>
                 <CoinName>{name}</CoinName>
                 <CoinSymbol>{`/${symbol}`}</CoinSymbol>
