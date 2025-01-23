@@ -10,7 +10,6 @@ import {
   LandingPage,
   NewsFeed,
   SearchResults,
-  SignUp,
 } from "./pages";
 import Navbar from "./components/Layout/Navbar.tsx";
 import Footer from "./components/Layout/Footer.tsx";

@@ -47,7 +47,7 @@ const Container = styled.div`
     border: 0px 0px 1px 0px;
     justify-content: space-between;
     border-bottom: 1px solid var(--grey-100);
-`
+`;
 
 interface TextProps {
     $width?: string;
@@ -56,4 +56,4 @@ interface TextProps {
 const Text = styled.div<TextProps>`
     width: ${(props) => props.$width};
     text-align: center;
-`
+`;

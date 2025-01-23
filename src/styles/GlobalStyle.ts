@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
 
     // Grey
     --grey-100: rgb(38, 38, 42);
+    --grey-80: rgba(38, 38, 43, 0.8);
     --grey-50: rgba(38, 38, 42, 0.5);
     --grey-10: rgba(38, 38, 42, 0.1);
 
@@ -65,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     width: 100%;
-    height: 100%;
+    min-height: 100%; {/*그냥 height로 하면 body 내용이 길어질때 navbar와 겹침*/}
     font-family: var(--font-family-base);
     font-size: var(--font-size-body);
     background-color: var(--background-black);
