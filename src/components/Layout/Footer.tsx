@@ -26,7 +26,7 @@ export default Footer;
 
 // 폰트 사이즈, 색깔 추후 수정
 const FooterWrapper = styled.footer`
-  background-color: var(--color-gray);
+  background-color: var(--grey-50);
   display: flex;
   justify-content: center;
   align-items: center;
