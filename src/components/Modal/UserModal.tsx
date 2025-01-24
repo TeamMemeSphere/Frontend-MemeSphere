@@ -4,13 +4,19 @@ import { SubTitle1Typo } from "../../styles/Typography";
 
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
+import ProfileSetup from "./Authentication/ProfileSetup";
+import GreetingModal from "./GreetingModal";
 
 interface ModalProps {
   closeModal: () => void;
+  onLogin: () => void;
 }
 
-const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
-  const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
+const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
+  const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting">("login");
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [userNickName, setUserNickNmae] = useState<string>("");
+
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -34,21 +40,43 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   }, []);
 
   return (
+    <>
+    {activeTab === "greeting" && <GreetingModal onLogout={closeModal}/>}
+    {activeTab !== "greeting" && (
     <ModalOverlay onClick={handleOverlayClick}>
       <ModalContent>
         <FlexContainer>
-          <Title>{activeTab === "login" ? "로그인" : "회원가입"}</Title>
+          <Title>
+            {activeTab === "login" && "로그인"}
+            {activeTab === "signup" && "회원가입"}
+            {activeTab === "profileSetup" && "회원가입"}
+          </Title>
           <CloseButton onClick={handleClose} src="../../../public/assets/common/autentication/authentication back icon.svg" />
         </FlexContainer>
         <ContentContainer>
-          {activeTab === "login" ? (
-            <Login switchToSignup={() => setActiveTab("signup")} />
-          ) : (
-            <Signup />
-          )}  
+          {activeTab === "login" && (
+                <Login 
+                  onLogin={() => {
+                    onLogin();
+                    setActiveTab("greeting");
+                  }}
+                switchToSignup={() => setActiveTab("signup")} />
+              )}
+              {activeTab === "signup" && (
+                <Signup onSignup={() => setActiveTab("profileSetup")} />
+              )}
+              {activeTab === "profileSetup" && (
+                <ProfileSetup
+                  onStart={() => {
+                    setActiveTab("login");
+                  }}
+                />
+              )}
         </ContentContainer>
       </ModalContent>
     </ModalOverlay>
+    )}
+    </>
   );
 };
 
