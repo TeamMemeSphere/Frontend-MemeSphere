@@ -972,6 +972,7 @@ const Container = styled.div`
   margin: auto;
   gap: 1.736vw;
   width: 67.5rem;
+  padding: 1.938rem 12.5vw 4.5rem 12.5vw;
 `;
 
 const DashBoardUpper = styled.div`
