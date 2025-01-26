@@ -2,7 +2,9 @@ import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
 import SelectDirection from "./SelectDirection.tsx";
 import { useState } from "react";
+import {useForm} from "react-hook-form";
 import NotificationInput from "./NotificationInput.tsx";
+import { notificationType } from "./NotificationType.ts";
 
 const coinMap : Record<string, string>= {
     도지코인 : "DOGE",
@@ -13,6 +15,7 @@ const coinMap : Record<string, string>= {
     봉크 : "BONK",
     폰케 : "PONKE",
 };
+
 
 const NotificationRegister : React.FC = () => {
     const [coinName, setCoinName] = useState("");
@@ -36,11 +39,29 @@ const NotificationRegister : React.FC = () => {
         const name = Object.keys(coinMap).find((key) => coinMap[key] === symbol);
         if (name) {
             setCoinName(name);
-        } else {
-            
-                setCoinName(""); // 매핑되지 않는 경우 초기화
+        } else { 
+            setCoinName("");
         }
 };
+
+
+    const { register, handleSubmit, setValue, watch, formState: { errors }} = useForm<notificationType>({
+        mode:"onChange",
+        defaultValues: {
+            name: "",
+            symbol: "",
+            volatility: 0,
+            period: 0,
+            direction: "RISE",
+            isAlertOn: "ON"
+        }
+    });
+        
+    const onSubmit = (data: notificationType) => {
+        console.log(data);
+        // 서버로 데이터 전송 로직 추가
+    };
+    const direction = watch("direction", "RISE");
 
     return <Container>
         <S.SubTitle3Typo>알림 등록하기</S.SubTitle3Typo>
@@ -50,7 +71,9 @@ const NotificationRegister : React.FC = () => {
                     label="코인 이름"
                     inputProps={{
                         type:"text",
-                        placeholder:"이름을 입력해주세요"}}
+                        placeholder:"이름을 입력해주세요",
+                        ...register("name",{required:"이름은 필수"})
+                    }}
                     gap="1.875rem"
                     labelWidth="4.563rem"
                     inputWidth="13.625rem"
@@ -60,7 +83,8 @@ const NotificationRegister : React.FC = () => {
                     label="Symbol"
                     inputProps={{
                         type:"text",
-                        placeholder:"symbol을 입력해주세요"}}
+                        placeholder:"symbol을 입력해주세요",
+                        ...register("symbol",{required:"심볼은 필수"})}}
                     gap="1.875rem"
                     labelWidth="4.563rem"
                     inputWidth="13.625rem"
@@ -71,7 +95,26 @@ const NotificationRegister : React.FC = () => {
                 <Left>
                     <NotificationInput
                         label="변동성"
-                        inputProps={{placeholder:"5"}}
+                        inputProps={{placeholder:"1-100",
+                            type:"text",
+                            ...register("volatility",{
+                                required : "변동성을 입력해주세요.",
+                                validate: (value) => {
+                                    const numericValue = Number(value);
+                                    if (isNaN(numericValue)) {
+                                        return "숫자를 입력해주세요.";
+                                    }
+                                    if (numericValue < 1) {
+                                        return "1 이상을 입력해주세요.";
+                                    }
+                                    if (numericValue > 100) {
+                                        return "100 이하를 입력해주세요.";
+                                    }
+                                    return true;
+                                },
+                            })
+                        }}
+                        error={errors.volatility}
                         gap="0.625rem"
                         caption="%"
                         labelWidth="3.75rem"
@@ -80,7 +123,26 @@ const NotificationRegister : React.FC = () => {
                     />
                     <NotificationInput
                         label="기준 시간"
-                        inputProps={{placeholder:"2"}}
+                        inputProps={{placeholder:"1-30",
+                            type:"text",
+                            ...register("period",{
+                                required : "기준시간을 입력해주세요.",
+                                validate: (value) => {
+                                    const numericValue = Number(value);
+                                    if (isNaN(numericValue)) {
+                                        return "숫자를 입력해주세요.";
+                                    }
+                                    if (numericValue < 1) {
+                                        return "1 이상을 입력해주세요.";
+                                    }
+                                    if (numericValue > 30) {
+                                        return "30 이하를 입력해주세요.";
+                                    }
+                                    return true;
+                                },
+                            })
+                        }}
+                        error={errors.period}
                         gap="0.625rem"
                         caption="분"
                         labelWidth="3.75rem"
@@ -88,10 +150,12 @@ const NotificationRegister : React.FC = () => {
                         align="right"
                     />
                 </Left>
-                <SelectDirection>
-                </SelectDirection>
+                <SelectDirection
+                    setValue={setValue}
+                    currentValue={direction}
+                />
             </Setting>
-            <RegisterButton>저장하기</RegisterButton>
+            <RegisterButton onClick={handleSubmit(onSubmit)}>저장하기</RegisterButton>
         </Content>
     </Container>;
 };
