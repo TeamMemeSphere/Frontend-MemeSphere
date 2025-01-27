@@ -16,8 +16,11 @@ const coinMap : Record<string, string>= {
     폰케 : "PONKE",
 };
 
+type NotificationRegisterProps = {
+    createNotification : (notification : Omit<notificationType,id>) => void;
+};
 
-const NotificationRegister : React.FC = () => {
+const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotification}) => {
     const [coinName, setCoinName] = useState("");
     const [coinSymbol, setCoinSymbol] = useState("");
     
@@ -59,6 +62,7 @@ const NotificationRegister : React.FC = () => {
         
     const onSubmit = (data: notificationType) => {
         console.log(data);
+        createNotification(data);
         // 서버로 데이터 전송 로직 추가
     };
     const direction = watch("direction", "RISE");
