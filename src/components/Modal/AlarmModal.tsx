@@ -47,6 +47,7 @@ const NotificationDummy : notificationType[]= [
 const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
   const [notifications, setNotifications] = useState(NotificationDummy);
   const [nextId, setNextId] = useState(4);
+  const [alertCount, setAlertCount] = useState(3);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -55,9 +56,13 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
   };
 
   const createNotifcation = (newNotification : Omit<notificationType, "id">) => {
-    const notificationWithId = {...newNotification, id : nextId};
+    if(alertCount < 8){
+      const notificationWithId = {...newNotification, id : nextId};
     setNextId((prevId) => prevId + 1); // 다음 id값 증가
     setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
+    setAlertCount((prev)=>prev+1);
+    } else {alert("알림은 최대 8개까지 설정가능합니다.")}
+    
   };
 
   const toggleNotification = (id : number) => {
@@ -74,6 +79,7 @@ const deleteNotification = (id : number) => {
     setNotifications((prevNotifications)=>
             prevNotifications.filter((notification)=> notification.id !== id)
     );
+    setAlertCount((prev)=>prev-1);
 };
 
   return (

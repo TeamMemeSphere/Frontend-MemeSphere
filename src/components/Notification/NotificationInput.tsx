@@ -32,6 +32,7 @@ const NotificationInput : React.FC<NotificationInputProps> = ({
           width={inputWidth}
           $align={align}
           $error={error}
+          autoComplete="off"
         />
         {caption && <S.CaptionTypoBold>{caption}</S.CaptionTypoBold>}
     </Container>;
@@ -41,6 +42,7 @@ export default NotificationInput;
 
 const Container = styled.div<{ $gap?: string }>`
     display : inline-flex;
+    position : relative;
     gap : ${({ $gap }) => $gap ||  "0.625rem"};
     align-items : center;
 `;
@@ -66,6 +68,7 @@ const Input = styled.input<{ width?: string , $align? : string, $error? : FieldE
     background: var(--white-5, rgba(255, 255, 255, 0.05));
     outline: none;
     color: var(--white-100);
+
 
     &:focus {
     border: 1px solid ${({ $error }) => ($error 
