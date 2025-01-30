@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import React from "react";
-import NewsBG from "../../../public/assets/DetailPage/BackgroundPng.png";
+import NewsBG from "../../../public/assets/Community/NewsBackground.png";
 
 type NewsCardProps = {
   sourceName?: string;
