@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import CoinCardChart from "./CoinCardChart";
+import { useEffect, useRef, useState } from "react";
 
 export interface Coin {
   name: string;
@@ -25,6 +27,23 @@ const CoinCard = ({
   changeRate,
   isCollected,
 }: Coin) => {
+
+  const chartSectionRef = useRef<HTMLDivElement>(null);
+  const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
+
+  useEffect(() => {
+    if (chartSectionRef.current) {
+      const observer = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          setChartSectionWidth(entry.borderBoxSize[0].inlineSize);
+          console.log(chartSectionWidth);
+        }
+      });
+      observer.observe(chartSectionRef.current);
+
+      return () => observer.disconnect();
+    }
+  }, []);
 
   return (
     <Container>
@@ -69,23 +88,27 @@ const CoinCard = ({
           <CurrentPriceChange $change={change}>
             {change === "EVEN" ? "⏤" : (
               <>
-              {change === "RISE" ? "▲" : "▼"}
-              &nbsp;{changePrice.toLocaleString()}
-              &nbsp;({changeRate.toLocaleString()}%)
+                {change === "RISE" ? "▲" : "▼"}
+                &nbsp;{changePrice.toLocaleString()}
+                &nbsp;({changeRate.toLocaleString()}%)
               </>
             )
             }
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>
-      <ChartSection></ChartSection>
+      <ChartSection ref={chartSectionRef}>
+        <CoinCardChart width={chartSectionWidth} symbol={symbol}/>
+      </ChartSection>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 340px;
-  height: 473px;
+  /* width: 340px; */
+  width: max(340px, 23.611vw);
+  /* height: 473px; */
+  height: 29.563rem;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -138,7 +161,9 @@ const StarIcon = styled.div`
 
 // 가격정보
 const PriceInfoSection = styled.div`
-  width: 306px;
+  box-sizing: border-box;
+  /* width: 306px; */
+  width: max(306px, 21.25vw);
   height: 79px;
   flex-shrink: 0;
   box-sizing: border-box;
@@ -186,10 +211,10 @@ const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
 
 // 차트
 const ChartSection = styled.div`
-  width: 306px;
+  /* width: 306px; */
+  width: max(306px, 21.25vw);
   height: 254px;
   margin-top: 23px;
-  border: 1px solid #ffffff0d;
 `;
 
 // 아이콘

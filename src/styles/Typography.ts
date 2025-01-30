@@ -26,7 +26,7 @@ export const BodyTypo = styled.p`
 `;
 
 export const ChatTextTypo = styled.p`
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-chat-text);
   font-weight: var(--font-weight-medium);
   line-height: 1.438rem;
 `;
