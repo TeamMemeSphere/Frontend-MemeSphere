@@ -17,7 +17,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   link,
 }) => {
   return (
-    <Card>
+    <Card as="a" href={link} target="_blank" rel="noopener noreferrer">
       <BackGroundImg src={NewsBG}></BackGroundImg>
       <ContentWrapper>
         <NewsTitle>{title}</NewsTitle>
@@ -63,6 +63,8 @@ const ContentWrapper = styled.div`
 `;
 
 const NewsTitle = styled(S.SubTitle3Typo)`
+  color: white;
+  cursor: pointer;
   font-family: var(--font-family-base);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-bold);

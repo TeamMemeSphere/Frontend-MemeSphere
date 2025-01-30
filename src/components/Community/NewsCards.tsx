@@ -4,25 +4,32 @@ import * as S from "./../../styles/Typography.ts";
 import NewsCard from "./NewsCard.tsx";
 import { fetchNewsFromRSS } from "../../utils/rssParser.ts";
 
-export type news = {
-  id: number;
-  article: string;
+// 뉴스 데이터 타입 정의
+export type NewsItem = {
+  id: string;
+  title: string;
   sourceName: string;
   time: string;
+  link: string;
 };
+
 const NewsCards: React.FC = () => {
-  const [titleList, setTitleList] = useState<string[]>([]);
-  const [dateList, setDateList] = useState<string[]>([]);
-  const [sourceList, setSourceList] = useState<string[]>([]);
-  const [linkList, setLinkList] = useState<string[]>([]);
+  const [newsList, setNewsList] = useState<NewsItem[]>([]);
+
   useEffect(() => {
     const getNews = async () => {
-      const news = await fetchNewsFromRSS();
-      console.log("news", news);
-      setTitleList(news[0]);
-      setDateList(news[1]);
-      setSourceList(news[2]);
-      setLinkList(news[3]);
+      const rawNews = await fetchNewsFromRSS(); // 데이터를 가져옴 (타이틀, 날짜 등)
+
+      // 데이터를 객체로 변환하면서 고유 ID 추가
+      const formattedNews = rawNews[0].map((title: string, index: number) => ({
+        id: `news-${index}`, // 고유 ID 추가
+        title, // 타이틀
+        time: rawNews[1][index], // 날짜
+        sourceName: rawNews[2][index], // 출처 이름
+        link: rawNews[3][index], // 링크
+      }));
+
+      setNewsList(formattedNews); // 뉴스 리스트 업데이트
     };
 
     getNews();
@@ -34,15 +41,16 @@ const NewsCards: React.FC = () => {
         <NewsTitle>뉴스</NewsTitle>
       </Header>
       <Content>
-        {titleList.length === 0 ? (
+        {newsList.length === 0 ? (
           <p>뉴스를 불러오는 중...</p>
         ) : (
-          titleList.map((title, index) => (
+          newsList.map((news) => (
             <NewsCard
-              title={title}
-              time={dateList[index]}
-              sourceName={sourceList[index]}
-              link={linkList[index]}
+              key={news.id} // 고유 ID를 key로 사용
+              title={news.title}
+              time={news.time}
+              sourceName={news.sourceName}
+              link={news.link}
             />
           ))
         )}

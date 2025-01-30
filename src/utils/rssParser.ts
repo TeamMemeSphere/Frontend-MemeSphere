@@ -19,7 +19,6 @@ export const fetchNewsFromRSS = async () => {
     const parsedData = await parseStringPromise(response.data);
     // RSS 데이터에서 "item" 리스트 추출 (뉴스 항목들)
     const items: RssItem[] = parsedData.rss.channel[0].item;
-    console.log(items);
 
     // 최신 뉴스 제목 5개 추출
     const topNewsTitles = items.slice(0, 5).map(item => {
@@ -27,7 +26,7 @@ export const fetchNewsFromRSS = async () => {
       const formattedTitle = rawTitle.split(" - ")[0]; 
       return formattedTitle;
     });
-    console.log("topNewsTitles1", topNewsTitles);
+    //console.log("topNewsTitles1", topNewsTitles);
 
     const dateList = items.slice(0, 5).map(item => {
       const rawDate = item.pubDate[0]; 
@@ -35,13 +34,13 @@ export const fetchNewsFromRSS = async () => {
       const formattedDate = `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(2, "0")}.${String(dateObj.getDate()).padStart(2, "0")} ${String(dateObj.getHours()).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
       return formattedDate;
     });
-    console.log("DateList:", dateList);
+    //console.log("DateList:", dateList);
 
     const sourceList = items.slice(0, 5).map(item => item.source[0]._);                                                                                      
-    console.log("sourceList:", sourceList);
+    //console.log("sourceList:", sourceList);
 
     const linkList = items.slice(0,5).map(item => item.link[0]);
-    console.log("link", linkList);
+    //console.log("link", linkList);
     return [topNewsTitles, dateList, sourceList, linkList];
   } catch (error) {
     console.error("Error fetching RSS:", error);
