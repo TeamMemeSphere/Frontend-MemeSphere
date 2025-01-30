@@ -119,7 +119,8 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
                 />
                 {isDropdownOpen.name && filteredNames.length > 0 && <NameDropDown>
                         {filteredNames.map((filteredName)=>
-                        <FilteredList onClick={()=>{
+                        <FilteredList key={filteredName}
+                        onClick={()=>{
                             onClickDropdown("name", filteredName);
                             if (coinMap[filteredName]) {
                                 setValue("symbol",coinMap[filteredName]);

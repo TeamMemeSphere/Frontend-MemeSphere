@@ -61,7 +61,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
     setNextId((prevId) => prevId + 1); // 다음 id값 증가
     setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
     setAlertCount((prev)=>prev+1);
-    } else {alert("알림은 최대 8개까지 설정가능합니다.")}
+    } else {alert("알림은 최대 8개까지 설정가능합니다.");}
     
   };
 
@@ -96,7 +96,7 @@ const deleteNotification = (id : number) => {
           </LeftSide>
           <DividerLine/>
           <RightSide>
-            <NotificationHistory></NotificationHistory>
+            <NotificationHistory closeModal={closeModal}></NotificationHistory>
           </RightSide>
         </NotificationContainer>
       </ModalContent>
@@ -107,7 +107,7 @@ const deleteNotification = (id : number) => {
 export default AlarmModal;
 
 const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
