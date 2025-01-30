@@ -1,16 +1,26 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import { notificationType } from "./NotificationType.ts";
+import { NavLink } from "react-router-dom";
+import React from "react";
+
+type AlertHistoryBoxProps = notificationType & {
+    deleteHistory : (id:number)=>void;
+    closeModal : () => void;
+}
+
+const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({id, name, symbol, volatility, period, direction, isAlertOn, deleteHistory, closeModal}) => {
 
 
-const AlertHistoryBox : React.FC<notificationType> = ({id, name, symbol, volatility, period, direction, isAlertOn}) => {
     return <Container>
         <Header>
             <HeaderLeft>
                 <Img src="public/assets/Notification/Greenbell.svg" size="1.125rem"/>
                 <Timestamp>2025.01.23 16:35</Timestamp>
             </HeaderLeft>
-            <Button src="public/assets/Notification/Delete.svg" size="0.875rem"/>
+            <Button src="public/assets/Notification/Delete.svg" size="0.875rem"
+            onClick={()=>deleteHistory(id)}
+            />
         </Header>
         <Content>
             <ContentLeft>
@@ -20,7 +30,9 @@ const AlertHistoryBox : React.FC<notificationType> = ({id, name, symbol, volatil
                 <Typo width="2.813rem">{period}분</Typo>
                 <Typo width="1.563rem">{direction === "RISE" ? "상승" : "하락"}</Typo>
             </ContentLeft>
+            <MoreButton to={"/CoinDetailPage"} onClick={()=>closeModal()}>
                 <Button src="public/assets/Notification/chevron-right 1.svg" size="1.188rem"/>
+            </MoreButton>
         </Content>
     </Container>;
 
@@ -86,4 +98,8 @@ const Typo = styled(S.CaptionTypoRegular)<{width?:string}>`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;  
+`;
+
+const MoreButton = styled(NavLink)`
+    text-decoration: none;
 `;

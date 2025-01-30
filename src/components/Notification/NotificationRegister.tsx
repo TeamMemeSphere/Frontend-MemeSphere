@@ -10,6 +10,7 @@ const coinMap : Record<string, string>= {
     도지코인 : "DOGE",
     온도파이낸스 : "ONDO",
     도람프 : "TRUMP",
+    썬도그 : "SUNDOG",
     페페 : "PEPE",
     페치 : "FET",
     봉크 : "BONK",
@@ -36,6 +37,18 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
         symbol : false
     });
 
+    const onClickDropdown = (type : string, value : string) => {
+        if(type === "name"){
+            setValue("name", value);
+            setDropdownOpen((prev)=>({...prev, name : false}));
+        }
+        if(type === "symbol"){
+            setValue("symbol", value);
+            setDropdownOpen((prev)=>({...prev, symbol : false}));
+        }
+        return 0;
+    };
+
     const nameInput = watch("name") || "";
     const symbolInput = watch("symbol").toUpperCase() || "";
 
@@ -50,24 +63,6 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
             .filter(([, symbol])=> symbol.includes(symbolInput))
             .map(([name, symbol])=> ({name, symbol}))
         : [];
-
-    const onClickDropdown = (type : string, value : string) => {
-        if(type === "name"){
-            setValue("name", value);
-            setDropdownOpen((prev)=>({...prev, name : false}));
-        }
-        else if(type === "symbol"){
-            setValue("symbol", value);
-            setDropdownOpen((prev)=>({...prev, symbol : false}));
-        }
-    };
-
-    const onSubmit = (data: notificationType) => {
-        console.log(data);
-        createNotification(data);
-        // 서버로 데이터 전송 로직 추가
-    };
-    const direction = watch("direction", "RISE");
 
     const handleNameChange = (e : React.ChangeEvent<HTMLInputElement>) : void => {
         const name = e.target.value;
@@ -95,6 +90,13 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
         }
 };
 
+    const direction = watch("direction", "RISE");
+
+    const onSubmit = (data: notificationType) => {
+        console.log(data);
+        createNotification(data);
+        // 서버로 데이터 전송 로직 추가
+};
     return <Container>
         <S.SubTitle3Typo>알림 등록하기</S.SubTitle3Typo>
         <Content>
