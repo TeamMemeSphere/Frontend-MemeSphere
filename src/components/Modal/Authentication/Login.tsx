@@ -5,14 +5,20 @@ import { StyledInput, ErrorMessage, FormContainer, Form, InputContainer, Label, 
 import { useFormValidation } from "./FormValidation";
 
 interface LoginProps {
-    switchToSignup: () => void;
+  onLogin: () => void;
+  switchToSignup: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({switchToSignup}) => {
+const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
   const { email, password, handleBlur, handleChange } = useFormValidation({
     emailInvalid: "이메일 형식이 아닙니다.",
     passwordInvalid: "비밀번호 형식이 아닙니다.",
   });
+
+  const handleLogin = () => {
+    // 로그인 완료 로직 추가
+    onLogin();
+  };
 
   return (
     <FormContainer>
@@ -45,7 +51,7 @@ const Login: React.FC<LoginProps> = ({switchToSignup}) => {
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>
-        <Button type="submit">로그인</Button>
+        <Button onClick={handleLogin}>로그인</Button>
       </Form>
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>

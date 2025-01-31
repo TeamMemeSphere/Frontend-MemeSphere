@@ -65,6 +65,7 @@ const Container = styled.div`
   grid-template-areas:
     "Item1 Item2 Item4"
     "Item3 Item3 Item4";
+  padding-bottom: 4.625rem;
 `;
 
 // 각 코너 스타일링
