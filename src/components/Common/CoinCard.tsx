@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export interface Coin {
   coinId: number;
@@ -47,7 +48,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection>
+      <HeaderSection to={"/CoinDetailPage"}>
         <ThumbnailWrapper>
           <Thumbnail
             src="https://via.placeholder.com/200"
@@ -117,12 +118,13 @@ const Container = styled.div`
 `;
 
 // 헤더
-const HeaderSection = styled.div`
+const HeaderSection = styled(NavLink)`
   box-sizing: border-box;
   width: 100%;
   display: flex;
   align-items: center;
   margin-top: 20px;
+  text-decoration: none;
 `;
 
 const ThumbnailWrapper = styled.div`
