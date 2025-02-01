@@ -1,10 +1,11 @@
 export type chatInfo = {
-    author : string,
-    time : string,
-    content : string,
-    like : number,
-    profileImgSrc? : string
-}
+    id: number;
+    message: string;
+    memeCoin: string;
+    nickname: string;
+    likes: number;
+    createdAt: string;
+};
 
 export type coinInfo = {
     id : number,
@@ -12,4 +13,4 @@ export type coinInfo = {
     symbol : string,
     imgSrc : string,
     chatInfo? : chatInfo
-}
+};

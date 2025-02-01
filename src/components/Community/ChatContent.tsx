@@ -1,28 +1,24 @@
 import styled from "styled-components";
 import DefaultProfile from "./DefaultProfile";
 import * as S from "./../../styles/Typography.ts";
+import { chatInfo } from "./communityTypes.ts";
 
-type ChatContentProps = {
-    author : string,
-    time : string,
-    content : string,
-    like : number,
-    profileImgSrc? : string
-};
-const ChatContent : React.FC<ChatContentProps> = ({author, time, content, like, profileImgSrc}) => (
+type ChatContentProps = chatInfo & {profileImgSrc? : string};
+
+const ChatContent : React.FC<ChatContentProps> = ({nickname, createdAt, message, likes, profileImgSrc}) => (
     <CommentContainer>
         {profileImgSrc
             ?<ProfileImg></ProfileImg>
             :<DefaultProfile></DefaultProfile>}
         <TextContainer>
             <Header>
-                <Author>{author}</Author>
-                <Time>{time}</Time>
+                <Author>{nickname}</Author>
+                <Time>{createdAt}</Time>
             </Header>
-            <Content>{content}</Content>
+            <Content>{message}</Content>
             <LikeButton>
                 <LikeImg src="public/assets/Community/LikeIcon.svg"></LikeImg>
-                <LikeText>{like}</LikeText>
+                <LikeText>{likes}</LikeText>
             </LikeButton>
         </TextContainer>
     </CommentContainer>
