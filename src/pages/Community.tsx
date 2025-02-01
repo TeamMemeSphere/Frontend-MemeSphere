@@ -5,12 +5,11 @@ import CoinTalk from "../components/Community/CoinTalk.tsx";
 import ContentHeader from "../components/Common/ContentHeader.tsx";
 import styled from "styled-components";
 import * as S from "./../styles/Typography.ts";
-
+import { useState, useEffect } from "react";
 import { chatInfo, coinInfo } from "../components/Community/communityTypes.ts";
+import SkeletonCoinChat from "../components/Community/SkeletonCoinChat.tsx";
 
-
-const Community = () => {
-  const chatData : chatInfo[] = [
+const chatData : chatInfo[] = [
   {
     id: 1,
     memeCoin: "dogecoin",
@@ -73,6 +72,15 @@ const Community = () => {
     },
   
 ];
+const Community = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=> {
+    const timer = setTimeout(()=> {
+      setLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  },[]);
 
   return (
     <CommunityDiv>
@@ -82,17 +90,20 @@ const Community = () => {
           <FearGreedIndex value={73}></FearGreedIndex>
           <NewsCards></NewsCards>
         </LeftSide>
-        <RightSide>
-          {coinData.map((coin)=> { 
-            return <CoinTalk 
-              key = {coin.id}
-              id = {coin.id}
-              name = {coin.name}
-              symbol= {coin.symbol}
-              imgSrc= {coin.imgSrc}
-              chatInfo={coin.chatInfo}
-          ></CoinTalk>;
-          })}
+        <RightSide>{loading
+        ? coinData.map((coin)=>{
+            return <SkeletonCoinChat key={coin.id}></SkeletonCoinChat>;
+          })
+        : coinData.map((coin)=> { 
+          return <CoinTalk 
+            key = {coin.id}
+            id = {coin.id}
+            name = {coin.name}
+            symbol= {coin.symbol}
+            imgSrc= {coin.imgSrc}
+            chatInfo={coin.chatInfo}
+        ></CoinTalk>;
+        })}
         </RightSide>
       </Content>
     </CommunityDiv>
