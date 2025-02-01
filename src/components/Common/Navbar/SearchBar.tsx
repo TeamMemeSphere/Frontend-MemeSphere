@@ -24,7 +24,6 @@ const SearchBar: React.FC = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (keyword.trim() === "") return;
-    console.log("...요청");
     navigate('/SearchResults', {
       replace: false,
       state: { keyword: keyword }

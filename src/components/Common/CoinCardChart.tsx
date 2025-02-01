@@ -11,7 +11,6 @@ import {
     MouseCoordinateY,
     CrossHairCursor,
     discontinuousTimeScaleProvider,
-    // timeFormat
 } from "react-financial-charts";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
@@ -37,8 +36,6 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
         refetchInterval: 1000 * 60 // 1분마다 데이터 갱신
     });
 
-    console.log(candlestickData);
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading data</div>;
 
@@ -50,19 +47,12 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
         candlestickData,
     );
 
-    // const max = xAccessor(data[data.length - 1]);
-    // const min = xAccessor(data[Math.max(0, data.length - 100)]);
-    // const xExtents = [min, max + 5];
     const max = xAccessor(data[data.length - 1]);
     const xExtents = [max - 17, max + 3];
 
     const dateTimeFormat = "%I:%M";
-    // const dateTimeFormat = "%I %p";
     const timeDisplayFormat = timeFormat(dateTimeFormat);
-
     const pricesDisplayFormat = format(".4f");
-
-    console.log(data);
 
     return (
         <>
@@ -74,22 +64,22 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                     1h
                 </IntervalButton>
                 <IntervalButton
+                    $isActive={interval === "4h"}
+                    onClick={() => handleIntervalChange("4h")}
+                >
+                    4h
+                </IntervalButton>
+                <IntervalButton
                     $isActive={interval === "1d"}
                     onClick={() => handleIntervalChange("1d")}
                 >
-                    1d
+                    1D
                 </IntervalButton>
                 <IntervalButton
                     $isActive={interval === "1w"}
                     onClick={() => handleIntervalChange("1w")}
-                >
-                    1w
-                </IntervalButton>
-                <IntervalButton
-                    $isActive={interval === "1M"}
-                    onClick={() => handleIntervalChange("1M")}
                 >   
-                    1M
+                    1W
                 </IntervalButton>
             </IntervalWrapper>
             <ChartCanvas
@@ -113,15 +103,9 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                         strokeStyle="#fff" // 축 색상
                         innerTickSize={10}
                         showTicks={false}
-                        // tickValues={[new Date(data[0].date).getTime(), new Date(data[data.length - 1].date).getTime()]} // 눈금 레이블 값
-                        // tickFormat={(d: Date) => timeDisplayFormat(d)} // 날짜 형식 지정
                         ticks={4} // 눈금 레이블 개수
-                    // zoomEnabled={false} // 축 확대 기능 비활성화
                     />
                     <YAxis
-                        // showTicks={false}
-                        // showTickLabel={false}
-                        // strokeStyle="transparent"
                         strokeStyle="#fff"
                         tickLabelFill={"#fff"}
                         showGridLines={true} // 그리드 라인 표시
@@ -132,8 +116,6 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                         zoomEnabled={false} // 축 확대 기능 비활성화
                         tickFormat={(d) => d.toFixed(4)} // 눈금 레이블 형식
                     />
-                    {/* <MouseCoordinateX />
-                        <MouseCoordinateY /> */}
                     <CandlestickSeries
                         fill={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
                         wickStroke={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
@@ -141,7 +123,6 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                     /> {/* 캔들스틱 차트를 렌더링 */}
                     <MouseCoordinateX displayFormat={timeDisplayFormat} />
                     <MouseCoordinateY
-                        // rectWidth={margin.right}
                         displayFormat={pricesDisplayFormat}
                     />
                 </Chart>
