@@ -33,7 +33,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
             value={email.value}
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
-            hasError={!!email.error}
+            $hasError={!!email.error}
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -47,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
             value={password.value}
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
-            hasError={!!password.error}
+            $hasError={!!password.error}
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>

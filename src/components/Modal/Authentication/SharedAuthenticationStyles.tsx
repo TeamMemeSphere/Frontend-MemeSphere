@@ -41,8 +41,8 @@ export const Input = styled.input`
   }
 `;
 
-export const StyledInput = styled(Input)<{ hasError: boolean }>`
-  border-color: ${(props) => (props.hasError ? "var(--red)" : "var(--white-10)")};
+export const StyledInput = styled(Input)<{ $hasError: boolean }>`
+  border-color: ${(props) => (props.$hasError ? "var(--red)" : "var(--white-10)")};
 `;
 
 export const ErrorMessage = styled.div`
