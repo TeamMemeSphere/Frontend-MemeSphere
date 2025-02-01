@@ -1,22 +1,86 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { SubTitle2Typo } from "../../styles/Typography";
 import bellIcon from "../../../public/assets/Modal/notification-icon.svg";
 import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
+import { notificationType } from "../Notification/NotificationType";
+
 
 interface ModalProps {
   closeModal: () => void;
 }
 
+const NotificationDummy : notificationType[]= [
+  {
+  id: 1,
+  name:"도지코인",
+  symbol:"DOGE",
+  volatility:30,
+  period:2,
+  direction:"RISE",
+  isAlertOn: "ON",
+  },
+  {
+  id: 2,
+  name:"봉크",
+  symbol:"BONK",
+  volatility:3,
+  period:60,
+  direction:"RISE",
+  isAlertOn: "ON",
+  },
+  {
+  id: 3,
+  name:"페페",
+  symbol:"PEPE",
+  volatility:3,
+  period:2,
+  direction:"FALL",
+  isAlertOn: "ON",
+  }
+];
+
+
 const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
+  const [notifications, setNotifications] = useState(NotificationDummy);
+  const [nextId, setNextId] = useState(4);
+  const [alertCount, setAlertCount] = useState(3);
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
 
+  const createNotifcation = (newNotification : Omit<notificationType, "id">) => {
+    if(alertCount < 8){
+      const notificationWithId = {...newNotification, id : nextId};
+    setNextId((prevId) => prevId + 1); // 다음 id값 증가
+    setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
+    setAlertCount((prev)=>prev+1);
+    } else {alert("알림은 최대 8개까지 설정가능합니다.");}
+    
+  };
+
+  const toggleNotification = (id : number) => {
+    setNotifications((prevNotifications)=>
+        prevNotifications.map((notification)=>
+            notification.id === id
+                ? {...notification, isAlertOn: notification.isAlertOn === "ON" ? "OFF" : "ON" }
+                : notification
+        )
+    );
+};
+
+const deleteNotification = (id : number) => {
+    setNotifications((prevNotifications)=>
+            prevNotifications.filter((notification)=> notification.id !== id)
+    );
+    setAlertCount((prev)=>prev-1);
+};
 
   return (
     <ModalOverlay onClick={handleOverlayClick}>
@@ -27,12 +91,12 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
         </FlexContainer>
         <NotificationContainer>
           <LeftSide>
-            <NotificationRegister></NotificationRegister>
-            <NotificationList></NotificationList>
+            <NotificationRegister createNotification={createNotifcation}/>
+            <NotificationList notifications={notifications} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>
           </LeftSide>
-          <DividerLine></DividerLine>
+          <DividerLine/>
           <RightSide>
-            <NotificationHistory></NotificationHistory>
+            <NotificationHistory closeModal={closeModal}></NotificationHistory>
           </RightSide>
         </NotificationContainer>
       </ModalContent>
@@ -43,7 +107,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
 export default AlarmModal;
 
 const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
