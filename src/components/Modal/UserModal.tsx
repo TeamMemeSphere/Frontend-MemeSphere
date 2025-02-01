@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SubTitle1Typo } from "../../styles/Typography";
+import Overlay from "../Common/Overlay";
 
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
@@ -31,7 +32,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
   };
 
   // 유저 모달창이 열리면 스크롤이 비활성화
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.style.overflow = "hidden";
     return() => {
       document.body.style.overflow = "auto";
@@ -43,7 +44,8 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
     <>
     {activeTab === "greeting" && <GreetingModal onLogout={closeModal}/>}
     {activeTab !== "greeting" && (
-    <ModalOverlay onClick={handleOverlayClick}>
+      <>
+      <Overlay onClick={handleOverlayClick} />
       <ModalContent>
         <FlexContainer>
           <Title>
@@ -74,7 +76,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
               )}
         </ContentContainer>
       </ModalContent>
-    </ModalOverlay>
+      </>
     )}
     </>
   );
@@ -82,20 +84,12 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
 
 export default UserModal;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(30, 30, 32, 0.8);
-  z-index: 10;
-`;
-
 const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  z-index: 999;
   margin-top: 5.813rem;
   margin-right: 3.95rem;
 

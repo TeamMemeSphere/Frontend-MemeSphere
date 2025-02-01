@@ -55,8 +55,9 @@ const Signup: React.FC<SinupPorps> = ({ onSignup }) => {
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
         <SocialButton>
-        <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
-          카카오로 시작하기</SocialButton>
+          <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
+            카카오로 시작하기
+        </SocialButton>
         <SocialButton>Google로 시작하기</SocialButton>
       </SocialButtons>
     </FormContainer>

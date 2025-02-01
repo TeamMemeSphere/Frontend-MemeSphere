@@ -1,95 +1,114 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import NavItem from "../Common/Navbar/NavItem";
-import SearchBar from "../Common/Navbar/SearchBar";
-import AlarmButton from "../../components/Common/Navbar/AlarmButton";
-import SettingButton from "../../components/Common/Navbar/SettingButton";
-import UserButton from "../../components/Common/Navbar/UserButton";
 import { TitleTypo } from "../../styles/Typography";
+import NavLeftPage from "./NavLeftPage";
+import SearchBar from "../Common/Navbar/SearchBar";
+import NavRightModal from "./NavRightIcon";
+import SidebarContent from "./SidebarContent";
+import Overlay from "../Common/Overlay";
+import AlarmModal from "../Modal/AlarmModal";
+import UserModal from "../Modal/UserModal";
+import GreetingModal from "../Modal/GreetingModal";
 
 const Navbar: React.FC = () => {
+  const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
+  const [isSibebarOpen, setIsSidebarOpen] = useState(false);
+  const [isAlarmOpen, setIsAlarmOpen] = useState(false);
+
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 사이드바가 열리면 스크롤이 비활성화
+  useEffect(() => {
+    if (isSibebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isSibebarOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCompact(window.innerWidth <= 1234);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 프로필 버튼 클릭 시 사이드바 닫힘
+  const handleOpenUserModal = () => {
+    setIsUserModalOpen(true);
+    setIsSidebarOpen(false);
+  };
+  // 로그인 여부 확인
+  const handleLogin = () =>  {
+    setIsLoggedIn(true);
+    setIsUserModalOpen(false);
+  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsUserModalOpen(false);
+  };
+
   return (
     <Nav>
       <NavLeft>
-        <Logo>MemeSphere</Logo>
-        <NavItemWrapper>
-          <NavItem
-            icon1={
-              <img
-                src="../../../public/assets/common/navbar/CollectionIcon-On.svg"
-                alt="Collection Icon"
-              />
-            }
-            icon2={
-              <img
-                src="../../../public/assets/common/navbar/CollectionIcon-Off.svg"
-                alt="Collection Icon"
-              />
-            }
-            label="컬렉션"
-            link="/CoinCollection"
-          />
-          <NavItem
-            icon1={
-              <img
-                src="../../../public/assets/common/navbar/DashboradIcon-On.svg"
-                alt="DashBoard Icon"
-              />
-            }
-            icon2={
-              <img
-                src="../../../public/assets/common/navbar/DashboradIcon-Off.svg"
-                alt="DashBoard Icon"
-              />
-            }
-            label="대시보드"
-            link="/DashBoard"
-          />
-          <NavItem
-            icon1={
-              <img
-                src="../../../public/assets/common/navbar/CommunityIcon-On.svg"
-                alt="Community Icon"
-              />
-            }
-            icon2={
-              <img
-                src="../../../public/assets/common/navbar/CommunityIcon-Off.svg"
-                alt="Community Icon"
-              />
-            }
-            label="커뮤니티"
-            link="/Community"
-          />
-        </NavItemWrapper>
+        <Logo><LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />MemeSphere</Logo>
+        {!isCompact && <NavLeftPageWrapper><NavLeftPage /></NavLeftPageWrapper>}
       </NavLeft>
 
       <NavRight>
         <SearchBar></SearchBar>
-        <AlarmButton></AlarmButton>
-        <UserButton></UserButton>
-        <SettingButton></SettingButton>
+        {isCompact ? (
+          <MenuIcon src="../../../public/assets/common/navbar/menu button.svg" onClick={() => setIsSidebarOpen(!isSibebarOpen)} />
+          ) : (
+            <NavRightModal />
+          )}
       </NavRight>
+      
+      {isSibebarOpen && <Overlay onClick={() => setIsSidebarOpen(false)} />}
+      {isSibebarOpen && (
+        <SidebarContent 
+          isSidebarOpen={isSibebarOpen} 
+          setIsSidebarOpen={setIsSidebarOpen} 
+          setIsAlarmOpen={setIsAlarmOpen}
+          setIsUserModalOpen={handleOpenUserModal}/>
+      )}
+      {isAlarmOpen && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
+      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
+      {isUserModalOpen && isLoggedIn && <GreetingModal onLogout={handleLogout} closeModal={() => setIsUserModalOpen(false)} />}
     </Nav>
   );
 };
 
 export default Navbar;
 
+const MenuIcon = styled.img`
+  width: 2.563rem;
+`;
+
+const LogoImg = styled.img`
+  width: 1.813rem;
+  margin-right: 0.188rem;
+`;
+
 const Logo = styled(TitleTypo)`
   margin-left: 4.306vw;
   color: var(--white-100);
-`;
-
-const NavItemWrapper = styled.nav`
   display: flex;
-  align-items: center;
 `;
 
 const NavLeft = styled.div`
   display: flex;
-  algin-items: center;
+  align-items: center;
   gap: 2.778vw;
+`;
+
+const NavLeftPageWrapper = styled.div`
+  display:flex;
+  align-items: center;
+  gap: 1.875rem;
+
 `;
 
 const NavRight = styled.div`
