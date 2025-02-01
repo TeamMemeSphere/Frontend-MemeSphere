@@ -6,20 +6,20 @@ import UserModal from "../../Modal/UserModal";
 import GreetingModal from "../../Modal/GreetingModal";
 
 const UserButton: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleModal = () => {
-    setIsModalOpen((prev) => !prev);
+    setIsUserModalOpen((prev) => !prev);
   };
   
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsUserModalOpen(false);
   };
 
-  const handleLogin = () => {
+  const handleLogin = () =>  {
     setIsLoggedIn(true);
-    setIsModalOpen(false);
+    setIsUserModalOpen(false);
   };
 
   const handleLogout = () => {
@@ -32,8 +32,8 @@ const UserButton: React.FC = () => {
       <StyledHeaderButton onClick={toggleModal}>
         <S.Icon src={user} />
       </StyledHeaderButton>
-      {isModalOpen && !isLoggedIn && <UserModal closeModal={closeModal} onLogin={handleLogin}/>}
-      {isLoggedIn && isModalOpen && <GreetingModal onLogout={handleLogout} closeModal={closeModal}/>}
+      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={closeModal} onLogin={handleLogin}/>}
+      {isLoggedIn && isUserModalOpen && <GreetingModal onLogout={handleLogout} closeModal={closeModal}/>}
     </>
   );
 };

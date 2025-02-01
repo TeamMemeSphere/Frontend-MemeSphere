@@ -32,6 +32,7 @@ const SearchBar: React.FC = () => {
   }
 
   return (
+    <>
     <SearchBarWrapper $isFocused={focus} onSubmit={handleSubmit}>
       <img src="/assets/SearchResults/search-magnifier.svg" alt="search icon" />
       <SearchInput
@@ -42,6 +43,8 @@ const SearchBar: React.FC = () => {
         onChange={handleChange}
       />
     </SearchBarWrapper>
+    <SmallSearchIcon src="../../../../public/assets/common/navbar/Search small button.svg" alt="small search icon" />
+    </>
   )
 };
 
@@ -64,6 +67,10 @@ const SearchBarWrapper = styled.form<SearchBarWrapperProps>`
     `1px solid var(--White-10, rgba(255, 255, 255, 0.1))`
   };
   background: var(--background-black, #161616);
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -87,5 +94,15 @@ const SearchInput = styled.input`
     color: var(--White-30, rgba(255, 255, 255, 0.30));
     font-size: 0.875rem;
     font-weight: 400;
+  }
+`;
+
+const SmallSearchIcon = styled.img`
+  display: none;
+  width: 41px;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    display: block;
   }
 `;
