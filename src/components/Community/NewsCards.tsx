@@ -15,6 +15,7 @@ export type NewsItem = {
 
 const NewsCards: React.FC = () => {
   const [newsList, setNewsList] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
     const getNews = async () => {
@@ -22,14 +23,15 @@ const NewsCards: React.FC = () => {
 
       // 데이터를 객체로 변환하면서 고유 ID 추가
       const formattedNews = rawNews[0].map((title: string, index: number) => ({
-        id: `news-${index}`, // 고유 ID 추가
-        title, // 타이틀
-        time: rawNews[1][index], // 날짜
-        sourceName: rawNews[2][index], // 출처 이름
-        link: rawNews[3][index], // 링크
+        id: `news-${index}`,
+        title,
+        time: rawNews[1][index],
+        sourceName: rawNews[2][index],
+        link: rawNews[3][index],
       }));
 
-      setNewsList(formattedNews); // 뉴스 리스트 업데이트
+      setNewsList(formattedNews);
+      setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 변경
     };
 
     getNews();
@@ -41,19 +43,19 @@ const NewsCards: React.FC = () => {
         <NewsTitle>뉴스</NewsTitle>
       </Header>
       <Content>
-        {newsList.length === 0 ? (
-          <p>뉴스를 불러오는 중...</p>
-        ) : (
-          newsList.map((news) => (
-            <NewsCard
-              key={news.id} // 고유 ID를 key로 사용
-              title={news.title}
-              time={news.time}
-              sourceName={news.sourceName}
-              link={news.link}
-            />
-          ))
-        )}
+        {isLoading
+          ? Array.from({ length: 5 }).map((_, index) => (
+              <NewsCard key={`skeleton-${index}`} isLoading />
+            ))
+          : newsList.map((news) => (
+              <NewsCard
+                key={news.id}
+                title={news.title}
+                time={news.time}
+                sourceName={news.sourceName}
+                link={news.link}
+              />
+            ))}
       </Content>
     </News>
   );

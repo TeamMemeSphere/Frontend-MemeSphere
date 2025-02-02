@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import React from "react";
 import NewsBG from "../../../public/assets/Community/NewsBackground.png";
@@ -8,6 +8,7 @@ type NewsCardProps = {
   time?: string;
   title?: string;
   link?: string;
+  isLoading?: boolean;
 };
 
 const NewsCard: React.FC<NewsCardProps> = ({
@@ -15,7 +16,12 @@ const NewsCard: React.FC<NewsCardProps> = ({
   time,
   title,
   link,
+  isLoading,
 }) => {
+  if (isLoading) {
+    return <SkeletonCard />;
+  }
+
   return (
     <Card as="a" href={link} target="_blank" rel="noopener noreferrer">
       <BackGroundImg src={NewsBG}></BackGroundImg>
@@ -33,9 +39,10 @@ const NewsCard: React.FC<NewsCardProps> = ({
 export default NewsCard;
 
 const Card = styled.div`
-  width: 19.375rem;
+  width: 21.528vw;
   height: 10.563rem;
   border-radius: 1.25rem;
+  position: relative;
   &:hover {
     opacity: 0.5;
   }
@@ -80,4 +87,44 @@ const FooterContainer = styled.div`
 
 const FooterContent = styled(S.CaptionTypoRegular)`
   color: var(--white-50);
+`;
+
+/** Skeleton UI Styles **/
+
+const loadingAnimation = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+`;
+
+const SkeletonCard = styled.div`
+  width: 19.375rem;
+  height: 10.563rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.01);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    background-size: 200% 200%;
+    animation: ${loadingAnimation} 3s ease-in-out infinite;
+  }
 `;
