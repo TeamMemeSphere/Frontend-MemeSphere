@@ -8,19 +8,19 @@ type CoinTalkProps = {
     id : number,
     name : string,
     symbol : string,
-    imgSrc : string,
+    image : string,
     chatInfo? : chatInfo
 }
 
 
-const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, imgSrc, chatInfo}) => {
+const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, image, chatInfo}) => {
 
 
     return <Card>
         <CoinHeader>
             <HeaderLeft>
                 <CoinImgContainer>
-                    <CoinImg src={imgSrc} alt="img"></CoinImg>
+                    <CoinImg src={image} alt="img"></CoinImg>
                 </CoinImgContainer>
                 <CoinName>{name}</CoinName>
                 <CoinSymbol>{`/${symbol}`}</CoinSymbol>

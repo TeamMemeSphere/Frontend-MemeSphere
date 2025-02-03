@@ -11,6 +11,6 @@ export type coinInfo = {
     id : number,
     name : string,
     symbol : string,
-    imgSrc : string,
+    image : string,
     chatInfo? : chatInfo
 };

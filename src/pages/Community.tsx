@@ -33,41 +33,41 @@ const chatData : chatInfo[] = [
       id : 1,
       name : "도지코인",
       symbol : "DOGE",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
       chatInfo : chatData[0]
     },
     {
       id : 2,
       name : "페페",
       symbol : "PEPE",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
       chatInfo : chatData[1]
     },
     {
       id : 3,
       name : "봉크",
       symbol : "BONK",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
     },
     {
       id : 4,
       name : "페페",
       symbol : "PEPE",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
       chatInfo : chatData[1]
     },
     {
       id : 5,
       name : "페페",
       symbol : "PEPE",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
       chatInfo : chatData[1]
     },
     {
       id : 6,
       name : "페페",
       symbol : "PEPE",
-      imgSrc : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
+      image : "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
       chatInfo : chatData[1]
     },
   
@@ -100,7 +100,7 @@ const Community = () => {
             id = {coin.id}
             name = {coin.name}
             symbol= {coin.symbol}
-            imgSrc= {coin.imgSrc}
+            image= {coin.image}
             chatInfo={coin.chatInfo}
         ></CoinTalk>;
         })}
