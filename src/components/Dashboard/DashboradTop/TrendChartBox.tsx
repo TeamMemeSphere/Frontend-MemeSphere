@@ -4,16 +4,16 @@ import {SubTitle3Typo, BodyTypo} from "../../../styles/Typography";
 
 export interface TrendChartCoin {
     rank: number; // 좌측 순위 변동 수치
-    rankChange: "up" | "down" | "even"; // 순위 변동 화살표
+    rankChange: "RISE" | "LOW" | "EVEN"; // 순위 변동 화살표
 
     image: string; // 코인 사진
     name: string; // 코인 이름
     symbol: string;
 
-    tradePrice: number; // 현재 거래 가격 (소수점 셋째에서 반올림)
-    change: "RISE" | "FALL" | "EVEN";  // 우측 가격 변동 화살표
-    changePrice: number; // 전일 대비 가격 변동 절대값(소수점 넷째에서 반올림)
-    changeRate: number; // 전일 대비 가격 변동 비율(%, 소수점 셋째에서 반올림)
+    price: number; // 현재 거래 가격 (소수점 셋째에서 반올림)
+    changeDirection: "up" | "down" | "zero";  // 우측 가격 변동 화살표. zero?
+    changeAbsolute: number; // 전일 대비 가격 변동 절대값(소수점 넷째에서 반올림)
+    changeRate: number| null; // 전일 대비 가격 변동 비율(%, 소수점 셋째에서 반올림)
 }
 
 type TrendChartCoinProps = {
@@ -25,7 +25,7 @@ const TrendChart: React.FC<TrendChartCoinProps> = ({ data }) => {
         <TrendChartCoinBox>
             <RankNumber>#{data.rank}</RankNumber>
             <RankChange $change={data.rankChange}>
-                {data.rankChange === "even" ? "-" : data.rankChange === "up" ? "▲" : "▼"}
+                {data.rankChange === "EVEN" ? "-" : data.rankChange === "RISE" ? "▲" : "▼"}
             </RankChange>
 
             <CoinImage src={data.image} alt={`${data.name} logo`} />
@@ -37,10 +37,10 @@ const TrendChart: React.FC<TrendChartCoinProps> = ({ data }) => {
                 </CoinInfo> 
 
                 <CoinPriceWrapper>
-                    <CurrentCoinPrice>${data.tradePrice.toFixed(2)}</CurrentCoinPrice>
-                    <PriceChange $change={data.change}>
-                        {data.change === "EVEN" ? "-" : data.change === "RISE" ? "▲" : "▼"}
-                        &nbsp;{data.changePrice.toFixed(3)} ({data.changeRate.toFixed(2)}%)
+                    <CurrentCoinPrice>${data.price.toFixed(2)}</CurrentCoinPrice>
+                    <PriceChange $change={data.changeDirection}>
+                        {data.changeDirection === "zero" ? "-" : data.changeDirection === "up" ? "▲" : "▼"}
+                        &nbsp;{data.changeAbsolute.toFixed(3)} ({data.changeRate?.toFixed(2) ?? "0.00"}%)
                     </PriceChange>
                 </CoinPriceWrapper>
             </CoinDetails>
@@ -67,7 +67,7 @@ const RankNumber = styled.div`
 `;
 
 interface RankChangeProps {
-    $change: "up" | "down" | "even";
+    $change: "RISE" | "LOW" | "EVEN";
 }
 
 const RankChange = styled.div<RankChangeProps>`
@@ -117,10 +117,10 @@ const CurrentCoinPrice = styled(SubTitle3Typo)`
     margin-bottom: 0rem;
 `;
 interface PriceChangeProps {
-    $change: "RISE" | "FALL" | "EVEN";
+    $change: "up" | "down" | "zero";
 }
 const PriceChange = styled(BodyTypo)<PriceChangeProps>`
     color: ${({ $change }) =>
-        $change === "RISE" ? "red" : $change === "FALL" ? "var(--blue)" : "var(--white-100)"};
+        $change === "up" ? "red" : $change === "down" ? "var(--blue)" : "var(--white-100)"};
     margin-top: 5px;
 `;
