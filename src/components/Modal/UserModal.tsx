@@ -90,12 +90,16 @@ const ModalContent = styled.div`
   left: 50%; 
   transform: translate(-50%, -50%);
   z-index: 999;
+
   margin-top: 5.813rem;
   margin-right: 3.95rem;
 
   width: 680px;
   height: 800px;
-  background-color: var(--grey-80);
+  max-width: 90vw;
+  max-height: 90vw;
+  
+  background-color: var(--grey-100);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 `;

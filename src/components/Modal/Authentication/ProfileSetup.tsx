@@ -47,7 +47,7 @@ const ProfileSetup: React.FC<ProfileSetupProps> = ({ onStart }) => {
         <InputContainer>
           <Label>프로필 사진</Label>
           <ProfileImage src={profileImage} alt="Profile" onClick={handleProfileClick} />
-          <ImageButton onClick={handleProfileClick}>이미지 불러오기 > </ImageButton>
+          <ImageButton onClick={handleProfileClick}>이미지 불러오기 </ImageButton>
           <HiddenFileInput
             type="file"
             accept="image/*"
