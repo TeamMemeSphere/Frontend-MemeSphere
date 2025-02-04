@@ -24,7 +24,7 @@ const SearchResults = () => {
   const { sortType, sortTypes, changeSortType } = useChangeSortType();
 
   const location = useLocation();
-  const searchKeyword = location.state.keyword || {};
+  const searchKeyword = location?.state?.keyword || "";
 
   const getSearchResult = async () => {
     try {
