@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 interface ViewTypeButtonProps {
-    viewType: "card" | "list";
-    onClick: () => void;
+    viewType: "GRID" | "LIST";
+    onClick: (viewType : "GRID" | "LIST") => void;
 }
 
 const ViewTypeButton = ({viewType, onClick}: ViewTypeButtonProps) => {
-    const viewTypeCard = viewType === "card";
-    const viewTypeList = viewType === "list";
+    const viewTypeCard = viewType === "GRID";
+    const viewTypeList = viewType === "LIST";
 
     return (
         <Container>
-            <Button src="/assets/common/viewtype-card.svg" alt="" onClick={onClick} $isActive={viewTypeCard} />
-            <Button src="/assets/common/viewtype-list.svg" alt="" onClick={onClick} $isActive={viewTypeList} />
+            <Button src="/assets/common/viewtype-card.svg" alt="" onClick={() => onClick("GRID")} $isActive={viewTypeCard} />
+            <Button src="/assets/common/viewtype-list.svg" alt="" onClick={() => onClick("LIST")} $isActive={viewTypeList} />
         </Container>
     );
 }

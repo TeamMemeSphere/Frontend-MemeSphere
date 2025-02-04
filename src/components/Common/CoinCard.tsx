@@ -7,6 +7,7 @@ export interface Coin {
   coinId: number;
   name: string;
   symbol: string;
+  image?: string;
   currentPrice: number;
   highPrice: number;
   lowPrice: number;
@@ -20,6 +21,7 @@ export interface Coin {
 const CoinCard = ({
   name,
   symbol,
+  image,
   currentPrice,
   highPrice,
   lowPrice,
@@ -51,7 +53,7 @@ const CoinCard = ({
       <HeaderSection to={"/CoinDetailPage"}>
         <ThumbnailWrapper>
           <Thumbnail
-            src="https://via.placeholder.com/200"
+            src={`${image}`}
             alt="thumbnail"
           ></Thumbnail>
         </ThumbnailWrapper>

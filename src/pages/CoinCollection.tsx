@@ -7,14 +7,14 @@ import ContentHeader from "../components/Common/ContentHeader";
 import dummyData from "../data/coinCardDummy.json";
 
 const CoinCollection = () => {
-  const [viewType, setViewType] = useState<"card" | "list">("card");
+  const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = viewType == "card" ? 9 : 20;
+  const itemsPerPage = viewType == "GRID" ? 9 : 20;
   const totalItems = dummyData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleViewTypeChange = () => {
-    setViewType(viewType === "card" ? "list" : "card");
+    setViewType(viewType === "GRID" ? "LIST" : "GRID");
     setCurrentPage(1);
   }
 
