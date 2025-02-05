@@ -17,10 +17,8 @@ export const useFetchCoin = () => {
                 close: data[4],
                 volume: data[5],
             }));
-            console.log(data);
             return data;
         } catch (error) {
-            console.error(error);
         } finally {
             setIsLoading(false);
         }

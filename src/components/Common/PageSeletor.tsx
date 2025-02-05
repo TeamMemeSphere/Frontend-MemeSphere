@@ -19,7 +19,6 @@ const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelect
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         updateCurrentPage(page);
-        console.log('Page changed to:', page);
     }
 
     if (totalPages <= 1) return null;
