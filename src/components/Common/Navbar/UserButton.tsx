@@ -3,23 +3,37 @@ import styled from "styled-components";
 import * as S from "./HeaderButtonStyle";
 import user from "../../../../public/assets/common/navbar/user.svg";
 import UserModal from "../../Modal/UserModal";
+import GreetingModal from "../../Modal/GreetingModal";
 
 const UserButton: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const toggleModal = () => {
+    setIsUserModalOpen((prev) => !prev);
   };
+  
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsUserModalOpen(false);
+  };
+
+  const handleLogin = () =>  {
+    setIsLoggedIn(true);
+    setIsUserModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    closeModal();
   };
 
   return (
     <>
-      <StyledHeaderButton onClick={openModal}>
+      <StyledHeaderButton onClick={toggleModal}>
         <S.Icon src={user} />
       </StyledHeaderButton>
-      {isModalOpen && <UserModal closeModal={closeModal} />}
+      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={closeModal} onLogin={handleLogin}/>}
+      {isLoggedIn && isUserModalOpen && <GreetingModal onLogout={handleLogout} closeModal={closeModal}/>}
     </>
   );
 };

@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SubTitle1Typo } from "../../styles/Typography";
+import Overlay from "../Common/Overlay";
 
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
+import ProfileSetup from "./Authentication/ProfileSetup";
+import GreetingModal from "./GreetingModal";
 
 interface ModalProps {
   closeModal: () => void;
+  onLogin: () => void;
 }
 
-const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
-  const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
+const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
+  const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting">("login");
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [userNickName, setUserNickNmae] = useState<string>("");
+
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -25,7 +32,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   };
 
   // 유저 모달창이 열리면 스크롤이 비활성화
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.style.overflow = "hidden";
     return() => {
       document.body.style.overflow = "auto";
@@ -34,40 +41,55 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   }, []);
 
   return (
-    <ModalOverlay onClick={handleOverlayClick}>
+    <>
+    {activeTab === "greeting" && <GreetingModal onLogout={closeModal}/>}
+    {activeTab !== "greeting" && (
+      <>
+      <Overlay onClick={handleOverlayClick} />
       <ModalContent>
         <FlexContainer>
-          <Title>{activeTab === "login" ? "로그인" : "회원가입"}</Title>
+          <Title>
+            {activeTab === "login" && "로그인"}
+            {activeTab === "signup" && "회원가입"}
+            {activeTab === "profileSetup" && "회원가입"}
+          </Title>
           <CloseButton onClick={handleClose} src="../../../public/assets/common/autentication/authentication back icon.svg" />
         </FlexContainer>
         <ContentContainer>
-          {activeTab === "login" ? (
-            <Login switchToSignup={() => setActiveTab("signup")} />
-          ) : (
-            <Signup />
-          )}  
+          {activeTab === "login" && (
+                <Login 
+                  onLogin={() => {
+                    onLogin();
+                    setActiveTab("greeting");
+                  }}
+                switchToSignup={() => setActiveTab("signup")} />
+              )}
+              {activeTab === "signup" && (
+                <Signup onSignup={() => setActiveTab("profileSetup")} />
+              )}
+              {activeTab === "profileSetup" && (
+                <ProfileSetup
+                  onStart={() => {
+                    setActiveTab("login");
+                  }}
+                />
+              )}
         </ContentContainer>
       </ModalContent>
-    </ModalOverlay>
+      </>
+    )}
+    </>
   );
 };
 
 export default UserModal;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(30, 30, 32, 0.8);
-  z-index: 10;
-`;
-
 const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  z-index: 999;
   margin-top: 5.813rem;
   margin-right: 3.95rem;
 

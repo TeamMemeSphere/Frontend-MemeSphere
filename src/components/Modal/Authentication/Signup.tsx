@@ -2,16 +2,26 @@ import React from "react";
 import { StyledInput, ErrorMessage, Label, InputContainer, FormContainer, Form, Button, Separator, SocialButtons, SocialButton, SocialImage } from "./SharedAuthenticationStyles";
 import { useFormValidation } from "./FormValidation";
 
-const Signup: React.FC = () => {
+interface SinupPorps {
+  onSignup: () => void;
+}
+
+const Signup: React.FC<SinupPorps> = ({ onSignup }) => {
   const { email, password, handleBlur, handleChange } = useFormValidation({
     emailInvalid: "이메일 주소가 유효하지 않습니다.",
     passwordInvalid: "비밀번호는 최소 8자 이상이며 영문/숫자/특수문자 중 두 가지 이상의 조합이어야 합니다.",
   });
 
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 회원가입 완료 로직
+    onSignup();
+  };
+
   return (
     <>
     <FormContainer>
-      <Form>
+      <Form onSubmit={handleSignup}>
         <InputContainer>
           <Label>아이디</Label>
           <StyledInput
@@ -45,8 +55,9 @@ const Signup: React.FC = () => {
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
         <SocialButton>
-        <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
-          카카오로 시작하기</SocialButton>
+          <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
+            카카오로 시작하기
+        </SocialButton>
         <SocialButton>Google로 시작하기</SocialButton>
       </SocialButtons>
     </FormContainer>
@@ -55,4 +66,3 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
-

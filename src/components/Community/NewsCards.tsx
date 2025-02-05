@@ -66,7 +66,7 @@ export default NewsCards;
 const News = styled.div`
   display: flex;
   flex-direction: column;
-  width: 19.375rem;
+  width: 100%;
   height: 777px;
   flex-shrink: 0;
   margin-bottom: 25.488vh;

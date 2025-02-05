@@ -19,7 +19,7 @@ export const dummyData: Coin[] = [
     changeRate: -3.1,
     isCollected: true,
     marketCap: 23000,
-    volume: 250000
+    volume: 250000,
   },
   {
     name: "BONK",
@@ -31,7 +31,7 @@ export const dummyData: Coin[] = [
     changePrice: 721,
     changeRate: 17.1,
     marketCap: 23000,
-    volume: 250000
+    volume: 250000,
   },
   {
     name: "PEPE",
@@ -43,7 +43,7 @@ export const dummyData: Coin[] = [
     changePrice: 0,
     changeRate: 0,
     marketCap: 23000,
-    volume: 250000
+    volume: 250000,
   },
 ];
 
@@ -57,7 +57,7 @@ const CoinCollection = () => {
   const handleViewTypeChange = () => {
     setViewType(viewType === "card" ? "list" : "card");
     setCurrentPage(1);
-  }
+  };
 
   const selectOption = ["MKT cap", "price"];
   const [options, setOptions] = useState<string>("MKT cap");
@@ -67,7 +67,10 @@ const CoinCollection = () => {
 
   return (
     <Container>
-      <ContentHeader title="컬렉션" description="관심있는 밈 코인을 모아보세요." />
+      <ContentHeader
+        title="컬렉션"
+        description="관심있는 밈 코인을 모아보세요."
+      />
       {/* <PageTitle>컬렉션</PageTitle>
       <PageDescription>관심있는 밈 코인을 모아보세요.</PageDescription> */}
       <CoinListHeader
@@ -76,15 +79,20 @@ const CoinCollection = () => {
         viewType={viewType}
         onTypeChange={handleViewTypeChange}
         marginBottom="0.813rem"
-      >
-      </CoinListHeader>
-      <CoinList coins={dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)} viewType={viewType}></CoinList>
+      ></CoinListHeader>
+      <CoinList
+        coins={dummyData.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage,
+        )}
+        viewType={viewType}
+      ></CoinList>
       <PageSelector
         currentPage={currentPage}
         updateCurrentPage={setCurrentPage}
         totalPages={totalPages}
-        limit={itemsPerPage}>
-      </PageSelector>
+        limit={itemsPerPage}
+      ></PageSelector>
     </Container>
   );
 };
@@ -98,13 +106,13 @@ const Container = styled.div`
   padding: 1.938rem 12.5vw 4.5rem 12.5vw;
   width: 100%;
   height: fit-content;
-`
+`;
 
 const PageTitle = styled(S.TitleTypo)`
   margin-bottom: 0.375rem;
-`
+`;
 
 const PageDescription = styled(S.BodyTypo)`
   color: var(--white-50);
   margin-bottom: 1.188rem;
-`
+`;

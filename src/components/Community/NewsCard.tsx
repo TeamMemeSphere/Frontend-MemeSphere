@@ -39,34 +39,46 @@ const NewsCard: React.FC<NewsCardProps> = ({
 export default NewsCard;
 
 const Card = styled.div`
-  width: 21.528vw;
+  width: 100%;
   height: 10.563rem;
   border-radius: 1.25rem;
   position: relative;
   &:hover {
     opacity: 0.5;
   }
+
+  @media (max-width: 768px) {
+    height: 5rem;
+  }
 `;
 
 const BackGroundImg = styled.img`
   position: absolute;
-  width: 19.375rem;
+  width: 100%;
   height: 10.563rem;
   object-fit: cover;
   border-radius: 1.25rem;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    height: 5rem;
+  }
 `;
 
 const ContentWrapper = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 19.375rem;
+  justify-content: flex-start;
+  width: 100%;
   height: 10.563rem;
   gap: 4.625rem;
   border-radius: 1.25rem;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    height: 5rem;
+  }
 `;
 
 const NewsTitle = styled(S.SubTitle3Typo)`
@@ -83,6 +95,11 @@ const FooterContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 1.375rem 1.25rem 1.375rem;
+
+  /* 태블릿, 모바일 환경에서 숨기기 */
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const FooterContent = styled(S.CaptionTypoRegular)`
@@ -126,5 +143,9 @@ const SkeletonCard = styled.div`
     );
     background-size: 200% 200%;
     animation: ${loadingAnimation} 3s ease-in-out infinite;
+  }
+
+  @media (max-width: 768px) {
+    height: 5rem;
   }
 `;

@@ -60,6 +60,11 @@ const FGIDiv = styled.div`
   border-radius: 1.25rem;
   background: var(--Secondary-green, #49df82);
   margin-top: 0;
+
+  @media (max-width: 768px) {
+    height: 1rem;
+    padding: 5rem 0rem 1.7rem 0rem;
+  }
 `;
 
 const FGIText = styled.p`
@@ -68,7 +73,10 @@ const FGIText = styled.p`
   font-size: 0.94rem;
   font-weight: 400;
   margin: 0;
-  margin-left: 2.25rem;
+  margin-left: 2.5vw;
+  @media (max-width: 768px) {
+    margin-left: 3vw;
+  }
 `;
 
 const FGIndex = styled.p`
@@ -77,5 +85,5 @@ const FGIndex = styled.p`
   font-size: 1.47rem;
   font-weight: 700;
   margin: 0;
-  margin-left: 2.25rem;
+  margin-left: 2.5vw;
 `;

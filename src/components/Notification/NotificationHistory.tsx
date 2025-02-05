@@ -2,6 +2,8 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import AlertHistoryBox from "./AlertHistoryBox.tsx";
 import { notificationType } from "./NotificationType.ts";
+import { useState } from "react";
+
 const NotificationDummy : notificationType[]= [
     {
     id: 1,
@@ -33,10 +35,19 @@ const NotificationDummy : notificationType[]= [
 ];
 
 const NotificationHistory : React.FC = () => {
+    const [historyList, setHistoryList] = useState(NotificationDummy);
+
+    const deleteHistory = (id : number) =>{
+        setHistoryList((prevList)=>
+            prevList.filter((history)=> history.id !== id)
+        );
+    };
+
     return <Container>
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
-        {NotificationDummy.map((notificiation)=>
-            <AlertHistoryBox key={notificiation.id} {...notificiation}/>
+        {historyList.map((notificiation)=>
+            <AlertHistoryBox key={notificiation.id} deleteHistory={deleteHistory}
+            {...notificiation}/>
         )}
     </Container>;
 };
