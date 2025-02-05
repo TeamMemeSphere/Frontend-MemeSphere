@@ -75,13 +75,13 @@ const CoinCard = ({
             src="assets/common/trending-down.svg"
             alt="trending-down"
             $margin="0px 6px 0px 0px"
-          />{" "}
+          />
           {lowPrice.toLocaleString()}
           <Icon
             src="assets/common/trending-up.svg"
             alt="trending-up"
             $margin="0px 6px 0px 10.5px"
-          />{" "}
+          />
           {highPrice.toLocaleString()}
         </UpDownSection>
         <CurrentSection>

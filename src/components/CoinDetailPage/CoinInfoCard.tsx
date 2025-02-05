@@ -39,7 +39,7 @@ const CardLayout = styled(CommonCard)`
   width: 24.722vw;
   height: auto;
   margin-top: 0.813rem;
-  margin-bottom: 1.625rem;
+  margin-bottom: 26px;
 `;
 
 const StyledSubTitle2 = styled(SubTitle2Typo)`
