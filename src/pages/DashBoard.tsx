@@ -27,9 +27,12 @@ const DashBoard = () => {
   };
 
   return (
-    <Container>
-      <ContentHeader title="대시보드" description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."></ContentHeader>
+    <>
+    <UpperContainer>
       <DashBoardTop />
+    </UpperContainer>
+    <UnderContainer>
+
       <DashBoardUpper>
         <CoinListHeader
           title="차트"
@@ -47,29 +50,29 @@ const DashBoard = () => {
           totalPages={totalPages}>
         </PageSelector>
       </DashBoardUpper>
-    </Container>
+    </UnderContainer>
+    </>
   );
 };
 
 export default DashBoard;
 
-{/* const Container = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: 12.5vw;
-  width: 100%;
-  height: fit-content;
-  margin : auto;
-`; */}
-
-const Container = styled.div`
+const UpperContainer = styled.div `
   margin: auto;
-  gap: 1.736vw;
-  width: 67.5rem;
-  padding: 1.938rem 12.5vw 4.5rem 12.5vw;
 `;
 
+const UnderContainer = styled.div`
+  margin: auto;
+  gap: 1.736vw;
+  padding: 1.938rem 12.5vw 4.5rem 12.5vw; 
+
+  @media (max-width: 768px) {
+    padding: 1.938rem 0 4.5rem 0;
+  }
+`;
+
+<<<<<<< HEAD
+=======
 // 대시보드와 동일한 레이아웃 적용 시
 // const Container = styled.div`
 //   box-sizing: border-box;
@@ -79,6 +82,7 @@ const Container = styled.div`
 //   width: 100%;
 //   height: fit-content;
 // `
+>>>>>>> develop
 
 const DashBoardUpper = styled.div`
 
