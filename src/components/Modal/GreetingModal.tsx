@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { SubTitle2Typo, BodyTypo } from "../../styles/Typography";
 import { useAuth } from "../../hooks/common/useAuth";
@@ -8,13 +8,7 @@ interface GreetingModalProps {
 }
 
 const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
-  const { logout, isAuthenticated } = useAuth();
-  const [userNickName, setUserNickName] = useState<string>("");
-
-  useEffect(() => {
-    const storedNickname = localStorage.getItem("nickname") || "기본닉?";
-    setUserNickName(storedNickname);
-  }, [isAuthenticated]);
+  const { logout, isAuthenticated, nickName } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => closeModal();
@@ -38,7 +32,7 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
   return (
     <ModalContainer>
       <Icon src="../../../public/assets/common/autentication/profile button.svg" />
-      <Message><Nickname>{userNickName}</Nickname>님 반갑습니다!</Message>
+      <Message><Nickname>{nickName}</Nickname>님 반갑습니다!</Message>
       <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
     </ModalContainer>
   );
