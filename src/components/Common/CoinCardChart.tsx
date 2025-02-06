@@ -96,6 +96,8 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                 xAccessor={xAccessor} // 데이터를 X축에서 접근하는 방식
                 displayXAccessor={displayXAccessor} // X축에 표시할 데이터 형식
                 xExtents={xExtents} // X축 범위
+                zoomAnchor={() => 0}
+                disableInteraction={true}
             >
                 <Chart id={1} yExtents={(d) => [d.high, d.low]}>
                     {/* Y축 범위: 데이터의 high, low 값을 기준으로 설정 */}
@@ -107,6 +109,8 @@ const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
                         innerTickSize={10}
                         showTicks={false}
                         ticks={4} // 눈금 레이블 개수
+                        zoomEnabled={false} // 축 확대 기능 비활성화
+                        
                     />
                     <YAxis
                         strokeStyle="#fff"
@@ -146,7 +150,6 @@ const IntervalWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-  /* margin-top: 0.938rem; */
   margin-bottom: 0.625rem;
 `;
 
