@@ -1,7 +1,6 @@
 import FearGreedIndex from "../components/Community/FearGreedIndex";
 import NewsCards from "../components/Community/NewsCards.tsx";
 import CoinTalk from "../components/Community/CoinTalk.tsx";
-
 import ContentHeader from "../components/Common/ContentHeader.tsx";
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
@@ -30,7 +29,6 @@ const fetchCoinData = async (id: number) : Promise<coinInfo | undefined> => {
     return undefined;
   }
 };
-
 
 const Community = () => {
 
@@ -73,12 +71,15 @@ const Community = () => {
 
 
   return (
-    <CommunityDiv>
-      <ContentHeader title="커뮤니티" description="밈 코인에 대한 아이디어를 다른 유저들과 공유해보세요."></ContentHeader>
+    <Container>
+      <ContentHeader
+        title="커뮤니티"
+        description="밈 코인에 대한 아이디어를 다른 유저들과 공유해보세요."
+      />
       <Content>
         <LeftSide>
-          <FearGreedIndex value={73}></FearGreedIndex>
-          <NewsCards></NewsCards>
+          <FearGreedIndex />
+          <NewsCards />
         </LeftSide>
         <RightSide>{queries.map((query, index)=>(
           <div key={index}>
@@ -108,31 +109,51 @@ const Community = () => {
             {isFetchingNextPage && hasNextPage && <SkeletonCoinChat/>}
         </RightSide>
       </Content>
-    </CommunityDiv>
+    </Container>
   );
 };
 
 export default Community;
 
+/** Styled Components **/
 
-const CommunityDiv = styled.div`
-  margin : auto;
+const Container = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 1.938rem 12.5vw 4.5rem 12.5vw;
+  width: 100%;
+  height: fit-content;
 `;
 
 const Content = styled.div`
-  display : flex;
-  gap : 1.736vw;
+  display: flex;
+  gap: 1.736vw;
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 컬럼 방향으로 변경 */
+    gap: 2rem;
+  }
 `;
+
 const LeftSide = styled.div`
-  width : 19.375rem;
-  display : flex;
-  flex-direction : column;
-  gap : 4.297vh;
+  width: 21.528vw;
+  display: flex;
+  flex-direction: column;
+  gap: 4.297vh;
+
+  @media (max-width: 768px) {
+    width: 100%; /* 모바일에서 너비 100% */
+  }
 `;
 
 const RightSide = styled.div`
-  display : flex;
-  flex-direction : column;
+  display: flex;
+  flex-direction: column;
   width: 49.931vw;
-  gap : 1.953vh;
+  gap: 1.953vh;
+
+  @media (max-width: 768px) {
+    width: 100%; /* 모바일에서 너비 100% */
+  }
 `;

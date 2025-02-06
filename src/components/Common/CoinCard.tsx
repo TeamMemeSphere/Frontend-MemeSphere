@@ -1,42 +1,43 @@
 import styled from "styled-components";
 import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export interface Coin {
+  coinId: number;
   name: string;
   symbol: string;
-  tradePrice: number;
+  currentPrice: number;
   highPrice: number;
   lowPrice: number;
-  change: "RISE" | "FALL" | "EVEN";
-  changePrice: number;
-  changeRate: number;
+  priceChange: number;
+  priceChangeRate: number;
   isCollected?: boolean;
-  marketCap: number;
-  volume: number;
+  marketCap?: number;
+  volume?: number;
 }
 
 const CoinCard = ({
   name,
   symbol,
-  tradePrice,
+  currentPrice,
   highPrice,
   lowPrice,
-  change,
-  changePrice,
-  changeRate,
+  priceChange,
+  priceChangeRate,
   isCollected,
 }: Coin) => {
 
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
 
+  const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
+
   useEffect(() => {
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
           setChartSectionWidth(entry.borderBoxSize[0].inlineSize);
-          console.log(chartSectionWidth);
         }
       });
       observer.observe(chartSectionRef.current);
@@ -47,7 +48,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection>
+      <HeaderSection to={"/CoinDetailPage"}>
         <ThumbnailWrapper>
           <Thumbnail
             src="https://via.placeholder.com/200"
@@ -74,23 +75,23 @@ const CoinCard = ({
             src="assets/common/trending-down.svg"
             alt="trending-down"
             $margin="0px 6px 0px 0px"
-          />{" "}
+          />
           {lowPrice.toLocaleString()}
           <Icon
             src="assets/common/trending-up.svg"
             alt="trending-up"
             $margin="0px 6px 0px 10.5px"
-          />{" "}
+          />
           {highPrice.toLocaleString()}
         </UpDownSection>
         <CurrentSection>
-          <CurrentPrice>&#36; {tradePrice.toLocaleString()}</CurrentPrice>
+          <CurrentPrice>&#36; {currentPrice.toLocaleString()}</CurrentPrice>
           <CurrentPriceChange $change={change}>
             {change === "EVEN" ? "⏤" : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
-                &nbsp;{changePrice.toLocaleString()}
-                &nbsp;({changeRate.toLocaleString()}%)
+                &nbsp;{priceChange.toLocaleString()}
+                &nbsp;({priceChangeRate.toLocaleString()}%)
               </>
             )
             }
@@ -105,9 +106,8 @@ const CoinCard = ({
 };
 
 const Container = styled.div`
-  /* width: 340px; */
-  width: max(340px, 23.611vw);
-  /* height: 473px; */
+  /* width: max(340px, 17.708vw); */
+  width: 100%;
   height: 29.563rem;
   flex-shrink: 0;
   display: flex;
@@ -118,12 +118,13 @@ const Container = styled.div`
 `;
 
 // 헤더
-const HeaderSection = styled.div`
+const HeaderSection = styled(NavLink)`
   box-sizing: border-box;
   width: 100%;
   display: flex;
   align-items: center;
   margin-top: 20px;
+  text-decoration: none;
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -162,14 +163,12 @@ const StarIcon = styled.div`
 // 가격정보
 const PriceInfoSection = styled.div`
   box-sizing: border-box;
-  /* width: 306px; */
-  width: max(306px, 21.25vw);
+  width: calc(100% - 2.125rem);
   height: 79px;
   flex-shrink: 0;
-  box-sizing: border-box;
   background-color: #ffffff0d;
   border-radius: 10px;
-  margin: 18px 17px 0px 17px;
+  margin: 1.125rem 1.063rem 0 1.063rem;
   padding: 15px 22px;
 `;
 
@@ -211,8 +210,7 @@ const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
 
 // 차트
 const ChartSection = styled.div`
-  /* width: 306px; */
-  width: max(306px, 21.25vw);
+  width: calc(100% - 2.125rem);
   height: 254px;
   margin-top: 23px;
 `;

@@ -6,46 +6,7 @@ import { Coin } from "../components/common/CoinCard";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
 import CoinListHeader from "../components/common/CoinListHeader";
-
-const dummyData: Coin[] = [
-  {
-    name: "DOGE",
-    symbol: "USDT",
-    tradePrice: 4634,
-    highPrice: 4891,
-    lowPrice: 4213,
-    change: "FALL",
-    changePrice: -142,
-    changeRate: -3.1,
-    isCollected: true,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "QWER",
-    symbol: "ASDF",
-    tradePrice: 4212,
-    highPrice: 4291,
-    lowPrice: 4123,
-    change: "RISE",
-    changePrice: 721,
-    changeRate: 17.1,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "HDVS",
-    symbol: "KHEA",
-    tradePrice: 2413,
-    highPrice: 2491,
-    lowPrice: 2123,
-    change: "EVEN",
-    changePrice: 0,
-    changeRate: 0,
-    marketCap: 23000,
-    volume: 250000
-  },
-];
+import dummyData from "../data/coinCardDummy.json";
 
 const SearchResults = () => {
   const [viewType, setViewType] = useState<"card" | "list">("card");
@@ -59,8 +20,8 @@ const SearchResults = () => {
     setCurrentPage(1);
   }
 
-  const selectOption = ["MKT cap", "price"];
-  const [options, setOptions] = useState<string>("MKT cap");
+  const selectOption = ["PRICE_CHANGE", "VOLUME_24H", "PRICE"];
+  const [options, setOptions] = useState<string>("PRICE_CHANGE");
   const onChangeOption = (value: string) => {
     setOptions(value);
   };
@@ -100,7 +61,7 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.5vw 4.5rem 12.5vw;
+  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
   width: 100%;
   height: fit-content;
 `
