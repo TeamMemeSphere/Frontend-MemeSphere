@@ -7,7 +7,7 @@ import NavRightModal from "./NavRightIcon";
 import SidebarContent from "./SidebarContent";
 import Overlay from "../Common/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
-import UserModal from "../Modal/UserModal";
+import UserModal from "../Modal/Auth/UserModal";
 import GreetingModal from "../Modal/GreetingModal";
 
 const Navbar: React.FC = () => {

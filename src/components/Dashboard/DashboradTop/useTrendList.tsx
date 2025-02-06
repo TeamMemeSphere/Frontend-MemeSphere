@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_ENDPOINTS } from "../../../constants/api";
+import { API_ENDPOINTS } from "../../../api/api";
 
 export interface MemeCoin {
   rank: number; 

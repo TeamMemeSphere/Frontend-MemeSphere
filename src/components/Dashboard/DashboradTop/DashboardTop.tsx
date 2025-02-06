@@ -5,7 +5,7 @@ import TrendChartList from "./TrendCharList";
 import ContentHeader from "../../Common/ContentHeader";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { API_ENDPOINTS } from "../../../constants/api";
+import { API_ENDPOINTS } from "../../../api/api";
 
 const DashboardTop = () => {
   const [totalVolume, setTotalVolume] = useState<number | null>(null);
@@ -49,7 +49,7 @@ const DashboardTop = () => {
       <Item1>
         <Item1TextWrapper>
           <BodyTypo>총 거래량 (24시간)</BodyTypo>
-          <DynamicStyledContent dynamicSize={dynamicFontSize}>
+          <DynamicStyledContent $dynamicSize={dynamicFontSize}>
             {totalVolume !== null ? `$${totalVolume.toLocaleString()}` : "Loading..."}
           </DynamicStyledContent>
         </Item1TextWrapper>

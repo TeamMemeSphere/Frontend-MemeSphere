@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
     PUSH_ALARM_LIST: `${BASE_URL}/push-notifications`,
     PUSH_ALARM_CONFIRM: (notificaionId: string) => `${BASE_URL}/push-notifications/${notificaionId}`,
     USER_SIGNUP: `${BASE_URL}/user/signup`,
+    USER_SIGNUP_NICKNAME: `${BASE_URL}/user/signup/nickname/validate`,
     USER_SIGNIN: `${BASE_URL}/user/signin`,
     USER_KAKAO: `${BASE_URL}/user/login/oauth2/kakao`,
     SEARCH: `${BASE_URL}/search`,
