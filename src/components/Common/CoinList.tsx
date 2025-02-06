@@ -3,26 +3,27 @@ import CoinCard from "./CoinCard";
 import CoinRow from "./CoinRow";
 import { Coin } from "./CoinCard";
 
-const CoinList: React.FC<{ coins: Coin[], viewType: "card" | "list" }> = ({ coins, viewType }) => {
+const CoinList: React.FC<{ coins: Coin[], viewType: "GRID" | "LIST" }> = ({ coins, viewType }) => {
 
     return (
         <Container>
             {
-                viewType === "card" ?
+                viewType === "GRID" ?
                     <CardList>
                         {
                             coins.map((coin, index) => {
                                 return (
                                     <CoinCard
                                         key={index}
+                                        coinId={coin.coinId}
                                         name={coin.name}
-                                        symbol={coin.symbol}
-                                        tradePrice={coin.tradePrice}
+                                        image={coin.image}
+                                        symbol={`${coin.symbol}USDT`}
+                                        currentPrice={coin.currentPrice}
                                         highPrice={coin.highPrice}
                                         lowPrice={coin.lowPrice}
-                                        change={coin.change}
-                                        changePrice={coin.changePrice}
-                                        changeRate={coin.changeRate}
+                                        priceChange={coin.priceChange}
+                                        priceChangeRate={coin.priceChangeRate}
                                         isCollected={coin.isCollected}
                                         marketCap={coin.marketCap}
                                         volume={coin.volume}
@@ -39,7 +40,6 @@ const CoinList: React.FC<{ coins: Coin[], viewType: "card" | "list" }> = ({ coin
                             <RowHeaderItem $width="7.292vw">Change (24h)</RowHeaderItem>
                             <RowHeaderItem $width="6.25vw">Market Cap</RowHeaderItem>
                             <RowHeaderItem $width="6.25vw">Volume</RowHeaderItem>
-                            <RowHeaderItem $width="7.153vw">Open Interest</RowHeaderItem>
                             <RowHeaderItem $width="3.75vw">Collect</RowHeaderItem>
                         </RowHeader>
                         {
@@ -47,14 +47,14 @@ const CoinList: React.FC<{ coins: Coin[], viewType: "card" | "list" }> = ({ coin
                                 return (
                                     <CoinRow
                                         key={index}
+                                        coinId={coin.coinId}
                                         name={coin.name}
                                         symbol={coin.symbol}
-                                        tradePrice={coin.tradePrice}
+                                        currentPrice={coin.currentPrice}
                                         highPrice={coin.highPrice}
                                         lowPrice={coin.lowPrice}
-                                        change={coin.change}
-                                        changePrice={coin.changePrice}
-                                        changeRate={coin.changeRate}
+                                        priceChange={coin.priceChange}
+                                        priceChangeRate={coin.priceChangeRate}
                                         isCollected={coin.isCollected}
                                         marketCap={coin.marketCap}
                                         volume={coin.volume}
@@ -78,28 +78,19 @@ const Container = styled.div`
 
 const CardList = styled.div`
     display: grid;
-    /* grid-template-columns: repeat(3, 340px); */
-    /* grid-template-columns: repeat(3, max(340px, 23.611vw)); */
-    grid-template-columns: repeat(3, minmax(23.611vw, 340px));
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 17.708vw));
     height: fit-content;
     place-items: center;
-    /* gap: 39px 1.563vw; */
-    gap: 39px 2.083vw;
-
-    @media (max-width: 1339px) {
-        grid-template-columns: repeat(2, max(340px, 23.611vw));
-    }
-
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(1, max(340px, 23.611vw));
-    }
+    gap: 39px 1.875rem;
+    justify-content: center;
 `
 
 const RowList = styled.div`
     width: 100%;
 `
 
-const RowHeader = styled.div`
+export const RowHeader = styled.div`
     box-sizing: border-box;
     padding: 15px 2.778vw;
     border-radius: 20px;
@@ -118,7 +109,8 @@ interface RowHeaderItemProps {
 const RowHeaderItem = styled.span<RowHeaderItemProps>`
     font-size: var(--font-size-body);
     font-weight: var(--font-weight-bold);
-    width: ${(props) => props.$width};
+    /* width: ${(props) => props.$width}; */
+    width: 100%;
     justify-self: center;
     text-align: center;
 `

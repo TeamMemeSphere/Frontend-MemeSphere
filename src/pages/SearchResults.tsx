@@ -2,71 +2,44 @@ import styled from "styled-components";
 import CoinList from "../components/common/CoinList";
 import { useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
-import { Coin } from "../components/common/CoinCard";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
 import CoinListHeader from "../components/common/CoinListHeader";
-
-const dummyData: Coin[] = [
-  {
-    name: "DOGE",
-    symbol: "USDT",
-    tradePrice: 4634,
-    highPrice: 4891,
-    lowPrice: 4213,
-    change: "FALL",
-    changePrice: -142,
-    changeRate: -3.1,
-    isCollected: true,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "QWER",
-    symbol: "ASDF",
-    tradePrice: 4212,
-    highPrice: 4291,
-    lowPrice: 4123,
-    change: "RISE",
-    changePrice: 721,
-    changeRate: 17.1,
-    marketCap: 23000,
-    volume: 250000
-  },
-  {
-    name: "HDVS",
-    symbol: "KHEA",
-    tradePrice: 2413,
-    highPrice: 2491,
-    lowPrice: 2123,
-    change: "EVEN",
-    changePrice: 0,
-    changeRate: 0,
-    marketCap: 23000,
-    volume: 250000
-  },
-];
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import useChangeSortType from "../hooks/common/useChangeSortType";
+import CoinRowSkeleton from "../components/common/CoinRowSkeleton";
+import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
+import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 
 const SearchResults = () => {
-  const [viewType, setViewType] = useState<"card" | "list">("card");
+  const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = viewType == "card" ? 9 : 20;
-  const totalItems = dummyData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handleViewTypeChange = () => {
-    setViewType(viewType === "card" ? "list" : "card");
+  const handleViewTypeChange = (viewType : "GRID" | "LIST") => {
+    setViewType(viewType);
     setCurrentPage(1);
   }
 
-  const selectOption = ["MKT cap", "price"];
-  const [options, setOptions] = useState<string>("MKT cap");
-  const onChangeOption = (value: string) => {
-    setOptions(value);
-  };
+  const { sortType, sortTypes, changeSortType } = useChangeSortType();
 
   const location = useLocation();
-  const searchKeyword = location.state.keyword || {};
+  const searchKeyword = location?.state?.keyword || "";
+
+  const getSearchResult = async () => {
+    try {
+      const response = await axios.get(`http://15.164.103.195/search?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const { data, isLoading, isError, error } = useQuery<any>({
+    queryKey: ["searchResult", searchKeyword, currentPage, viewType, sortType],
+    queryFn: getSearchResult
+  });
 
   return (
     <Container>
@@ -76,20 +49,37 @@ const SearchResults = () => {
         <SearchResultType>검색결과</SearchResultType>
       </KeyWordWrapper>
       <CoinListHeader
-        options={selectOption}
-        onOptionChange={onChangeOption}
+        options={sortTypes}
+        onOptionChange={changeSortType}
         viewType={viewType}
-        onTypeChange={handleViewTypeChange}
+        onTypeChange={setViewType}
         marginBottom="0.81rem"
       >
       </CoinListHeader>
-      <CoinList coins={dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)} viewType={viewType}></CoinList>
-      <PageSelector
-        currentPage={currentPage}
-        updateCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        limit={itemsPerPage}>
-      </PageSelector>
+      {isLoading ?
+        (viewType === "GRID" ?
+          <CoinCardListSkeleton></CoinCardListSkeleton>
+          :
+          <CoinRowListSkeleton></CoinRowListSkeleton>
+        )
+      :
+      isError ?
+      <div>에러가 발생했습니다...</div>
+      :
+      <>
+        {viewType === "GRID" ?
+          <CoinList coins={data?.result?.gridItems} viewType={viewType}></CoinList>
+          :
+          <CoinList coins={data?.result?.listItems} viewType={viewType}></CoinList>
+        }
+        <PageSelector
+          currentPage={currentPage}
+          updateCurrentPage={setCurrentPage}
+          totalPages={data.result.totalPage}
+        >
+        </PageSelector>
+      </>
+      }
     </Container>
   );
 };
@@ -100,9 +90,10 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.5vw 4.5rem 12.5vw;
+  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
   width: 100%;
   height: fit-content;
+  min-height: 100vh;
 `
 
 const KeyWordWrapper = styled.div`

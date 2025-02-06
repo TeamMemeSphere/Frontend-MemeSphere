@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
-import { useState } from "react";
 import { notificationType } from "./NotificationType.ts";
 
 type NotificationCardProps = notificationType & {
