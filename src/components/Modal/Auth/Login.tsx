@@ -1,28 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { SmallCaptionTypo } from "../../../styles/Typography";
 import { StyledInput, ErrorMessage, FormContainer, Form, InputContainer, Label, Button, Separator, SocialButtons, SocialButton, SocialImage } from "./SharedAuthenticationStyles";
 import { useFormValidation } from "./FormValidation";
+import { API_ENDPOINTS } from "../../../api/api";
+import { useAuth } from "../../../hooks/common/useAuth";
+import { useSocialLogin } from "../../../hooks/common/useSocialLogin";
 
 interface LoginProps {
-  onLogin: () => void;
   switchToSignup: () => void;
+  onLogin: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
+const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
+  const { login } = useAuth();
+  const { handleSocialLogin } = useSocialLogin();
   const { email, password, handleBlur, handleChange } = useFormValidation({
     emailInvalid: "이메일 형식이 아닙니다.",
     passwordInvalid: "비밀번호 형식이 아닙니다.",
   });
 
-  const handleLogin = () => {
-    // 로그인 완료 로직 추가
-    onLogin();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  async function handleLogin(event: React.FormEvent) {
+    event.preventDefault();
+    setIsSubmitted(true);
+
+    if (!email.value || !password.value) {
+      return;
+    }
+
+    try{
+      const loginData = {
+        email: email.value,
+        password: password.value,
+      };
+
+      const response = await fetch(API_ENDPOINTS.USER_SIGNIN, {
+        headers: {
+          "Content-type":"application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(loginData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("로그인 실패:", response.status, errorData);
+        return;
+      }
+
+      const data = await response.json();
+      if (data.isSuccess && data.result) {
+        login(data.result.accessToken, data.result.refreshToken, data.result.nickname);
+        onLogin();
+      } else {
+        alert("로그인 실패:" + response.status);
+      }
+    } catch (error) {
+      console.error("로그인 요청 오류:", error);
+    }
   };
 
   return (
     <FormContainer>
-      <Form>
+      <Form onSubmit={handleLogin}>
         <InputContainer>  
           <Label>이메일 주소</Label>
           <StyledInput
@@ -33,7 +75,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
             value={email.value}
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
-            $hasError={!!email.error}
+            $hasError={isSubmitted && (!!email.error || !email.value)}
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -47,18 +89,22 @@ const Login: React.FC<LoginProps> = ({ onLogin, switchToSignup }) => {
             value={password.value}
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
-            $hasError={!!password.error}
+            $hasError={isSubmitted && (!!password.error || !password.value)}
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>
-        <Button onClick={handleLogin}>로그인</Button>
+        <Button type="submit">로그인</Button>
       </Form>
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
-        <SocialButton>
-            <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
-            카카오로 로그인하기</SocialButton>
+
+        <SocialButton onClick={() => handleSocialLogin("kakao")}>
+          <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
+          카카오로 로그인하기
+          </SocialButton>
+
         <SocialButton>Google로 로그인하기</SocialButton>
+
       </SocialButtons>
       <Links>
         <Link href="#"

@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyledInput, ErrorMessage, Label, InputContainer, FormContainer, Form, Button, Separator, SocialButtons, SocialButton, SocialImage } from "./SharedAuthenticationStyles";
 import { useFormValidation } from "./FormValidation";
+import { useSocialLogin } from "../../../hooks/common/useSocialLogin";
 
-interface SinupPorps {
-  onSignup: () => void;
+interface SignupProps {
+  onSignup: (email: string, password: string) => void;
 }
 
-const Signup: React.FC<SinupPorps> = ({ onSignup }) => {
-  const { email, password, handleBlur, handleChange } = useFormValidation({
+const Signup: React.FC<SignupProps> = ({ onSignup }) => {
+  const { email, password, passwordConfirm, handleBlur, handleChange } = useFormValidation({
     emailInvalid: "이메일 주소가 유효하지 않습니다.",
     passwordInvalid: "비밀번호는 최소 8자 이상이며 영문/숫자/특수문자 중 두 가지 이상의 조합이어야 합니다.",
+    passwordConfirmInvalid: "비밀번호가 일치하지 않습니다",
   });
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitted(true);
+
+    if (!email.value || !password.value || !passwordConfirm.value) {
+      return;
+    }
+
     // 회원가입 완료 로직
-    onSignup();
+    if(!email.error && !password.error && !passwordConfirm.error) {
+      onSignup(email.value, password.value);
+    }
   };
+  
+  const {handleSocialLogin} = useSocialLogin();
 
   return (
     <>
@@ -32,7 +46,7 @@ const Signup: React.FC<SinupPorps> = ({ onSignup }) => {
             value={email.value}
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
-            hasError={!!email.error}
+            $hasError={isSubmitted && (!!email.error || !email.value)}
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -46,15 +60,29 @@ const Signup: React.FC<SinupPorps> = ({ onSignup }) => {
             value={password.value}
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
-            hasError={!!password.error}
+            $hasError={isSubmitted && (!!password.error || !password.value)}
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
+        </InputContainer>
+        <InputContainer>
+          <Label>비밀번호 확인</Label>
+          <StyledInput
+            type="password"
+            id="passwordConfirm"
+            name="passwordConfirm"
+            placeholder="비밀번호를 다시 입력해주세요"
+            value={passwordConfirm.value}
+            onChange={(e) => handleChange("passwordConfirm", e.target.value)}
+            onBlur={() => handleBlur("passwordConfirm")}
+            $hasError={isSubmitted && (!!passwordConfirm.error || !passwordConfirm.value)}
+          />
+          {passwordConfirm.error && <ErrorMessage>{passwordConfirm.error}</ErrorMessage>}
         </InputContainer>
         <Button type="submit">회원가입</Button>
       </Form>
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
-        <SocialButton>
+        <SocialButton onClick={() => handleSocialLogin("kakao")}>
           <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
             카카오로 시작하기
         </SocialButton>

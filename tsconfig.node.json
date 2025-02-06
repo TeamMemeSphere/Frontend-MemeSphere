@@ -18,7 +18,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    // node.js 관련
+    "types": ["node"],
+    "resolveJsonModule": true
   },
   "include": ["vite.config.ts"]
 }

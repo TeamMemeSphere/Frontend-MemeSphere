@@ -4,12 +4,11 @@ import NavLeftPage from "./NavLeftPage";
 import { useLocation } from "react-router-dom";
 import NavItem from "../Common/Navbar/NavItem";
 
-
 interface SidebarProps {
     isSidebarOpen: boolean;
-    setIsSidebarOpen: (isOpen: boolean) => void;
-    setIsAlarmOpen: (isOpen: boolean) => void;
-    setIsUserModalOpen: (isOpen: boolean) => void;
+    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsAlarmOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsUserModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen, setIsAlarmOpen, setIsUserModalOpen}) => {
@@ -34,12 +33,14 @@ const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen
 
     return(
         <SidebarContentWrapper>
-            <CloseButton src="../../../public/assets/common/navbar/close button.svg" onClick={() => setIsSidebarOpen(false)} />
+            <CloseButton 
+                src="../../../public/assets/common/navbar/close button.svg" 
+                onClick={() => setIsSidebarOpen(false)} />
             <SidebarWrapper>
                 <Logo><LogoImg src="../../../public/assets/common/navbar/sidebar memesphere logo.svg" /><LogoTitle>MemeSphere</LogoTitle></Logo>
                 
                 <NavLeftContainer>
-                    <NavLeftPageWrapper currentPath={location.pathname}>
+                    <NavLeftPageWrapper $currentPath={location.pathname}>
                         <NavLeftPage />
                     </NavLeftPageWrapper>
 
@@ -103,7 +104,7 @@ const LogoTitle = styled(SubTitle3Typo)`
     margin-left: 0.688rem;
 `;
 
-const NavLeftPageWrapper = styled.nav<{currentPath: string}>`
+const NavLeftPageWrapper = styled.nav<{$currentPath: string}>`
     display: flex;
     flex-direction: column;
     gap: 0.813rem;

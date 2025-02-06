@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import * as S from "./HeaderButtonStyle";
 import user from "../../../../public/assets/common/navbar/user.svg";
-import UserModal from "../../Modal/UserModal";
+import UserModal from "../../Modal/Auth/UserModal";
 import GreetingModal from "../../Modal/GreetingModal";
 
 const UserButton: React.FC = () => {
