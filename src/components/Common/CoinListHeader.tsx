@@ -7,8 +7,8 @@ interface CoinListHeaderProps {
     title?: string;
     options: string[];
     onOptionChange: (value: string) => void;
-    viewType: "card" | "list";
-    onTypeChange: () => void;
+    viewType: "GRID" | "LIST";
+    onTypeChange: (viewType : "GRID" | "LIST") => void;
     marginBottom: string
 }
 
