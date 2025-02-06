@@ -5,7 +5,21 @@ import { chatInfo } from "./communityTypes.ts";
 
 type ChatContentProps = chatInfo & {profileImgSrc? : string};
 
-const ChatContent : React.FC<ChatContentProps> = ({nickname, createdAt, message, likes, profileImgSrc}) => (
+const ChatContent : React.FC<ChatContentProps> = ({id, nickname, created_at, message, likes, profileImgSrc}) => {
+    const createdDate = new Date(created_at);
+    const currentDate = new Date();
+    const createdTime = createdDate.getTime();
+    const currentTime = currentDate.getTime();
+    const time = currentTime - createdTime < 60000 ?
+            "방금"
+            :
+            currentTime - createdTime < 3600000 ?
+                `${Math.floor((currentTime - createdTime) / 60000)}분 전`
+                : currentTime - createdTime < 86400000
+                ? `${Math.floor((currentTime - createdTime) / 3600000)}시간 전`
+                
+                : `${Math.floor((currentTime - createdTime) / 86400000)}일 전`;
+    return (
     <CommentContainer>
         {profileImgSrc
             ?<ProfileImg></ProfileImg>
@@ -13,7 +27,7 @@ const ChatContent : React.FC<ChatContentProps> = ({nickname, createdAt, message,
         <TextContainer>
             <Header>
                 <Author>{nickname}</Author>
-                <Time>{createdAt}</Time>
+                <Time>{time}</Time>
             </Header>
             <Content>{message}</Content>
             <LikeButton>
@@ -22,7 +36,9 @@ const ChatContent : React.FC<ChatContentProps> = ({nickname, createdAt, message,
             </LikeButton>
         </TextContainer>
     </CommentContainer>
-);
+    );
+    
+};
 
 export default ChatContent;
 

@@ -4,7 +4,7 @@ export type chatInfo = {
     memeCoin: string;
     nickname: string;
     likes: number;
-    createdAt: string;
+    created_at: string;
 };
 
 export type coinInfo = {
