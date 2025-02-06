@@ -7,14 +7,14 @@ import ContentHeader from "../components/Common/ContentHeader";
 import dummyData from "../data/coinCardDummy.json";
 
 const CoinCollection = () => {
-  const [viewType, setViewType] = useState<"card" | "list">("card");
+  const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = viewType == "card" ? 9 : 20;
+  const itemsPerPage = viewType == "GRID" ? 9 : 20;
   const totalItems = dummyData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleViewTypeChange = () => {
-    setViewType(viewType === "card" ? "list" : "card");
+    setViewType(viewType === "GRID" ? "LIST" : "GRID");
     setCurrentPage(1);
   };
 
@@ -26,10 +26,14 @@ const CoinCollection = () => {
 
   return (
     <Container>
+<<<<<<< HEAD
       <ContentHeader
         title="컬렉션"
         description="관심있는 밈 코인을 모아보세요."
       />
+=======
+      <ContentHeader title="컬렉션" description="관심있는 밈 코인을 모아보세요." />
+>>>>>>> 09326df7d244277dee04d6f2eefb741813867637
       <CoinListHeader
         options={selectOption}
         onOptionChange={onChangeOption}
@@ -48,7 +52,6 @@ const CoinCollection = () => {
         currentPage={currentPage}
         updateCurrentPage={setCurrentPage}
         totalPages={totalPages}
-        limit={itemsPerPage}
       ></PageSelector>
     </Container>
   );
@@ -63,4 +66,8 @@ const Container = styled.div`
   padding: 1.938rem 12.24vw 4.5rem 12.24vw;
   width: 100%;
   height: fit-content;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 09326df7d244277dee04d6f2eefb741813867637

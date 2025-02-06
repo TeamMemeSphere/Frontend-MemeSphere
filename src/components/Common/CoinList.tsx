@@ -3,12 +3,12 @@ import CoinCard from "./CoinCard";
 import CoinRow from "./CoinRow";
 import { Coin } from "./CoinCard";
 
-const CoinList: React.FC<{ coins: Coin[], viewType: "card" | "list" }> = ({ coins, viewType }) => {
+const CoinList: React.FC<{ coins: Coin[], viewType: "GRID" | "LIST" }> = ({ coins, viewType }) => {
 
     return (
         <Container>
             {
-                viewType === "card" ?
+                viewType === "GRID" ?
                     <CardList>
                         {
                             coins.map((coin, index) => {
@@ -17,7 +17,8 @@ const CoinList: React.FC<{ coins: Coin[], viewType: "card" | "list" }> = ({ coin
                                         key={index}
                                         coinId={coin.coinId}
                                         name={coin.name}
-                                        symbol={coin.symbol}
+                                        image={coin.image}
+                                        symbol={`${coin.symbol}USDT`}
                                         currentPrice={coin.currentPrice}
                                         highPrice={coin.highPrice}
                                         lowPrice={coin.lowPrice}
@@ -78,7 +79,7 @@ const Container = styled.div`
 const CardList = styled.div`
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 17.708vw));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 17.708vw));
     height: fit-content;
     place-items: center;
     gap: 39px 1.875rem;
@@ -89,7 +90,7 @@ const RowList = styled.div`
     width: 100%;
 `
 
-const RowHeader = styled.div`
+export const RowHeader = styled.div`
     box-sizing: border-box;
     padding: 15px 2.778vw;
     border-radius: 20px;
@@ -108,7 +109,8 @@ interface RowHeaderItemProps {
 const RowHeaderItem = styled.span<RowHeaderItemProps>`
     font-size: var(--font-size-body);
     font-weight: var(--font-weight-bold);
-    width: ${(props) => props.$width};
+    /* width: ${(props) => props.$width}; */
+    width: 100%;
     justify-self: center;
     text-align: center;
 `
