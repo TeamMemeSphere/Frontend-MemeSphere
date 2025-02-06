@@ -34,7 +34,11 @@ const NotificationDummy : notificationType[]= [
     }
 ];
 
-const NotificationHistory : React.FC = () => {
+type NotificationHistoryProps = {
+    closeModal : () => void;
+}
+
+const NotificationHistory : React.FC<NotificationHistoryProps> = ({closeModal}) => {
     const [historyList, setHistoryList] = useState(NotificationDummy);
 
     const deleteHistory = (id : number) =>{
@@ -47,6 +51,7 @@ const NotificationHistory : React.FC = () => {
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
         {historyList.map((notificiation)=>
             <AlertHistoryBox key={notificiation.id} deleteHistory={deleteHistory}
+            closeModal={closeModal}
             {...notificiation}/>
         )}
     </Container>;

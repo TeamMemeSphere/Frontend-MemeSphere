@@ -71,8 +71,6 @@ const UnderContainer = styled.div`
   }
 `;
 
-<<<<<<< HEAD
-=======
 // 대시보드와 동일한 레이아웃 적용 시
 // const Container = styled.div`
 //   box-sizing: border-box;
@@ -82,7 +80,6 @@ const UnderContainer = styled.div`
 //   width: 100%;
 //   height: fit-content;
 // `
->>>>>>> develop
 
 const DashBoardUpper = styled.div`
 
