@@ -2,7 +2,7 @@
   {
     "coinId": 1,
     "name": "DOGE",
-    "symbol": "DOGEUSDT",
+    "symbol": "DOGE",
     "currentPrice": 4634,
     "highPrice": 4891,
     "lowPrice": 4213,
@@ -15,7 +15,7 @@
   {
     "coinId": 2,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -27,7 +27,7 @@
   {
     "coinId": 3,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -39,7 +39,7 @@
   {
     "coinId": 4,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -51,7 +51,7 @@
   {
     "coinId": 5,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -63,7 +63,7 @@
   {
     "coinId": 6,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -75,7 +75,7 @@
   {
     "coinId": 7,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -87,7 +87,7 @@
   {
     "coinId": 8,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -99,7 +99,7 @@
   {
     "coinId": 9,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -111,7 +111,7 @@
   {
     "coinId": 10,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -123,7 +123,7 @@
   {
     "coinId": 11,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -135,7 +135,7 @@
   {
     "coinId": 12,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -147,7 +147,7 @@
   {
     "coinId": 13,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -159,7 +159,7 @@
   {
     "coinId": 14,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -171,7 +171,7 @@
   {
     "coinId": 15,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -183,7 +183,7 @@
   {
     "coinId": 16,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -195,7 +195,7 @@
   {
     "coinId": 17,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -207,7 +207,7 @@
   {
     "coinId": 18,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -219,7 +219,7 @@
   {
     "coinId": 19,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -231,7 +231,7 @@
   {
     "coinId": 20,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -243,7 +243,7 @@
   {
     "coinId": 21,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -255,7 +255,7 @@
   {
     "coinId": 22,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -267,7 +267,7 @@
   {
     "coinId": 23,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -279,7 +279,7 @@
   {
     "coinId": 24,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,
@@ -291,7 +291,7 @@
   {
     "coinId": 25,
     "name": "PEPE",
-    "symbol": "PEPEUSDT",
+    "symbol": "PEPE",
     "currentPrice": 2413,
     "highPrice": 2491,
     "lowPrice": 2123,
@@ -303,7 +303,7 @@
   {
     "coinId": 26,
     "name": "BONK",
-    "symbol": "BONKUSDT",
+    "symbol": "BONK",
     "currentPrice": 4212,
     "highPrice": 4291,
     "lowPrice": 4123,

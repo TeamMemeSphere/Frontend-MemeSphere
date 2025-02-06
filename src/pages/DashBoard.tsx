@@ -44,8 +44,7 @@ const DashBoard = () => {
         <PageSelector
           currentPage={currentPage}
           updateCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-          limit={itemsPerPage}>
+          totalPages={totalPages}>
         </PageSelector>
       </DashBoardUpper>
     </Container>
