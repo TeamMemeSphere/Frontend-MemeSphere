@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
     DASHBOARD_OVERVIEW: `${BASE_URL}/dashboard/overview`,
     DASHBOARD_CHART: `${BASE_URL}/dashboard/chart`,
     COIN_DETAIL: (memeId: number) => `${BASE_URL}/detail/${memeId}`,
-    CHATTING: `${BASE_URL}/latest/{coin_id}`,
+    CHATTING: (coinId: number) => `${BASE_URL}/latest/${coinId}`,
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
     ALARM_MODIFY: (notificaionId: string) => `${BASE_URL}/notification/${notificaionId}`,
     ALARM_LIST: `${BASE_URL}/notification/list`,
@@ -19,3 +19,4 @@ export const API_ENDPOINTS = {
 };
 
 console.log("api 기본 주소:", BASE_URL);
+
