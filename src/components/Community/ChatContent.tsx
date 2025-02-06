@@ -1,32 +1,44 @@
 import styled from "styled-components";
 import DefaultProfile from "./DefaultProfile";
 import * as S from "./../../styles/Typography.ts";
+import { chatInfo } from "./communityTypes.ts";
 
-type ChatContentProps = {
-    author : string,
-    time : string,
-    content : string,
-    like : number,
-    profileImgSrc? : string
-};
-const ChatContent : React.FC<ChatContentProps> = ({author, time, content, like, profileImgSrc}) => (
+type ChatContentProps = chatInfo & {profileImgSrc? : string};
+
+const ChatContent : React.FC<ChatContentProps> = ({id, nickname, created_at, message, likes, profileImgSrc}) => {
+    const createdDate = new Date(created_at);
+    const currentDate = new Date();
+    const createdTime = createdDate.getTime();
+    const currentTime = currentDate.getTime();
+    const time = currentTime - createdTime < 60000 ?
+            "방금"
+            :
+            currentTime - createdTime < 3600000 ?
+                `${Math.floor((currentTime - createdTime) / 60000)}분 전`
+                : currentTime - createdTime < 86400000
+                ? `${Math.floor((currentTime - createdTime) / 3600000)}시간 전`
+                
+                : `${Math.floor((currentTime - createdTime) / 86400000)}일 전`;
+    return (
     <CommentContainer>
         {profileImgSrc
             ?<ProfileImg></ProfileImg>
             :<DefaultProfile></DefaultProfile>}
         <TextContainer>
             <Header>
-                <Author>{author}</Author>
+                <Author>{nickname}</Author>
                 <Time>{time}</Time>
             </Header>
-            <Content>{content}</Content>
+            <Content>{message}</Content>
             <LikeButton>
                 <LikeImg src="public/assets/Community/LikeIcon.svg"></LikeImg>
-                <LikeText>{like}</LikeText>
+                <LikeText>{likes}</LikeText>
             </LikeButton>
         </TextContainer>
     </CommentContainer>
-);
+    );
+    
+};
 
 export default ChatContent;
 

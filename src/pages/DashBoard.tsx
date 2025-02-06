@@ -59,7 +59,7 @@ export default DashBoard;
 
 const UpperContainer = styled.div `
   margin: auto;
-`;
+`; 
 
 const UnderContainer = styled.div`
   margin: auto;
@@ -70,6 +70,16 @@ const UnderContainer = styled.div`
     padding: 1.938rem 0 4.5rem 0;
   }
 `;
+
+// 대시보드와 동일한 레이아웃 적용 시
+// const Container = styled.div`
+//   box-sizing: border-box;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 1.938rem 12.24vw 4.5rem 12.24vw;
+//   width: 100%;
+//   height: fit-content;
+// `
 
 const DashBoardUpper = styled.div`
 

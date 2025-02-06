@@ -3,49 +3,72 @@ import NewsCards from "../components/Community/NewsCards.tsx";
 import CoinTalk from "../components/Community/CoinTalk.tsx";
 import ContentHeader from "../components/Common/ContentHeader.tsx";
 import styled from "styled-components";
-import * as S from "./../styles/Typography.ts";
+import { useState, useEffect, useRef } from "react";
 import { chatInfo, coinInfo } from "../components/Community/communityTypes.ts";
+import SkeletonCoinChat from "../components/Community/SkeletonCoinChat.tsx";
+import axios from "axios";
+import { useQueries, useInfiniteQuery } from "@tanstack/react-query";
+import { API_ENDPOINTS } from "../components/Constants/api.ts";
+
+const fetchCoinData = async (id: number) : Promise<coinInfo | undefined> => {
+  try{
+    const coinResponse = await axios.get(API_ENDPOINTS.COIN_DETAIL(id));
+    if (coinResponse.status === 200 && coinResponse.data){
+      return coinResponse.data;
+    }
+  } catch (error) {
+    if(axios.isAxiosError(error) && error.response){
+      const {status, data} = error.response;
+
+      if (status === 404) {
+        console.warn(`No data found for ID ${id}`);
+        return undefined;
+      }
+      console.error(`Error fetching data for ID ${id}:`, error);
+    }
+    return undefined;
+  }
+};
 
 const Community = () => {
-  const chatData: chatInfo[] = [
-    {
-      author: "코인하는 다람쥐",
-      time: "8시간 전",
-      content:
-        "도지코인 1달러 진입은 이번 사이클에 충분히 가능하지 않을까요?\n일론머스크의 X나 테슬라 자동차 구매용으로 사용할 수도 있을 것 같고...",
-      like: 25,
-    },
-    {
-      author: "낭만자객",
-      time: "8시간 전",
-      content:
-        "페페가 시바이누를 추월할 것 같은 느낌\n페페 0.0307 시바 0.0338 빗썸에서의 가격입니다. 조만간 역전할 것 같은 느낌입니다. 시바는 몇번 상승할 순간마다 번번히 좌절을 맛보았죠.",
-      like: 25,
-    },
-  ];
 
-  const coinData: coinInfo[] = [
-    {
-      id: 1,
-      name: "도지코인",
-      symbol: "DOGE",
-      imgSrc: "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
-      chatInfo: chatData[0],
+  const queries = useQueries({queries: [1,2,3,4,5,6].map((id)=>({
+    queryKey: ["coinData", id],
+    queryFn: () => fetchCoinData(id),
+  }))
+});
+  
+  const {
+    data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError,
+  } = useInfiniteQuery({
+    queryKey: ["coinData","infinite"],
+    queryFn: ({pageParam = 7}) => fetchCoinData(pageParam),
+    initialPageParam: 7,
+    getNextPageParam: (lastPage, pages) => {
+      if(!lastPage){
+        return undefined;
+      };
+      return lastPage.isSuccess === false ? undefined : pages.length + 7;
+
     },
-    {
-      id: 2,
-      name: "페페",
-      symbol: "PEPE",
-      imgSrc: "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
-      chatInfo: chatData[1],
+  });
+
+  const observerRef = useRef(null);
+
+  useEffect(()=> {
+    if(!observerRef.current || !hasNextPage) return;
+
+    const observer = new IntersectionObserver((entries)=> {
+      if(entries[0].isIntersecting && hasNextPage && !isFetchingNextPage){
+        fetchNextPage();
+      }
     },
-    {
-      id: 3,
-      name: "봉크",
-      symbol: "BONK",
-      imgSrc: "https://newsimg.sedaily.com/2024/04/25/2D81TKWA1A_1.jpg",
-    },
-  ];
+    {threshold: 1.0});
+
+    observer.observe(observerRef.current);
+    return () => observer.disconnect();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
 
   return (
     <Container>
@@ -58,17 +81,32 @@ const Community = () => {
           <FearGreedIndex />
           <NewsCards />
         </LeftSide>
-        <RightSide>
-          {coinData.map((coin) => (
-            <CoinTalk
-              key={coin.id}
-              id={coin.id}
-              name={coin.name}
-              symbol={coin.symbol}
-              imgSrc={coin.imgSrc}
-              chatInfo={coin.chatInfo}
-            />
-          ))}
+        <RightSide>{queries.map((query, index)=>(
+          <div key={index}>
+            {query.isLoading ? (<SkeletonCoinChat/>)
+            : query.isError ? (<p>Error loading data</p>)
+            : !query.data ? (<p>no data...</p>)
+            : (<CoinTalk 
+                key={query.data.result.id}
+                id={query.data.result.id}
+                name={query.data.result.name}
+                symbol={query.data.result.symbol}
+                image={query.data.result.image}
+            />)}
+          </div>
+        ))}
+          {
+          data?.pages.flat().map((query)=>
+            query?.result ? (<CoinTalk 
+                key={query.result.id}
+                id={query.result.id} 
+                name={query.result.name}
+                symbol={query.result.symbol}
+                image={query.result.image}
+            />)
+          : null)}
+            <div ref={observerRef}/>
+            {isFetchingNextPage && hasNextPage && <SkeletonCoinChat/>}
         </RightSide>
       </Content>
     </Container>
