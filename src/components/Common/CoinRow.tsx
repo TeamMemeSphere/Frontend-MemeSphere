@@ -19,7 +19,7 @@ const CoinRow = ({
             <Text $width="3.472vw">&#36;{currentPrice.toLocaleString()}</Text>
             <Text $width="7.292vw">{priceChangeRate}%</Text> 
             <Text $width="6.25vw">&#36;{marketCap?.toLocaleString()}</Text>
-            <Text $width="6.25vw">{volume?.toLocaleString()}</Text>
+            <Text $width="6.25vw">&#36;{volume?.toLocaleString()}</Text>
             <Text $width="3.75vw">
                 {
                     isCollected ? 
@@ -52,6 +52,7 @@ interface TextProps {
 }
 
 const Text = styled.div<TextProps>`
-    width: ${(props) => props.$width};
+    /* width: ${(props) => props.$width}; */
+    width: 100%;
     text-align: center;
 `;

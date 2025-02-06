@@ -4,7 +4,6 @@ import { useEffect } from "react";
 interface PageSelectorProps {
     currentPage: number;
     totalPages: number;
-    limit: number;
     updateCurrentPage: (page: number) => void;
 }
 
