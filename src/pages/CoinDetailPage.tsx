@@ -10,6 +10,7 @@ import arrow from "../../public/assets/DetailPage/arrow.svg";
 
 const CoinDetailPage = () => {
   const coin = coinDummy[0];
+
   return (
     <Wrapper>
       <TitleLayout>
@@ -25,7 +26,19 @@ const CoinDetailPage = () => {
         </LeftColumn>
 
         <RightColumn>
-          <ChartCard />
+          <ChartCard
+            name={coin.korean_name}
+            symbol={coin.market}
+            tradePrice={coin.tradePrice}
+            highPrice={coin.highPrice}
+            lowPrice={coin.lowPrice}
+            change={coin.change}
+            changePrice={coin.changePrice}
+            changeRate={coin.changeRate}
+            isCollected={coin.isCollected}
+            marketCap={coin.marketCap}
+            volume={coin.volume}
+          />
           <TradingCard />
         </RightColumn>
       </GridWrapper>
@@ -35,7 +48,6 @@ const CoinDetailPage = () => {
 
 export default CoinDetailPage;
 
-// TODO: 그리드 레이아웃 간격, 비율 등 수정 필요
 const Wrapper = styled.div`
   margin-left: 11.25rem;
   margin-right: 11.25rem;
