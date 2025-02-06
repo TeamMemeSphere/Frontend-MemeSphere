@@ -26,12 +26,13 @@ export const useTrendList = () => {
     const fetchTrendList = async () => {
       try {
         const response = await axios.get<{ result: { trendList: MemeCoin[] } }>(API_ENDPOINTS.DASHBOARD_TREND);
+        console.error("트렌드 api 결과:", response.data);
 
         if (response.data.result?.trendList) {
           const rankedList = response.data.result.trendList.slice(0, 5).map((coin, index) => ({
             ...coin,
             rank: index + 1,
-            rankChange: Math.random() > 0.5 ? "RISE" : "LOW" as const, // 수정
+            rankChange: Math.random() > 0.5 ? "RISE" as const : "LOW" as const, // 수정
           }));
           setTrendList(rankedList);
         } else {

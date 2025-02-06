@@ -26,14 +26,10 @@ const CoinCollection = () => {
 
   return (
     <Container>
-<<<<<<< HEAD
       <ContentHeader
         title="컬렉션"
         description="관심있는 밈 코인을 모아보세요."
       />
-=======
-      <ContentHeader title="컬렉션" description="관심있는 밈 코인을 모아보세요." />
->>>>>>> 09326df7d244277dee04d6f2eefb741813867637
       <CoinListHeader
         options={selectOption}
         onOptionChange={onChangeOption}
@@ -66,8 +62,4 @@ const Container = styled.div`
   padding: 1.938rem 12.24vw 4.5rem 12.24vw;
   width: 100%;
   height: fit-content;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 09326df7d244277dee04d6f2eefb741813867637
