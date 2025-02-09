@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { API_ENDPOINTS } from "../../../api/api";
 
-type Field = "email" | "password" | "passwordConfirm" | "profile" | "nickname" | "birthDate" ;
+type Field = "email" | "password" | "passwordConfirm" | "profile" | "nickName" | "birthDate" ;
 
 interface ValidationState {
   value: string;
@@ -54,14 +54,14 @@ export const useFormValidation = (messages?: ValidationMessages) => {
   };
 
   // 닉네임: 공백이면 안됨
-  const validateNickname = (nickname: string): string => {
-    if (nickname.trim().length === 0){
+  const validateNickname = (nickName: string): string => {
+    if (nickName.trim().length === 0){
       return messages?.nicknameInvalid || "닉네임을 입력해주세요." ;
     }
     return "";
   };
   // 닉네임: 중복 확인 (비동기)
-  const checkNicknameAvailability = async () => {
+  const checknicknameAvailability = async () => {
     console.log(`닉네임 중복 확인 요청: ${nickname.value}`);
 
     if (!nickname.value.trim()) {
@@ -127,7 +127,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
       setPasswordConfirm({ ...passwordConfirm, error });
     } else if (field === "profile") {
       setProfile({...profile, error: "" });
-    } else if (field === "nickname") {
+    } else if (field === "nickName") {
       const error = validateNickname(nickname.value);
       setNickname({ ...nickname, error });
     } else if (field === "birthDate") {
@@ -148,7 +148,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
       setPasswordConfirm({ ...passwordConfirm, value, error });
     } else if (field === "profile") {
       setProfile({...profile, value});
-    } else if (field === "nickname") {
+    } else if (field === "nickName") {
       const error = validateNickname(value);
       setNickname({ ...nickname, value, error });
       setNicknameCheckMessage("");
@@ -166,7 +166,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
     nickname,
     setNickname,
     nicknameCheckMessage,
-    checkNicknameAvailability,
+    checknicknameAvailability,
     isNicknameChecked,
     setIsNicknameChecked,
     birthDate,
