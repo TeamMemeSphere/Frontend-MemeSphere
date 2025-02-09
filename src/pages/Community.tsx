@@ -8,7 +8,7 @@ import { chatInfo, coinInfo } from "../components/Community/communityTypes.ts";
 import SkeletonCoinChat from "../components/Community/SkeletonCoinChat.tsx";
 import axios from "axios";
 import { useQueries, useInfiniteQuery } from "@tanstack/react-query";
-import { API_ENDPOINTS } from "../components/Constants/api.ts";
+import { API_ENDPOINTS } from "../api/api.ts";
 
 const fetchCoinData = async (id: number) : Promise<coinInfo | undefined> => {
   try{
