@@ -2,6 +2,7 @@ import styled from "styled-components";
 import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import ToggleCollectionButton from "./ToggleCollectionButton";
 
 export interface Coin {
   coinId: number;
@@ -13,12 +14,13 @@ export interface Coin {
   lowPrice: number;
   priceChange: number;
   priceChangeRate: number;
-  isCollected?: boolean;
+  isCollected: boolean;
   marketCap?: number;
   volume?: number;
 }
 
 const CoinCard = ({
+  coinId,
   name,
   symbol,
   image,
@@ -50,7 +52,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection to={"/CoinDetailPage"}>
+      <HeaderSection to={"/CoinDetailPage"} onClick={(e) => e.stopPropagation()}>
         <ThumbnailWrapper>
           <Thumbnail
             src={`${image}`}
@@ -61,14 +63,15 @@ const CoinCard = ({
           {name} / {symbol}
         </NameWrapper>
         <StarIcon>
-          {isCollected ? (
+          {/* {isCollected ? (
             <Icon
               src="assets/common/collect-star-fill.svg"
               alt="star-fill"
             ></Icon>
           ) : (
             <Icon src="assets/common/collect-star.svg" alt="star"></Icon>
-          )}
+          )} */}
+          <ToggleCollectionButton coinId={coinId} isCollected={isCollected} />
         </StarIcon>
       </HeaderSection>
       <PriceInfoSection>
