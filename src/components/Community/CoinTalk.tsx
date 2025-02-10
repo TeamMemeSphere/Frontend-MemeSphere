@@ -5,7 +5,7 @@ import ChatContent from "./ChatContent.tsx";
 import { coinInfo, chatInfo } from "./communityTypes.ts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { API_ENDPOINTS } from "../Constants/api.ts";
+import { API_ENDPOINTS } from "../../api/api.ts";
 
 const fetchChatData = async (id: number) : Promise<chatInfo | undefined> => {
     try{

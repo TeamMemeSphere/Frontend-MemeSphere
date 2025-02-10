@@ -39,13 +39,13 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      if (!useDefaultImage && profileImage) {
-        formData.append("profile", profileImage);
-      }
+      // if (!useDefaultImage && profileImage) {
+      //   formData.append("profile", profileImage);
+      // }
       formData.append("nickname", nickname.value);
       formData.append("birth", birthDate.value);
       
-      console.log("📡 백엔드로 보낼 데이터:");
+      console.log("백엔드로 보낼 데이터:");
       for (const pair of formData.entries()) {
         console.log(`${pair[0]}:`, pair[1]);
       }
