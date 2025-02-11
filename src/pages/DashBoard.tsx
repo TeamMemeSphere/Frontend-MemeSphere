@@ -59,7 +59,7 @@ export default DashBoard;
 
 const UpperContainer = styled.div `
   margin: auto;
-`;
+`; 
 
 const UnderContainer = styled.div`
   margin: auto;
