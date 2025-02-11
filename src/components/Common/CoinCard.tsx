@@ -29,7 +29,6 @@ const CoinCard = ({
   priceChangeRate,
   isCollected,
 }: Coin) => {
-
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
 
@@ -52,10 +51,7 @@ const CoinCard = ({
     <Container>
       <HeaderSection to={"/CoinDetailPage"}>
         <ThumbnailWrapper>
-          <Thumbnail
-            src={`${image}`}
-            alt="thumbnail"
-          ></Thumbnail>
+          <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
         <NameWrapper>
           {name} / {symbol}
@@ -89,19 +85,28 @@ const CoinCard = ({
         <CurrentSection>
           <CurrentPrice>&#36; {currentPrice.toLocaleString()}</CurrentPrice>
           <CurrentPriceChange $change={change}>
-            {change === "EVEN" ? "⏤" : (
+            {change === "EVEN" ? (
+              "⏤"
+            ) : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
                 &nbsp;{priceChange.toLocaleString()}
                 &nbsp;({priceChangeRate.toLocaleString()}%)
               </>
-            )
-            }
+            )}
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart width={chartSectionWidth} symbol={symbol}/>
+        <CoinCardChart
+          width={chartSectionWidth}
+          symbol={symbol}
+          chartOptions={{
+            disableInteraction: true,
+            showXAxisTicks: false,
+            zoomEnabled: false,
+          }}
+        />
       </ChartSection>
     </Container>
   );

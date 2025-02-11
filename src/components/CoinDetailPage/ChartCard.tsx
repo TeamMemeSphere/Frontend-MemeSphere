@@ -110,7 +110,15 @@ const ChartCard = ({
           </PriceInfoContainer>
         </FlexLayout>
         <ChartSection ref={chartSectionRef}>
-          <CoinCardChart width={chartSectionWidth} symbol={symbol} />
+          <CoinCardChart
+          width={chartSectionWidth}
+          symbol={symbol}
+          chartOptions={{
+            disableInteraction: false,
+            showXAxisTicks: true,
+            zoomEnabled: true,
+          }}
+        />
         </ChartSection>
       </CardLayout>
     </>
