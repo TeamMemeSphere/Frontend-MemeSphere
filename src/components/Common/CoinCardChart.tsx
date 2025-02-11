@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetchCoin } from "../../hooks/common/useFetchCoin";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -12,12 +12,9 @@ import {
   CrossHairCursor,
   discontinuousTimeScaleProvider,
 } from "react-financial-charts";
-import { timeFormat } from "d3-time-format";
-import { format } from "d3-format";
 import styled from "styled-components";
 
 interface CoinCardChartProps {
-  width: number;
   symbol: string;
   chartOptions?: {
     height?: number;
@@ -28,12 +25,10 @@ interface CoinCardChartProps {
   };
 }
 
-const CoinCardChart = ({
-  width,
-  symbol,
-  chartOptions = {},
-}: CoinCardChartProps) => {
-  // Props를 통해 전달된 옵션을 설정
+const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
   const {
     height = 241,
     margin = { left: 0, right: 0, top: 0, bottom: 30 },
@@ -57,8 +52,26 @@ const CoinCardChart = ({
   } = useQuery({
     queryKey: ["candlestickData", symbol, interval],
     queryFn: () => getCandlestickData(symbol, interval),
-    refetchInterval: 1000 * 60, // 1분마다 데이터 갱신
+    refetchInterval: 1000 * 60,
   });
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    // 초기 렌더링 시 너비 설정
+    updateWidth();
+
+    // 창 크기 변경 시 너비 업데이트
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
@@ -73,12 +86,8 @@ const CoinCardChart = ({
   const max = xAccessor(data[data.length - 1]);
   const xExtents = [max - 17, max + 3];
 
-  const dateTimeFormat = "%I:%M";
-  const timeDisplayFormat = timeFormat(dateTimeFormat);
-  const pricesDisplayFormat = format(".4f");
-
   return (
-    <>
+    <ChartContainer ref={containerRef}>
       <IntervalWrapper>
         <IntervalButton
           $isActive={interval === "1h"}
@@ -105,56 +114,62 @@ const CoinCardChart = ({
           1W
         </IntervalButton>
       </IntervalWrapper>
-      <ChartCanvas
-        height={height} // Props로 전달된 차트 높이
-        width={width}
-        ratio={3}
-        margin={margin} // Props로 전달된 여백 설정
-        seriesName="Data"
-        data={data}
-        xScale={xScale}
-        xAccessor={xAccessor}
-        displayXAccessor={displayXAccessor}
-        xExtents={xExtents}
-        zoomAnchor={() => 0}
-        disableInteraction={disableInteraction} // Props로 상호작용 설정
-      >
-        <Chart id={1} yExtents={(d) => [d.high, d.low]}>
-          <XAxis
-            tickLabelFill={"#ffffff4d"}
-            fontFamily="Pretendard"
-            fontWeight={400}
-            strokeStyle="#fff"
-            innerTickSize={10}
-            showTicks={showXAxisTicks} // Props로 눈금 표시 여부 설정
-            ticks={4}
-            zoomEnabled={zoomEnabled} // Props로 줌 활성화 설정
-          />
-          <YAxis
-            strokeStyle="#fff"
-            tickLabelFill={"#fff"}
-            showGridLines={true}
-            gridLinesStrokeStyle={"rgba(255, 255, 255, 0.10)"}
-            gridLinesStrokeWidth={1}
-            ticks={6}
-            zoomEnabled={zoomEnabled} // Props로 줌 활성화 설정
-            tickFormat={(d) => d.toFixed(4)}
-          />
-          <CandlestickSeries
-            fill={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
-            wickStroke={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
-            clip={false}
-          />
-          <MouseCoordinateX displayFormat={timeDisplayFormat} />
-          <MouseCoordinateY displayFormat={pricesDisplayFormat} />
-        </Chart>
-        <CrossHairCursor />
-      </ChartCanvas>
-    </>
+      {width > 0 && (
+        <ChartCanvas
+          height={height}
+          width={width} // 부모 컴포넌트의 너비를 동적으로 전달
+          ratio={3}
+          margin={margin}
+          seriesName="Data"
+          data={data}
+          xScale={xScale}
+          xAccessor={xAccessor}
+          displayXAccessor={displayXAccessor}
+          xExtents={xExtents}
+          zoomAnchor={() => 0}
+          disableInteraction={disableInteraction}
+        >
+          <Chart id={1} yExtents={(d) => [d.high, d.low]}>
+            <XAxis
+              tickLabelFill={"#ffffff4d"}
+              fontFamily="Pretendard"
+              fontWeight={400}
+              strokeStyle="#fff"
+              innerTickSize={10}
+              showTicks={showXAxisTicks}
+              ticks={4}
+              zoomEnabled={zoomEnabled}
+            />
+            <YAxis
+              strokeStyle="#fff"
+              tickLabelFill={"#fff"}
+              showGridLines={true}
+              gridLinesStrokeStyle={"rgba(255, 255, 255, 0.10)"}
+              gridLinesStrokeWidth={1}
+              ticks={6}
+              zoomEnabled={zoomEnabled}
+              tickFormat={(d) => d.toFixed(4)}
+            />
+            <CandlestickSeries
+              fill={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
+              wickStroke={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
+              clip={false}
+            />
+            <MouseCoordinateX displayFormat={(d) => d.toTimeString()} />
+            <MouseCoordinateY displayFormat={(d) => d.toFixed(4)} />
+          </Chart>
+          <CrossHairCursor />
+        </ChartCanvas>
+      )}
+    </ChartContainer>
   );
 };
 
 export default CoinCardChart;
+
+const ChartContainer = styled.div`
+  width: 100%;
+`;
 
 const IntervalWrapper = styled.div`
   box-sizing: border-box;

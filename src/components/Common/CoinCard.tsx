@@ -49,7 +49,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection to={"/CoinDetailPage"}>
+      <HeaderSection to={`/CoinDetailPage/${name}`}>
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
