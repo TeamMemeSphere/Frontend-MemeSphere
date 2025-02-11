@@ -76,6 +76,13 @@ export const useFormValidation = (messages?: ValidationMessages) => {
         method: "POST",
         body: JSON.stringify({ nickName: nickname.value }),
       });
+
+      if (!response) {
+        setNicknameCheckMessage("닉네임 중복 확인 중 오류가 발생했습니다.");
+        setIsNicknameChecked(false);
+        return;
+      }
+
       const data = await response.json();
       console.log("백엔드 응답 데이터:", data);
 
