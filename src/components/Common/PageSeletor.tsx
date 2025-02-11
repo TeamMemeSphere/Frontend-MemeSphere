@@ -1,23 +1,31 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useFirstRender } from "../../hooks/common/useFirstRender";
 
 interface PageSelectorProps {
     currentPage: number;
     totalPages: number;
     updateCurrentPage: (page: number) => void;
+    coinListHeaderRef: React.RefObject<HTMLDivElement>;
 }
 
-const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelectorProps) => {
+const PageSelector = ({ currentPage, totalPages, updateCurrentPage, coinListHeaderRef }: PageSelectorProps) => {
+    
+    const isFirstRender = useFirstRender();
+
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, [currentPage]);
+        if (!isFirstRender) {
+            coinListHeaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+        console.log('useEffect');
+        console.log(currentPage);
+        console.log(isFirstRender);
+    }, [isFirstRender, currentPage]);
 
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         updateCurrentPage(page);
+        console.log(page);
     }
 
     if (totalPages <= 1) return null;

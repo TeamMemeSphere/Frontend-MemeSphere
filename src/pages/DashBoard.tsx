@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CoinList from "../components/Common/CoinList";
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import PageSelector from "../components/Common/PageSeletor";
 import CoinListHeader from "../components/Common/CoinListHeader";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { API_ENDPOINTS } from "../api/api";
 import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import useChangeSortType from "../hooks/common/useChangeSortType";
+import { useFirstRender } from "../../hooks/common/useFirstRender";
 //주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
 import axios from "axios";
@@ -46,6 +47,10 @@ const DashBoard = () => {
 
   console.log(data);
 
+  const isGridView = viewType === "GRID";
+
+  const CoinListHeaderRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <UpperContainer>
@@ -60,10 +65,11 @@ const DashBoard = () => {
             viewType={viewType}
             onTypeChange={setViewType}
             marginBottom="1.5rem"
+            ref={CoinListHeaderRef}
           >
           </CoinListHeader>
           {isLoading ?
-            (viewType === "GRID" ?
+            (isGridView ?
               <CoinCardListSkeleton></CoinCardListSkeleton>
               :
               <CoinRowListSkeleton></CoinRowListSkeleton>
@@ -72,15 +78,13 @@ const DashBoard = () => {
               <div>에러가 발생했습니다...</div>
               :
               <>
-                {viewType == "GRID" ? (
-                  <CoinList coins={data?.result?.gridItems} viewType={viewType}></CoinList>
-                ) : (
-                  <CoinList coins={data?.result?.listItems} viewType={viewType}></CoinList>
-                )}
+                <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
                 <PageSelector
                   currentPage={currentPage}
                   updateCurrentPage={setCurrentPage}
-                  totalPages={data.result.totalPage}>
+                  totalPages={data.result.totalPage}
+                  coinListHeaderRef={CoinListHeaderRef}
+                  >
                 </PageSelector>
               </>
           }

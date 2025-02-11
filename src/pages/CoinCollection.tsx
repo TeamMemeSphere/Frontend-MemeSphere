@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CoinList from "../components/common/CoinList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
 import CoinListHeader from "../components/common/CoinListHeader";
 import ContentHeader from "../components/Common/ContentHeader";
@@ -56,6 +56,10 @@ const CoinCollection = () => {
     )
   }
 
+  const isGridView = viewType === "GRID";
+
+  const CoinListHeaderRef = useRef<HTMLDivElement>(null);
+
   return (
     <Container>
       <ContentHeader
@@ -68,11 +72,12 @@ const CoinCollection = () => {
         viewType={viewType}
         onTypeChange={setViewType}
         marginBottom="0.813rem"
+        ref={CoinListHeaderRef}
       ></CoinListHeader>
       {
         isLoading ?
           (
-            viewType === "GRID" ?
+            isGridView ?
               <CoinCardListSkeleton></CoinCardListSkeleton>
               :
               <CoinRowListSkeleton></CoinRowListSkeleton>
@@ -91,6 +96,7 @@ const CoinCollection = () => {
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}
                 totalPages={data.result.totalPage}
+                coinListHeaderRef={CoinListHeaderRef}
               ></PageSelector>
             </>
       }

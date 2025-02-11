@@ -63,14 +63,6 @@ const CoinCard = ({
           {name} / {symbol}
         </NameWrapper>
         <StarIcon>
-          {/* {isCollected ? (
-            <Icon
-              src="assets/common/collect-star-fill.svg"
-              alt="star-fill"
-            ></Icon>
-          ) : (
-            <Icon src="assets/common/collect-star.svg" alt="star"></Icon>
-          )} */}
           <ToggleCollectionButton coinId={coinId} isCollected={isCollected} />
         </StarIcon>
       </HeaderSection>
@@ -104,7 +96,7 @@ const CoinCard = ({
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart width={chartSectionWidth} symbol={symbol}/>
+        <CoinCardChart width={chartSectionWidth} symbol={`${symbol}USDT`}/>
       </ChartSection>
     </Container>
   );

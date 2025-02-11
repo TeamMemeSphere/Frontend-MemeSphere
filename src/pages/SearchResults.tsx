@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CoinList from "../components/common/CoinList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
@@ -39,12 +39,16 @@ const SearchResults = () => {
   const noResult = () => {
     return (
       <NoResultWrapper>
-        <Icon src="/assets/SearchResults/search-magnifier-white.svg" $margin="0 0 2rem 0"/>
+        <Icon src="/assets/SearchResults/search-magnifier-white.svg" $margin="0 0 2rem 0" />
         <S.SubTitle1Typo>검색 결과가 없습니다.</S.SubTitle1Typo>
         <NoResultSubTitle>적용된 필터나 검색어를 변경해보세요.</NoResultSubTitle>
       </NoResultWrapper>
     )
   }
+
+  const isGridView = viewType === "GRID";
+
+  const CoinListHeaderRef = useRef<HTMLDivElement>(null);
 
   return (
     <Container>
@@ -59,10 +63,11 @@ const SearchResults = () => {
         viewType={viewType}
         onTypeChange={setViewType}
         marginBottom="0.81rem"
+        ref={CoinListHeaderRef}
       >
       </CoinListHeader>
       {isLoading ?
-        (viewType === "GRID" ?
+        (isGridView ?
           <CoinCardListSkeleton></CoinCardListSkeleton>
           :
           <CoinRowListSkeleton></CoinRowListSkeleton>
@@ -75,15 +80,12 @@ const SearchResults = () => {
             noResult()
             :
             <>
-              {viewType === "GRID" ?
-                <CoinList coins={data?.result?.gridItems} viewType={viewType}></CoinList>
-                :
-                <CoinList coins={data?.result?.listItems} viewType={viewType}></CoinList>
-              }
+              <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
               <PageSelector
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}
                 totalPages={data.result.totalPage}
+                coinListHeaderRef={CoinListHeaderRef}
               >
               </PageSelector>
             </>
