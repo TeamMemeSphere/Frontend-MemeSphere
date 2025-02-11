@@ -14,8 +14,8 @@ const TrendChartList: React.FC = () => {
                 <div key={data.coinId}>
                     <RankTrendChart>
                         <RankNumber>#{data.rank}</RankNumber>
-                        <RankChange $change={data.rankChange}>
-                            {data.rankChange === "EVEN" ? "-" : data.rankChange === "RISE" ? "▲" : "▼"}
+                        <RankChange>
+                            {data.rankChangeDirection === "up" ? "▲" : "▼"}
                         </RankChange>
                         <CoinImage src={data.image} alt={`${data.name} logo`} />
                         <CoinDetails>
@@ -25,9 +25,11 @@ const TrendChartList: React.FC = () => {
                             </CoinInfo>
                             <CoinPriceWrapper>
                                 <CurrentCoinPrice>${data.price.toFixed(2)}</CurrentCoinPrice>
-                                <PriceChange $change={data.changeDirection}>
-                                    {data.changeDirection === "zero" ? "-" : data.changeDirection === "up" ? "▲" : "▼"}
-                                    &nbsp;{data.changeAbsolute.toFixed(3)} ({data.changeRate?.toFixed(2) ?? "0.00"}%)
+                                <PriceChange $change={data?.priceChangeDirection}>
+                                    {data?.priceChangeDirection === "up" ? "▲" : "▼"}
+                                    &nbsp;
+                                    {(Number(data?.priceChangeAbsolute) || 0).toFixed(3)} 
+                                    ({(Number(data?.priceChangeRate) || 0).toFixed(2)}%)
                                 </PriceChange>
                             </CoinPriceWrapper>
                         </CoinDetails>
@@ -44,6 +46,7 @@ const TrendChartList: React.FC = () => {
 
 export default TrendChartList;
 
+// px -> rem 수정하기
 const Line = styled.img`
     position: absolute;
     margin: -1rem 1.625rem;
@@ -70,11 +73,7 @@ const RankNumber = styled.div`
     padding-right: 0.344rem;
 `;
 
-interface RankChangeProps {
-    $change: "RISE" | "LOW" | "EVEN";
-}
-
-const RankChange = styled.div<RankChangeProps>`
+const RankChange = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;

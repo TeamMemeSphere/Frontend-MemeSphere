@@ -102,6 +102,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 export default UserModal;
 
+// px -> rem 수정하기
 const ModalContent = styled.div`
   position: fixed;
   top: 50%;
