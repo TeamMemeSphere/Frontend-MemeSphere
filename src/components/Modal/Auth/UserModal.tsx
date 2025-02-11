@@ -11,27 +11,18 @@ import { useAuth } from "../../../hooks/common/useAuth";
 
 interface ModalProps {
   closeModal: () => void;
-  onLogin: () => void;
 }
 
-const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
+const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting">(isAuthenticated ? "greeting" : "login");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [email, setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
 
   useEffect(() => {
-    const openGreetingModal = () => setActiveTab("greeting");
-    window.addEventListener("openGreetingModal", openGreetingModal);
-    console.log("isAuthenticated 상태 변경됨:", isAuthenticated);
-    return () => window.removeEventListener("openGreetingModal", openGreetingModal);
-  }, []);
-
-  useEffect(() => {
-    console.log("isAuthenticated 상태 변경됨:", isAuthenticated);
-    setActiveTab(isAuthenticated ? "greeting" : "login");
+    if (isAuthenticated) {
+      setActiveTab("greeting");
+    }
   }, [isAuthenticated]);
 
   const handleOverlayClick = (e?: React.MouseEvent) => {
@@ -43,7 +34,9 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
 
   const handleClose = () => {
     closeModal();
-    setActiveTab("login");
+    if (!isAuthenticated) {
+      setActiveTab("login"); 
+    }
   };
 
   // 유저 모달창 열리면 스크롤 비활성화
@@ -77,10 +70,9 @@ const UserModal: React.FC<ModalProps> = ({ closeModal, onLogin }) => {
         <ContentContainer>
           {activeTab === "login" && (
                 <Login 
-                  onLogin={() => {
-                    onLogin();
-                    setActiveTab("greeting");
-                  }}
+                  onLogin={() => 
+                    setActiveTab("greeting")
+                  }
                 switchToSignup={() => setActiveTab("signup")} />
               )}
               {activeTab === "signup" && (

@@ -54,14 +54,14 @@ export const useFormValidation = (messages?: ValidationMessages) => {
   };
 
   // 닉네임: 공백이면 안됨
-  const validateNickname = (nickName: string): string => {
-    if (nickName.trim().length === 0){
+  const validateNickname = (nickname: string): string => {
+    if (nickname.trim().length === 0){
       return messages?.nicknameInvalid || "닉네임을 입력해주세요." ;
     }
     return "";
   };
   // 닉네임: 중복 확인 (비동기)
-  const checknicknameAvailability = async () => {
+  const checkNicknameAvailability = async () => {
     console.log(`닉네임 중복 확인 요청: ${nickname.value}`);
 
     if (!nickname.value.trim()) {
@@ -74,7 +74,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
           "Content-Type" : "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ nickname: nickname.value }),
+        body: JSON.stringify({ nickName: nickname.value }),
       });
       const data = await response.json();
       console.log("백엔드 응답 데이터:", data);
@@ -166,7 +166,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
     nickname,
     setNickname,
     nicknameCheckMessage,
-    checknicknameAvailability,
+    checkNicknameAvailability,
     isNicknameChecked,
     setIsNicknameChecked,
     birthDate,
