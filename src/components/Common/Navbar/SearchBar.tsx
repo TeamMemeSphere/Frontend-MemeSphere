@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import * as S from "../../../styles/Typography";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar: React.FC = () => {
@@ -21,12 +21,17 @@ const SearchBar: React.FC = () => {
     setKeyword(e.target.value);
   }
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (keyword.trim() === "") return;
+    const searchKeyword = keyword;
+    setKeyword("");
+    inputRef.current?.blur();
     navigate('/SearchResults', {
       replace: false,
-      state: { keyword: keyword }
+      state: { keyword: searchKeyword }
     });
   }
 
@@ -40,6 +45,7 @@ const SearchBar: React.FC = () => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
+        ref={inputRef}
       />
     </SearchBarWrapper>
     <SmallSearchIcon src="../../../../public/assets/common/navbar/Search small button.svg" alt="small search icon" />

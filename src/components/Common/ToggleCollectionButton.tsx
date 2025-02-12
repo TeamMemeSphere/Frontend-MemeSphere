@@ -27,6 +27,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
             }
           }
         )
+        console.log(response.data)
         return response.data;
       } else {
         const response = await axios.post(`${COLLECTION}/${coinId}`,
@@ -37,6 +38,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
             }
           }
         )
+        console.log(response.data)
         return response.data;
       }
     } catch (error) {
@@ -79,7 +81,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
   }
 
   return (
-    isCollected ?
+    isCollected && accessToken ?
       <Icon src="assets/common/collect-star-fill.svg" alt="star-fill" onClick={onToggle} /> 
       :
       <Icon src="assets/common/collect-star.svg" alt="star" onClick={onToggle}/>

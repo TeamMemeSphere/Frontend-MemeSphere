@@ -100,16 +100,6 @@ const UpperContainer = styled.div`
   margin: auto;
 `;
 
-// const UnderContainer = styled.div`
-//   margin: auto;
-//   gap: 1.736vw;
-//   padding: 1.938rem 12.5vw 4.5rem 12.5vw; 
-
-//   @media (max-width: 768px) {
-//     padding: 1.938rem 0 4.5rem 0;
-//   }
-// `;
-
 const UnderContainer = styled.div`
   box-sizing: border-box;
   display: flex;

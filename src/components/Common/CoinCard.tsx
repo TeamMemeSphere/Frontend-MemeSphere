@@ -63,7 +63,7 @@ const CoinCard = ({
           {name} / {symbol}
         </NameWrapper>
         <StarIcon>
-          <ToggleCollectionButton coinId={coinId} isCollected={isCollected} />
+          <ToggleCollectionButton coinId={coinId} isCollected={isCollected != null ? isCollected : true} />
         </StarIcon>
       </HeaderSection>
       <PriceInfoSection>

@@ -12,6 +12,7 @@ import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import * as S from "../styles/Typography";
 import { Icon } from "../components/common/Icon";
+import { Coin } from "../components/common/CoinCard";
 
 const CoinCollection = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -33,7 +34,6 @@ const CoinCollection = () => {
           },
         }
       )
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);

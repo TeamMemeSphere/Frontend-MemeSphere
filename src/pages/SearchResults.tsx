@@ -11,6 +11,7 @@ import useChangeSortType from "../hooks/common/useChangeSortType";
 import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import { Icon } from "../components/common/Icon";
+import { API_ENDPOINTS } from "../api/api.ts"
 
 const SearchResults = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -21,11 +22,28 @@ const SearchResults = () => {
   const location = useLocation();
   const searchKeyword = location?.state?.keyword || "";
 
+  const myStorage = window.localStorage;
+  const accessToken = myStorage.getItem("accessToken");
+
+  const { SEARCH } = API_ENDPOINTS;
+
   const getSearchResult = async () => {
     try {
-      const response = await axios.get(`http://15.164.103.195/search?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`);
-      console.log(response.data);
-      return response.data;
+      if (accessToken) {
+        const response = await axios.get(`${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        console.log(response.data);
+        return response.data;
+      } else {
+        const response = await axios.get(`${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`);
+        console.log(response.data);
+        return response.data;
+      }
     } catch (error) {
       console.error(error);
     }
