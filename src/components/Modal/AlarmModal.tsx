@@ -15,31 +15,31 @@ interface ModalProps {
 
 const NotificationDummy : notificationType[]= [
   {
-  id: 1,
+  notificationId: 1,
   name:"도지코인",
   symbol:"DOGE",
   volatility:30,
-  period:2,
-  direction:"RISE",
-  isAlertOn: "ON",
+  stTime:2,
+  isRising:true,
+  isOn: true,
   },
   {
-  id: 2,
+  notificationId: 2,
   name:"봉크",
   symbol:"BONK",
   volatility:3,
-  period:60,
-  direction:"RISE",
-  isAlertOn: "ON",
+  stTime:2,
+  isRising:true,
+  isOn: true,
   },
   {
-  id: 3,
+  notificationId: 3,
   name:"페페",
   symbol:"PEPE",
   volatility:3,
-  period:2,
-  direction:"FALL",
-  isAlertOn: "ON",
+  stTime:2,
+  isRising:true,
+  isOn: true,
   }
 ];
 
@@ -61,15 +61,15 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
     setNextId((prevId) => prevId + 1); // 다음 id값 증가
     setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
     setAlertCount((prev)=>prev+1);
-    } else {alert("알림은 최대 8개까지 설정가능합니다.");}
+    } else {alert("알림은 최대 8개까지 설정가능합니다.");} // 모달로 바꾸기
     
   };
 
   const toggleNotification = (id : number) => {
     setNotifications((prevNotifications)=>
         prevNotifications.map((notification)=>
-            notification.id === id
-                ? {...notification, isAlertOn: notification.isAlertOn === "ON" ? "OFF" : "ON" }
+            notification.notificationId === id
+                ? {...notification, isOn: notification.isOn === true ? false : true }
                 : notification
         )
     );
@@ -77,7 +77,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 const deleteNotification = (id : number) => {
     setNotifications((prevNotifications)=>
-            prevNotifications.filter((notification)=> notification.id !== id)
+            prevNotifications.filter((notification)=> notification.notificationId !== id)
     );
     setAlertCount((prev)=>prev-1);
 };
