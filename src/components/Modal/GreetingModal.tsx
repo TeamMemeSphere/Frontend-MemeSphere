@@ -10,6 +10,7 @@ interface GreetingModalProps {
 const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
   const { logout, nickName } = useAuth(); 
 
+
   const handleLogout = () => {
     logout();
     closeModal();
