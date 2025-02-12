@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ToggleCollectionButton from "./ToggleCollectionButton";
 
 export interface Coin {
@@ -37,6 +37,8 @@ const CoinCard = ({
 
   const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
@@ -52,7 +54,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection to={"/CoinDetailPage"} onClick={(e) => e.stopPropagation()}>
+      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage`); e.stopPropagation();}}>
         <ThumbnailWrapper>
           <Thumbnail
             src={`${image}`}
@@ -62,7 +64,7 @@ const CoinCard = ({
         <NameWrapper>
           {name} / {symbol}
         </NameWrapper>
-        <StarIcon>
+        <StarIcon onClick={(e) => e.stopPropagation()}>
           <ToggleCollectionButton coinId={coinId} isCollected={isCollected != null ? isCollected : true} />
         </StarIcon>
       </HeaderSection>
@@ -115,7 +117,7 @@ const Container = styled.div`
 `;
 
 // 헤더
-const HeaderSection = styled(NavLink)`
+const HeaderSection = styled.div`
   box-sizing: border-box;
   width: 100%;
   display: flex;

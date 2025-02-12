@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { Icon } from "./Icon";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../../hooks/common/useAuth";
+import { useEffect, useState } from "react";
+import LoginRequiredModal from "../Modal/LoginRequiredModal";
+import UserModal from "../Modal/Auth/UserModal";
 
 
 interface ToggleCollectionButtonProps {
@@ -12,12 +15,45 @@ interface ToggleCollectionButtonProps {
 }
 
 const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+
   const { COLLECTION } = API_ENDPOINTS
 
   const myStorage = window.localStorage;
   const accessToken = myStorage.getItem("accessToken")
 
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isModalOpen && !isAuthenticated) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isModalOpen]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openUserModal = () => {
+    setIsUserModalOpen(true);
+  };
+
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+  };
+
   const toggleCollect = async () => {
+    if (!isAuthenticated) {
+      setIsModalOpen(true);
+      return;
+    }
+
     try {
       if (isCollected) {
         const response = await axios.delete(`${COLLECTION}/${coinId}`,
@@ -71,20 +107,22 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
     }
   })
 
-  const mutate = () => {
+  const onToggle = (e: React.MouseEvent) => {
     mutation.mutate()
   }
 
-  const onToggle = (e: any) => {
-    e.preventDefault()
-    mutate()
-  }
-
   return (
-    isCollected && accessToken ?
-      <Icon src="assets/common/collect-star-fill.svg" alt="star-fill" onClick={onToggle} /> 
-      :
-      <Icon src="assets/common/collect-star.svg" alt="star" onClick={onToggle}/>
+    <>
+      {
+        isCollected ?
+          <Icon src="assets/common/collect-star-fill.svg" alt="star-fill" onClick={onToggle} />
+          :
+          <Icon src="assets/common/collect-star.svg" alt="star" onClick={onToggle} />
+      }
+      {isModalOpen &&
+        (!accessToken && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
+      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()}></UserModal>}
+    </>
   )
 }
 

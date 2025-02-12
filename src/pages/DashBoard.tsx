@@ -8,7 +8,7 @@ import { API_ENDPOINTS } from "../api/api";
 import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import useChangeSortType from "../hooks/common/useChangeSortType";
-import { useFirstRender } from "../../hooks/common/useFirstRender";
+import { useAuth } from "../hooks/common/useAuth";
 //주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
 import axios from "axios";
@@ -22,6 +22,7 @@ const DashBoard = () => {
 
   const myStorage = window.localStorage;
   const accessToken = myStorage.getItem("accessToken");
+  const { isAuthenticated } = useAuth();
 
   const { DASHBOARD_CHART } = API_ENDPOINTS;
 
@@ -42,7 +43,7 @@ const DashBoard = () => {
   }
 
   const { data, isLoading, isError } = useQuery<any>({
-    queryKey: ["DashBoard", currentPage, viewType, sortType, myStorage.getItem("accessToken")],
+    queryKey: ["DashBoard", currentPage, viewType, sortType, isAuthenticated],
     queryFn: getCoinList
   });
 

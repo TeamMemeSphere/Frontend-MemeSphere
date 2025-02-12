@@ -12,6 +12,7 @@ import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import { Icon } from "../components/common/Icon";
 import { API_ENDPOINTS } from "../api/api.ts"
+import { useAuth } from "../hooks/common/useAuth.ts";
 
 const SearchResults = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -24,6 +25,7 @@ const SearchResults = () => {
 
   const myStorage = window.localStorage;
   const accessToken = myStorage.getItem("accessToken");
+  const { isAuthenticated } = useAuth();
 
   const { SEARCH } = API_ENDPOINTS;
 
@@ -50,7 +52,7 @@ const SearchResults = () => {
   }
 
   const { data, isLoading, isError } = useQuery<any>({
-    queryKey: ["SearchResults", searchKeyword, currentPage, viewType, sortType],
+    queryKey: ["SearchResults", searchKeyword, currentPage, viewType, sortType, isAuthenticated],
     queryFn: getSearchResult
   });
 
