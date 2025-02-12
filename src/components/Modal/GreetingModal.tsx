@@ -18,11 +18,11 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
     };
   }, [closeModal]);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      closeModal();
-    }
-  }, [isAuthenticated, closeModal]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     closeModal();
+  //   }
+  // }, [isAuthenticated, closeModal]);
 
   const handleLogout = () => {
     logout();
