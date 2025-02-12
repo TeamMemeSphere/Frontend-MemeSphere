@@ -3,22 +3,35 @@ import * as S from "../../styles/Typography.ts";
 import SelectDirection from "./SelectDirection.tsx";
 import {useForm} from "react-hook-form";
 import NotificationInput from "./NotificationInput.tsx";
-import { notificationType } from "./NotificationType.ts";
+import { notificationType, notificationWithoutId } from "./NotificationType.ts";
 import { useState } from "react";
 
 const coinMap : Record<string, string>= {
-    도지코인 : "DOGE",
-    온도파이낸스 : "ONDO",
-    도람프 : "TRUMP",
-    썬도그 : "SUNDOG",
-    페페 : "PEPE",
-    페치 : "FET",
-    봉크 : "BONK",
-    폰케 : "PONKE",
+    "Dogecoin": "DOGE",
+    "SHIBA INU": "SHIB",
+    "OFFICIAL TRUMP": "TRUMP",
+    "Pepe": "PEPE",
+    "Bonk": "BONK",
+    "Pudgy Penguins": "PENGU",
+    "Dogwifhat": "WIF",
+    "FLOKI": "FLOKI",
+    "aixbt by Virtuals": "AIXBT",
+    "Turbo": "TURBO",
+    "ORDI": "ORDI",
+    "Peanut the Squirrel": "PNUT",
+    "1M x BABYDOGE": "1MBABYDOGE",
+    "Memecoin": "MEME",
+    "BOOK OF MEME": "BOME",
+    "1000*SATS (Ordinals)": "1000SATS",
+    "First Neiro On Ethereum": "NEIRO",
+    "Dogs": "DOGS",
+    "ConstitutionDAO": "PEOPLE",
+    "Act I: The AI Prophecy": "ACT",
+    "1000*Simons Cat": "1000CAT"
 };
 
 type NotificationRegisterProps = {
-    createNotification : (notification : Omit<notificationType,id>) => void;
+    createNotification : (notification: notificationWithoutId) => void;
 };
 
 const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotification}) => {
@@ -28,7 +41,6 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
             name: "",
             symbol: "",
             isRising: true,
-            isOn: true,
         }
     });
     
@@ -49,7 +61,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
         return 0;
     };
 
-    const nameInput = watch("name") || "";
+    const nameInput = watch("name").toUpperCase() || "";
     const symbolInput = watch("symbol").toUpperCase() || "";
 
     const filteredNames = nameInput
@@ -92,7 +104,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
 
     const direction = watch("isRising", true);
 
-    const onSubmit = (data: notificationType) => {
+    const onSubmit = (data: notificationWithoutId) => {
         console.log(data);
         createNotification(data);
         // 서버로 데이터 전송 로직 추가

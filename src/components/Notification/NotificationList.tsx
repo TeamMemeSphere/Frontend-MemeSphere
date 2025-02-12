@@ -22,7 +22,9 @@ const NotificationList : React.FC<NotificationListProps> = ({notifications, togg
                 ?notifications.map((notification)=> {
                 return <NotificationCard key={notification.notificationId} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
             })
-                :(<p>등록된 알림이 없습니다.</p>)
+                :(<NoAlart>
+                    <NoAlartMessage>등록된 알림이 없습니다.</NoAlartMessage>
+                </NoAlart>)
         }
         </Content>
     </Container>;
@@ -67,4 +69,17 @@ const NotifacationHeader = styled.div`
 const Caption = styled(S.SmallCaptionTypo)<{width? :string}>`;
     width : ${({width})=>width || "auto;"};
     color: var(--white-60);
+`;
+
+const NoAlart = styled.div`
+    width: 100%;
+    height: 100%;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const NoAlartMessage = styled(S.CaptionTypoLight)`
+    margin-bottom : 85%;
 `;

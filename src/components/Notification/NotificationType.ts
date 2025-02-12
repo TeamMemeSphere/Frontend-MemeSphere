@@ -7,3 +7,11 @@ export type notificationType = {
         isRising : boolean,
         isOn : boolean,
 };
+
+export type notificationWithoutId = {
+        name : string,
+        symbol : string,
+        volatility : number,
+        stTime : number,
+        isRising : boolean,
+};

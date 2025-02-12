@@ -6,7 +6,7 @@ import bellIcon from "../../../public/assets/Modal/notification-icon.svg";
 import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
-import { notificationType } from "../Notification/NotificationType";
+import { notificationType, notificationWithoutId } from "../Notification/NotificationType";
 import { useNotification } from "../../hooks/common/useNotification";
 
 interface ModalProps {
@@ -48,9 +48,8 @@ const NotificationDummy : notificationType[]= [
 
 const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
   const [notifications, setNotifications] = useState(NotificationDummy);
-  const [nextId, setNextId] = useState(4);
-  const [alertCount, setAlertCount] = useState(3);
-  const {data: notificationList} = useNotification(accessToken);
+  const [alertCount, setAlertCount] = useState(0);
+  const {data: notificationList, addNotification} = useNotification(accessToken);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -58,14 +57,11 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToke
     }
   };
 
-  const createNotifcation = (newNotification : Omit<notificationType, "id">) => {
-    if(alertCount < 8){
-      const notificationWithId = {...newNotification, id : nextId};
-    setNextId((prevId) => prevId + 1); // 다음 id값 증가
-    setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
-    setAlertCount((prev)=>prev+1);
-    } else {alert("알림은 최대 8개까지 설정가능합니다.");} // 모달로 바꾸기
-    
+  const createNotifcation = (newNotification : notificationWithoutId) => {
+      console.log("createNotificaton",newNotification);
+      addNotification(newNotification);
+  
+  
   };
 
   const toggleNotification = (id : number) => {
