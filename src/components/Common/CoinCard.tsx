@@ -142,6 +142,7 @@ const Thumbnail = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
+  aspect-ratio: 1 / 1;
 `;
 
 const NameWrapper = styled.div`
