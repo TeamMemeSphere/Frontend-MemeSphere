@@ -12,6 +12,7 @@ import { useFirstRender } from "../../hooks/common/useFirstRender";
 //주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
 import axios from "axios";
+import dummyData from "../data/coinCardDummy.json";
 
 const DashBoard = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
