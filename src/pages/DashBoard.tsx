@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CoinList from "../components/Common/CoinList";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import PageSelector from "../components/Common/PageSeletor";
 import CoinListHeader from "../components/Common/CoinListHeader";
 import { useQuery } from "@tanstack/react-query";
@@ -50,8 +50,6 @@ const DashBoard = () => {
 
   const isGridView = viewType === "GRID";
 
-  const CoinListHeaderRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
       <UpperContainer>
@@ -66,7 +64,6 @@ const DashBoard = () => {
             viewType={viewType}
             onTypeChange={setViewType}
             marginBottom="1.5rem"
-            ref={CoinListHeaderRef}
           >
           </CoinListHeader>
           {isLoading ?
@@ -84,7 +81,6 @@ const DashBoard = () => {
                   currentPage={currentPage}
                   updateCurrentPage={setCurrentPage}
                   totalPages={data.result.totalPage}
-                  coinListHeaderRef={CoinListHeaderRef}
                   >
                 </PageSelector>
               </>

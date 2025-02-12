@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CoinList from "../components/common/CoinList";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
 import CoinListHeader from "../components/common/CoinListHeader";
 import ContentHeader from "../components/Common/ContentHeader";
@@ -12,7 +12,8 @@ import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
 import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
 import * as S from "../styles/Typography";
 import { Icon } from "../components/common/Icon";
-import { Coin } from "../components/common/CoinCard";
+import { useAuth } from "../hooks/common/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const CoinCollection = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -22,10 +23,16 @@ const CoinCollection = () => {
 
   const { COLLECTION } = API_ENDPOINTS;
 
+  const { isAuthenticated } = useAuth();
   const myStorage = window.localStorage;
   const accessToken = myStorage.getItem("accessToken");
-
+  const navigate = useNavigate();
+  
   const getCoinList = async () => {
+    if (!accessToken) {
+      navigate("/DashBoard");
+      return;
+    };
     try {
       const response = await axios.get(`${COLLECTION}?&page=${currentPage}`,
         {
@@ -41,7 +48,7 @@ const CoinCollection = () => {
   }
 
   const { data, isLoading, isError, error } = useQuery<any>({
-    queryKey: ["CoinCollection", currentPage, viewType, sortType, myStorage.getItem("accessToken")],
+    queryKey: ["CoinCollection", currentPage, viewType, sortType, isAuthenticated],
     queryFn: getCoinList
   });
 
@@ -58,8 +65,6 @@ const CoinCollection = () => {
 
   const isGridView = viewType === "GRID";
 
-  const CoinListHeaderRef = useRef<HTMLDivElement>(null);
-
   return (
     <Container>
       <ContentHeader
@@ -72,7 +77,6 @@ const CoinCollection = () => {
         viewType={viewType}
         onTypeChange={setViewType}
         marginBottom="0.813rem"
-        ref={CoinListHeaderRef}
       ></CoinListHeader>
       {
         isLoading ?
@@ -96,7 +100,6 @@ const CoinCollection = () => {
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}
                 totalPages={data.result.totalPage}
-                coinListHeaderRef={CoinListHeaderRef}
               ></PageSelector>
             </>
       }
