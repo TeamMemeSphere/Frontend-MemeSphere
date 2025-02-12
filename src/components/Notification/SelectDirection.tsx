@@ -3,29 +3,29 @@ import * as S from "./../../styles/Typography.ts";
 import { notificationType } from "./NotificationType.ts";
 
 type SelectDirectionProps = {
-    setValue: (name: keyof notificationType, value: string) => void;
-    currentValue: string;
+    setValue: (name: keyof notificationType, value: boolean) => void;
+    currentValue: boolean;
 }
 
 const SelectDirection :React.FC<SelectDirectionProps> = ({setValue, currentValue}) => {
     
     const toggleDirection = () => {
-        const newDirection = currentValue === "RISE" ? "FALL" : "RISE";
-        setValue("direction", newDirection);
+        const newDirection = currentValue === true ? false : true;
+        setValue("isRising", newDirection);
     };
 
     return <Container>
         <Name>상승/하락</Name>
         <SelectOption>
             <Option>
-                {(currentValue === "RISE")
+                {(currentValue === true)
                 ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
                 : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }
                 <S.CaptionTypoRegular>상승</S.CaptionTypoRegular>
             </Option>
             <Option>
-                {(currentValue === "FALL")
+                {(currentValue === false)
                 ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
                 : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }

@@ -20,7 +20,7 @@ const NotificationList : React.FC<NotificationListProps> = ({notifications, togg
                 <Caption>상승/하락</Caption>
             </NotifacationHeader>
             {notifications.map((notification)=> {
-                return <NotificationCard key={notification.id} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
+                return <NotificationCard key={notification.notificationId} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
             })}
         </Content>
     </Container>;

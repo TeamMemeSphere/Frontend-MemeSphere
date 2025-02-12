@@ -1,9 +1,9 @@
 export type notificationType = {
-        id : number,
+        notificationId : number,
         name : string,
         symbol : string,
         volatility : number,
-        period : number,
-        direction : "RISE" | "FALL",
-        isAlertOn : "ON" | "OFF",
+        stTime : number,
+        isRising : boolean,
+        isOn : boolean,
 };

@@ -7,19 +7,19 @@ type NotificationCardProps = notificationType & {
     deleteNotification : (id : number)=>void,
 
 }
-const NotificationCard : React.FC<NotificationCardProps> = ({id, name, symbol, volatility, period, direction, isAlertOn, toggleNotification, deleteNotification}) => {
+const NotificationCard : React.FC<NotificationCardProps> = ({notificationId, name, symbol, volatility, stTime, isRising, isOn, toggleNotification, deleteNotification}) => {
 
     return <Card>
         <Typo width="6.688rem">{name}
             ({symbol})</Typo>
         <Typo width="2rem">{volatility}%</Typo>
-        <Typo width="2.813rem">{period}분</Typo>
-        <Typo width="2.875rem">{direction === "RISE" ? "상승" : "하락"}</Typo>
+        <Typo width="2.813rem">{stTime}분</Typo>
+        <Typo width="2.875rem">{isRising ? "상승" : "하락"}</Typo>
         <Buttons>
-            {isAlertOn === "ON" 
-            ? <ActiveBellIcon src="public/assets/Notification/Greenbell.svg" onClick={()=>toggleNotification(id)}/> 
-            : <InactiveBellIcon src="public/assets/Notification/InactvieBell.svg"onClick={()=>toggleNotification(id)}/>}
-            <TrashIcon src="public/assets/Notification/trash.svg" onClick={()=>deleteNotification(id)}/>
+            {isOn 
+            ? <ActiveBellIcon src="public/assets/Notification/Greenbell.svg" onClick={()=>toggleNotification(notificationId)}/> 
+            : <InactiveBellIcon src="public/assets/Notification/InactvieBell.svg"onClick={()=>toggleNotification(notificationId)}/>}
+            <TrashIcon src="public/assets/Notification/trash.svg" onClick={()=>deleteNotification(notificationId)}/>
         </Buttons>
     </Card>;
 };

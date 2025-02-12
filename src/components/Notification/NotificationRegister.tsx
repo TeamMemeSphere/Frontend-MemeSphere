@@ -27,8 +27,8 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
         defaultValues: {
             name: "",
             symbol: "",
-            direction: "RISE",
-            isAlertOn: "ON"
+            isRising: true,
+            isOn: true,
         }
     });
     
@@ -90,7 +90,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
         }
 };
 
-    const direction = watch("direction", "RISE");
+    const direction = watch("isRising", true);
 
     const onSubmit = (data: notificationType) => {
         console.log(data);
@@ -194,7 +194,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
                         label="기준 시간"
                         inputProps={{placeholder:"1-30",
                             type:"text",
-                            ...register("period",{
+                            ...register("stTime",{
                                 required : "기준시간을 입력해주세요.",
                                 validate: (value) => {
                                     const numericValue = Number(value);
@@ -205,7 +205,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
                                 },
                             })
                         }}
-                        error={errors.period}
+                        error={errors.stTime}
                         gap="0.625rem"
                         caption="분"
                         labelWidth="3.75rem"
