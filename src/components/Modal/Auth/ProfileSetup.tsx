@@ -75,7 +75,7 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
     if (!response.ok) {
       throw new Error(`이미지 업로드 실패: ${response.status} ${response.statusText}`);
     }
-    console.log("✅ 이미지 업로드 성공:", presignedUrl);
+    console.log("이미지 업로드 성공:", presignedUrl);
     return true; 
   } catch (error) {
     console.error("이미지 업로드 오류:", error);
@@ -91,10 +91,13 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
   };
 
   const handleCheckboxChange = () => {
-    setUseDefaultImage((prev) => !prev);
-    if (!useDefaultImage) {
+    setUseDefaultImage((prev) => {
+    const newState = !prev;
+    if (newState) {
       setProfileImage(null);
     }
+    return newState;
+  });
   };
 
   const handleCheckNickname = async() => {
@@ -105,53 +108,43 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
     event.preventDefault();
     setIsSubmitted(true);
 
-    // // 프로필 사진을 설정하지 않으면 '프로필 사진 없이 이용하기' 체크가 활성화됨
-    // if (!profileImage) {
-    //   setUseDefaultImage(true);
-    // }
-    if (!nickname.value || !birthDate.value) {
-      return;
+    if (!profileImage) {
+      setUseDefaultImage(true);
     }
-    if (!isNicknameChecked) {
+    if (!nickname.value || !birthDate.value || !isNicknameChecked) {
       return;
     }
 
-    try{
+    try {
       const formData = {
-        email, password, nickname: nickname.value, birth: birthDate.value, profileImage: useDefaultImage ? "" : profileImage,
+        email, password, nickname: nickname.value, birth: String(birthDate.value), profileImage: profileImage || undefined,
       };
-      // formData.append("email", email);
-      // formData.append("password", password);
-      // // if (!useDefaultImage && profileImage) {
-      // //   formData.append("profile", profileImage);
-      // // }
-      // formData.append("nickname", nickname.value);
-      // formData.append("birth", birthDate.value);
-      
-      console.log("백엔드로 보낼 데이터:", formData);
-      // for (const pair of formData.entries()) {
-      //   console.log(`${pair[0]}:`, pair[1]);
-      // }
-      
+      if (!useDefaultImage && profileImage) {
+        formData.profileImage = profileImage;
+      }
+
       const response = await fetch(API_ENDPOINTS.USER_SIGNUP, {
         method:"POST",
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify(formData),
       });
+      console.log("백엔드로 보낼 데이터:", JSON.stringify(formData));
+
       const data = await response.json();
       console.log("백엔드 응답:", data);
-  
+    
       if (response.ok) {
         console.log("회원가입 성공:", data);
-        if (onSuccess) onSuccess();
-      } else {
-        console.error("회원가입 실패:", data);
-        alert(`회원가입 실패: ${data.message || "알 수 없는 오류로 회원가입에 실패했습니다. 다시 시도해주세요."}`);
-      }
-    } catch (error) {
-      console.error("회원가입 요청 오류:", error);
-      alert("네트워크 오류로 회원가입에 실패했습니다. 다시 시도해주세요.");
+        alert("회원가입이 완료되었습니다. 로그인 창으로 이동합니다.");
+        onSuccess?.();
+    } else {
+      console.error("회원가입 실패:", data);
+      alert(`회원가입 실패: ${data.message || "알 수 없는 오류로 회원가입에 실패했습니다. 다시 시도해주세요."}`);
     }
+  } catch (error) {
+    console.error("회원가입 요청 오류:", error);
+    alert("네트워크 오류로 회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
   }
 
   return (
@@ -162,7 +155,7 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
         <InputContainer>
           <Label>프로필 사진</Label>
           <ProfileImage 
-            src={profileImage || defaultProfileImage} 
+            src={useDefaultImage ? defaultProfileImage : profileImage || defaultProfileImage} 
             alt="Profile" 
             onClick={handleProfileClick} />
           <ImageButton onClick={handleProfileClick}>이미지 불러오기</ImageButton>
@@ -194,8 +187,8 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
               isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다." ? true : undefined} />
             <NicknameConfirmButton type="button" onClick={handleCheckNickname}>중복 확인</NicknameConfirmButton>
           </NicknameInputContainer>
-          {isSubmitted && nickname.value && (!isNicknameChecked || nicknameCheckMessage) 
-          && (<ErrorMessage isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다."}>{isNicknameChecked ? nicknameCheckMessage : "중복 확인을 진행해주세요"}</ErrorMessage>)}
+          {nickname.value && nicknameCheckMessage
+          && (<ErrorMessage isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다."}>{nicknameCheckMessage}</ErrorMessage>)}
         </InputContainer>
 
         <InputContainer>     
