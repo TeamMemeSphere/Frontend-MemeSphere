@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import {BodyTypo, SubTitle3Typo} from "../../../styles/Typography";
+import {BodyTypo, SubTitle1Typo, SubTitle3Typo} from "../../../styles/Typography";
 import GoogleTrendsWidget from "./googletrendswidget";
 import TrendChartList from "./TrendCharList";
 import ContentHeader from "../../Common/ContentHeader";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../../api/api";
 
@@ -30,16 +30,6 @@ const DashboardTop = () => {
     fetchDashBoardData();
   }, []);
 
-  const dynamicFontSize = useMemo(() => {
-    if (!totalVolume) return "1.875rem"; // 기본 크기
-    const length = totalVolume.toString().length;
-
-    if (length <= 6) return "1.875rem"; // 6자리 이하
-    if (length <= 9) return "1.5rem";   // 7~9자리
-    if (length <= 20) return "1rem"; // 10~12자리
-    return "1rem";    
-  }, [totalVolume]);
-
   return (
     <>
     <ContentHeader title="대시보드" description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."></ContentHeader>
@@ -48,10 +38,10 @@ const DashboardTop = () => {
       <TopItemWrapper>
       <Item1>
         <Item1TextWrapper>
-          <BodyTypo>총 거래량 (24시간)</BodyTypo>
-          <DynamicStyledContent $dynamicSize={dynamicFontSize}>
+          <Item12Title>총 거래량 (24시간)</Item12Title>
+          <StyledContent>
             {totalVolume !== null ? `$${totalVolume.toLocaleString()}` : "Loading..."}
-          </DynamicStyledContent>
+          </StyledContent>
         </Item1TextWrapper>
         <Image1 src="/assets/common/dashboard-top/Total Volum 3D image.svg" alt="총 거래량" />
       </Item1>
@@ -59,10 +49,10 @@ const DashboardTop = () => {
       <Item2>
         <Image2 src="/assets/common/dashboard-top/Trade coin 3D image 2.svg" alt="거래된 코인" />
         <Item2TextWrapper>
-          <BodyTypo>거래된 밈 코인</BodyTypo>
-          <StyledContent>
+          <Item12Title>거래된 밈 코인</Item12Title>
+          <Item2StyledContent>
             {totalCoin !== null ? `${totalCoin}개` : "Loading..."}
-          </StyledContent>
+          </Item2StyledContent>
         </Item2TextWrapper>
       </Item2>
       </TopItemWrapper>
@@ -83,20 +73,13 @@ const DashboardTop = () => {
 
 export default DashboardTop;
 
-const StyledContent = styled.span`
-  font-size: 1.875rem;
-  font-weight: var(--font-weight-bold);
+// px -> rem 수정하기
+const StyledContent = styled(SubTitle1Typo).attrs({ as: "span" })`
   color: white;
   margin: 0;
   padding-top: 0.375rem;
 `;
-const DynamicStyledContent = styled.span<{ $dynamicSize: string }>`
-  font-size: ${({$dynamicSize}) => `${$dynamicSize}px`};
-  font-weight: var(--font-weight-bold);
-  color: white;
-  margin: 0;
-  padding-top: 0.375rem;
-`;
+
 const BaseItem = styled.section`
   border-radius: 20px;
 `;
@@ -137,43 +120,53 @@ const TopItemWrapper = styled.div`
   max-width: 537px;
 `;
 
+const Item12Title = styled(BodyTypo)`
+`;
+
 const Item1 = styled(BaseItem)`
   background-color: var(--purple);
   grid-area: Item1;
-  height: 10.188rem;
+  height: 143px;
   width: 100%;
-  max-width: 310px;
-  aspect-ratio: 310 / 163;
+  max-width: 322px;
+  aspect-ratio: 322 / 143;
   min-width: 0;
   flex: 1;
   position: relative;
   overflow: hidden;
 `;
-const Item1TextWrapper = styled(BaseTextWrapper)`
-  margin-top: 5.125rem;
+const Item1TextWrapper = styled.div`
+  margin-top: 69px;
+  padding-left: 27px;
+  z-index: 1;
+  position: relative;
 `;
 const Image1 = styled(StyledImage)`
-  margin-left: 11.25rem;
-  margin-top: 0.188rem;
+  margin-left: 8.75rem;
+  margin-top: 0.875rem;
+  position: absolute;
 `;
 
 const Item2 = styled(BaseItem)`
   background-color: var(--pink);
   grid-area: Item2;
-  height: 10.188rem;
+  height: 143px;
   width: 100%;
-  max-width: 202px;
-  aspect-ratio: 202/163;
+  max-width: 190px;
+  aspect-ratio: 190 / 143;
   position: relative;
   overflow: hidden;
   flex: 1;
 `;
-const Item2TextWrapper = styled(BaseTextWrapper)`
-  margin-top: 5.125rem;
-  padding-left: 5.5rem;
-  color: white;
+const Item2TextWrapper = styled.div`
+  margin-top: 69px;
+  padding-right: 25px;
   z-index: 1;
   position: relative;
+  float: right;
+  text-align: right;
+`;
+const Item2StyledContent = styled(StyledContent).attrs({ as: "span"})`
 `;
 const Image2 = styled(StyledImage)`
   margin-top: -2.563rem;
@@ -184,7 +177,7 @@ const Image2 = styled(StyledImage)`
 const Item3 = styled(BaseItem)`
   background-color: var(--grey-100);
   grid-area: Item3;
-  height: 21.688rem;
+  height: 347px;
   width: 100%;
   max-width: 537px;
   aspect-ratio: 537/347;
@@ -195,10 +188,10 @@ const Item3 = styled(BaseItem)`
 const Item4 = styled(BaseItem)`
   background-color: var(--grey-100);
   grid-area: Item4;
-  height: 33.438rem;
+  height: 515px;
   width: 100%;
   max-width: 518px;
-  aspect-ratio: 518/535;
+  aspect-ratio: 518/515;
   flex: 1;
 `;
 

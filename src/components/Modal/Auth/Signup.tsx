@@ -13,6 +13,8 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
     passwordInvalid: "비밀번호는 최소 8자 이상이며 영문/숫자/특수문자 중 두 가지 이상의 조합이어야 합니다.",
     passwordConfirmInvalid: "비밀번호가 일치하지 않습니다",
   });
+  const emailValue = email.value;
+  const passwordValue = password.value;
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -20,7 +22,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
     e.preventDefault();
     setIsSubmitted(true);
 
-    if (!email.value || !password.value || !passwordConfirm.value) {
+    if (!emailValue || !passwordValue || !passwordConfirm.value) {
       return;
     }
 
@@ -29,7 +31,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
       onSignup(email.value, password.value);
     }
   };
-  
+
   const {handleSocialLogin} = useSocialLogin();
 
   return (
@@ -86,7 +88,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
           <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
             카카오로 시작하기
         </SocialButton>
-        <SocialButton>Google로 시작하기</SocialButton>
+        <SocialButton onClick={() => handleSocialLogin("google")}>Google로 시작하기</SocialButton>
       </SocialButtons>
     </FormContainer>
   </>

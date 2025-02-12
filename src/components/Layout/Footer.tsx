@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
 
 export default Footer;
 
-// 폰트 사이즈, 색깔 추후 수정
+// 폰트 사이즈, 색깔 추후 수정하기
 const FooterWrapper = styled.footer`
   background-color: var(--grey-50);
   display: flex;
