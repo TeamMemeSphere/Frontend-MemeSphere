@@ -132,12 +132,16 @@ const ThumbnailWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   margin-left: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Thumbnail = styled.img`
   width: 100%;
   height: auto;
-  padding-bottom: 100%;
+  object-fit: cover;
 `;
 
 const NameWrapper = styled.div`
