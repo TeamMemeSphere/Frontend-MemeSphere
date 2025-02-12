@@ -7,10 +7,12 @@ import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
 import { notificationType } from "../Notification/NotificationType";
-
+import { useNotification } from "../../hooks/common/useNotification";
 
 interface ModalProps {
   closeModal: () => void;
+  accessToken : string;
+  refreshToken : string;
 }
 
 const NotificationDummy : notificationType[]= [
@@ -44,10 +46,11 @@ const NotificationDummy : notificationType[]= [
 ];
 
 
-const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
+const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
   const [notifications, setNotifications] = useState(NotificationDummy);
   const [nextId, setNextId] = useState(4);
   const [alertCount, setAlertCount] = useState(3);
+  const {data: notificationList} = useNotification(accessToken);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -92,7 +95,7 @@ const deleteNotification = (id : number) => {
         <NotificationContainer>
           <LeftSide>
             <NotificationRegister createNotification={createNotifcation}/>
-            <NotificationList notifications={notifications} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>
+            <NotificationList notifications={notificationList} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>
           </LeftSide>
           <DividerLine/>
           <RightSide>

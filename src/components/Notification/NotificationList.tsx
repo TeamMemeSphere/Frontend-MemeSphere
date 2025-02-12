@@ -9,7 +9,6 @@ type NotificationListProps = {
     deleteNotification : (id : number)=> void;
 }
 const NotificationList : React.FC<NotificationListProps> = ({notifications, toggleNotification, deleteNotification}) => {
-    
     return <Container>
         <S.SubTitle3Typo>등록된 알림 목록</S.SubTitle3Typo>
         <Content>
@@ -19,9 +18,12 @@ const NotificationList : React.FC<NotificationListProps> = ({notifications, togg
                 <Caption>기준 시간</Caption>
                 <Caption>상승/하락</Caption>
             </NotifacationHeader>
-            {notifications.map((notification)=> {
+            {notifications && notifications.length > 0 
+                ?notifications.map((notification)=> {
                 return <NotificationCard key={notification.notificationId} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
-            })}
+            })
+                :(<p>등록된 알림이 없습니다.</p>)
+        }
         </Content>
     </Container>;
 };
