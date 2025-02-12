@@ -8,8 +8,7 @@ import SidebarContent from "./SidebarContent";
 import Overlay from "../Common/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
-import GreetingModal from "../Modal/GreetingModal";
-import LoginRequiredModal from "../Modal/LoginRequiredModal";
+import { NavLink } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -17,7 +16,6 @@ const Navbar: React.FC = () => {
   const [isAlarmOpen, setIsAlarmOpen] = useState(false);
 
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // 사이드바가 열리면 스크롤이 비활성화
   useEffect(() => {
@@ -41,20 +39,14 @@ const Navbar: React.FC = () => {
     setIsUserModalOpen(true);
     setIsSidebarOpen(false);
   };
-  // 로그인 여부 확인
-  const handleLogin = () =>  {
-    setIsLoggedIn(true);
-    setIsUserModalOpen(false);
-  };
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsUserModalOpen(false);
-  };
 
   return (
     <Nav>
       <NavLeft>
-        <Logo><LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />MemeSphere</Logo>
+        <Logo to="/">
+            <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
+            <LogoTypo>MemeSphere</LogoTypo>
+        </Logo>
         {!isCompact && <NavLeftPageWrapper><NavLeftPage /></NavLeftPageWrapper>}
       </NavLeft>
 
@@ -75,11 +67,8 @@ const Navbar: React.FC = () => {
           setIsAlarmOpen={setIsAlarmOpen}
           setIsUserModalOpen={handleOpenUserModal}/>
       )}
-      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
-      {isAlarmOpen && !isLoggedIn && <LoginRequiredModal/>}
-      
-      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
-      {isUserModalOpen && isLoggedIn && <GreetingModal onLogout={handleLogout} closeModal={() => setIsUserModalOpen(false)} />}
+      {isAlarmOpen && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
+      {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)} />}
     </Nav>
   );
 };
@@ -89,14 +78,18 @@ export default Navbar;
 const MenuIcon = styled.img`
   width: 2.563rem;
 `;
-
+const Logo = styled(NavLink)`
+  text-decoration: none;
+  display: flex;
+  margin-left: 4.306vw;
+`;
 const LogoImg = styled.img`
   width: 1.813rem;
   margin-right: 0.188rem;
 `;
 
-const Logo = styled(TitleTypo)`
-  margin-left: 4.306vw;
+const LogoTypo = styled(TitleTypo)`
+  
   color: var(--white-100);
   display: flex;
 `;
