@@ -31,7 +31,6 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToke
   
     setAlertCount(prev => {
       if (prev !== newCount) {
-        console.log("현재 알림 수: ", newCount);
         return newCount;
       }
       return prev;
@@ -67,6 +66,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToke
         <FlexContainer>
           <StyledImg src={bellIcon} />
           <SubTitle2Typo>알림</SubTitle2Typo>
+          <CloseButton src="public/assets/Notification/closeButton.svg" onClick={closeModal}/>
         </FlexContainer>
         <NotificationContainer>
           <LeftSide>
@@ -145,4 +145,12 @@ const DividerLine = styled.div`
   width: 0.063rem;
   height: 47.813rem;
   background: var(--white-10, rgba(255, 255, 255, 0.10));
+`;
+
+const CloseButton = styled.img`
+  width : 1.5rem;
+  height : 1.5rem;
+  flex-shrink: 0;
+  margin-left : 38.4rem;
+  cursor: pointer;
 `;
