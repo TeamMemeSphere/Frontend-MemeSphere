@@ -88,7 +88,10 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
           <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
             카카오로 시작하기
         </SocialButton>
-        <SocialButton onClick={() => handleSocialLogin("google")}>Google로 시작하기</SocialButton>
+        <SocialButton onClick={() => handleSocialLogin("google")}>
+          <SocialImage src="../../../public/assets/common/autentication/google icon.svg"/>
+          Google로 시작하기
+          </SocialButton>
       </SocialButtons>
     </FormContainer>
   </>

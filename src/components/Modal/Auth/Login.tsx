@@ -115,7 +115,10 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
           카카오로 로그인하기
         </SocialButton>
 
-        <SocialButton onClick={() => handleSocialLogin("google")}>Google로 로그인하기</SocialButton>
+        <SocialButton onClick={() => handleSocialLogin("google")}>
+          <SocialImage src="../../../public/assets/common/autentication/google icon.svg"/>
+          Google로 로그인하기
+          </SocialButton>
 
       </SocialButtons>
       <Links>

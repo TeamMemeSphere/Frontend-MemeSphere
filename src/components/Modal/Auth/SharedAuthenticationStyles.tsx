@@ -101,8 +101,7 @@ export const SocialButton = styled.button`
   justify-content: center;
   gap: 1.25rem;
 
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.875rem;
   color: white;
 
   background-color: transparent;

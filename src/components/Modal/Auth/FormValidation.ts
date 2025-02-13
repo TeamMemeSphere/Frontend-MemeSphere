@@ -74,7 +74,7 @@ export const useFormValidation = (messages?: ValidationMessages) => {
           "Content-Type" : "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ nickName: nickname.value }),
+        body: JSON.stringify({ nickname: nickname.value }),
       });
 
       if (!response) {
@@ -87,8 +87,9 @@ export const useFormValidation = (messages?: ValidationMessages) => {
       console.log("백엔드 응답 데이터:", data);
 
       if (response.ok) {
+        console.log(nicknameCheckMessage);
         setNicknameCheckMessage(data.result);
-        setIsNicknameChecked(data.result === "사용 가능한 닉네임입니다.");
+        setIsNicknameChecked(true);
       } else {
         setNicknameCheckMessage("닉네임 중복 확인 중 오류가 발생했습니다..");
         setIsNicknameChecked(false);

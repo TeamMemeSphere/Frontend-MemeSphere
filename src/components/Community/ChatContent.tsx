@@ -5,8 +5,8 @@ import { chatInfo } from "./communityTypes.ts";
 
 type ChatContentProps = chatInfo & {profileImgSrc? : string};
 
-const ChatContent : React.FC<ChatContentProps> = ({id, nickname, created_at, message, likes, profileImgSrc}) => {
-    const createdDate = new Date(created_at);
+const ChatContent : React.FC<ChatContentProps> = ({id, nickname, createdAt, message, likes, profileImgSrc}) => {
+    const createdDate = new Date(createdAt);
     const currentDate = new Date();
     const createdTime = createdDate.getTime();
     const currentTime = currentDate.getTime();
