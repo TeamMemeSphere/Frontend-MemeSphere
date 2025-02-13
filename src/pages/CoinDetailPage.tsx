@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TitleTypo } from "../styles/Typography";
 import ChartCard from "../components/CoinDetailPage/ChartCard";
@@ -25,6 +25,7 @@ const CoinDetailPage = () => {
   const [coinData, setCoinData] = useState<CoinDetailInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   // API에서 코인 데이터 가져오기
   const fetchDetailData = async (id: string) => {
@@ -80,7 +81,12 @@ const CoinDetailPage = () => {
   return (
     <Wrapper>
       <TitleLayout>
-        <Icon src={arrow} alt="뒤로 가기" />
+        <Icon
+          src={arrow}
+          alt="뒤로 가기"
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        />
         <TitleTypo>{coinData.name} 상세 정보</TitleTypo>
       </TitleLayout>
 
@@ -97,11 +103,7 @@ const CoinDetailPage = () => {
         </LeftColumn>
 
         <RightColumn>
-          {/* <ChartCard
-            name={coinData.name}
-            symbol={coinData.symbol}
-            isCollected={coinData.collectionActive}
-          /> */}
+          <ChartCard coinId={coinData.id} />
           <TradingCard />
         </RightColumn>
       </GridWrapper>
