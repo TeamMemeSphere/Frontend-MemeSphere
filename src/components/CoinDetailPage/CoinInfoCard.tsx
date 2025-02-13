@@ -1,34 +1,52 @@
 import styled from "styled-components";
 import { CommonCard } from "./CommonCardStyle";
 import { SubTitle2Typo, SmallCaptionTypo } from "../../styles/Typography";
-import coinDummy from "../../data/coinDummy.json";
 import CoinCircleImg from "../../../public/assets/DetailPage/CoinProfile.png";
 import { CaptionTypoMedium } from "../../styles/Typography";
 
-const CoinInfoCard = () => {
-  const coin = coinDummy[0];
+interface CoinInfoCardProps {
+  name: string;
+  symbol: string;
+  keywords: string[];
+  description: string;
+  image: string;
+}
+
+const CoinInfoCard = ({
+  name,
+  symbol,
+  keywords,
+  description,
+  image,
+}: CoinInfoCardProps) => {
+  //const coin = coinDummy[0];
 
   return (
-    <>
-      <CardLayout>
-        <MarginFlexContainer>
-          <CircleImageWrapper>
-            <Image src={CoinCircleImg} alt="밈코인 프로필 사진" />
-          </CircleImageWrapper>
-        </MarginFlexContainer>
+    <CardLayout>
+      <MarginFlexContainer>
+        <CircleImageWrapper>
+          <Image src={image || CoinCircleImg} alt={`${name} 프로필`} />
+          {keywords.map((keyword, index) => (
+            <Keyword
+              key={index}
+              $angle={(index / keywords.length) * 360 + 15}
+              $isHighlighted={index === 0 || index === 1}
+            >
+              #{keyword}
+            </Keyword>
+          ))}
+        </CircleImageWrapper>
+      </MarginFlexContainer>
 
-        <FlexContainer>
-          <StyledSubTitle2>{coin.korean_name}</StyledSubTitle2>
-          <StyledSmallCaption>{coin.english_name}</StyledSmallCaption>
-        </FlexContainer>
-        <FlexContainer>
-          <StyledCaption>
-            빌리 마커스와 잭슨 팔머가 2013년 12월에 라이트코인을 기반으로 만든
-            오픈 소스 디지털 화폐입니다.
-          </StyledCaption>
-        </FlexContainer>
-      </CardLayout>
-    </>
+      <FlexContainer>
+        <StyledSubTitle2>{name}</StyledSubTitle2>
+        <StyledSmallCaption>{symbol.toUpperCase()}</StyledSmallCaption>
+      </FlexContainer>
+
+      <FlexContainer>
+        <StyledCaption>{description}</StyledCaption>
+      </FlexContainer>
+    </CardLayout>
   );
 };
 
@@ -60,10 +78,11 @@ const FlexContainer = styled.div`
 
 const MarginFlexContainer = styled(FlexContainer)`
   margin-top: 6.296vh;
-  margin-bottom: 2.963vh;
+  margin-bottom: 2.382rem;
 `;
 
 const CircleImageWrapper = styled.div`
+  position: relative;
   width: 6.875rem;
   height: 6.875rem;
   border-radius: 50%;
@@ -84,4 +103,25 @@ const StyledCaption = styled(CaptionTypoMedium)`
   width: 21.25vw;
   margin-bottom: 3.704vh;
   margin-top: 0.926vh;
+`;
+
+const Keyword = styled.span<{ $isHighlighted: boolean; $angle: number }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(${(props) => props.$angle}deg)
+    translate(5rem) rotate(-${(props) => props.$angle}deg);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: ${(props) =>
+    props.$isHighlighted ? "#49DF82" : "#DE8DFA"};
+  color: white;
+  border-radius: 16.5px;
+  font-size: 0.85rem;
+  height: 33px;
+  min-width: 33px;
+  padding: 4px 15px;
 `;

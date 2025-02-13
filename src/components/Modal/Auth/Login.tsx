@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { SmallCaptionTypo } from "../../../styles/Typography";
-import { StyledInput, ErrorMessage, FormContainer, Form, InputContainer, Label, Button, Separator, SocialButtons, SocialButton, SocialImage } from "./SharedAuthenticationStyles";
+import {
+  StyledInput,
+  ErrorMessage,
+  FormContainer,
+  Form,
+  InputContainer,
+  Label,
+  Button,
+  Separator,
+  SocialButtons,
+  SocialButton,
+  SocialImage,
+} from "./SharedAuthenticationStyles";
 import { useFormValidation } from "./FormValidation";
 import { API_ENDPOINTS } from "../../../api/api";
 import { useAuth } from "../../../hooks/common/useAuth";
@@ -30,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
       return;
     }
 
-    try{
+    try {
       const loginData = {
         email: email.value,
         password: password.value,
@@ -38,7 +50,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
 
       const response = await fetch(API_ENDPOINTS.USER_SIGNIN, {
         headers: {
-          "Content-type":"application/json",
+          "Content-type": "application/json",
         },
         method: "POST",
         body: JSON.stringify(loginData),
@@ -61,12 +73,12 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
     } catch (error) {
       console.error("로그인 요청 오류:", error);
     }
-  };
+  }
 
   return (
     <FormContainer>
       <Form onSubmit={handleLogin}>
-        <InputContainer>  
+        <InputContainer>
           <Label>이메일 주소</Label>
           <StyledInput
             type="email"
@@ -98,11 +110,10 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
       </Form>
       <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
-
         <SocialButton onClick={() => handleSocialLogin("kakao")}>
           <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
           카카오로 로그인하기
-          </SocialButton>
+        </SocialButton>
 
         <SocialButton onClick={() => handleSocialLogin("google")}>
           <SocialImage src="../../../public/assets/common/autentication/google icon.svg"/>
@@ -111,12 +122,15 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
 
       </SocialButtons>
       <Links>
-        <Link href="#"
-            onClick={(e) => {
-                e.preventDefault();
-                switchToSignup();
-            }}
-            >회원가입</Link>
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            switchToSignup();
+          }}
+        >
+          회원가입
+        </Link>
         <Link href="/">비밀번호 찾기</Link>
       </Links>
     </FormContainer>
@@ -133,7 +147,7 @@ const Links = styled.div`
   width: 100%;
 `;
 
-const Link = styled(SmallCaptionTypo).attrs({as: "a"})`
+const Link = styled(SmallCaptionTypo).attrs({ as: "a" })`
   text-decoration: none; // 링크 기본 밑줄
   color: white;
   &:hover {

@@ -8,6 +8,8 @@ import {
   SubTitle3Typo,
   SmallCaptionTypo,
 } from "../../styles/Typography";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../api/api";
 import rightButton from "../../../public/assets/common/right.svg";
 
 export interface Coin {
@@ -19,101 +21,132 @@ export interface Coin {
   change: "RISE" | "FALL" | "EVEN";
   changePrice: number;
   changeRate: number;
-  isCollected?: boolean;
   marketCap: number;
   volume: number;
 }
 
-const ChartCard = ({
-  symbol,
-  tradePrice,
-  highPrice,
-  lowPrice,
-  change,
-  changePrice,
-  changeRate,
-}: Coin) => {
+const ChartCard = ({ coinId }: { coinId: number }) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
-  const [exchangeLink, setExchangeLink] = useState<string>(
-    "https://www.binance.com/en",
-  );
-  const [customSymbol, setCustomSymbol] = useState<string>("");
+  const [coinData, setCoinData] = useState<Coin | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // API에서 코인 데이터 가져오기
+  const fetchCoinData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(coinId));
+
+      console.log("ChartCard API Response:", response.data);
+
+      if (response.data?.result) {
+        setCoinData(response.data.result);
+      } else {
+        setError("데이터 형식이 올바르지 않습니다.");
+      }
+    } catch (err) {
+      console.error("Error fetching coin data:", err);
+      setError("데이터를 불러오는 데 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // coinId가 변경될 때마다 데이터 가져오기
   useEffect(() => {
-    setCustomSymbol("DOGE_USDT");
-    setExchangeLink(
-      `https://www.binance.com/en/trade/${customSymbol}?type=spot`,
-    );
-    console.log(symbol, customSymbol);
+    if (coinId) {
+      fetchCoinData();
+    }
+  }, [coinId]);
 
+  // 차트 크기 감지
+  useEffect(() => {
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
         for (const entry of entries) {
           setChartSectionWidth(entry.borderBoxSize[0].inlineSize);
-          console.log("setChartSectionWidth를 실행 후 값:", chartSectionWidth);
         }
       });
       observer.observe(chartSectionRef.current);
-
       return () => observer.disconnect();
     }
   }, []);
 
-  return (
-    <>
-      <CardLayout>
-        <TitleSection>
-          <NoMarginCardTitle>차트</NoMarginCardTitle>
-          <FlexContainer
-            as="a"
-            href={exchangeLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
-            <img src={rightButton} />
-          </FlexContainer>
-        </TitleSection>
+  // 로딩 상태
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+  if (!coinData) return <p>데이터를 불러올 수 없습니다.</p>;
 
-        <FlexLayout>
+  return (
+    <CardLayout>
+      <TitleSection>
+        <NoMarginCardTitle>차트</NoMarginCardTitle>
+        <FlexContainer
+          as="a"
+          href={`https://www.binance.com/en/trade/${coinData?.symbol}?type=spot`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
+          <img src={rightButton} />
+        </FlexContainer>
+      </TitleSection>
+
+      <FlexLayout>
+        <div>
+          <BodyTypo>Price</BodyTypo>
+          <CurrentSection>
+            <CurrentPrice>
+              &#36; {coinData?.tradePrice?.toLocaleString() ?? "N/A"}
+            </CurrentPrice>
+            <CurrentPriceChange $change={coinData?.change ?? "EVEN"}>
+              {coinData?.change === "EVEN" ? (
+                "⏤"
+              ) : (
+                <>
+                  {coinData?.change === "RISE" ? "▲" : "▼"}&nbsp;
+                  {coinData?.changePrice?.toLocaleString() ?? "N/A"}&nbsp; (
+                  {coinData?.changeRate?.toLocaleString() ?? "N/A"}%)
+                </>
+              )}
+            </CurrentPriceChange>
+          </CurrentSection>
+        </div>
+        <PriceInfoContainer>
           <div>
-            <BodyTypo>Price</BodyTypo>
-            <CurrentSection>
-              <CurrentPrice>&#36; {tradePrice.toLocaleString()}</CurrentPrice>
-              <CurrentPriceChange $change={change}>
-                {change === "EVEN" ? (
-                  "⏤"
-                ) : (
-                  <>
-                    {change === "RISE" ? "▲" : "▼"}
-                    &nbsp;{changePrice.toLocaleString()}
-                    &nbsp;({changeRate.toLocaleString()}%)
-                  </>
-                )}
-              </CurrentPriceChange>
-            </CurrentSection>
+            <StyledRegularCaption>24h change</StyledRegularCaption>
+            <StyledSubTitle3>
+              {coinData?.changePrice?.toLocaleString() ?? "N/A"}
+            </StyledSubTitle3>
           </div>
-          <PriceInfoContainer>
-            <div>
-              <StyledRegularCaption>24h change</StyledRegularCaption>
-              <StyledSubTitle3>{changePrice}</StyledSubTitle3>
-            </div>
-            <div>
-              <StyledRegularCaption>24h high</StyledRegularCaption>
-              <StyledSubTitle3>{lowPrice.toLocaleString()}</StyledSubTitle3>
-            </div>
-            <div>
-              <StyledRegularCaption>24h low</StyledRegularCaption>
-              <StyledSubTitle3>{highPrice.toLocaleString()}</StyledSubTitle3>
-            </div>
-          </PriceInfoContainer>
-        </FlexLayout>
-        <ChartSection ref={chartSectionRef}>
-          <CoinCardChart width={chartSectionWidth} symbol={symbol} />
-        </ChartSection>
-      </CardLayout>
-    </>
+          <div>
+            <StyledRegularCaption>24h high</StyledRegularCaption>
+            <StyledSubTitle3>
+              {coinData?.highPrice?.toLocaleString() ?? "N/A"}
+            </StyledSubTitle3>
+          </div>
+          <div>
+            <StyledRegularCaption>24h low</StyledRegularCaption>
+            <StyledSubTitle3>
+              {coinData?.lowPrice?.toLocaleString() ?? "N/A"}
+            </StyledSubTitle3>
+          </div>
+        </PriceInfoContainer>
+      </FlexLayout>
+
+      <ChartSection ref={chartSectionRef}>
+        <CoinCardChart
+          symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
+          chartOptions={{
+            disableInteraction: false,
+            showXAxisTicks: true,
+            zoomEnabled: true,
+          }}
+        />
+      </ChartSection>
+    </CardLayout>
   );
 };
 
@@ -148,7 +181,6 @@ const StyledSubTitle3 = styled(SubTitle3Typo)`
   text-align: center;
 `;
 
-// 가격정보
 const FlexContainer = styled.div`
   all: unset;
   display: flex;

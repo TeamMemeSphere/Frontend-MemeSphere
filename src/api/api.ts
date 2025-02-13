@@ -23,4 +23,4 @@ export const API_ENDPOINTS = {
     COLLECTION: `${BASE_URL}/collection`,
 };
 
-console.log("api 기본 주소:", BASE_URL);
+//console.log("api 기본 주소:", BASE_URL);
