@@ -16,6 +16,8 @@ const Navbar: React.FC = () => {
   const [isAlarmOpen, setIsAlarmOpen] = useState(false);
 
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   // 사이드바가 열리면 스크롤이 비활성화
   useEffect(() => {
@@ -38,6 +40,19 @@ const Navbar: React.FC = () => {
   const handleOpenUserModal = () => {
     setIsUserModalOpen(true);
     setIsSidebarOpen(false);
+  };
+  // 로그인 여부 확인
+  const handleLogin = () =>  {
+    setIsLoggedIn(true);
+    setIsUserModalOpen(false);
+  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsUserModalOpen(false);
+  };
+
+  const closeAlarmModal = () => {
+    setIsAlarmOpen(false);
   };
 
   return (
@@ -67,8 +82,11 @@ const Navbar: React.FC = () => {
           setIsAlarmOpen={setIsAlarmOpen}
           setIsUserModalOpen={handleOpenUserModal}/>
       )}
-      {isAlarmOpen && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
-      {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)} />}
+      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
+      {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
+      
+      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
+      {isUserModalOpen && isLoggedIn && <GreetingModal onLogout={handleLogout} closeModal={() => setIsUserModalOpen(false)} />}
     </Nav>
   );
 };

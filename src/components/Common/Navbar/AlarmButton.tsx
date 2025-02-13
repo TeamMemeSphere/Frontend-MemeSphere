@@ -12,8 +12,10 @@ const AlarmButton: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const {isAuthenticated}= useAuth();
 
-  const accessToken = isAuthenticated ? localStorage.getItem("accessToken") : null;
-  const refreshToken = isAuthenticated ? localStorage.getItem("refreshToken") : null;
+  const authTokens = {
+    accessToken: localStorage.getItem("accessToken") ?? "",
+    refreshToken: localStorage.getItem("refreshToken") ?? "",
+  };
 
   const openUserModal = () => {
     setIsUserModalOpen(true);
@@ -40,7 +42,7 @@ const AlarmButton: React.FC = () => {
       document.body.style.overflow = "auto";
     };
   },[isModalOpen]);
-
+  
   return (
     <>
       <StyledHeaderButton onClick={openModal}>
@@ -48,7 +50,7 @@ const AlarmButton: React.FC = () => {
       </StyledHeaderButton>
       {isModalOpen && 
       (isAuthenticated
-      ? <AlarmModal closeModal={closeModal} />
+      ? <AlarmModal closeModal={closeModal} {...authTokens} />
       : <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal}/>)}
       {isUserModalOpen && <UserModal closeModal={()=>closeUserModal()}></UserModal>}
     </>

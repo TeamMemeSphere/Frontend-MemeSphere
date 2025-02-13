@@ -9,7 +9,7 @@ type AlertHistoryBoxProps = notificationType & {
     closeModal : () => void;
 }
 
-const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({id, name, symbol, volatility, period, direction, isAlertOn, deleteHistory, closeModal}) => {
+const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name, symbol, volatility, stTime, isRising, isOn, deleteHistory, closeModal}) => {
 
 
     return <Container>
@@ -19,7 +19,7 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({id, name, symbol, vol
                 <Timestamp>2025.01.23 16:35</Timestamp>
             </HeaderLeft>
             <Button src="public/assets/Notification/Delete.svg" size="0.875rem"
-            onClick={()=>deleteHistory(id)}
+            onClick={()=>deleteHistory(notificationId)}
             />
         </Header>
         <Content>
@@ -27,8 +27,8 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({id, name, symbol, vol
                 <Typo width="6.688rem">{name}
                     ({symbol})</Typo>
                 <Typo width="2rem">{volatility}%</Typo>
-                <Typo width="2.813rem">{period}분</Typo>
-                <Typo width="1.563rem">{direction === "RISE" ? "상승" : "하락"}</Typo>
+                <Typo width="2.813rem">{stTime}분</Typo>
+                <Typo width="1.563rem">{isRising ? "상승" : "하락"}</Typo>
             </ContentLeft>
             <MoreButton to={"/CoinDetailPage"} onClick={()=>closeModal()}>
                 <Button src="public/assets/Notification/chevron-right 1.svg" size="1.188rem"/>

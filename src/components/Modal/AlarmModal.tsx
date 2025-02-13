@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { SubTitle2Typo } from "../../styles/Typography";
@@ -6,48 +6,36 @@ import bellIcon from "../../../public/assets/Modal/notification-icon.svg";
 import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
-import { notificationType } from "../Notification/NotificationType";
-
+import { notificationType, notificationWithoutId } from "../Notification/NotificationType";
+import { useNotification } from "../../hooks/common/useNotification";
 
 interface ModalProps {
   closeModal: () => void;
+  accessToken : string;
+  refreshToken : string;
 }
 
-const NotificationDummy : notificationType[]= [
-  {
-  id: 1,
-  name:"도지코인",
-  symbol:"DOGE",
-  volatility:30,
-  period:2,
-  direction:"RISE",
-  isAlertOn: "ON",
-  },
-  {
-  id: 2,
-  name:"봉크",
-  symbol:"BONK",
-  volatility:3,
-  period:60,
-  direction:"RISE",
-  isAlertOn: "ON",
-  },
-  {
-  id: 3,
-  name:"페페",
-  symbol:"PEPE",
-  volatility:3,
-  period:2,
-  direction:"FALL",
-  isAlertOn: "ON",
-  }
-];
 
+const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
+  const [alertCount, setAlertCount] = useState(0);
 
-const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
-  const [notifications, setNotifications] = useState(NotificationDummy);
-  const [nextId, setNextId] = useState(4);
-  const [alertCount, setAlertCount] = useState(3);
+  const {
+    data: notificationList, 
+    addNotification, 
+    deleteNotification,
+    toggleNotification
+  } = useNotification(accessToken);
+
+  useEffect(() => {
+    const newCount = notificationList?.length ?? 0;
+  
+    setAlertCount(prev => {
+      if (prev !== newCount) {
+        return newCount;
+      }
+      return prev;
+    });
+  }, [notificationList]);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -55,32 +43,22 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
     }
   };
 
-  const createNotifcation = (newNotification : Omit<notificationType, "id">) => {
-    if(alertCount < 8){
-      const notificationWithId = {...newNotification, id : nextId};
-    setNextId((prevId) => prevId + 1); // 다음 id값 증가
-    setNotifications((prevNotifications)=>[...prevNotifications, notificationWithId]);
-    setAlertCount((prev)=>prev+1);
-    } else {alert("알림은 최대 8개까지 설정가능합니다.");}
-    
+  const createNotifcation = (newNotification : notificationWithoutId) => {
+    if(alertCount >= 8){
+      alert("알림은 최대 8개까지 등록할 수 있습니다.");
+      return;
+    }
+    addNotification(newNotification);
   };
 
-  const toggleNotification = (id : number) => {
-    setNotifications((prevNotifications)=>
-        prevNotifications.map((notification)=>
-            notification.id === id
-                ? {...notification, isAlertOn: notification.isAlertOn === "ON" ? "OFF" : "ON" }
-                : notification
-        )
-    );
+  const callDeleteNotification = (id : number) => {
+    deleteNotification(id);
+  };
+
+  const callToggleNotification = (id : number) => {
+    toggleNotification(id);
 };
 
-const deleteNotification = (id : number) => {
-    setNotifications((prevNotifications)=>
-            prevNotifications.filter((notification)=> notification.id !== id)
-    );
-    setAlertCount((prev)=>prev-1);
-};
 
   return (
     <ModalOverlay onClick={handleOverlayClick}>
@@ -88,11 +66,12 @@ const deleteNotification = (id : number) => {
         <FlexContainer>
           <StyledImg src={bellIcon} />
           <SubTitle2Typo>알림</SubTitle2Typo>
+          <CloseButton src="public/assets/Notification/closeButton.svg" onClick={closeModal}/>
         </FlexContainer>
         <NotificationContainer>
           <LeftSide>
             <NotificationRegister createNotification={createNotifcation}/>
-            <NotificationList notifications={notifications} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>
+            <NotificationList notifications={notificationList} toggleNotification={callToggleNotification} deleteNotification={callDeleteNotification}/>
           </LeftSide>
           <DividerLine/>
           <RightSide>
@@ -166,4 +145,12 @@ const DividerLine = styled.div`
   width: 0.063rem;
   height: 47.813rem;
   background: var(--white-10, rgba(255, 255, 255, 0.10));
+`;
+
+const CloseButton = styled.img`
+  width : 1.5rem;
+  height : 1.5rem;
+  flex-shrink: 0;
+  margin-left : 38.4rem;
+  cursor: pointer;
 `;
