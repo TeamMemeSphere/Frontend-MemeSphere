@@ -128,7 +128,6 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify(formData),
       });
-      console.log("백엔드로 보낼 데이터:", JSON.stringify(formData));
 
       const data = await response.json();
       console.log("백엔드 응답:", data);
