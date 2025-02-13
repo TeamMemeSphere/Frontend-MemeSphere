@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     ALARM_LIST: `${BASE_URL}/notification/list`,
     PUSH_ALARM_LIST: `${BASE_URL}/push-notifications`,
     PUSH_ALARM_CONFIRM: (notificaionId: string) => `${BASE_URL}/push-notifications/${notificaionId}`,
-    USER_IMAGE: `${BASE_URL}/s3/upload`,
+    USER_IMAGE: `${BASE_URL}/image/upload`,
     USER_SIGNUP: `${BASE_URL}/user/sign-up`,
     USER_SIGNUP_NICKNAME: `${BASE_URL}/user/signup/nickname/validate`,
     USER_SIGNIN: `${BASE_URL}/user/sign-in`,
