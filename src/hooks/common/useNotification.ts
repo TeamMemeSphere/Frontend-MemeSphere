@@ -31,8 +31,41 @@ const addNotificationAPI = async ({token, notification}: {token:string; notifica
   if (!res.ok) {
     throw new Error("Failed to add notification");
   }
+  const data = await res.json();
+  return data.result;
+  };
 
-  return res.json();
+const deleteNotificationAPI = async({token, notificationId}:{token:string; notificationId: number}) => {
+  const res = await fetch(API_ENDPOINTS.ALARM_MODIFY(notificationId), {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }
+  });
+  if (!res.ok) {
+    throw new Error("Failed to add notification");
+  }
+  const data = await res.json();
+
+  return data.result.notificationList;
+};
+
+const toggleNotificationAPI = async({token, notificationId}:
+  {token:string; notificationId: number}) => {
+    const res = await fetch(API_ENDPOINTS.ALARM_MODIFY(notificationId), {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    });
+    if (!res.ok) {
+      throw new Error("Failed to toggle notification");
+    }
+    const data = await res.json();
+
+    return data.result;
 };
 
 export const useNotification = (token : string) => {
@@ -46,13 +79,38 @@ export const useNotification = (token : string) => {
 
   const addNotification = useMutation({
     mutationFn: (notification: notificationWithoutId) => addNotificationAPI({ token, notification }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications", token] })
-  }).mutate;
+    onSuccess: (newNotification) => {
+      queryClient.setQueryData(["notifications", token], (oldData: notificationType[] | undefined) => {
+        return oldData ? [...oldData, newNotification] : newNotification;
+      });
+    }
+  });
+
+  const deleteNotification = useMutation({
+    mutationFn:(notificationId: number) => deleteNotificationAPI({token, notificationId}),
+    onSuccess: (remainingNotifications) => queryClient.setQueryData(["notifications", token],remainingNotifications)
+  });
+
+  const toggleNotification = useMutation({
+    mutationFn:(notificationId : number) => toggleNotificationAPI({token, notificationId}),
+    onSuccess: (result, notificationId) => {
+      queryClient.setQueryData<notificationType[]>(["notifications", token], (prevData) => {
+        if(!prevData) return prevData;
+        return prevData.map((notification)=>
+          notification.notificationId === notificationId
+            ? {...notification, isOn: result === "알림을 켰습니다."}
+            : notification
+        );
+      });
+    },
+  });
 
   return {
     data,
     isLoading,
     error,
-    addNotification
+    addNotification : addNotification.mutate,
+    deleteNotification : deleteNotification.mutate,
+    toggleNotification : toggleNotification.mutate
   };
 };

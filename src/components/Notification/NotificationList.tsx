@@ -9,6 +9,7 @@ type NotificationListProps = {
     deleteNotification : (id : number)=> void;
 }
 const NotificationList : React.FC<NotificationListProps> = ({notifications, toggleNotification, deleteNotification}) => {
+    
     return <Container>
         <S.SubTitle3Typo>등록된 알림 목록</S.SubTitle3Typo>
         <Content>

@@ -5,30 +5,7 @@ import {useForm} from "react-hook-form";
 import NotificationInput from "./NotificationInput.tsx";
 import { notificationType, notificationWithoutId } from "./NotificationType.ts";
 import { useState } from "react";
-
-const coinMap : Record<string, string>= {
-    "Dogecoin": "DOGE",
-    "SHIBA INU": "SHIB",
-    "OFFICIAL TRUMP": "TRUMP",
-    "Pepe": "PEPE",
-    "Bonk": "BONK",
-    "Pudgy Penguins": "PENGU",
-    "Dogwifhat": "WIF",
-    "FLOKI": "FLOKI",
-    "aixbt by Virtuals": "AIXBT",
-    "Turbo": "TURBO",
-    "ORDI": "ORDI",
-    "Peanut the Squirrel": "PNUT",
-    "1M x BABYDOGE": "1MBABYDOGE",
-    "Memecoin": "MEME",
-    "BOOK OF MEME": "BOME",
-    "1000*SATS (Ordinals)": "1000SATS",
-    "First Neiro On Ethereum": "NEIRO",
-    "Dogs": "DOGS",
-    "ConstitutionDAO": "PEOPLE",
-    "Act I: The AI Prophecy": "ACT",
-    "1000*Simons Cat": "1000CAT"
-};
+import { coinMap } from "./CoinMap.ts";
 
 type NotificationRegisterProps = {
     createNotification : (notification: notificationWithoutId) => void;
@@ -41,6 +18,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
             name: "",
             symbol: "",
             isRising: true,
+            isOn: true,
         }
     });
     
@@ -105,10 +83,9 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
     const direction = watch("isRising", true);
 
     const onSubmit = (data: notificationWithoutId) => {
-        console.log(data);
         createNotification(data);
-        // 서버로 데이터 전송 로직 추가
 };
+
     return <Container>
         <S.SubTitle3Typo>알림 등록하기</S.SubTitle3Typo>
         <Content>

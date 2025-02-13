@@ -14,4 +14,5 @@ export type notificationWithoutId = {
         volatility : number,
         stTime : number,
         isRising : boolean,
+        isOn : boolean,
 };

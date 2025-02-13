@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
     COIN_DETAIL: (memeId: number) => `${BASE_URL}/detail/${memeId}`,
     CHATTING : (coin_id:number)=> `${BASE_URL}/latest/${coin_id}`,
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
-    ALARM_MODIFY: (notificaionId: string) => `${BASE_URL}/notification/${notificaionId}`,
+    ALARM_MODIFY: (notificaionId: number) => `${BASE_URL}/notification/${notificaionId}`,
     ALARM_LIST: `${BASE_URL}/notification/list`,
     PUSH_ALARM_LIST: `${BASE_URL}/push-notifications`,
     PUSH_ALARM_CONFIRM: (notificaionId: string) => `${BASE_URL}/push-notifications/${notificaionId}`,
@@ -18,5 +18,3 @@ export const API_ENDPOINTS = {
     SEARCH: `${BASE_URL}/search`,
     COLLECTION: `${BASE_URL}/collection`,
 };
-
-console.log("api 기본 주소:", BASE_URL);

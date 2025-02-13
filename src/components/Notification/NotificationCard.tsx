@@ -8,7 +8,7 @@ type NotificationCardProps = notificationType & {
 
 }
 const NotificationCard : React.FC<NotificationCardProps> = ({notificationId, name, symbol, volatility, stTime, isRising, isOn, toggleNotification, deleteNotification}) => {
-
+    
     return <Card>
         <Typo width="6.688rem">{name}
             ({symbol})</Typo>

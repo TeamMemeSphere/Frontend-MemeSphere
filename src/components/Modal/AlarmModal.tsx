@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { SubTitle2Typo } from "../../styles/Typography";
@@ -15,41 +15,28 @@ interface ModalProps {
   refreshToken : string;
 }
 
-const NotificationDummy : notificationType[]= [
-  {
-  notificationId: 1,
-  name:"도지코인",
-  symbol:"DOGE",
-  volatility:30,
-  stTime:2,
-  isRising:true,
-  isOn: true,
-  },
-  {
-  notificationId: 2,
-  name:"봉크",
-  symbol:"BONK",
-  volatility:3,
-  stTime:2,
-  isRising:true,
-  isOn: true,
-  },
-  {
-  notificationId: 3,
-  name:"페페",
-  symbol:"PEPE",
-  volatility:3,
-  stTime:2,
-  isRising:true,
-  isOn: true,
-  }
-];
-
 
 const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
-  const [notifications, setNotifications] = useState(NotificationDummy);
   const [alertCount, setAlertCount] = useState(0);
-  const {data: notificationList, addNotification} = useNotification(accessToken);
+
+  const {
+    data: notificationList, 
+    addNotification, 
+    deleteNotification,
+    toggleNotification
+  } = useNotification(accessToken);
+
+  useEffect(() => {
+    const newCount = notificationList?.length ?? 0;
+  
+    setAlertCount(prev => {
+      if (prev !== newCount) {
+        console.log("현재 알림 수: ", newCount);
+        return newCount;
+      }
+      return prev;
+    });
+  }, [notificationList]);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -58,28 +45,21 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToke
   };
 
   const createNotifcation = (newNotification : notificationWithoutId) => {
-      console.log("createNotificaton",newNotification);
-      addNotification(newNotification);
-  
-  
+    if(alertCount >= 8){
+      alert("알림은 최대 8개까지 등록할 수 있습니다.");
+      return;
+    }
+    addNotification(newNotification);
   };
 
-  const toggleNotification = (id : number) => {
-    setNotifications((prevNotifications)=>
-        prevNotifications.map((notification)=>
-            notification.notificationId === id
-                ? {...notification, isOn: notification.isOn === true ? false : true }
-                : notification
-        )
-    );
+  const callDeleteNotification = (id : number) => {
+    deleteNotification(id);
+  };
+
+  const callToggleNotification = (id : number) => {
+    toggleNotification(id);
 };
 
-const deleteNotification = (id : number) => {
-    setNotifications((prevNotifications)=>
-            prevNotifications.filter((notification)=> notification.notificationId !== id)
-    );
-    setAlertCount((prev)=>prev-1);
-};
 
   return (
     <ModalOverlay onClick={handleOverlayClick}>
@@ -91,7 +71,7 @@ const deleteNotification = (id : number) => {
         <NotificationContainer>
           <LeftSide>
             <NotificationRegister createNotification={createNotifcation}/>
-            <NotificationList notifications={notificationList} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>
+            <NotificationList notifications={notificationList} toggleNotification={callToggleNotification} deleteNotification={callDeleteNotification}/>
           </LeftSide>
           <DividerLine/>
           <RightSide>
