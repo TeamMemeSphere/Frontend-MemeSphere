@@ -11,9 +11,9 @@ interface SignupProps {
 }
 
 const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
-  const { nickname, checkNicknameAvailability, nicknameCheckMessage, isNicknameChecked, birthDate, handleBlur, handleChange } = useFormValidation();
+  const { nickname, checkNicknameAvailability, nicknameCheckMessage, isNicknameChecked, setIsNicknameChecked, birthDate, handleBlur, handleChange } = useFormValidation();
 
-  const defaultProfileImage = "/assets/common/autentication/ProfileImage.svg";
+  const defaultProfileImage = "https://umc-meme.s3.ap-northeast-2.amazonaws.com/defaultimage.png";
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [useDefaultImage, setUseDefaultImage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -102,6 +102,7 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
 
   const handleCheckNickname = async() => {
     await checkNicknameAvailability();
+    setIsNicknameChecked(true);
   };
 
   async function handleSignup(event: React.FormEvent) {
@@ -111,13 +112,13 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
     if (!profileImage) {
       setUseDefaultImage(true);
     }
-    if (!nickname.value || !birthDate.value || !isNicknameChecked) {
+    if (!nickname.value || !birthDate.value || !isNicknameChecked ) {
       return;
     }
 
     try {
       const formData = {
-        email, password, nickname: nickname.value, birth: String(birthDate.value), profileImage: profileImage || undefined,
+        email, password, nickname: nickname.value, birth: String(birthDate.value), profileImage: profileImage || defaultProfileImage,
       };
       if (!useDefaultImage && profileImage) {
         formData.profileImage = profileImage;
@@ -186,8 +187,13 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
               isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다." ? true : undefined} />
             <NicknameConfirmButton type="button" onClick={handleCheckNickname}>중복 확인</NicknameConfirmButton>
           </NicknameInputContainer>
-          {nickname.value && nicknameCheckMessage
-          && (<ErrorMessage isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다."}>{nicknameCheckMessage}</ErrorMessage>)}
+          {isSubmitted && !isNicknameChecked && nickname.value && (
+            <ErrorMessage>닉네임 중복 확인을 진행해주세요.</ErrorMessage>
+          )}
+          {nickname.value && nicknameCheckMessage && (
+            <ErrorMessage isAvailable={nicknameCheckMessage === "사용 가능한 닉네임입니다."}>
+              {nicknameCheckMessage}</ErrorMessage>
+          )}
         </InputContainer>
 
         <InputContainer>     
