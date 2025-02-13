@@ -1,14 +1,47 @@
 import styled from "styled-components";
+import {BodyTypo, SubTitle1Typo, SubTitle3Typo} from "../../../styles/Typography";
+import GoogleTrendsWidget from "./googletrendswidget";
 import TrendChartList from "./TrendCharList";
-import {BodyTypo, SubTitle3Typo} from "../../../styles/Typography";
+import ContentHeader from "../../Common/ContentHeader";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../../api/api";
 
 const DashboardTop = () => {
+  const [totalVolume, setTotalVolume] = useState<number | null>(null);
+  const [totalCoin, setTotalCoin] = useState<number | null>(null);
+
+  const fetchDashBoardData = async () => {
+    try {
+      const response = await axios.get(API_ENDPOINTS.DASHBOARD_OVERVIEW);
+      if (response.data.isSuccess) {
+        setTotalVolume(response.data.result.totalVolume);
+        setTotalCoin(response.data.result.totalCoin);
+        console.log("총거래량/코인수 API 응답 데이터:", response.data);
+      } else {
+        console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
+      }
+    } catch (error) {
+      console.error("api 요청 중 오류 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashBoardData();
+  }, []);
+
   return (
+    <>
+    <ContentHeader title="대시보드" description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."></ContentHeader>
+      
     <Container>
+      <TopItemWrapper>
       <Item1>
         <Item1TextWrapper>
-          <BodyTypo>총 거래량 (24시간)</BodyTypo>
-          <StyledContent>$ 29,960</StyledContent>
+          <Item12Title>총 거래량 (24시간)</Item12Title>
+          <StyledContent>
+            {totalVolume !== null ? `$${totalVolume.toLocaleString()}` : "Loading..."}
+          </StyledContent>
         </Item1TextWrapper>
         <Image1 src="/assets/common/dashboard-top/Total Volum 3D image.svg" alt="총 거래량" />
       </Item1>
@@ -16,13 +49,17 @@ const DashboardTop = () => {
       <Item2>
         <Image2 src="/assets/common/dashboard-top/Trade coin 3D image 2.svg" alt="거래된 코인" />
         <Item2TextWrapper>
-          <BodyTypo>거래된 밈 코인</BodyTypo>
-          <StyledContent>125개</StyledContent>
+          <Item12Title>거래된 밈 코인</Item12Title>
+          <Item2StyledContent>
+            {totalCoin !== null ? `${totalCoin}개` : "Loading..."}
+          </Item2StyledContent>
         </Item2TextWrapper>
       </Item2>
+      </TopItemWrapper>
 
       <Item3>
         <Item34TextWrapper>연관 검색어</Item34TextWrapper>
+        <GoogleTrendsWidget />
       </Item3>
 
       <Item4>
@@ -30,18 +67,19 @@ const DashboardTop = () => {
         <TrendChartList />
       </Item4>
     </Container>
+    </>
   );
 };
 
 export default DashboardTop;
 
-const StyledContent = styled.span`
-  font-size: 1.875rem;
-  font-weight: var(--font-weight-bold);
+// px -> rem 수정하기
+const StyledContent = styled(SubTitle1Typo).attrs({ as: "span" })`
   color: white;
   margin: 0;
   padding-top: 0.375rem;
 `;
+
 const BaseItem = styled.section`
   border-radius: 20px;
 `;
@@ -55,49 +93,80 @@ const StyledImage = styled.img`
   pointer-events: none;
 `;
 
-// 그리드
 const Container = styled.div`
-  backgroud-color: white;
   gap: 25px;
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: auto;
   grid-template-areas:
-    "Item1 Item2 Item4"
+    "top top Item4"
     "Item3 Item3 Item4";
+  padding-bottom: 4.625rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "top"
+    "Item3"
+    "Item4";
+    justify-items: center;
+    }
 `;
 
-// 각 코너 스타일링
+const TopItemWrapper = styled.div`
+  grid-area: top;
+  display: flex;
+  gap: 25px;
+  max-width: 537px;
+`;
+
+const Item12Title = styled(BodyTypo)`
+`;
+
 const Item1 = styled(BaseItem)`
   background-color: var(--purple);
   grid-area: Item1;
-  height: 10.188rem;
-  aspect-ratio: 310/163;
+  height: 143px;
+  width: 100%;
+  max-width: 322px;
+  aspect-ratio: 322 / 143;
+  min-width: 0;
+  flex: 1;
   position: relative;
   overflow: hidden;
 `;
-const Item1TextWrapper = styled(BaseTextWrapper)`
-  margin-top: 5.125rem;
+const Item1TextWrapper = styled.div`
+  margin-top: 69px;
+  padding-left: 27px;
+  z-index: 1;
+  position: relative;
 `;
 const Image1 = styled(StyledImage)`
-  margin-left: 11.25rem;
-  margin-top: 0.188rem;
+  margin-left: 8.75rem;
+  margin-top: 0.875rem;
+  position: absolute;
 `;
 
 const Item2 = styled(BaseItem)`
   background-color: var(--pink);
   grid-area: Item2;
-  height: 10.188rem;
-  aspect-ratio: 202/163;
+  height: 143px;
+  width: 100%;
+  max-width: 190px;
+  aspect-ratio: 190 / 143;
   position: relative;
   overflow: hidden;
+  flex: 1;
 `;
-const Item2TextWrapper = styled(BaseTextWrapper)`
-  margin-top: 5.125rem;
-  padding-left: 5.5rem;
-  color: white;
+const Item2TextWrapper = styled.div`
+  margin-top: 69px;
+  padding-right: 25px;
   z-index: 1;
-  position: absolute;
+  position: relative;
+  float: right;
+  text-align: right;
+`;
+const Item2StyledContent = styled(StyledContent).attrs({ as: "span"})`
 `;
 const Image2 = styled(StyledImage)`
   margin-top: -2.563rem;
@@ -108,15 +177,22 @@ const Image2 = styled(StyledImage)`
 const Item3 = styled(BaseItem)`
   background-color: var(--grey-100);
   grid-area: Item3;
-  height: 21.688rem;
+  height: 347px;
+  width: 100%;
+  max-width: 537px;
   aspect-ratio: 537/347;
+  overflow: hidden;
+  flex: 1;
 `;
 
 const Item4 = styled(BaseItem)`
   background-color: var(--grey-100);
   grid-area: Item4;
-  height: 33.438rem;
-  aspect-ratio: 518/535;
+  height: 515px;
+  width: 100%;
+  max-width: 518px;
+  aspect-ratio: 518/515;
+  flex: 1;
 `;
 
 const Item34TextWrapper = styled(BaseTextWrapper)`

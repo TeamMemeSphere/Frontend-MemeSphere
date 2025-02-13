@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
     --grey-80: rgba(38, 38, 43, 0.8);
     --grey-50: rgba(38, 38, 42, 0.5);
     --grey-10: rgba(38, 38, 42, 0.1);
+    --light-grey: #9095A0;
 
     // White
     --white-100: rgb(255, 255, 255);

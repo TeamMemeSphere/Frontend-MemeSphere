@@ -1,21 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { SubTitle2Typo } from "../../styles/Typography";
 import bellIcon from "../../../public/assets/Modal/notification-icon.svg";
 import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
+import { notificationType, notificationWithoutId } from "../Notification/NotificationType";
+import { useNotification } from "../../hooks/common/useNotification";
 
 interface ModalProps {
   closeModal: () => void;
+  accessToken : string;
+  refreshToken : string;
 }
 
-const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
+
+const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
+  const [alertCount, setAlertCount] = useState(0);
+
+  const {
+    data: notificationList, 
+    addNotification, 
+    deleteNotification,
+    toggleNotification
+  } = useNotification(accessToken);
+
+  useEffect(() => {
+    const newCount = notificationList?.length ?? 0;
+  
+    setAlertCount(prev => {
+      if (prev !== newCount) {
+        return newCount;
+      }
+      return prev;
+    });
+  }, [notificationList]);
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
+
+  const createNotifcation = (newNotification : notificationWithoutId) => {
+    if(alertCount >= 8){
+      alert("알림은 최대 8개까지 등록할 수 있습니다.");
+      return;
+    }
+    addNotification(newNotification);
+  };
+
+  const callDeleteNotification = (id : number) => {
+    deleteNotification(id);
+  };
+
+  const callToggleNotification = (id : number) => {
+    toggleNotification(id);
+};
 
 
   return (
@@ -24,15 +66,16 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
         <FlexContainer>
           <StyledImg src={bellIcon} />
           <SubTitle2Typo>알림</SubTitle2Typo>
+          <CloseButton src="public/assets/Notification/closeButton.svg" onClick={closeModal}/>
         </FlexContainer>
         <NotificationContainer>
           <LeftSide>
-            <NotificationRegister></NotificationRegister>
-            <NotificationList></NotificationList>
+            <NotificationRegister createNotification={createNotifcation}/>
+            <NotificationList notifications={notificationList} toggleNotification={callToggleNotification} deleteNotification={callDeleteNotification}/>
           </LeftSide>
-          <DividerLine></DividerLine>
+          <DividerLine/>
           <RightSide>
-            <NotificationHistory></NotificationHistory>
+            <NotificationHistory closeModal={closeModal}></NotificationHistory>
           </RightSide>
         </NotificationContainer>
       </ModalContent>
@@ -43,7 +86,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal }) => {
 export default AlarmModal;
 
 const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -102,4 +145,12 @@ const DividerLine = styled.div`
   width: 0.063rem;
   height: 47.813rem;
   background: var(--white-10, rgba(255, 255, 255, 0.10));
+`;
+
+const CloseButton = styled.img`
+  width : 1.5rem;
+  height : 1.5rem;
+  flex-shrink: 0;
+  margin-left : 38.4rem;
+  cursor: pointer;
 `;

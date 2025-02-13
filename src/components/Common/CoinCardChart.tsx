@@ -1,180 +1,198 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetchCoin } from "../../hooks/common/useFetchCoin";
 import { useQuery } from "@tanstack/react-query";
 import {
-    Chart,
-    ChartCanvas,
-    CandlestickSeries,
-    XAxis,
-    YAxis,
-    MouseCoordinateX,
-    MouseCoordinateY,
-    CrossHairCursor,
-    discontinuousTimeScaleProvider,
-    // timeFormat
+  Chart,
+  ChartCanvas,
+  CandlestickSeries,
+  XAxis,
+  YAxis,
+  MouseCoordinateX,
+  MouseCoordinateY,
+  CrossHairCursor,
+  discontinuousTimeScaleProvider,
 } from "react-financial-charts";
-import { timeFormat } from "d3-time-format";
-import { format } from "d3-format";
 import styled from "styled-components";
 
 interface CoinCardChartProps {
-    width: number;
-    symbol: string;
+  symbol: string;
+  chartOptions?: {
+    height?: number;
+    margin?: { left: number; right: number; top: number; bottom: number };
+    disableInteraction?: boolean;
+    showXAxisTicks?: boolean;
+    zoomEnabled?: boolean;
+  };
 }
 
-const CoinCardChart = ({ width, symbol }: CoinCardChartProps) => {
-    const [interval, setInterval] = useState("1h");
+const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
 
-    const handleIntervalChange = (interval: string) => {
-        setInterval(interval);
-    }
+  const {
+    height = 241,
+    margin = { left: 0, right: 0, top: 0, bottom: 30 },
+    disableInteraction = true,
+    showXAxisTicks = false,
+    zoomEnabled = false,
+  } = chartOptions;
 
-    const { getCandlestickData } = useFetchCoin();
+  const [interval, setInterval] = useState("1h");
 
-    const { data: candlestickData, error, isLoading } = useQuery({
-        queryKey: ["candlestickData", symbol, interval],
-        queryFn: () => getCandlestickData(symbol, interval),
-        refetchInterval: 1000 * 60 // 1분마다 데이터 갱신
-    });
+  const handleIntervalChange = (interval: string) => {
+    setInterval(interval);
+  };
 
-    console.log(candlestickData);
+  const { getCandlestickData } = useFetchCoin();
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading data</div>;
+  const {
+    data: candlestickData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["candlestickData", symbol, interval],
+    queryFn: () => getCandlestickData(symbol, interval),
+    refetchInterval: 1000 * 60,
+  });
 
-    const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-        (d) => d.date // 데이터에서 날짜 정보를 가져오는 방식 지정
-    );
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setWidth(containerRef.current.offsetWidth);
+      }
+    };
 
-    const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-        candlestickData,
-    );
+    // 초기 렌더링 시 너비 설정
+    updateWidth();
 
-    // const max = xAccessor(data[data.length - 1]);
-    // const min = xAccessor(data[Math.max(0, data.length - 100)]);
-    // const xExtents = [min, max + 5];
-    const max = xAccessor(data[data.length - 1]);
-    const xExtents = [max - 17, max + 3];
+    // 창 크기 변경 시 너비 업데이트
+    window.addEventListener("resize", updateWidth);
 
-    const dateTimeFormat = "%I:%M";
-    // const dateTimeFormat = "%I %p";
-    const timeDisplayFormat = timeFormat(dateTimeFormat);
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
-    const pricesDisplayFormat = format(".4f");
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
 
-    console.log(data);
+  const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
+    (d) => d.date,
+  );
 
-    return (
-        <>
-            <IntervalWrapper>
-                <IntervalButton
-                    $isActive={interval === "1h"}
-                    onClick={() => handleIntervalChange("1h")}
-                >
-                    1h
-                </IntervalButton>
-                <IntervalButton
-                    $isActive={interval === "1d"}
-                    onClick={() => handleIntervalChange("1d")}
-                >
-                    1d
-                </IntervalButton>
-                <IntervalButton
-                    $isActive={interval === "1w"}
-                    onClick={() => handleIntervalChange("1w")}
-                >
-                    1w
-                </IntervalButton>
-                <IntervalButton
-                    $isActive={interval === "1M"}
-                    onClick={() => handleIntervalChange("1M")}
-                >   
-                    1M
-                </IntervalButton>
-            </IntervalWrapper>
-            <ChartCanvas
-                height={241} // 차트 높이
-                width={width} // 차트 너비 (컨테이너 크기 기준으로 동적 설정)
-                ratio={3} // 픽셀 밀도 설정 (기본값 3)
-                margin={{ left: 0, right: 0, top: 0, bottom: 30 }} // 차트 여백
-                seriesName="Data" // 차트 데이터 시리즈 이름
-                data={data} // 차트에 전달할 데이터
-                xScale={xScale} // X축 스케일
-                xAccessor={xAccessor} // 데이터를 X축에서 접근하는 방식
-                displayXAccessor={displayXAccessor} // X축에 표시할 데이터 형식
-                xExtents={xExtents} // X축 범위
-            >
-                <Chart id={1} yExtents={(d) => [d.high, d.low]}>
-                    {/* Y축 범위: 데이터의 high, low 값을 기준으로 설정 */}
-                    <XAxis
-                        tickLabelFill={"#ffffff4d"} // 눈금 레이블 색상
-                        fontFamily="Pretendard"
-                        fontWeight={400}
-                        strokeStyle="#fff" // 축 색상
-                        innerTickSize={10}
-                        showTicks={false}
-                        // tickValues={[new Date(data[0].date).getTime(), new Date(data[data.length - 1].date).getTime()]} // 눈금 레이블 값
-                        // tickFormat={(d: Date) => timeDisplayFormat(d)} // 날짜 형식 지정
-                        ticks={4} // 눈금 레이블 개수
-                    // zoomEnabled={false} // 축 확대 기능 비활성화
-                    />
-                    <YAxis
-                        // showTicks={false}
-                        // showTickLabel={false}
-                        // strokeStyle="transparent"
-                        strokeStyle="#fff"
-                        tickLabelFill={"#fff"}
-                        showGridLines={true} // 그리드 라인 표시
-                        gridLinesStrokeStyle={"rgba(255, 255, 255, 0.10)"} // 그리드 라인 색상
-                        gridLinesStrokeWidth={1} // 그리드 라인 두께
-                        // strokeStyle="#fff"
-                        ticks={6}
-                        zoomEnabled={false} // 축 확대 기능 비활성화
-                        tickFormat={(d) => d.toFixed(4)} // 눈금 레이블 형식
-                    />
-                    {/* <MouseCoordinateX />
-                        <MouseCoordinateY /> */}
-                    <CandlestickSeries
-                        fill={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
-                        wickStroke={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
-                        clip={false}
-                    /> {/* 캔들스틱 차트를 렌더링 */}
-                    <MouseCoordinateX displayFormat={timeDisplayFormat} />
-                    <MouseCoordinateY
-                        // rectWidth={margin.right}
-                        displayFormat={pricesDisplayFormat}
-                    />
-                </Chart>
-                <CrossHairCursor /> {/* 마우스의 교차점을 시각화 */}
-            </ChartCanvas>
-        </>
-    )
-}
+  const { data, xScale, xAccessor, displayXAccessor } =
+    xScaleProvider(candlestickData);
+
+  const max = xAccessor(data[data.length - 1]);
+  const xExtents = [max - 17, max + 3];
+
+  return (
+    <ChartContainer ref={containerRef}>
+      <IntervalWrapper>
+        <IntervalButton
+          $isActive={interval === "1h"}
+          onClick={() => handleIntervalChange("1h")}
+        >
+          1h
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "4h"}
+          onClick={() => handleIntervalChange("4h")}
+        >
+          4h
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "1d"}
+          onClick={() => handleIntervalChange("1d")}
+        >
+          1D
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "1w"}
+          onClick={() => handleIntervalChange("1w")}
+        >
+          1W
+        </IntervalButton>
+      </IntervalWrapper>
+      {width > 0 && (
+        <ChartCanvas
+          height={height}
+          width={width} // 부모 컴포넌트의 너비를 동적으로 전달
+          ratio={3}
+          margin={margin}
+          seriesName="Data"
+          data={data}
+          xScale={xScale}
+          xAccessor={xAccessor}
+          displayXAccessor={displayXAccessor}
+          xExtents={xExtents}
+          zoomAnchor={() => 0}
+          disableInteraction={disableInteraction}
+        >
+          <Chart id={1} yExtents={(d) => [d.high, d.low]}>
+            <XAxis
+              tickLabelFill={"#ffffff4d"}
+              fontFamily="Pretendard"
+              fontWeight={400}
+              strokeStyle="#fff"
+              innerTickSize={10}
+              showTicks={showXAxisTicks}
+              ticks={4}
+              zoomEnabled={zoomEnabled}
+            />
+            <YAxis
+              strokeStyle="#fff"
+              tickLabelFill={"#fff"}
+              showGridLines={true}
+              gridLinesStrokeStyle={"rgba(255, 255, 255, 0.10)"}
+              gridLinesStrokeWidth={1}
+              ticks={6}
+              zoomEnabled={zoomEnabled}
+              tickFormat={(d) => d.toFixed(4)}
+            />
+            <CandlestickSeries
+              fill={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
+              wickStroke={(d) => (d.close > d.open ? "#FB6571" : "#345DFD")}
+              clip={false}
+            />
+            <MouseCoordinateX displayFormat={(d) => d.toTimeString()} />
+            <MouseCoordinateY displayFormat={(d) => d.toFixed(4)} />
+          </Chart>
+          <CrossHairCursor />
+        </ChartCanvas>
+      )}
+    </ChartContainer>
+  );
+};
 
 export default CoinCardChart;
 
+const ChartContainer = styled.div`
+  width: 100%;
+`;
+
 const IntervalWrapper = styled.div`
-    box-sizing: border-box;
-    display: flex;
-    width: 100%;
-    height: 1.5rem;
-    padding: 0px 1.813rem;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-    /* margin-top: 0.938rem; */
-    margin-bottom: 0.625rem;
-`
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 1.5rem;
+  padding: 0px 1.813rem;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  margin-bottom: 0.625rem;
+`;
 
 const IntervalButton = styled.button<{ $isActive: boolean }>`
-    background: transparent;
-    color: var(--white-100);
-    width: 2.75rem;
-    height: 1.5rem;
-    border: none;
-    border-bottom: ${({ $isActive }) => $isActive ? "0.094rem solid var(--white-100)" : "none"};
-    font-size: 0.75rem;
-    font-weight: ${({ $isActive }) => $isActive ? 600 : 400};
-    font-family: "Pretendard";
-    cursor: pointer;
-`
+  background: transparent;
+  color: var(--white-100);
+  width: 2.75rem;
+  height: 1.5rem;
+  border: none;
+  border-bottom: ${({ $isActive }) =>
+    $isActive ? "0.094rem solid var(--white-100)" : "none"};
+  font-size: 0.75rem;
+  font-weight: ${({ $isActive }) => ($isActive ? 600 : 400)};
+  font-family: "Pretendard";
+  cursor: pointer;
+`;

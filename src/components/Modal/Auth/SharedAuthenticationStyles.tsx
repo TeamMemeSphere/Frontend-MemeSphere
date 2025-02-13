@@ -41,13 +41,17 @@ export const Input = styled.input`
   }
 `;
 
-export const StyledInput = styled(Input)<{ hasError: boolean }>`
-  border-color: ${(props) => (props.hasError ? "var(--red)" : "var(--white-10)")};
+export const StyledInput = styled(Input)<{ $hasError: boolean; isAvailable?: boolean }>`
+  border-color: ${(props) =>
+    props.isAvailable ? "var(--white-10)" 
+      : props.$hasError || props.isAvailable === false 
+      ? "var(--red)" 
+      : "var(--white-10)"};
 `;
 
-export const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div<{ isAvailable?: boolean }>`
   font-size: 12px;
-  color: var(--red);
+  color: ${(props) => (props.isAvailable ? "var(--purple)" : "var(--red)")};
   display: flex;
   justify-content: flex-end;
 `;
@@ -97,8 +101,7 @@ export const SocialButton = styled.button`
   justify-content: center;
   gap: 1.25rem;
 
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.875rem;
   color: white;
 
   background-color: transparent;

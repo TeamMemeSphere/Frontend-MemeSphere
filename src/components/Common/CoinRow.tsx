@@ -4,12 +4,11 @@ import { Coin } from "./CoinCard";
 const CoinRow = ({
     name,
     symbol,
-    tradePrice,
+    currentPrice,
     highPrice,
     lowPrice,
-    change,
-    changePrice,
-    changeRate,
+    priceChange,
+    priceChangeRate,
     isCollected,
     marketCap,
     volume
@@ -17,11 +16,10 @@ const CoinRow = ({
     return (
         <Container>
             <Text $width="12.5vw">{name} ({symbol})</Text>
-            <Text $width="3.472vw">&#36;{tradePrice.toLocaleString()}</Text>
-            <Text $width="7.292vw">{changeRate}%</Text> 
-            <Text $width="6.25vw">{marketCap.toLocaleString()}</Text>
-            <Text $width="6.25vw">{volume.toLocaleString()}</Text>
-            <Text $width="7.153vw">∙∙∙</Text>
+            <Text $width="3.472vw">&#36;{currentPrice.toLocaleString()}</Text>
+            <Text $width="7.292vw">{priceChangeRate}%</Text> 
+            <Text $width="6.25vw">&#36;{marketCap?.toLocaleString()}</Text>
+            <Text $width="6.25vw">&#36;{volume?.toLocaleString()}</Text>
             <Text $width="3.75vw">
                 {
                     isCollected ? 
@@ -54,6 +52,7 @@ interface TextProps {
 }
 
 const Text = styled.div<TextProps>`
-    width: ${(props) => props.$width};
+    /* width: ${(props) => props.$width}; */
+    width: 100%;
     text-align: center;
 `;

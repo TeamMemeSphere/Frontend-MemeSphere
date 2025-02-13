@@ -1,57 +1,15 @@
 import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
-import { useState } from "react";
 import NotificationCard from "./NotificationCard.tsx";
 import { notificationType } from "./NotificationType.ts";
 
-const NotificationDummy : notificationType[]= [
-    {
-    id: 1,
-    name:"도지코인",
-    symbol:"DOGE",
-    volatility:30,
-    period:2,
-    direction:"RISE",
-    isAlertOn: "ON",
-    },
-    {
-    id: 2,
-    name:"봉크",
-    symbol:"BONK",
-    volatility:3,
-    period:60,
-    direction:"RISE",
-    isAlertOn: "ON",
-    },
-    {
-    id: 3,
-    name:"페페",
-    symbol:"PEPE",
-    volatility:3,
-    period:2,
-    direction:"FALL",
-    isAlertOn: "ON",
-    }
-];
-
-const NotificationList = () => {
-    const [notifications, setNotifications] = useState(NotificationDummy);
-
-    const toggleNotification = (id : number) => {
-        setNotifications((prevNotifications)=>
-            prevNotifications.map((notification)=>
-                notification.id === id
-                    ? {...notification, isAlertOn: notification.isAlertOn === "ON" ? "OFF" : "ON" }
-                    : notification
-            )
-        );
-    };
-
-    const deleteNotification = (id : number) => {
-        setNotifications((prevNotifications)=>
-                prevNotifications.filter((notification)=> notification.id !== id)
-        );
-    };
+type NotificationListProps = {
+    notifications : notificationType[];
+    toggleNotification : (id : number)=>void;
+    deleteNotification : (id : number)=> void;
+}
+const NotificationList : React.FC<NotificationListProps> = ({notifications, toggleNotification, deleteNotification}) => {
+    
     return <Container>
         <S.SubTitle3Typo>등록된 알림 목록</S.SubTitle3Typo>
         <Content>
@@ -61,9 +19,14 @@ const NotificationList = () => {
                 <Caption>기준 시간</Caption>
                 <Caption>상승/하락</Caption>
             </NotifacationHeader>
-            {notifications.map((notification)=> {
-                return <NotificationCard key={notification.id} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
-            })}
+            {notifications && notifications.length > 0 
+                ?notifications.map((notification)=> {
+                return <NotificationCard key={notification.notificationId} {...notification} toggleNotification={toggleNotification} deleteNotification={deleteNotification}/>;
+            })
+                :(<NoAlart>
+                    <NoAlartMessage>등록된 알림이 없습니다.</NoAlartMessage>
+                </NoAlart>)
+        }
         </Content>
     </Container>;
 };
@@ -107,4 +70,17 @@ const NotifacationHeader = styled.div`
 const Caption = styled(S.SmallCaptionTypo)<{width? :string}>`;
     width : ${({width})=>width || "auto;"};
     color: var(--white-60);
+`;
+
+const NoAlart = styled.div`
+    width: 100%;
+    height: 100%;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const NoAlartMessage = styled(S.CaptionTypoLight)`
+    margin-bottom : 85%;
 `;

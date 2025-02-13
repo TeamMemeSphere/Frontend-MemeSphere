@@ -2,41 +2,57 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import AlertHistoryBox from "./AlertHistoryBox.tsx";
 import { notificationType } from "./NotificationType.ts";
+import { useState } from "react";
+
 const NotificationDummy : notificationType[]= [
     {
-    id: 1,
+    notificationId: 1,
     name:"도지코인",
     symbol:"DOGE",
     volatility:30,
-    period:2,
-    direction:"RISE",
-    isAlertOn: "ON",
+    stTime:2,
+    isRising:true,
+    isOn: true,
     },
     {
-    id: 2,
-    name:"봉크",
-    symbol:"BONK",
-    volatility:3,
-    period:60,
-    direction:"RISE",
-    isAlertOn: "ON",
+    notificationId: 2,
+    name:"도지코인",
+    symbol:"DOGE",
+    volatility:30,
+    stTime:2,
+    isRising:true,
+    isOn: true,
     },
     {
-    id: 3,
-    name:"페페",
-    symbol:"PEPE",
-    volatility:3,
-    period:2,
-    direction:"FALL",
-    isAlertOn: "ON",
+    notificationId: 3,
+    name:"도지코인",
+    symbol:"DOGE",
+    volatility:30,
+    stTime:2,
+    isRising:true,
+    isOn: true,
     }
 ];
 
-const NotificationHistory : React.FC = () => {
+type NotificationHistoryProps = {
+    closeModal : () => void;
+}
+
+const NotificationHistory : React.FC<NotificationHistoryProps> = ({closeModal}) => {
+    const [historyList, setHistoryList] = useState(NotificationDummy);
+
+    const deleteHistory = (id : number) =>{
+        setHistoryList((prevList)=>
+            prevList.filter((history)=> history.notificationId !== id)
+        );
+    };
+
     return <Container>
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
-        {NotificationDummy.map((notificiation)=>
-            <AlertHistoryBox key={notificiation.id} {...notificiation}/>
+        {historyList.map((notificiation)=>
+            <AlertHistoryBox key={notificiation.notificationId} deleteHistory={deleteHistory}
+            closeModal={closeModal}
+            {...notificiation}/>
         )}
     </Container>;
 };

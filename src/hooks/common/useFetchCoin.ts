@@ -17,15 +17,22 @@ export const useFetchCoin = () => {
                 close: data[4],
                 volume: data[5],
             }));
-            console.log(data);
             return data;
         } catch (error) {
-            console.error(error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    return { getCandlestickData, isLoading };
+    // 거래량 데이터 가져오기
+    const getVolumeData = async (symbol: string, interval: string) => {
+        const candlestickData = await getCandlestickData(symbol, interval);
+        return candlestickData?.map((item: any) => ({
+            time: item.date,
+            volume: item.volume,
+        }));
+    };
 
-}
+    return { getCandlestickData, getVolumeData, isLoading };
+
+};

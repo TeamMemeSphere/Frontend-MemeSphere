@@ -1,27 +1,33 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
-import { useState } from "react";
+import { notificationType } from "./NotificationType.ts";
 
-const SelectDirection :React.FC = () => {
-    const [direction, setDirection] = useState("RISE");
+type SelectDirectionProps = {
+    setValue: (name: keyof notificationType, value: boolean) => void;
+    currentValue: boolean;
+}
 
-    const onClickDirection = () => {
-        setDirection((prev)=>(prev === "RISE" ? "FALL" : "RISE"));
+const SelectDirection :React.FC<SelectDirectionProps> = ({setValue, currentValue}) => {
+    
+    const toggleDirection = () => {
+        const newDirection = currentValue === true ? false : true;
+        setValue("isRising", newDirection);
     };
+
     return <Container>
         <Name>상승/하락</Name>
         <SelectOption>
             <Option>
-                {(direction === "RISE")
+                {(currentValue === true)
                 ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
-                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={onClickDirection}/>
+                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }
                 <S.CaptionTypoRegular>상승</S.CaptionTypoRegular>
             </Option>
             <Option>
-                {(direction === "FALL")
+                {(currentValue === false)
                 ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
-                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={onClickDirection}/>
+                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }
                 <S.CaptionTypoRegular>하락</S.CaptionTypoRegular>
             </Option>

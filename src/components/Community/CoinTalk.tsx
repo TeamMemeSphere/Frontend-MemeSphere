@@ -2,38 +2,72 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import { NavLink } from "react-router-dom";
 import ChatContent from "./ChatContent.tsx";
-import { chatInfo } from "./communityTypes.ts";
+import { coinInfo, chatInfo } from "./communityTypes.ts";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../api/api.ts";
 
-type CoinTalkProps = {
-    id : number,
-    name : string,
-    symbol : string,
-    imgSrc : string,
-    chatInfo? : chatInfo
-}
+const fetchChatData = async (id: number): Promise<chatInfo | undefined> => {
+    try {
+        const chatResponse = await axios.get(API_ENDPOINTS.CHATTING(id));
+        if (chatResponse.status === 200) {
+            return chatResponse.data; 
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                const { status } = error.response;
 
+                if (status === 404) {
+                    console.warn(`No data found for ID ${id}`);
+                    return undefined;
+                }
+            } else {
+                console.error(`Axios error occurred while fetching data for ID ${id}:`, error.message);
+            }
+        } else {
+            console.error(`Unexpected error fetching data for ID ${id}:`, error);
+        }
+    }
+    return undefined;
+};
 
-const CoinTalk : React.FC<CoinTalkProps> = ({id, name, symbol, imgSrc, chatInfo}) => {
+const CoinTalk : React.FC<coinInfo> = ({id, name, symbol, image}) => {
+    const { data, error, isLoading } = useQuery({
+        queryKey: ["chatData",id],
+        queryFn: () => fetchChatData(id),
+    });
 
+    const hasChat = data && typeof data === "object" && "result" in data;
 
     return <Card>
         <CoinHeader>
             <HeaderLeft>
                 <CoinImgContainer>
-                    <CoinImg src={imgSrc} alt="img"></CoinImg>
+                    <CoinImg src={image} alt="img"></CoinImg>
                 </CoinImgContainer>
                 <CoinName>{name}</CoinName>
                 <CoinSymbol>{`/${symbol}`}</CoinSymbol>
             </HeaderLeft>
-            <ViewMore to={"/CoinDetailPage"}>
+            <ViewMore to={`/CoinDetailPage/${id}`}>
                 <GoMore>자세히 보러가기</GoMore>
                 <MoreIcon src="./../../../public/assets/Community/ChatChevron.svg"></MoreIcon>
             </ViewMore>
         </CoinHeader>
         <TalkContent>
-            {chatInfo 
-                ? <ChatContent {...chatInfo}></ChatContent>
-                : <NoContent><NoContentComment>아직 등록된 글이 없습니다.</NoContentComment></NoContent>}
+            {isLoading ? (
+                    <SkeletonChat />
+                ) : error ? (
+                    <NoContent>
+                        <NoContentComment>데이터를 불러오는 중 오류가 발생했습니다.</NoContentComment>
+                    </NoContent>
+                ) : hasChat ? (
+                    <ChatContent {...data.result} />
+                ) : (
+                    <NoContent>
+                        <NoContentComment>아직 등록된 글이 없습니다.</NoContentComment>
+                    </NoContent>
+                )}
         </TalkContent>
     </Card>;
 };
@@ -124,4 +158,32 @@ const NoContent = styled.div`
     padding : 1.758vh 2.778vw;
     gap : 0.5rem;
     border-radius : 0.938rem;
+`;
+
+const SkeletonChat = styled.div`
+    display : flex;
+    width : 47.222vw;
+    height : 9.625vh;
+    gap : 0.5rem;
+    border-radius : 0.938rem;
+
+    @keyframes skeleton-gradient {
+        0% {
+        background-color: rgba(165, 165, 165, 0.1);
+        }
+        50% {
+        background-color: rgba(165, 165, 165, 0.2);
+        }
+        100% {
+        background-color: rgba(165, 165, 165, 0.1);
+        }
+    }
+
+    &:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        animation: skeleton-gradient 2s infinite ease-in-out;
+        border-radius : 0.938rem;
+    }
 `;

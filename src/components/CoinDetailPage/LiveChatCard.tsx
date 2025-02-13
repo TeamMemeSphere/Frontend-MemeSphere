@@ -50,8 +50,6 @@ const CardLayout = styled(CommonCard)`
   width: 24.722vw;
   min-height: 31.5rem;
   max-height: 46.667vh;
-  margin-top: 0.813rem;
-  margin-bottom: 1.625rem;
   position: relative; 
   display: flex;
   flex-direction: column;
