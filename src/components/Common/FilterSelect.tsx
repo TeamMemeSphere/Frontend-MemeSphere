@@ -42,6 +42,7 @@ export default FilterSelect;
 const Container = styled.div`
     position: relative;
     display : inline-flex;
+    width : 8.5rem;
 `;
 
 const StyledButton = styled.button`
@@ -66,7 +67,6 @@ const StyledButton = styled.button`
 `;
 
 const DropdownIcon = styled.img`
-    margin-left : 1.389vw;
     width: 0.875rem;
     height: 0.875rem;
     background-size: contain;

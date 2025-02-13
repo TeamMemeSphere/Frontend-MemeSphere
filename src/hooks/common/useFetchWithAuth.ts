@@ -8,6 +8,7 @@ export const fetchWithAuth = async (
     if (!token) {
         console.log("액세스 토큰이 없어 로그아웃 진행");
         auth.logout();
+        window.location.reload();
         return null;
     }
 

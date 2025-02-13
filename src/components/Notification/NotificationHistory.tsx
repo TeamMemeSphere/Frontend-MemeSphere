@@ -6,31 +6,31 @@ import { useState } from "react";
 
 const NotificationDummy : notificationType[]= [
     {
-    id: 1,
+    notificationId: 1,
     name:"도지코인",
     symbol:"DOGE",
     volatility:30,
-    period:2,
-    direction:"RISE",
-    isAlertOn: "ON",
+    stTime:2,
+    isRising:true,
+    isOn: true,
     },
     {
-    id: 2,
-    name:"봉크",
-    symbol:"BONK",
-    volatility:3,
-    period:60,
-    direction:"RISE",
-    isAlertOn: "ON",
+    notificationId: 2,
+    name:"도지코인",
+    symbol:"DOGE",
+    volatility:30,
+    stTime:2,
+    isRising:true,
+    isOn: true,
     },
     {
-    id: 3,
-    name:"페페",
-    symbol:"PEPE",
-    volatility:3,
-    period:2,
-    direction:"FALL",
-    isAlertOn: "ON",
+    notificationId: 3,
+    name:"도지코인",
+    symbol:"DOGE",
+    volatility:30,
+    stTime:2,
+    isRising:true,
+    isOn: true,
     }
 ];
 
@@ -43,14 +43,14 @@ const NotificationHistory : React.FC<NotificationHistoryProps> = ({closeModal}) 
 
     const deleteHistory = (id : number) =>{
         setHistoryList((prevList)=>
-            prevList.filter((history)=> history.id !== id)
+            prevList.filter((history)=> history.notificationId !== id)
         );
     };
 
     return <Container>
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
         {historyList.map((notificiation)=>
-            <AlertHistoryBox key={notificiation.id} deleteHistory={deleteHistory}
+            <AlertHistoryBox key={notificiation.notificationId} deleteHistory={deleteHistory}
             closeModal={closeModal}
             {...notificiation}/>
         )}

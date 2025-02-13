@@ -31,15 +31,32 @@ const CoinCard = ({
   priceChangeRate,
   isCollected,
 }: Coin) => {
-
+  const [totalVolume, setTotalVolume] = useState<number | null>(null);
+  const [totalCoin, setTotalCoin] = useState<number | null>(null);
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
+
+  const fetchDashBoardData = async () => {
+    try {
+      const response = await axios.get(API_ENDPOINTS.DASHBOARD_OVERVIEW);
+      if (response.data.isSuccess) {
+        setTotalVolume(response.data.result.totalVolume);
+        setTotalCoin(response.data.result.totalCoin);
+        console.log("총거래량/코인수 API 응답 데이터:", response.data);
+      } else {
+        console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
+      }
+    } catch (error) {
+      console.error("api 요청 중 오류 발생:", error);
+    }
+  };
 
   const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    fetchDashBoardData();
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
@@ -56,10 +73,7 @@ const CoinCard = ({
     <Container>
       <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation();}}>
         <ThumbnailWrapper>
-          <Thumbnail
-            src={`${image}`}
-            alt="thumbnail"
-          ></Thumbnail>
+          <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
         <NameWrapper>
           {name} / {symbol}
@@ -86,14 +100,15 @@ const CoinCard = ({
         <CurrentSection>
           <CurrentPrice>&#36; {currentPrice.toLocaleString()}</CurrentPrice>
           <CurrentPriceChange $change={change}>
-            {change === "EVEN" ? "⏤" : (
+            {change === "EVEN" ? (
+              "⏤"
+            ) : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
                 &nbsp;{priceChange.toLocaleString()}
                 &nbsp;({priceChangeRate.toLocaleString()}%)
               </>
-            )
-            }
+            )}
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>

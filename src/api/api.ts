@@ -9,11 +9,11 @@ export const API_ENDPOINTS = {
     CHAT_LIST: (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/list`,
     CHAT_LIKE: (chat_id:number)=> `${BASE_URL}/chat/${chat_id}/like`,
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
-    ALARM_MODIFY: (notificaionId: string) => `${BASE_URL}/notification/${notificaionId}`,
+    ALARM_MODIFY: (notificaionId: number) => `${BASE_URL}/notification/${notificaionId}`,
     ALARM_LIST: `${BASE_URL}/notification/list`,
     PUSH_ALARM_LIST: `${BASE_URL}/push-notifications`,
     PUSH_ALARM_CONFIRM: (notificaionId: string) => `${BASE_URL}/push-notifications/${notificaionId}`,
-    USER_IMAGE: `${BASE_URL}/s3/upload`,
+    USER_IMAGE: `${BASE_URL}/image/upload`,
     USER_SIGNUP: `${BASE_URL}/user/sign-up`,
     USER_SIGNUP_NICKNAME: `${BASE_URL}/user/signup/nickname/validate`,
     USER_SIGNIN: `${BASE_URL}/user/sign-in`,
@@ -25,4 +25,5 @@ export const API_ENDPOINTS = {
     COLLECTION: `${BASE_URL}/collection`,
 };
 
-console.log("api 기본 주소:", BASE_URL);
+//console.log("api 기본 주소:", BASE_URL);
+

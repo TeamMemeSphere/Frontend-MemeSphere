@@ -28,11 +28,11 @@ const NotificationInput : React.FC<NotificationInputProps> = ({
     return <Container $gap={gap}>
         <Name width={labelWidth}>{label}</Name>
         <Input 
-          {...inputProps}
-          width={inputWidth}
-          $align={align}
-          $error={error}
-          autoComplete="off"
+            {...inputProps}
+            width={inputWidth}
+            $align={align}
+            $error={error}
+            autoComplete="off"
         />
         {caption && <S.CaptionTypoBold>{caption}</S.CaptionTypoBold>}
     </Container>;
