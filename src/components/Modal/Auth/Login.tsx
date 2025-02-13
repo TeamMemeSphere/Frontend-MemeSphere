@@ -64,11 +64,8 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
 
       const data = await response.json();
       if (data.isSuccess && data.result) {
-        login(
-          data.result.accessToken,
-          data.result.refreshToken,
-          data.result.nickname,
-        );
+        login(data.result.accessToken, data.result.refreshToken, data.result.nickName);
+        window.dispatchEvent(new Event("storage"));
         onLogin();
       } else {
         alert("로그인 실패:" + response.status);
@@ -118,7 +115,8 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
           카카오로 로그인하기
         </SocialButton>
 
-        <SocialButton>Google로 로그인하기</SocialButton>
+        <SocialButton onClick={() => handleSocialLogin("google")}>Google로 로그인하기</SocialButton>
+
       </SocialButtons>
       <Links>
         <Link

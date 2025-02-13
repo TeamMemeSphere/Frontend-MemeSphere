@@ -8,7 +8,7 @@ const KakaoRedirect: React.FC = () => {
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
-    console.log("카카오 로그인 인가 코드:", code);
+    console.log("카카오 로그인 인가코드:", code);
 
     if (!code) {
       console.error("카카오 로그인 인가코드 발급 오류:");
@@ -24,20 +24,21 @@ const KakaoRedirect: React.FC = () => {
       console.log("result 객체:", response.data.result);
 
       if (response.data.isSuccess) {
-        const { accessToken, refreshToken } = response.data.result;
+        const { accessToken, refreshToken, nickName } = response.data.result;
         if (!accessToken) throw new Error("토큰 없음");
 
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        if (nickName) {
+          localStorage.setItem("nickName", nickName);
+        }
         localStorage.setItem("isLoginSuccess", "true");
 
         const previousPath = sessionStorage.getItem("previousPath") || "/";
         sessionStorage.removeItem("previousPath");
         navigate(previousPath, {replace: true});
 
-        setTimeout(() => {
-          window.dispatchEvent(new Event("openGreetingModal"));
-        }, 300);
+        window.dispatchEvent(new Event ("openGreetingModal"));
       } else {
       console.error("카카오 로그인 실패", response.data.message);
     }

@@ -29,16 +29,16 @@ const CoinDetailPage = () => {
   // API에서 코인 데이터 가져오기
   const fetchDetailData = async (id: string) => {
     try {
-      const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(Number(id)));
-      console.log("서버 응답", response);
-
       setLoading(true);
       setError(null);
+
+      const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(Number(id)));
+      console.log("서버 응답", response);
+      console.log("coinId", coinId);
 
       if (response.status === 200) {
         setCoinData(response.data.result);
         console.log(response.data.result);
-        console.log("coinData:", coinData);
       } else {
         setError("데이터를 불러오는 데 실패했습니다.");
       }
@@ -52,11 +52,11 @@ const CoinDetailPage = () => {
   };
 
   useEffect(() => {
+    console.log("coinData:", coinData);
     if (coinId) {
       fetchDetailData(coinId);
-      setError("잘못된 코인 ID입니다.");
     }
-  }, []);
+  }, [coinId]);
 
   if (loading)
     return (

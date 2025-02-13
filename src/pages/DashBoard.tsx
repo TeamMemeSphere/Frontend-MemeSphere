@@ -5,7 +5,6 @@ import PageSelector from "../components/Common/PageSeletor";
 import CoinListHeader from "../components/Common/CoinListHeader";
 //주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
-import ContentHeader from "../components/Common/ContentHeader";
 import dummyData from "../data/coinCardDummy.json";
 
 const DashBoard = () => {
@@ -57,7 +56,7 @@ const DashBoard = () => {
 
 export default DashBoard;
 
-const UpperContainer = styled.div `
+const UpperContainer = styled.div`
   margin: auto;
 `; 
 
