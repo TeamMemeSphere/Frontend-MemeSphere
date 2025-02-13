@@ -5,6 +5,10 @@ import coinDummy from "../../data/coinDummy.json";
 import CoinCircleImg from "../../../public/assets/DetailPage/CoinProfile.png";
 import { CaptionTypoMedium } from "../../styles/Typography";
 
+interface CoinInfoCardProps {
+  discription: string;
+}
+
 const CoinInfoCard = () => {
   const coin = coinDummy[0];
 

@@ -19,6 +19,7 @@ export interface Coin {
 }
 
 const CoinCard = ({
+  coinId,
   name,
   symbol,
   image,
@@ -49,7 +50,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection to={`/CoinDetailPage/${name}`}>
+      <HeaderSection to={`/CoinDetailPage/${coinId}`}>
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
