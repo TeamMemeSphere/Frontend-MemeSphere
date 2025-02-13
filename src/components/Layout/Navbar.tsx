@@ -8,8 +8,7 @@ import SidebarContent from "./SidebarContent";
 import Overlay from "../Common/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
-import GreetingModal from "../Modal/GreetingModal";
-import LoginRequiredModal from "../Modal/LoginRequiredModal";
+import { NavLink } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -59,7 +58,10 @@ const Navbar: React.FC = () => {
   return (
     <Nav>
       <NavLeft>
-        <Logo><LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />MemeSphere</Logo>
+        <Logo to="/">
+            <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
+            <LogoTypo>MemeSphere</LogoTypo>
+        </Logo>
         {!isCompact && <NavLeftPageWrapper><NavLeftPage /></NavLeftPageWrapper>}
       </NavLeft>
 
@@ -94,14 +96,18 @@ export default Navbar;
 const MenuIcon = styled.img`
   width: 2.563rem;
 `;
-
+const Logo = styled(NavLink)`
+  text-decoration: none;
+  display: flex;
+  margin-left: 4.306vw;
+`;
 const LogoImg = styled.img`
   width: 1.813rem;
   margin-right: 0.188rem;
 `;
 
-const Logo = styled(TitleTypo)`
-  margin-left: 4.306vw;
+const LogoTypo = styled(TitleTypo)`
+  
   color: var(--white-100);
   display: flex;
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { SubTitle2Typo, BodyTypo } from "../../styles/Typography";
 import { useAuth } from "../../hooks/common/useAuth";
@@ -8,21 +8,8 @@ interface GreetingModalProps {
 }
 
 const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
-  const { logout, isAuthenticated, nickName } = useAuth();
+  const { logout, nickName } = useAuth(); 
 
-  useEffect(() => {
-    const handleScroll = () => closeModal();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [closeModal]);
-
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     closeModal();
-  //   }
-  // }, [isAuthenticated, closeModal]);
 
   const handleLogout = () => {
     logout();
@@ -30,15 +17,29 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
   };
   
   return (
-    <ModalContainer>
-      <Icon src="../../../public/assets/common/autentication/profile button.svg" />
-      <Message><Nickname>{nickName}</Nickname>님 반갑습니다!</Message>
-      <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
-    </ModalContainer>
+    <BackDrop onClick={closeModal}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <Icon src="../../../public/assets/common/autentication/profile button.svg" />
+        <Message><Nickname>{nickName}</Nickname>님 반갑습니다!</Message>
+        <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+      </ModalContainer>
+    </BackDrop>
   );
 };
 
 export default GreetingModal;
+
+const BackDrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
 
 const ModalContainer = styled.div`
   position: fixed;

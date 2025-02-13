@@ -4,17 +4,17 @@ import { API_ENDPOINTS } from "../../../api/api";
 
 export interface MemeCoin {
   rank: number; 
-  rankChange: "RISE" | "LOW" | "EVEN";
-
+  
   coinId: number;
   image: string;
   name: string;
   symbol: string;
   price: number;
   priceChange: number;
-  changeAbsolute: number;
-  changeDirection: "up" | "down" | "zero";
-  changeRate: number | null;
+  priceChangeAbsolute: number;
+  priceChangeDirection: "up" | "down";
+  priceChangeRate: number | null;
+  rankChangeDirection: "up" | "down" ;
 }
 
 export const useTrendList = () => {
@@ -26,17 +26,16 @@ export const useTrendList = () => {
     const fetchTrendList = async () => {
       try {
         const response = await axios.get<{ result: { trendList: MemeCoin[] } }>(API_ENDPOINTS.DASHBOARD_TREND);
-        console.error("트렌드 api 결과:", response.data);
+        console.log("트렌드 api 결과:", response);
 
         if (response.data.result?.trendList) {
           const rankedList = response.data.result.trendList.slice(0, 5).map((coin, index) => ({
             ...coin,
             rank: index + 1,
-            rankChange: Math.random() > 0.5 ? "RISE" as const : "LOW" as const, // 수정
           }));
           setTrendList(rankedList);
         } else {
-          console.error("트렌드 api 오류:", response.data);
+          console.error("트렌드 api 오류:", response);
         }
       } catch (error) {
         setError("데이터를 불러오는 중 오류 발생");

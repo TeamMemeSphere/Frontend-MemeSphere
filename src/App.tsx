@@ -15,6 +15,7 @@ import Navbar from "./components/Layout/Navbar.tsx";
 import Footer from "./components/Layout/Footer.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import KakaoRedirect from "./components/Modal/Auth/KakaoRedirect.tsx";
+import GoogleRedirect from "./components/Modal/Auth/GoogleRedirect.tsx";
 
 const queryClient = new QueryClient({ /* options */ });
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/NewsFeed" element={<NewsFeed />}></Route>
             <Route path="/SearchResults" element={<SearchResults />}></Route>
             <Route path="/user/login/oauth2/kakao" element={<KakaoRedirect />}></Route>
+            <Route path="/user/login/oauth2/google" element={<GoogleRedirect />}></Route>
           </Routes>
           <Footer />
         </BrowserRouter>
