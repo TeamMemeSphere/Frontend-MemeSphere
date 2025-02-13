@@ -1,0 +1,23 @@
+export const coinMap : Record<string, string>= {
+  "Dogecoin": "DOGE",
+  "SHIBA INU": "SHIB",
+  "OFFICIAL TRUMP": "TRUMP",
+  "Pepe": "PEPE",
+  "Bonk": "BONK",
+  "Pudgy Penguins": "PENGU",
+  "Dogwifhat": "WIF",
+  "FLOKI": "FLOKI",
+  "aixbt by Virtuals": "AIXBT",
+  "Turbo": "TURBO",
+  "ORDI": "ORDI",
+  "Peanut the Squirrel": "PNUT",
+  "1M x BABYDOGE": "1MBABYDOGE",
+  "Memecoin": "MEME",
+  "BOOK OF MEME": "BOME",
+  "1000*SATS (Ordinals)": "1000SATS",
+  "First Neiro On Ethereum": "NEIRO",
+  "Dogs": "DOGS",
+  "ConstitutionDAO": "PEOPLE",
+  "Act I: The AI Prophecy": "ACT",
+  "1000*Simons Cat": "1000CAT"
+};
