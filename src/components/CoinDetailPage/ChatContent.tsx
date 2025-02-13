@@ -1,75 +1,115 @@
 import styled from "styled-components";
 import * as S from "../../styles/Typography";
+import { API_ENDPOINTS } from "../../api/api";
+import { useParams } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ChatContentProps {
-    message: string;
-    nickname: string;
-    likes: number;
-    created_at: string;
+  id: number;
+  message: string;
+  nickname: string;
+  likes: number;
+  createdAt: string;
 }
 
-const ChatContent = ({ message, nickname, likes, created_at }: ChatContentProps) => {
-    const createdDate = new Date(created_at);
-    const currentDate = new Date();
-    const createdTime = createdDate.getTime();
-    const currentTime = currentDate.getTime();
-    const createdDateStr = createdDate.toLocaleDateString();
-    const currentDateStr = currentDate.toLocaleDateString();
-    const isToday = createdDateStr === currentDateStr;
-    const isSameTime = (currentTime - createdTime) < 60000; // less than 1 minute
-    const time = isToday ?
-        (isSameTime ?
-            "방금"
-            :
-            currentTime - createdTime < 3600000 ?
-                `${Math.floor((currentTime - createdTime) / 60000)}분`
-                :
-                `${createdDate.getHours() < 10 ?
-                    `0${createdDate.getHours()}`
-                    :
-                    createdDate.getHours()
-                }:${createdDate.getMinutes() < 10 ?
-                    `0${createdDate.getMinutes()}`
-                    :
-                    createdDate.getMinutes()
-                }`
-        )
+const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentProps) => {
+  const createdDate = new Date(createdAt);
+  const currentDate = new Date();
+  const createdTime = createdDate.getTime();
+  const currentTime = currentDate.getTime();
+  const createdDateStr = createdDate.toLocaleDateString();
+  const currentDateStr = currentDate.toLocaleDateString();
+  const isToday = createdDateStr === currentDateStr;
+  const isSameTime = (currentTime - createdTime) < 60000; // less than 1 minute
+  const time = isToday ?
+    (isSameTime ?
+      "방금"
+      :
+      currentTime - createdTime < 3600000 ?
+        `${Math.floor((currentTime - createdTime) / 60000)}분`
         :
-        createdDateStr;
+        `${createdDate.getHours() < 10 ?
+          `0${createdDate.getHours()}`
+          :
+          createdDate.getHours()
+        }:${createdDate.getMinutes() < 10 ?
+          `0${createdDate.getMinutes()}`
+          :
+          createdDate.getMinutes()
+        }`
+    )
+    :
+    createdDateStr;
+  
+  const storageNickname = localStorage.getItem("nickName");
+  const isSentByMe = nickname === storageNickname;
 
-    const isSentByMe = nickname === "본인";
+  const { coinId } = useParams<{ coinId: string }>();
 
-    return (
-        <Container>
-            <ChatContentWrapper $isSentByMe={isSentByMe}>
-                <ProfileWrapper>
-                    <ProfileImage src="/assets/DetailPage/default-profile.svg" alt="profile image" />
-                </ProfileWrapper>
-                <ChatMessage $isSentByMe={isSentByMe}>
-                    {message}
-                </ChatMessage>
-            </ChatContentWrapper>
-            <ChatInfoWrapper $isSentByMe={isSentByMe}>
-                {isSentByMe ?
-                    <>
-                        <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-                        <LikeWrapper>
-                            <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
-                            {likes}
-                        </LikeWrapper>
-                    </>
-                    :
-                    <>
-                        <LikeWrapper>
-                            <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
-                            {likes}
-                        </LikeWrapper>
-                        <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-                    </>
-                }
-            </ChatInfoWrapper>
-        </Container>
-    );
+  const { CHAT_LIKE } = API_ENDPOINTS;
+
+  const handleLike = async () => {
+    try {
+      const res = await fetch(`${CHAT_LIKE(coinId)}?chat_id=${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      await handleLike()
+    },
+    onMutate() {
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["LiveChatCard"]
+      })
+    },
+    onError(error) {
+      console.log(error)
+    }
+  })
+
+  return (
+    <Container>
+      <ChatContentWrapper $isSentByMe={isSentByMe}>
+        <ProfileWrapper>
+          <ProfileImage src="/assets/DetailPage/default-profile.svg" alt="profile image" />
+        </ProfileWrapper>
+        <ChatMessage $isSentByMe={isSentByMe}>
+          {message}
+        </ChatMessage>
+      </ChatContentWrapper>
+      <ChatInfoWrapper $isSentByMe={isSentByMe}>
+        {isSentByMe ?
+          <>
+            <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
+            <LikeWrapper onClick={() => alert(`내가 보냄 좋아요: id-${id}`)}>
+              <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+              {likes}
+            </LikeWrapper>
+          </>
+          :
+          <>
+            <LikeWrapper onClick={() => mutation.mutate()}>
+              <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+              {likes}
+            </LikeWrapper>
+            <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
+          </>
+        }
+      </ChatInfoWrapper>
+    </Container>
+  );
 }
 
 export default ChatContent;
@@ -99,7 +139,7 @@ const ProfileImage = styled.img`
 `
 
 interface ChatContentWrapperProps {
-    $isSentByMe: boolean;
+  $isSentByMe: boolean;
 }
 
 const ChatContentWrapper = styled.div<ChatContentWrapperProps>`
@@ -128,4 +168,5 @@ const LikeWrapper = styled(S.SmallCaptionTypo)`
     display: flex;
     gap: 0.313rem;
     align-items: center;
+    cursor: pointer;
 `

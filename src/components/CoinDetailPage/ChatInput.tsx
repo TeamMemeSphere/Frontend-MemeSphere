@@ -1,12 +1,27 @@
 import styled from "styled-components";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 
-const ChatInput = forwardRef<HTMLDivElement>((props, containerRef) => {
+interface ChatInputProps {
+    onSend: (inputMessage: string) => void;
+}
+
+const ChatInput = forwardRef<HTMLDivElement, ChatInputProps>(({ onSend }, containerRef) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [inputMessage, setInputMessage] = useState<string>("");
 
-    const handleResize = () => {
+    const sendMessage = () => {
         const textarea = textareaRef.current;
         if (textarea) {
+            setInputMessage("");
+            onSend(inputMessage);
+            textarea.style.height = "auto";
+        }
+    }
+    
+    const handleChange = () => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            setInputMessage(textarea.value);
             textarea.style.height = "auto";
             textarea.style.height = textarea.scrollHeight + "px";
             textarea.style.maxHeight = "10rem";
@@ -19,10 +34,11 @@ const ChatInput = forwardRef<HTMLDivElement>((props, containerRef) => {
                 <TextArea
                     ref={textareaRef}
                     rows={1}
-                    onChange={handleResize}
+                    onChange={handleChange}
+                    value={inputMessage}
                     placeholder="의견을 적어주세요." />
             </InputWrapper>
-            <SendButton>
+            <SendButton onClick={sendMessage}>
             </SendButton>
         </Container>
     )

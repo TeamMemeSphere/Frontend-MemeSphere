@@ -54,7 +54,7 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage`); e.stopPropagation();}}>
+      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation();}}>
         <ThumbnailWrapper>
           <Thumbnail
             src={`${image}`}

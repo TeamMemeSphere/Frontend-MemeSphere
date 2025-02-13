@@ -7,9 +7,12 @@ import CoinInfoCard from "../components/CoinDetailPage/CoinInfoCard";
 import LiveChatCard from "../components/CoinDetailPage/LiveChatCard";
 import coinDummy from "../data/coinDummy.json";
 import arrow from "../../public/assets/DetailPage/arrow.svg";
+import { useParams } from "react-router-dom";
 
 const CoinDetailPage = () => {
   const coin = coinDummy[0];
+
+  const { coinId } = useParams<{ coinId: string }>();
 
   return (
     <Wrapper>
@@ -22,7 +25,7 @@ const CoinDetailPage = () => {
       <GridWrapper>
         <LeftColumn>
           <CoinInfoCard />
-          <LiveChatCard />
+          <LiveChatCard coinId={coinId}/>
         </LeftColumn>
 
         <RightColumn>

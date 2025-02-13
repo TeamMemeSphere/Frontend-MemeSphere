@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import CoinList from "../components/common/CoinList";
+import CoinList from "../components/common/CoinList.tsx";
 import { useState } from "react";
-import PageSelector from "../components/common/PageSeletor";
-import CoinListHeader from "../components/common/CoinListHeader";
+import PageSelector from "../components/common/PageSeletor.tsx";
+import CoinListHeader from "../components/common/CoinListHeader.tsx";
 import ContentHeader from "../components/Common/ContentHeader";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import axios from "axios";

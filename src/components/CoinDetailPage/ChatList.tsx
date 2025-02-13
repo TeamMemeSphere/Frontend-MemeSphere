@@ -1,19 +1,77 @@
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
 import chatDummy from "../../data/chatDummy.json";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { Client, Stomp } from "@stomp/stompjs";
+import useIntersectionObserver from "../../hooks/CoinDetailPage/useIntersectionObserver";
 
-const ChatList = forwardRef<HTMLDivElement>((props, chatListRef) => {
+interface ChatMessage {
+    id: number,
+    message: string,
+    nickname: string,
+    memeCoin: string,
+    likes: number,
+    created_at: string
+}
+
+interface ChatListProps {
+    messages: any[],
+    fetchNextPage: () => void,
+    hasNextPage: boolean,
+    isFetching: boolean
+}
+
+const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching }, chatListRef) => {
+    console.log(messages);
+    const [chatList, setChatList] = useState<any>(null);
+    const [isMounted, setIsMounted] = useState<boolean>(false);
+
+    const [prevHeight, setPrevHeight] = useState(0);
+
+
+    const observerRef = useRef<HTMLDivElement>(null);
+    useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, chatListRef, chatList });
+
+    useEffect(() => {
+        console.log('isMounted');
+        console.log(isMounted);
+        if (chatListRef.current && !isMounted && !isFetching) {
+            scrollToEnd();
+            setIsMounted(true);
+        }
+        setChatList(flattenedMessages);
+    }, []);
+
+    const scrollToEnd = () => {
+        chatListRef.current.scrollTop = chatListRef?.current?.scrollHeight;
+        chatListRef.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+    }
+
+    useEffect(() => {
+        if (isFetching) return;
+        scrollTo({ top: document.body.scrollHeight - prevHeight });
+        console.log('scrollTo');
+        console.log(prevHeight);
+
+      }, [chatList]);
+
+    const flattenedMessages = messages?.flatMap((page) => page.result.content) || [];
+    console.log('flattenedMessages');
+
+    console.log(flattenedMessages);
+
     return (
         <>
             <Container ref={chatListRef}>
-                {chatDummy.map((chat, index) => (
+                <ChatTopDiv ref={observerRef} />
+                {flattenedMessages.map((chat, index) => (
                     <ChatContent
                         key={index}
+                        id={chat.id}
                         message={chat.message}
                         nickname={chat.nickname}
                         likes={chat.likes}
-                        created_at={chat.created_at}
+                        createdAt={chat.createdAt}
                     />
                 ))}
             </Container>
@@ -48,4 +106,10 @@ const Container = styled.div`
         background: var(--white-30);
         border-radius: 2.5px;
     }
+`
+
+const ChatTopDiv = styled.div`
+    width: 100%;
+    height: 1rem;
+    flex-shrink: 0;
 `
