@@ -117,7 +117,7 @@ const SendButton = styled.button`
     background: url("/assets/DetailPage/send.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-color: ${disabled => disabled ? "var(--white-10)" : "var(--blue)"};
+    background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue)"};
     width: 1.313rem;
     height: 1.313rem;
     margin-left: 0.688rem;
@@ -134,6 +134,6 @@ const SendButton = styled.button`
     border: 1px solid transparent;
 
     &:hover {
-        background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue-50)"};
+        background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue)"};
     }
 `
