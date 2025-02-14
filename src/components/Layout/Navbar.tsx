@@ -18,7 +18,6 @@ const Navbar: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
   // 사이드바가 열리면 스크롤이 비활성화
   useEffect(() => {
     if (isSibebarOpen) {
@@ -46,13 +45,12 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(true);
     setIsUserModalOpen(false);
   };
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsUserModalOpen(false);
-  };
 
   const closeAlarmModal = () => {
     setIsAlarmOpen(false);
+  };
+
+  const handleNavItemClick = () => {
   };
 
   return (
@@ -62,7 +60,7 @@ const Navbar: React.FC = () => {
             <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
             <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
-        {!isCompact && <NavLeftPageWrapper><NavLeftPage /></NavLeftPageWrapper>}
+        {!isCompact && <NavLeftPageWrapper><NavLeftPage onNavItemClick={handleNavItemClick} /></NavLeftPageWrapper>}
       </NavLeft>
 
       <NavRight>
@@ -86,7 +84,6 @@ const Navbar: React.FC = () => {
       {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
       
       {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
-      {isUserModalOpen && isLoggedIn && <GreetingModal onLogout={handleLogout} closeModal={() => setIsUserModalOpen(false)} />}
     </Nav>
   );
 };

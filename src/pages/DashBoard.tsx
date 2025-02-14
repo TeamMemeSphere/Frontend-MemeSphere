@@ -30,8 +30,8 @@ const DashBoard = () => {
     <UpperContainer>
       <DashBoardTop />
     </UpperContainer>
-    <UnderContainer>
 
+    <UnderContainer>
       <DashBoardUpper>
         <CoinListHeader
           title="차트"
@@ -58,6 +58,12 @@ export default DashBoard;
 
 const UpperContainer = styled.div`
   margin: auto;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    max-width: 480px;
+    overflow-x: hidden;
+  }
 `; 
 
 const UnderContainer = styled.div`

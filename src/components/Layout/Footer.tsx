@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ChatTextTypo } from "../../styles/Typography";
 
 const Footer: React.FC = () => {
   return (
@@ -24,36 +25,33 @@ const Footer: React.FC = () => {
 
 export default Footer;
 
-// 폰트 사이즈, 색깔 추후 수정하기
 const FooterWrapper = styled.footer`
   background-color: var(--grey-50);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 180px;
-  // 주현 (삭제?)
+  height: 11.25rem;
   position: relative;
   transform: translateY(0%);
 `;
 
-const Content = styled.div`
+const Content = styled(ChatTextTypo)`
     color: #CCCCCC;
-    font-size: 14px;
     text-align: center;
 `;
 
 const Links = styled.div`
-    padding-top: 15px;
+    padding-top: 0.938rem;
   a {
     color: #CCCCCC;
     text-decoration: none;
-    margin: 0 5px;
+    margin: 0 0.313rem;
   }
   a:hover {
     text-decoration: underline;
   }
   span {
-    margin: 0 5px;
+    margin: 0 0.313rem;
   }
 `;
