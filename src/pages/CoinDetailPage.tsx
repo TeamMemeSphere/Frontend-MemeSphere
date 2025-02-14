@@ -9,7 +9,6 @@ import LiveChatCard from "../components/CoinDetailPage/LiveChatCard";
 import { API_ENDPOINTS } from "../api/api";
 import axios from "axios";
 import arrow from "../../public/assets/DetailPage/arrow.svg";
-import { useParams } from "react-router-dom";
 
 interface CoinDetailInfo {
   id: number;
@@ -79,8 +78,6 @@ const CoinDetailPage = () => {
       </Wrapper>
     );
 
-  const { coinId } = useParams<{ coinId: string }>();
-
   return (
     <Wrapper>
       <TitleLayout>
@@ -95,8 +92,6 @@ const CoinDetailPage = () => {
 
       <GridWrapper>
         <LeftColumn>
-          <CoinInfoCard />
-          <LiveChatCard coinId={coinId}/>
           <CoinInfoCard
             name={coinData.name}
             symbol={coinData.symbol}
@@ -104,7 +99,7 @@ const CoinDetailPage = () => {
             description={coinData.description}
             image={coinData.image}
           />
-          <LiveChatCard />
+          <LiveChatCard coinId={coinId}/>
         </LeftColumn>
 
         <RightColumn>

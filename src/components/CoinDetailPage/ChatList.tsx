@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
-import chatDummy from "../../data/chatDummy.json";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { Client, Stomp } from "@stomp/stompjs";
 import useIntersectionObserver from "../../hooks/CoinDetailPage/useIntersectionObserver";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ChatMessage {
     id: number,
@@ -22,43 +21,44 @@ interface ChatListProps {
 }
 
 const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching }, chatListRef) => {
-    console.log(messages);
     const [chatList, setChatList] = useState<any>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
-
     const [prevHeight, setPrevHeight] = useState(0);
-
+    const queryClient = useQueryClient();
 
     const observerRef = useRef<HTMLDivElement>(null);
-    useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, chatListRef, chatList });
+
+    useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, isFetching, chatListRef, chatList });
 
     useEffect(() => {
-        console.log('isMounted');
-        console.log(isMounted);
-        if (chatListRef.current && !isMounted && !isFetching) {
+        if (chatListRef && 'current' in chatListRef && chatListRef.current && !isMounted && !isFetching) {
             scrollToEnd();
             setIsMounted(true);
         }
         setChatList(flattenedMessages);
-    }, []);
+    }, [messages]);
 
     const scrollToEnd = () => {
-        chatListRef.current.scrollTop = chatListRef?.current?.scrollHeight;
-        chatListRef.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+        if (chatListRef && 'current' in chatListRef && chatListRef.current) {
+            chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+            chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+        }
     }
 
     useEffect(() => {
         if (isFetching) return;
-        scrollTo({ top: document.body.scrollHeight - prevHeight });
-        console.log('scrollTo');
-        console.log(prevHeight);
+        chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight - prevHeight });
+    }, [isFetching]);
 
-      }, [chatList]);
+
+    // 나갔다 들어왔을 때 페이지 초기화
+    useEffect(() => {
+        return () => {
+            queryClient.removeQueries({ queryKey: ["LiveChatCard"] });
+        };
+    }, []);
 
     const flattenedMessages = messages?.flatMap((page) => page.result.content) || [];
-    console.log('flattenedMessages');
-
-    console.log(flattenedMessages);
 
     return (
         <>
@@ -72,6 +72,7 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
                         nickname={chat.nickname}
                         likes={chat.likes}
                         createdAt={chat.createdAt}
+                        scrollToEnd={scrollToEnd}
                     />
                 ))}
             </Container>

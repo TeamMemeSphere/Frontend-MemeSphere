@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { forwardRef, useRef, useState } from "react";
+import { useAuth } from "../../hooks/common/useAuth";
 
 interface ChatInputProps {
     onSend: (inputMessage: string) => void;
@@ -28,6 +29,8 @@ const ChatInput = forwardRef<HTMLDivElement, ChatInputProps>(({ onSend }, contai
         }
     }
 
+    const { isAuthenticated } = useAuth();
+
     return (
         <Container ref={containerRef}>
             <InputWrapper>
@@ -36,9 +39,10 @@ const ChatInput = forwardRef<HTMLDivElement, ChatInputProps>(({ onSend }, contai
                     rows={1}
                     onChange={handleChange}
                     value={inputMessage}
-                    placeholder="의견을 적어주세요." />
+                    placeholder={isAuthenticated ? "의견을 적어주세요." : "로그인 후 이용 가능합니다."} 
+                    disabled={!isAuthenticated}/>
             </InputWrapper>
-            <SendButton onClick={sendMessage}>
+            <SendButton onClick={isAuthenticated ? sendMessage : () => {}} disabled={!isAuthenticated}>
             </SendButton>
         </Container>
     )
@@ -113,7 +117,7 @@ const SendButton = styled.button`
     background: url("/assets/DetailPage/send.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-color: var(--blue);
+    background-color: ${disabled => disabled ? "var(--white-10)" : "var(--blue)"};
     width: 1.313rem;
     height: 1.313rem;
     margin-left: 0.688rem;
@@ -126,10 +130,10 @@ const SendButton = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     border: 1px solid transparent;
 
     &:hover {
-        border: 1px solid var(--white-100);
+        background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue-50)"};
     }
 `

@@ -56,6 +56,7 @@ const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentPro
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -93,7 +94,7 @@ const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentPro
         {isSentByMe ?
           <>
             <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-            <LikeWrapper onClick={() => alert(`내가 보냄 좋아요: id-${id}`)}>
+            <LikeWrapper onClick={() => {}}>
               <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
               {likes}
             </LikeWrapper>

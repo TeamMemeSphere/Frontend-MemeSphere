@@ -7,7 +7,6 @@ import { Client } from "@stomp/stompjs";
 import { API_ENDPOINTS } from "../../api/api";
 import axios from "axios";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import useIntersectionObserver from "../../hooks/CoinDetailPage/useIntersectionObserver";
 
 interface LiveChatCardProps {
   coinId: number;
@@ -24,63 +23,57 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       try {
         const res = await axios.get(`${CHAT_LIST(1)}?page=0&size=10`);
         setInitialPage(res.data.result.totalPages - 1); // 초기 페이지 설정
-        console.log(res.data.result.totalPages - 1)
-        console.log(initialPage)
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     fetchInitialPage();
   }, []);
 
   const [initialPage, setInitialPage] = useState<number | undefined>(undefined);
 
-  const [messages, setMessages] = useState<any[]>([]);
   const getAllMessages = async (page: number) => {
     try {
-      const res = await axios.get(`${CHAT_LIST(1)}?page=${page}&size=10`);
-      console.log(res.data);
-      // console.log(res.data.result.pageable.pageNumber);
-      setMessages(res.data.result.content);
-      // setInitialPage(res.data.result.totalPages - 1);
+      const res = await axios.get(`${CHAT_LIST(coinId)}?page=${page}&size=10`);
       return res.data;
     } catch (error) {
       console.error(error);
     }
-    // scrollToEnd();
   }
-  
+
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const { data, isLoading, isError, error, hasNextPage, fetchNextPage, isFetching } = useInfiniteQuery<any>({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetching
+  } = useInfiniteQuery<any>({
     queryKey: ["LiveChatCard", coinId, initialPage, currentMessage],
     queryFn: ({ pageParam = initialPage }) => getAllMessages(pageParam),
     getNextPageParam: (lastPage: any) => (lastPage ?
-      lastPage.result.pageable.pageNumber >= 1 ? 
-      lastPage.result.pageable.pageNumber - 1  
-      : 
-      undefined
-    :
-    initialPage),
-    getPreviousPageParam: (lastPage: any) => (
-      lastPage ?
-        lastPage.result.pageable.pageNumber >= 1 ? 
-        lastPage.result.pageable.pageNumber - 1  
-        : 
+      lastPage.result.pageable.pageNumber >= 1 ?
+        lastPage.result.pageable.pageNumber - 1
+        :
         undefined
       :
-      initialPage
+      initialPage),
+    getPreviousPageParam: (lastPage: any) => (
+      lastPage ?
+        lastPage.result.pageable.pageNumber >= 1 ?
+          lastPage.result.pageable.pageNumber - 1
+          :
+          undefined
+        :
+        initialPage
     ),
     initialPageParam: initialPage,
     select: (data) => {
       // 첫 요청에서 initialPageParam을 마지막 페이지로 설정
       if (!data.pages.length) return data;
-      console.log(initialPage)
-      console.log(data.pages[0]);
-      const lastPage = data.pages[0].result.totalPages - 1;
-      console.log(lastPage);
-
-      console.log(data);
       return {
         pages: [...data.pages].reverse(),
         pageParams: [...data.pageParams].reverse(),
@@ -89,7 +82,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
   });
 
   const [stompClient, setStompClient] = useState<Client | null>(null);
-
+  const [messages, setMessages] = useState<string[]>([]);
   // 지금 보낸 메세지
   const socketUrl = `${import.meta.env.VITE_WEBSOCKET_URL}`;
   useEffect(() => {
@@ -97,9 +90,8 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       brokerURL: socketUrl, // 백엔드 웹소켓 주소
       reconnectDelay: 5000, // 자동 재연결 간격 (5초)
       onConnect: (frame) => {
-        console.log("Connected to WebSocket");
         console.log(frame);
-        client.subscribe("/sub/1", (message) => {
+        client.subscribe(`/sub/${coinId}`, (message) => {
           console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setCurrentMessage(JSON.parse(message.body));
@@ -126,7 +118,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     };
     if (stompClient) {
       stompClient.publish({
-        destination: "/pub/chat/1",
+        destination: `/pub/chat/${coinId}`,
         body: JSON.stringify(requestBody),
       });
     }
@@ -134,12 +126,8 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
   }
 
   const scrollToEnd = () => {
-    chatListRef.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+    chatListRef?.current.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
   }
-
-  // useEffect(() => {
-  //   scrollToEnd();
-  // }, [isLoading, data]);
 
   const [chatInputHeight, setChatInputHeight] = useState(0);
 
@@ -156,8 +144,6 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     }
   }, []);
 
-  // useIntersectionObserver({ observerRef: chatListTopRef, fetchNextPage, hasNextPage });
-
   return (
     <>
       <CardLayout>
@@ -168,9 +154,16 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
           isError ?
             <div>{error?.toString()}</div>
             :
-            <ChatList messages={data?.pages} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} ref={chatListTopRef} currentMessage={currentMessage} isFetching={isFetching}/>
+            <ChatList
+              messages={data?.pages}
+              // messages={messages}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              ref={chatListRef}
+              currentMessage={currentMessage}
+              isFetching={isFetching} />
         }
-        <DownButton bottom={`${chatInputHeight}px`} onClick={() => scrollToEnd} />
+        <DownButton bottom={`${chatInputHeight}px`} onClick={() => scrollToEnd()} />
         <ChatInput ref={chatInputRef} onSend={sendMessage}></ChatInput>
       </CardLayout>
     </>
@@ -218,4 +211,6 @@ const DownButton = styled.button<DownButtonProps>`
     left: 0.625rem;
     bottom: ${props => props.bottom};
     z-index: 1;
+
+    cursor: pointer;
 `

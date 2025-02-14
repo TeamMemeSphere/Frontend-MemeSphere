@@ -115,9 +115,9 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
     <>
       {
         isCollected ?
-          <Icon src="assets/common/collect-star-fill.svg" alt="star-fill" onClick={onToggle} />
+          <StarIcon src="assets/common/collect-star-fill.svg" alt="star-fill" onClick={onToggle} />
           :
-          <Icon src="assets/common/collect-star.svg" alt="star" onClick={onToggle} />
+          <StarIcon src="assets/common/collect-star.svg" alt="star" onClick={onToggle} />
       }
       {isModalOpen &&
         (!accessToken && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
@@ -127,4 +127,8 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
 }
 
 export default ToggleCollectionButton;
+
+const StarIcon = styled(Icon)`
+  cursor: pointer;
+`
 
