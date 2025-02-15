@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
     ALARM_MODIFY: (notificaionId: number) => `${BASE_URL}/notification/${notificaionId}`,
     ALARM_LIST: `${BASE_URL}/notification/list`,
+    SUBSCRIBE_SSE: `${BASE_URL}/push-notifications/subscribe`,
     PUSH_ALARM_LIST: `${BASE_URL}/push-notifications`,
     PUSH_ALARM_CONFIRM: (notificaionId: string) => `${BASE_URL}/push-notifications/${notificaionId}`,
     USER_IMAGE: `${BASE_URL}/image/upload`,

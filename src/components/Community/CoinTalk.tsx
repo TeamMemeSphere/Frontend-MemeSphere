@@ -39,7 +39,7 @@ const CoinTalk : React.FC<coinInfo> = ({id, name, symbol, image}) => {
     });
 
     const hasChat = data && typeof data === "object" && "result" in data;
-
+    
     return <Card>
         <CoinHeader>
             <HeaderLeft>
