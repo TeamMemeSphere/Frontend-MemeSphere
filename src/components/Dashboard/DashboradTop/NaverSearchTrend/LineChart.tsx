@@ -47,9 +47,7 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
           />
           <Tooltip 
             contentStyle={{ 
-              backgroundColor: "var(--white-60)", 
-              border: "1px solid var(--white-30)",
-              color: "var(--white-60)"
+              backgroundColor: "var(--white-30)"
             }}
             formatter={(value) => [`${value}%`, "검색 비율"]}
             labelFormatter={(label) => `날짜: ${label}`}
@@ -70,20 +68,19 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
 };
 
 const ChartContainer = styled.div`
-  background: var(--grey-90, #2E2E32);
   border-radius: 0.5rem;
   height: 13rem;
 `;
 
 const LoadingMessage = styled.div`
-  color: var(--white-60, rgba(255, 255, 255, 0.6));
+  color: var(--white-60);
   text-align: center;
   padding: 2rem;
   font-size: 1rem;
 `;
 
 const NoDataMessage = styled.div`
-  color: var(--white-60, rgba(255, 255, 255, 0.6));
+  color: var(--white-60);
   text-align: center;
   padding: 2rem;
   font-size: 1rem;

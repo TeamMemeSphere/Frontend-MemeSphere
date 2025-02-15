@@ -58,7 +58,7 @@ const DashboardTop = () => {
       </TopItemWrapper>
 
       <Item3>
-        <Item34TextWrapper>연관 검색어</Item34TextWrapper>
+        <Item34TextWrapper>검색량</Item34TextWrapper>
         <NaverSearchTrend />
       </Item3>
 

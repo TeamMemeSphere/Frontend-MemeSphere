@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { SearchCoinMap } from "./SearchCoinMapKorean";
@@ -26,6 +26,11 @@ const KeywordSearch: React.FC<KeywordSearchProps> = ({ onKeywordSelect }) => {
   const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false);
   
   const watchedName = watch("name", "");
+
+  useEffect(() => {
+    setValue("name", "도지코인");
+    onKeywordSelect("도지코인");
+  }, [setValue, onKeywordSelect]);
 
   const filteredCoins = coinList
     .filter(coin => {
