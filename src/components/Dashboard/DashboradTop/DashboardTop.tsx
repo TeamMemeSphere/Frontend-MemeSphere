@@ -5,6 +5,7 @@ import ContentHeader from "../../Common/ContentHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../../api/api";
+import NaverSearchTrend from "./NaverSearchTrend/NaverSearchTrend";
 
 const DashboardTop = () => {
   const [totalVolume, setTotalVolume] = useState<number | null>(null);
@@ -58,7 +59,7 @@ const DashboardTop = () => {
 
       <Item3>
         <Item34TextWrapper>연관 검색어</Item34TextWrapper>
-        // 백엔드 작업한거
+        <NaverSearchTrend />
       </Item3>
 
       <Item4>

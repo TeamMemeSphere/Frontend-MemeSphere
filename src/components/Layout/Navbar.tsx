@@ -9,6 +9,7 @@ import Overlay from "../Common/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
 import { NavLink } from "react-router-dom";
+import LoginRequiredModal from "../Modal/LoginRequiredModal";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -80,9 +81,9 @@ const Navbar: React.FC = () => {
           setIsAlarmOpen={setIsAlarmOpen}
           setIsUserModalOpen={handleOpenUserModal}/>
       )}
-      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
+      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} accessToken={localStorage.getItem("accessToken") || ""} 
+    refreshToken={localStorage.getItem("refreshToken") || ""} />}
       {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
-      
       {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
     </Nav>
   );
