@@ -4,7 +4,8 @@ import { subDays } from "date-fns";
 import KeywordSearch from "./KeywordSearch";
 import DateRangePicker from "./DateRangePicker";
 import TrendLineChart from "./LineChart";
-import { fetchSearchTrend, SearchTrendRequest, Result } from "./api";
+import { fetchSearchTrend, SearchTrendRequest, Result } from "./NaverApi";
+import { ErrorMessage } from "../../../Modal/Auth/SharedAuthenticationStyles";
 
 const NaverSearchTrend: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(subDays(new Date(), 7));
@@ -59,21 +60,16 @@ const NaverSearchTrend: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedKeyword, startDate, endDate]); // useCallback으로 메모이제이션
+  }, [selectedKeyword, startDate, endDate]);
 
   useEffect(() => {
     if (selectedKeyword) {
       fetchData();
     }
-  },[fetchData, selectedKeyword]); // fetchData만 의존성 배열에 추가
+  },[fetchData, selectedKeyword]);
 
   return (
     <Container>
-      <Header>
-        <Title>네이버 검색 트렌드</Title>
-        <Description>밈코인의 네이버 검색 트렌드를 확인해보세요</Description>
-      </Header>
-
       <FilterSection>
         <KeywordSearch onKeywordSelect={handleKeywordSelect} />
         <DateRangePicker 
@@ -91,46 +87,21 @@ const NaverSearchTrend: React.FC = () => {
 };
 
 const Container = styled.div`
-  background: var(--grey-100, #1E1E22);
-  padding: 2rem;
+  background: var(--grey-100);
+  padding: 1rem;
   border-radius: 0.5rem;
-  max-width: 537px;
-  width: 100%;
-  height: 347px;
+  width: 100%
   margin: 0 auto;
 `;
 
-
-const Header = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const Title = styled.h1`
-  color: var(--white-100, #FFFFFF);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-`;
-
-const Description = styled.p`
-  color: var(--white-60, rgba(255, 255, 255, 0.6));
-  font-size: 0.875rem;
-`;
-
 const FilterSection = styled.div`
-  background: var(--grey-90, #26262A);
+  background: var(--grey-90);
   border-radius: 0.5rem;
-  padding: 1.5rem;
-`;
-
-const ErrorMessage = styled.div`
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-  border: 1px solid rgba(255, 107, 107, 0.3);
-  border-radius: 0.313rem;
-  padding: 0.75rem;
-  margin: 1rem 0;
-  font-size: 0.875rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 0.1rem;
+  margin-bottom: 1.2rem;
 `;
 
 export default NaverSearchTrend;

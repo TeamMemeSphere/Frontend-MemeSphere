@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { coinMap } from "../../../Notification/CoinMap";
+import { SearchCoinMap } from "./SearchCoinMapKorean";
+import { ErrorMessage } from "../../../Modal/Auth/SharedAuthenticationStyles";
 
 interface Coin {
   name: string;
+  key: string;
 }
 
-const coinList: Coin[] = Object.keys(coinMap).map(key => ({
-  name: key
-}));
+const coinList: Coin[] = Object.entries(SearchCoinMap).map(([key, value]) => {
+  return { name: value, key: key.toLowerCase() };
+});
 
 interface KeywordSearchProps {
   onKeywordSelect: (keyword: string) => void;
@@ -25,9 +27,20 @@ const KeywordSearch: React.FC<KeywordSearchProps> = ({ onKeywordSelect }) => {
   
   const watchedName = watch("name", "");
 
-  const filteredCoins = coinList.filter(coin => 
-    coin.name.toLowerCase().includes(watchedName.toLowerCase())
-  );
+  const filteredCoins = coinList
+    .filter(coin => {
+      const searchTerm = watchedName.toLowerCase();
+      if (coin.name.toLowerCase().includes(searchTerm)) {
+        return true;
+      }
+      if (coin.key.includes(searchTerm)) {
+        return true;
+      }
+      return false;
+    })
+    .filter((coin, index, self) => {
+      return index === self.findIndex(c => c.name === coin.name);
+    });
 
   const onClickDropdown = (value: string) => {
     setValue("name", value);
@@ -38,7 +51,6 @@ const KeywordSearch: React.FC<KeywordSearchProps> = ({ onKeywordSelect }) => {
 
   return (
     <Container>
-      <Label>밈코인 검색</Label>
       <InputWrapper>
         <Input
           {...register("name", { required: "코인을 선택해주세요" })}
@@ -68,14 +80,7 @@ const KeywordSearch: React.FC<KeywordSearchProps> = ({ onKeywordSelect }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
   position: relative;
-`;
-
-const Label = styled.div`
-  font-size: 0.875rem;
-  color: var(--white-80, rgba(255, 255, 255, 0.8));
-  margin-bottom: 0.5rem;
 `;
 
 const InputWrapper = styled.div`
@@ -83,22 +88,16 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 12rem;
   padding: 0.5rem;
-  background: var(--grey-100, #26262A);
-  border: 1px solid var(--white-30, rgba(255, 255, 255, 0.3));
+  background: var(--grey-100);
+  border: 1px solid var(--white-30);
   border-radius: 0.313rem;
-  color: var(--white-80, rgba(255, 255, 255, 0.8));
+  color: var(--white-80);
   
   &::placeholder {
-    color: var(--white-40, rgba(255, 255, 255, 0.4));
+    color: var(--white-40);
   }
-`;
-
-const ErrorMessage = styled.div`
-  color: #ff6b6b;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
 `;
 
 const Dropdown = styled.div`
@@ -109,8 +108,8 @@ const Dropdown = styled.div`
   position: absolute;
   padding: 0.188rem 0.5rem;
   border-radius: 0.313rem;
-  border: 0.063rem solid var(--white-30, rgba(255, 255, 255, 0.30));
-  background: var(--grey-100, #26262A);
+  border: 0.063rem solid var(--white-30);
+  background: var(--grey-100);
   max-height: 15rem;
   overflow-y: auto;
 `;
@@ -121,17 +120,17 @@ const CoinDropDown = styled(Dropdown)`
 `;
 
 const FilteredList = styled.div`
-  color: var(--white-60, rgba(255, 255, 255, 0.60));
+  color: var(--white-60);
   padding: 0.5rem 0;
   cursor: pointer;
   font-size: 0.875rem;
   
   &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    border-bottom: 1px solid var(--white-10);
   }
   
   &:hover {
-    color: var(--white-100, #FFF);
+    color: var(--white-100);
   }
 `;
 

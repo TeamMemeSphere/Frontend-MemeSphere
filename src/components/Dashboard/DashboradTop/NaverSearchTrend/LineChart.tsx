@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { format, parseISO } from "date-fns";
-import { Result } from "./api";
+import { Result } from "./NaverApi";
 
 interface TrendChartProps {
   data: Result | null;
@@ -25,8 +25,7 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
 
   return (
     <ChartContainer>
-      <ChartTitle>{data.title} 검색 트렌드</ChartTitle>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={formattedData}
           margin={{
@@ -36,21 +35,21 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
             bottom: 10,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--white-10)" />
           <XAxis 
             dataKey="formattedDate" 
-            stroke="rgba(255, 255, 255, 0.6)"
+            stroke="var(--white-60)"
           />
           <YAxis 
-            stroke="rgba(255, 255, 255, 0.6)"
+            stroke="var(--white-60)"
             domain={[0, 100]}
             tickFormatter={(value) => `${value}%`}
           />
           <Tooltip 
             contentStyle={{ 
-              backgroundColor: "#26262A", 
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              color: "rgba(255, 255, 255, 0.8)"
+              backgroundColor: "var(--white-60)", 
+              border: "1px solid var(--white-30)",
+              color: "var(--white-60)"
             }}
             formatter={(value) => [`${value}%`, "검색 비율"]}
             labelFormatter={(label) => `날짜: ${label}`}
@@ -60,7 +59,7 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
             type="monotone" 
             dataKey="ratio" 
             name="검색 비율" 
-            stroke="#4CAF50" 
+            stroke="var(--green)" 
             activeDot={{ r: 8 }}
             strokeWidth={2}
           />
@@ -73,15 +72,7 @@ const TrendLineChart: React.FC<TrendChartProps> = ({ data, isLoading }) => {
 const ChartContainer = styled.div`
   background: var(--grey-90, #2E2E32);
   border-radius: 0.5rem;
-  padding: 1.5rem;
-  margin-top: 2rem;
-`;
-
-const ChartTitle = styled.h3`
-  color: var(--white-90, rgba(255, 255, 255, 0.9));
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  height: 13rem;
 `;
 
 const LoadingMessage = styled.div`

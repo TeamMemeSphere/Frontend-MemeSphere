@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../../../../api/api";
-import { coinMap } from "../../../Notification/CoinMap";
+import { SearchCoinMap } from "./SearchCoinMapKorean";
 
 export interface SearchTrendRequest {
   startDate: string;
@@ -35,7 +35,6 @@ export interface Result {
   }[];
 }
 
-// 백엔드에서 데이터를 받아오는 함수
 export const fetchSearchTrend = async (params: SearchTrendRequest): Promise<SearchTrendResponse> => {
   try {
     console.log("검색어 백엔드에 요청:", JSON.stringify(params, null, 2));
@@ -49,5 +48,5 @@ export const fetchSearchTrend = async (params: SearchTrendRequest): Promise<Sear
 };
 
 export const getCoinList = (): { name: string }[] => {
-  return Object.keys(coinMap).map(name => ({ name }));
+  return Object.keys(SearchCoinMap).map(name => ({ name }));
 };

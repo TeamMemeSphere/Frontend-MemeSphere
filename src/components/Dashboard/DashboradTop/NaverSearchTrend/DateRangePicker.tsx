@@ -21,7 +21,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
 
   return (
     <Container>
-      <Label>조회 기간</Label>
       <DatePickerWrapper>
         <DateInput
           type="date"
@@ -42,13 +41,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
-`;
-
-const Label = styled.div`
-  font-size: 0.875rem;
-  color: var(--white-80, rgba(255, 255, 255, 0.8));
-  margin-bottom: 0.5rem;
 `;
 
 const DatePickerWrapper = styled.div`
@@ -57,12 +49,12 @@ const DatePickerWrapper = styled.div`
 `;
 
 const DateInput = styled.input`
-  background: var(--grey-100, #26262A);
-  border: 1px solid var(--white-30, rgba(255, 255, 255, 0.3));
+  background: var(--grey-100);
+  border: 1px solid var(--white-30);
   border-radius: 0.313rem;
   padding: 0.5rem;
-  color: var(--white-80, rgba(255, 255, 255, 0.8));
-  width: 10rem;
+  color: var(--white-80);
+  width: 6rem;
   
   &::-webkit-calendar-picker-indicator {
     filter: invert(0.8);
@@ -71,7 +63,7 @@ const DateInput = styled.input`
 
 const Separator = styled.span`
   margin: 0 0.5rem;
-  color: var(--white-60, rgba(255, 255, 255, 0.6));
+  color: var(--white-60);
 `;
 
 export default DateRangePicker;
