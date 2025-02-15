@@ -42,7 +42,7 @@ const StyledNavLink = styled(NavLink)<{$isSidebar: boolean}>`
     align-items: center;
     color: var(--white-10);
     text-decoration: none;
-    gap: 3px;
+    gap: 0.188rem;
 
     cursor: pointer;
     border-radius: 10px;
@@ -57,8 +57,8 @@ const StyledNavLink = styled(NavLink)<{$isSidebar: boolean}>`
 `;
 const StyledDiv = styled.div`
     display: flex;
-    padding: 10px 6px;
-    gap: 8px;
+    padding: 0.625rem 0.375rem;
+    gap: 0.5rem;
     cursor: pointer;
     border-radius: 10px;
     transition: background-color 0.2s ease-in-out;
@@ -69,13 +69,13 @@ const StyledDiv = styled.div`
 `;
 
 const IconWrapper = styled.div`
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
 `;
 
 const Label = styled.span`
-    height: 22px;
-    font-size: var(--font-size-small); {/*16px*/} 
+    height: 1.375rem;
+    font-size: var(--font-size-small);
     color: inherit;
     text-decoration: none;
 `;
