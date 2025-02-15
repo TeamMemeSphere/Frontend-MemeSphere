@@ -15,6 +15,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
     onDateChange(newStartDate, endDate);
   };
 
+  
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEndDate = new Date(e.target.value);
     onDateChange(startDate, newEndDate);
