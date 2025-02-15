@@ -18,7 +18,7 @@ import KakaoRedirect from "./components/Modal/Auth/KakaoRedirect.tsx";
 import GoogleRedirect from "./components/Modal/Auth/GoogleRedirect.tsx";
 import { ToastContainer } from "react-toastify";
 
-const queryClient = new QueryClient({ /* options */ });
+const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -31,7 +31,10 @@ function App() {
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/AlertDashBoard" element={<AlertDashBoard />}></Route>
             <Route path="/CoinCollection" element={<CoinCollection />}></Route>
-            <Route path="/CoinDetailPage" element={<CoinDetailPage />}></Route>
+            <Route
+              path="/CoinDetailPage/:coinId"
+              element={<CoinDetailPage />}
+            />
             <Route path="/Community" element={<Community />}></Route>
             <Route path="/DashBoard" element={<DashBoard />}></Route>
             <Route path="/NewsFeed" element={<NewsFeed />}></Route>

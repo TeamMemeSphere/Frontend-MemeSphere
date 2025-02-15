@@ -23,3 +23,6 @@ export const API_ENDPOINTS = {
     SEARCH: `${BASE_URL}/search`,
     COLLECTION: `${BASE_URL}/collection`,
 };
+
+//console.log("api 기본 주소:", BASE_URL);
+
