@@ -9,6 +9,7 @@ interface DateRangePickerProps {
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, onDateChange }) => {
+  const today = new Date();
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = new Date(e.target.value);
     onDateChange(newStartDate, endDate);
@@ -26,12 +27,14 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
           type="date"
           value={format(startDate, "yyyy-MM-dd")}
           onChange={handleStartDateChange}
+          max={format(today, "yyyy-MM-dd")}
         />
         <Separator>~</Separator>
         <DateInput
           type="date"
           value={format(endDate, "yyyy-MM-dd")}
           onChange={handleEndDateChange}
+          max={format(today, "yyyy-MM-dd")}
         />
       </DatePickerWrapper>
     </Container>
