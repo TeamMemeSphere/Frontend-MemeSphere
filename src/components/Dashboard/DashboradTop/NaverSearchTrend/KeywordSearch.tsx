@@ -22,15 +22,19 @@ interface FormValues {
 }
 
 const KeywordSearch: React.FC<KeywordSearchProps> = ({ onKeywordSelect }) => {
+  const [isInitialMount, setIsInitialMount] = useState(true);
   const { register, setValue, watch, clearErrors, formState: { errors } } = useForm<FormValues>();
   const [isDropdownOpen, setDropdownOpen] = useState<boolean>(false);
   
   const watchedName = watch("name", "");
 
   useEffect(() => {
-    setValue("name", "도지코인");
-    onKeywordSelect("도지코인");
-  }, [setValue, onKeywordSelect]);
+    if (isInitialMount) {
+      setValue("name", "도지코인");
+      onKeywordSelect("도지코인");
+      setIsInitialMount(false);
+    }
+  }, [setValue, onKeywordSelect, isInitialMount]);
 
   const filteredCoins = coinList
     .filter(coin => {
