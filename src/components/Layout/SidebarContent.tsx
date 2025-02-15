@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { SubTitle3Typo, SmallCaptionTypo } from "../../styles/Typography";
 import NavLeftPage from "./NavLeftPage";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavItem from "../Common/Navbar/NavItem";
 
 interface SidebarProps {
@@ -12,8 +12,14 @@ interface SidebarProps {
 }
 
 const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen, setIsAlarmOpen, setIsUserModalOpen}) => {
+    const navigate = useNavigate();
     const location = useLocation();
     if (!isSidebarOpen) return null;
+
+    const handleNavItemClick = (link: string) => {
+        navigate(link);
+        setIsSidebarOpen(false);
+    };
 
     // 알람 버튼 클릭 시 사이드바 닫힘
     const handleOpenAlarm = () => {
@@ -41,7 +47,7 @@ const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen
                 
                 <NavLeftContainer>
                     <NavLeftPageWrapper $currentPath={location.pathname}>
-                        <NavLeftPage />
+                        <NavLeftPage onNavItemClick={handleNavItemClick}/>
                     </NavLeftPageWrapper>
 
                     <DivideBar />

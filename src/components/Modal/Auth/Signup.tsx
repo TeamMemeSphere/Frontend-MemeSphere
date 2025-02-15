@@ -10,7 +10,7 @@ interface SignupProps {
 const Signup: React.FC<SignupProps> = ({ onSignup }) => {
   const { email, password, passwordConfirm, handleBlur, handleChange } = useFormValidation({
     emailInvalid: "이메일 주소가 유효하지 않습니다.",
-    passwordInvalid: "비밀번호는 최소 8자 이상이며 영문/숫자/특수문자 중 두 가지 이상의 조합이어야 합니다.",
+    passwordInvalid: "비밀번호는 최소 7자 이상이며 영문/숫자/특수문자 중 두 가지 이상의 조합이어야 합니다.",
     passwordConfirmInvalid: "비밀번호가 일치하지 않습니다",
   });
   const emailValue = email.value;

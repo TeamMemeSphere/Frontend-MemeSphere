@@ -12,6 +12,7 @@ export const useSocialLogin = () => {
         let authUrl = "";
         const currentUrl = window.location.href;
         localStorage.setItem("redirectAfterLogin", currentUrl);
+        sessionStorage.setItem("previousPath", window.location.pathname);
         
         switch (provider) {
         case "kakao":

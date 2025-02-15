@@ -1,23 +1,28 @@
 import NavItem from "../Common/Navbar/NavItem";
 
-const NavLeftPage: React.FC = () => {
+interface NavLeftPageProps {
+    onNavItemClick: (link: string) => void;
+}
+
+const NavLeftPage: React.FC<NavLeftPageProps> = ({onNavItemClick}) => {
     return(
         <>
             <NavItem
-            icon1={
-                <img
-                src="../../../public/assets/common/navbar/CollectionIcon-On.svg"
-                alt="Collection Icon"
-                />
-            }
-            icon2={
-                <img
-                src="../../../public/assets/common/navbar/CollectionIcon-Off.svg"
-                alt="Collection Icon"
-                />
-            }
-            label="컬렉션"
-            link="/CoinCollection"
+                icon1={
+                    <img
+                    src="../../../public/assets/common/navbar/CollectionIcon-On.svg"
+                    alt="Collection Icon"
+                    />
+                }
+                icon2={
+                    <img
+                    src="../../../public/assets/common/navbar/CollectionIcon-Off.svg"
+                    alt="Collection Icon"
+                    />
+                }
+                label="컬렉션"
+                link="/CoinCollection"
+                onClick={() => onNavItemClick("/CoinCollection")}
             />
             <NavItem
                 icon1={
@@ -34,6 +39,7 @@ const NavLeftPage: React.FC = () => {
                 }
                 label="대시보드"
                 link="/DashBoard"
+                onClick={() => onNavItemClick("/DashBoard")}
             />
             <NavItem
             icon1={
@@ -50,6 +56,7 @@ const NavLeftPage: React.FC = () => {
             }
             label="커뮤니티"
             link="/Community"
+            onClick={() => onNavItemClick("/Community")}
             />
         </>
     );
