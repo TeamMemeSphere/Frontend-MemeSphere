@@ -1,17 +1,35 @@
 import styled from "styled-components";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
+import { useAuth } from "../../hooks/common/useAuth";
 
-const ChatInput = forwardRef<HTMLDivElement>((props, containerRef) => {
+interface ChatInputProps {
+    onSend: (inputMessage: string) => void;
+}
+
+const ChatInput = forwardRef<HTMLDivElement, ChatInputProps>(({ onSend }, containerRef) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [inputMessage, setInputMessage] = useState<string>("");
 
-    const handleResize = () => {
+    const sendMessage = () => {
         const textarea = textareaRef.current;
         if (textarea) {
+            setInputMessage("");
+            onSend(inputMessage);
+            textarea.style.height = "auto";
+        }
+    }
+    
+    const handleChange = () => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            setInputMessage(textarea.value);
             textarea.style.height = "auto";
             textarea.style.height = textarea.scrollHeight + "px";
             textarea.style.maxHeight = "10rem";
         }
     }
+
+    const { isAuthenticated } = useAuth();
 
     return (
         <Container ref={containerRef}>
@@ -19,10 +37,12 @@ const ChatInput = forwardRef<HTMLDivElement>((props, containerRef) => {
                 <TextArea
                     ref={textareaRef}
                     rows={1}
-                    onChange={handleResize}
-                    placeholder="의견을 적어주세요." />
+                    onChange={handleChange}
+                    value={inputMessage}
+                    placeholder={isAuthenticated ? "의견을 적어주세요." : "로그인 후 이용 가능합니다."} 
+                    disabled={!isAuthenticated}/>
             </InputWrapper>
-            <SendButton>
+            <SendButton onClick={isAuthenticated ? sendMessage : () => {}} disabled={!isAuthenticated}>
             </SendButton>
         </Container>
     )
@@ -97,7 +117,7 @@ const SendButton = styled.button`
     background: url("/assets/DetailPage/send.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-color: var(--blue);
+    background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue)"};
     width: 1.313rem;
     height: 1.313rem;
     margin-left: 0.688rem;
@@ -110,10 +130,10 @@ const SendButton = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     border: 1px solid transparent;
 
     &:hover {
-        border: 1px solid var(--white-100);
+        background-color: ${({ disabled }) => disabled ? "var(--white-10)" : "var(--blue)"};
     }
 `
