@@ -99,7 +99,7 @@ const CoinDetailPage = () => {
             description={coinData.description}
             image={coinData.image}
           />
-          <LiveChatCard />
+          <LiveChatCard coinId={coinId}/>
         </LeftColumn>
 
         <RightColumn>

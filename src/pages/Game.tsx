@@ -63,7 +63,7 @@ const GamePage: React.FC = () => {
 
   const checkResult = async () => {
     if (!selectedOption) return;
-    setIsSpinning(true);
+    setIsSpinning(true); 
     
     try {
       const symbol = COIN_SYMBOL_MAP[selectedCoin];

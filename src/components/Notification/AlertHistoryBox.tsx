@@ -1,22 +1,21 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
-import { notificationType } from "./NotificationType.ts";
+import { alertHistoryType } from "./NotificationType.ts";
 import { NavLink } from "react-router-dom";
 import React from "react";
 
-type AlertHistoryBoxProps = notificationType & {
+type AlertHistoryBoxProps = alertHistoryType & {
     deleteHistory : (id:number)=>void;
     closeModal : () => void;
 }
 
-const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name, symbol, volatility, stTime, isRising, isOn, deleteHistory, closeModal}) => {
-
+const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name, symbol, volatility, stTime, isRising, receivedAt, deleteHistory, closeModal}) => {
 
     return <Container>
         <Header>
             <HeaderLeft>
                 <Img src="public/assets/Notification/Greenbell.svg" size="1.125rem"/>
-                <Timestamp>2025.01.23 16:35</Timestamp>
+                <Timestamp>{receivedAt}</Timestamp>
             </HeaderLeft>
             <Button src="public/assets/Notification/Delete.svg" size="0.875rem"
             onClick={()=>deleteHistory(notificationId)}
@@ -30,7 +29,7 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name,
                 <Typo width="2.813rem">{stTime}분</Typo>
                 <Typo width="1.563rem">{isRising ? "상승" : "하락"}</Typo>
             </ContentLeft>
-            <MoreButton to={"/CoinDetailPage"} onClick={()=>closeModal()}>
+            <MoreButton to={`/CoinDetailPage/${notificationId}`} onClick={()=>closeModal()}>
                 <Button src="public/assets/Notification/chevron-right 1.svg" size="1.188rem"/>
             </MoreButton>
         </Content>

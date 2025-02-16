@@ -18,7 +18,7 @@ const CoinList: React.FC<{ coins: Coin[], viewType: "GRID" | "LIST" }> = ({ coin
                                         coinId={coin.coinId}
                                         name={coin.name}
                                         image={coin.image}
-                                        symbol={`${coin.symbol}USDT`}
+                                        symbol={`${coin.symbol}`}
                                         currentPrice={coin.currentPrice}
                                         highPrice={coin.highPrice}
                                         lowPrice={coin.lowPrice}
@@ -34,14 +34,16 @@ const CoinList: React.FC<{ coins: Coin[], viewType: "GRID" | "LIST" }> = ({ coin
                     </CardList>
                     :
                     <RowList>
-                        <RowHeader>
-                            <RowHeaderItem $width="12.5vw">Name (Symbols)</RowHeaderItem>
-                            <RowHeaderItem $width="3.472vw">Price</RowHeaderItem>
-                            <RowHeaderItem $width="7.292vw">Change (24h)</RowHeaderItem>
-                            <RowHeaderItem $width="6.25vw">Market Cap</RowHeaderItem>
-                            <RowHeaderItem $width="6.25vw">Volume</RowHeaderItem>
-                            <RowHeaderItem $width="3.75vw">Collect</RowHeaderItem>
-                        </RowHeader>
+                        {coins.length != 0 &&
+                            <RowHeader>
+                                <RowHeaderItem $width="12.5vw">Name (Symbols)</RowHeaderItem>
+                                <RowHeaderItem $width="3.472vw">Price</RowHeaderItem>
+                                <RowHeaderItem $width="7.292vw">Change (24h)</RowHeaderItem>
+                                <RowHeaderItem $width="6.25vw">Market Cap</RowHeaderItem>
+                                <RowHeaderItem $width="6.25vw">Volume</RowHeaderItem>
+                                <RowHeaderItem $width="3.75vw">Collect</RowHeaderItem>
+                            </RowHeader>
+                        }
                         {
                             coins.map((coin, index) => {
                                 return (
