@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ToggleCollectionButton from "./ToggleCollectionButton";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
 
@@ -15,7 +16,7 @@ export interface Coin {
   lowPrice: number;
   priceChange: number;
   priceChangeRate: number;
-  isCollected?: boolean;
+  isCollected: boolean;
   marketCap?: number;
   volume?: number;
 }
@@ -32,30 +33,15 @@ const CoinCard = ({
   priceChangeRate,
   isCollected,
 }: Coin) => {
-  const [totalVolume, setTotalVolume] = useState<number | null>(null);
-  const [totalCoin, setTotalCoin] = useState<number | null>(null);
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
 
-  const fetchDashBoardData = async () => {
-    try {
-      const response = await axios.get(API_ENDPOINTS.DASHBOARD_OVERVIEW);
-      if (response.data.isSuccess) {
-        setTotalVolume(response.data.result.totalVolume);
-        setTotalCoin(response.data.result.totalCoin);
-        console.log("총거래량/코인수 API 응답 데이터:", response.data);
-      } else {
-        console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
-      }
-    } catch (error) {
-      console.error("api 요청 중 오류 발생:", error);
-    }
-  };
-
   const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    fetchDashBoardData();
+    // fetchDashBoardData();
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
@@ -70,22 +56,15 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection to={`/CoinDetailPage/${coinId}`}>
+      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation();}}>
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
         <NameWrapper>
           {name} / {symbol}
         </NameWrapper>
-        <StarIcon>
-          {isCollected ? (
-            <Icon
-              src="assets/common/collect-star-fill.svg"
-              alt="star-fill"
-            ></Icon>
-          ) : (
-            <Icon src="assets/common/collect-star.svg" alt="star"></Icon>
-          )}
+        <StarIcon onClick={(e) => e.stopPropagation()}>
+          <ToggleCollectionButton coinId={coinId} isCollected={isCollected != null ? isCollected : true} />
         </StarIcon>
       </HeaderSection>
       <PriceInfoSection>
@@ -119,15 +98,7 @@ const CoinCard = ({
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart
-          width={chartSectionWidth}
-          symbol={symbol}
-          chartOptions={{
-            disableInteraction: true,
-            showXAxisTicks: false,
-            zoomEnabled: false,
-          }}
-        />
+        <CoinCardChart width={chartSectionWidth} symbol={`${symbol}USDT`}/>
       </ChartSection>
     </Container>
   );
@@ -146,7 +117,7 @@ const Container = styled.div`
 `;
 
 // 헤더
-const HeaderSection = styled(NavLink)`
+const HeaderSection = styled.div`
   box-sizing: border-box;
   width: 100%;
   display: flex;
@@ -161,12 +132,17 @@ const ThumbnailWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   margin-left: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Thumbnail = styled.img`
   width: 100%;
   height: auto;
-  padding-bottom: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
 `;
 
 const NameWrapper = styled.div`
