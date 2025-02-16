@@ -16,3 +16,7 @@ export type notificationWithoutId = {
         isRising : boolean,
         isOn : boolean,
 };
+
+export type alertHistoryType = notificationType & { 
+        receivedAt : string 
+};

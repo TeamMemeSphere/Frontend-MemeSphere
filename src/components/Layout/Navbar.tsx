@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { TitleTypo } from "../../styles/Typography";
 import NavLeftPage from "./NavLeftPage";
@@ -9,6 +9,9 @@ import Overlay from "../Common/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
 import { NavLink } from "react-router-dom";
+import LoginRequiredModal from "../Modal/LoginRequiredModal";
+import {toast} from "react-toastify";
+import useSSEAlert from "../../hooks/common/useSSEAlert";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -17,6 +20,34 @@ const Navbar: React.FC = () => {
 
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const authTokens = {
+    accessToken: localStorage.getItem("accessToken") ?? "",
+    refreshToken: localStorage.getItem("refreshToken") ?? "",
+  };
+  
+  useSSEAlert();
+
+  useEffect(()=>{
+    setTimeout(() => {
+      const mockData = {
+        coin: "Ethereum",
+        volatility: 3,
+      };
+
+      console.log("toast 실행");
+      toast(`🔥 ${mockData.coin}, 변동성 ${mockData.volatility}% 도달!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }, 3000); // 100ms 정도 딜레이 추가
+  }, []);
 
   // 사이드바가 열리면 스크롤이 비활성화
   useEffect(() => {
@@ -80,7 +111,7 @@ const Navbar: React.FC = () => {
           setIsAlarmOpen={setIsAlarmOpen}
           setIsUserModalOpen={handleOpenUserModal}/>
       )}
-      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} />}
+      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens}/>}
       {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
       
       {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
