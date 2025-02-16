@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
     DASHBOARD_OVERVIEW: `${BASE_URL}/dashboard/overview`,
     DASHBOARD_CHART: `${BASE_URL}/dashboard/chart`,
     COIN_DETAIL: (memeId: number) => `${BASE_URL}/detail/${memeId}`,
-    CHATTING : (coin_id:number)=> `${BASE_URL}/latest/${coin_id}`,
+    CHATTING : (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/latest`,
     CHAT_LIST: (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/list`,
     CHAT_LIKE: (chat_id:number)=> `${BASE_URL}/chat/${chat_id}/like`,
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
