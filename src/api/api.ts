@@ -3,9 +3,10 @@ const BASE_URL : string = import.meta.env.VITE_APP_BASE_URL || "" ;
 export const API_ENDPOINTS = {
     DASHBOARD_TREND: `${BASE_URL}/dashboard/trend`,
     DASHBOARD_OVERVIEW: `${BASE_URL}/dashboard/overview`,
+    DASHBOARD_SEARCH: `${BASE_URL}/naver/trends`,
     DASHBOARD_CHART: `${BASE_URL}/dashboard/chart`,
     COIN_DETAIL: (memeId: number) => `${BASE_URL}/detail/${memeId}`,
-    CHATTING : (coin_id:number)=> `${BASE_URL}/latest/${coin_id}`,
+    CHATTING : (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/latest`,
     CHAT_LIST: (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/list`,
     CHAT_LIKE: (chat_id:number)=> `${BASE_URL}/chat/${chat_id}/like`,
     ALARM_ENROLL: `${BASE_URL}/notification/enroll`,
