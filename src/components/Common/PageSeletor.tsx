@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface PageSelectorProps {
     currentPage: number;
@@ -7,17 +7,16 @@ interface PageSelectorProps {
     updateCurrentPage: (page: number) => void;
 }
 
-const PageSelector = ({ currentPage, totalPages, updateCurrentPage }: PageSelectorProps) => {
+const PageSelector = ({ currentPage, totalPages, updateCurrentPage}: PageSelectorProps) => {
+
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         updateCurrentPage(page);
+        console.log(page);
     }
 
     if (totalPages <= 1) return null;

@@ -27,7 +27,7 @@ interface CoinCardChartProps {
 
 const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState<number|null>(626);
 
   const {
     height = 241,
@@ -72,7 +72,8 @@ const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
       window.removeEventListener("resize", updateWidth);
     };
   }, []);
-
+  
+  console.log(width);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
 

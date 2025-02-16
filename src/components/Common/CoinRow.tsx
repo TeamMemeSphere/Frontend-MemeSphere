@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { Coin } from "./CoinCard";
+import ToggleCollectionButton from "./ToggleCollectionButton";
+import { useNavigate } from "react-router-dom";
 
 const CoinRow = ({
+    coinId,
     name,
     symbol,
     currentPrice,
@@ -13,20 +16,17 @@ const CoinRow = ({
     marketCap,
     volume
 }: Coin) => {
+    const navigate = useNavigate();
+
     return (
         <Container>
-            <Text $width="12.5vw">{name} ({symbol})</Text>
+            <Text $width="12.5vw" onClick={(e) => navigate(`/CoinDetailPage/${coinId}`)}>{name} ({symbol})</Text>
             <Text $width="3.472vw">&#36;{currentPrice.toLocaleString()}</Text>
-            <Text $width="7.292vw">{priceChangeRate}%</Text> 
+            <Text $width="7.292vw">{priceChangeRate}%</Text>
             <Text $width="6.25vw">&#36;{marketCap?.toLocaleString()}</Text>
             <Text $width="6.25vw">&#36;{volume?.toLocaleString()}</Text>
             <Text $width="3.75vw">
-                {
-                    isCollected ? 
-                    <img src="/assets/common/collect-star-fill.svg" alt="" />
-                    :
-                    <img src="/assets/common/collect-star.svg" alt="" />
-                }
+                <ToggleCollectionButton coinId={coinId} isCollected={isCollected != null ? isCollected : true} />
             </Text>
         </Container>
     )
@@ -52,7 +52,6 @@ interface TextProps {
 }
 
 const Text = styled.div<TextProps>`
-    /* width: ${(props) => props.$width}; */
     width: 100%;
     text-align: center;
 `;
