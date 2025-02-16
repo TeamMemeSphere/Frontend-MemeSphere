@@ -3,18 +3,16 @@ import { fetchNewsFromRSS } from "../../utils/rssParser";
 import styled from "styled-components";
 
 // 뉴스 제목을 받는 NewsCard 컴포넌트의 Props 타입 정의
-interface NewsCardProps {
-  title: string;
-}
-
-const NewsCardContainer = ({ title }: NewsCardProps) => {
+const NewsCardContainer = () => {
   const [newsTitles, setNewsTitles] = useState<string[]>([]);
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 뉴스 제목을 가져옵니다.
     const getNews = async () => {
       const news = await fetchNewsFromRSS();
-      setNewsTitles(news); // 상태에 뉴스 제목을 저장합니다.
+      if (Array.isArray(news) && Array.isArray(news[0])) {
+        setNewsTitles(news[0]); // ✅ 첫 번째 배열만 저장하여 `string[]` 형식 맞춤
+      }
     };
 
     getNews();

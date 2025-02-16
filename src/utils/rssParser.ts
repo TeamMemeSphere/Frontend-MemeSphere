@@ -7,6 +7,9 @@ const rssUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https
 
 interface RssItem {
   title: string[];
+  pubDate?: string[];
+  source?: [{_: string}]; // source -> 배열로 감싸져 있음
+  link: string[];
 }
 
 // 뉴스 제목을 가져오는 함수
@@ -28,15 +31,22 @@ export const fetchNewsFromRSS = async () => {
     });
     //console.log("topNewsTitles1", topNewsTitles);
 
-    const dateList = items.slice(0, 5).map(item => {
-      const rawDate = item.pubDate[0]; 
-      const dateObj = new Date(rawDate); 
-      const formattedDate = `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(2, "0")}.${String(dateObj.getDate()).padStart(2, "0")} ${String(dateObj.getHours()).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
-      return formattedDate;
+    const dateList = items.slice(0, 5).map((item) => {
+      const rawDate = item.pubDate?.[0] ?? ""; 
+      if (!rawDate) return "날짜 없음"; 
+      const dateObj = new Date(rawDate);
+      return `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}.${String(dateObj.getDate()).padStart(2, "0")} ${String(
+        dateObj.getHours()
+      ).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
     });
     //console.log("DateList:", dateList);
 
-    const sourceList = items.slice(0, 5).map(item => item.source[0]._);                                                                                      
+    const sourceList = items
+      .slice(0, 5)
+      .map((item) => item.source?.[0]?._ ?? "출처 없음");                                                                                    
     //console.log("sourceList:", sourceList);
 
     const linkList = items.slice(0,5).map(item => item.link[0]);

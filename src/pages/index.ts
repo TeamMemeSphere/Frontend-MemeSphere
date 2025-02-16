@@ -4,7 +4,6 @@ import CoinDetailPage from "./CoinDetailPage";
 import Community from "./Community";
 import DashBoard from "./DashBoard";
 import LandingPage from "./LandingPage";
-import NewsFeed from "./NewsFeed";
 import SearchResults from "./SearchResults";
 
-export {AlertDashBoard, CoinCollection, CoinDetailPage, Community, DashBoard, LandingPage, NewsFeed, SearchResults};
+export {AlertDashBoard, CoinCollection, CoinDetailPage, Community, DashBoard, LandingPage, SearchResults};
