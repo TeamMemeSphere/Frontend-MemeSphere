@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useTrendList } from "./useTrendList";
 import { SubTitle3Typo, BodyTypo, CaptionTypoMedium } from "../../../styles/Typography";
+import { useNavigate } from "react-router-dom";
 
 const TrendChartList: React.FC = () => {
+    const navigate = useNavigate();
     const { trendList, loading, error } = useTrendList();
 
     if (loading) return <p>트렌드 데이터 로딩 중...</p>;
@@ -12,7 +14,7 @@ const TrendChartList: React.FC = () => {
         <TrendChartContainer>
             {trendList.map((data, index) => (
                 <div key={data.coinId}>
-                    <RankTrendChart>
+                    <RankTrendChart onClick={() => navigate(`/CoinDetailPage/${data.coinId}`)}>
                         <RankNumber>#{data.rank}</RankNumber>
                         <RankChange>
                             {data.rankChangeDirection === "up" ? "▲" : "▼"}
@@ -46,38 +48,51 @@ const TrendChartList: React.FC = () => {
 
 export default TrendChartList;
 
-// px -> rem 수정하기
 const Line = styled.img`
     position: absolute;
     margin: -1rem 1.625rem;
+
+    @media (max-width: 480px) {
+        margin: -1rem 1rem;
+        width: 80%;
+    }
 `;
 
 const TrendChartContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 1.625rem;
-    margin-bottom: 2.5rem;
+    margin-top: 1.8rem;
+
+    @media (max-width: 480px) {
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
 `;
 
 const RankTrendChart = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 2rem; //원래 2.625
+    margin-bottom: 2.1rem; //원래 2.625
+    cursor: pointer;
 `;
 
 const RankNumber = styled.div`
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: bold;
     color: var(--yellow);
-    padding-left: 26px; 
+    padding-left: 1.625rem; 
     padding-right: 0.344rem;
+
+    @media (max-width: 480px) {
+        font-size: 1rem;
+    }
 `;
 
 const RankChange = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 15px;
+    width: 0.938rem;
     color: var(--yellow);
     padding-right: 1.125rem;
 `;
@@ -102,21 +117,35 @@ const CoinInfo = styled.span`
 `;
 
 const CoinName = styled(SubTitle3Typo)`
-  margin-bottom: 6px;
+    margin-bottom: 0.375rem;
+
+    @media (max-width: 480px) {
+        font-size: 0.8rem;
+    }
 `;
 
 const CoinSymbol = styled(CaptionTypoMedium)`
-
+    @media (max-width: 480px) {
+        font-size: 0.75rem;
+    }
 `;
 
 const CoinPriceWrapper = styled.span`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    @media (max-width: 480px) {
+        margin-right: 1rem;
+    }
 `;
 
 const CurrentCoinPrice = styled(SubTitle3Typo)`
-  margin-bottom: 6px;
+    margin-bottom: 0.375rem;
+
+    @media (max-width: 480px) {
+        font-size: 0.8rem;
+    }
 `;
 
 interface PriceChangeProps {
@@ -126,7 +155,10 @@ interface PriceChangeProps {
 const PriceChange = styled(BodyTypo)<PriceChangeProps>`
     color: ${({ $change }) =>
         $change === "up" ? "red" : $change === "down" ? "var(--blue)" : "var(--white-100)"};
-    margin-top: 5px;
+
+    @media (max-width: 480px) {
+        font-size: 0.8rem;
+    }
 `;
 
 

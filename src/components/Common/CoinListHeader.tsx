@@ -2,6 +2,7 @@ import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
 import ViewTypeButton from "./ViewTypeButton";
 import FilterSelect from "./FilterSelect";
+import { forwardRef } from "react";
 
 interface CoinListHeaderProps {
     title?: string;
@@ -12,9 +13,9 @@ interface CoinListHeaderProps {
     marginBottom: string
 }
 
-const CoinListHeader = ({ title, options, onOptionChange, viewType, onTypeChange, marginBottom }: CoinListHeaderProps) => {
+const CoinListHeader = forwardRef<HTMLDivElement, CoinListHeaderProps>(({ title, options, onOptionChange, viewType, onTypeChange, marginBottom }, coinListHeaderRef) => {
     return (
-        <Container $marginBottom={marginBottom}>
+        <Container $marginBottom={marginBottom} ref={coinListHeaderRef}>
             <S.SubTitle1Typo>{title}</S.SubTitle1Typo>
             <ViewTypeButtonWrapper>
                 <ViewTypeButton viewType={viewType} onClick={onTypeChange}></ViewTypeButton>
@@ -24,7 +25,7 @@ const CoinListHeader = ({ title, options, onOptionChange, viewType, onTypeChange
             </FilterSelectWrapper>
         </Container>
     );
-};
+});
 
 export default CoinListHeader;
 

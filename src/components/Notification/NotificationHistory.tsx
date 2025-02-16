@@ -1,59 +1,26 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import AlertHistoryBox from "./AlertHistoryBox.tsx";
-import { notificationType } from "./NotificationType.ts";
-import { useState } from "react";
-
-const NotificationDummy : notificationType[]= [
-    {
-    notificationId: 1,
-    name:"도지코인",
-    symbol:"DOGE",
-    volatility:30,
-    stTime:2,
-    isRising:true,
-    isOn: true,
-    },
-    {
-    notificationId: 2,
-    name:"도지코인",
-    symbol:"DOGE",
-    volatility:30,
-    stTime:2,
-    isRising:true,
-    isOn: true,
-    },
-    {
-    notificationId: 3,
-    name:"도지코인",
-    symbol:"DOGE",
-    volatility:30,
-    stTime:2,
-    isRising:true,
-    isOn: true,
-    }
-];
+import useSSEAlert from "../../hooks/common/useSSEAlert.ts";
 
 type NotificationHistoryProps = {
     closeModal : () => void;
 }
 
 const NotificationHistory : React.FC<NotificationHistoryProps> = ({closeModal}) => {
-    const [historyList, setHistoryList] = useState(NotificationDummy);
+    const {alertHistory, deleteHistory} = useSSEAlert();
 
-    const deleteHistory = (id : number) =>{
-        setHistoryList((prevList)=>
-            prevList.filter((history)=> history.notificationId !== id)
-        );
-    };
-
+    console.log(alertHistory);
     return <Container>
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
-        {historyList.map((notificiation)=>
+        {alertHistory.length > 0
+        ? alertHistory.map((notificiation)=>
             <AlertHistoryBox key={notificiation.notificationId} deleteHistory={deleteHistory}
             closeModal={closeModal}
             {...notificiation}/>
-        )}
+        )
+        : <S.CaptionTypoRegular>알림 내역이 없습니다.</S.CaptionTypoRegular>
+        }
     </Container>;
 };
 

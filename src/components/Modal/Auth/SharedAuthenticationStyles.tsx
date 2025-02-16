@@ -7,6 +7,12 @@ export const FormContainer = styled.div`
   align-items: center;
   padding: 0rem;
   width: 24.313rem;
+
+  @media (max-width: 480px) {
+    width: 90vw; 
+    max-width: 100%; 
+    height: 90vw;
+  }
 `;
 
 export const Form = styled.form`
@@ -39,6 +45,11 @@ export const Input = styled.input`
     outline: none;
     border-color: var(--purple);
   }
+
+  @media (max-width: 480px) {
+    height: 3rem; /* 모바일 화면에서 높이를 줄임 */
+    font-size: 0.9rem; /* 글자 크기 줄이기 */
+  }
 `;
 
 export const StyledInput = styled(Input)<{ $hasError: boolean; isAvailable?: boolean }>`
@@ -50,7 +61,7 @@ export const StyledInput = styled(Input)<{ $hasError: boolean; isAvailable?: boo
 `;
 
 export const ErrorMessage = styled.div<{ isAvailable?: boolean }>`
-  font-size: 12px;
+  font-size: 0.75rem;
   color: ${(props) => (props.isAvailable ? "var(--purple)" : "var(--red)")};
   display: flex;
   justify-content: flex-end;
@@ -73,8 +84,17 @@ export const Button = styled.button`
   background-color: var(--purple);
   transition: background-color 0.2s;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:hover {
     // Hover 디자인 미정.
+  }
+
+  @media (max-width: 480px) {
+    height: 3rem; /* 버튼 높이 조정 */
+    font-size: 0.9rem; /* 폰트 크기 줄이기 */
   }
 `;
 
@@ -107,6 +127,11 @@ export const SocialButton = styled.button`
   background-color: transparent;
   border: 1px solid rgba(225, 225, 225, 0.3);
   border-radius: 0.625rem;
+
+  @media (max-width: 480px) {
+    height: 3rem;
+    font-size: 0.9rem;
+  }
 `;
 
 export const SocialImage = styled.img`

@@ -60,6 +60,7 @@ export const useAuth = () => {
             localStorage.clear();
             setIsAuthenticated(false);
             window.dispatchEvent(new Event("storage"));
+            window.location.reload();
         } catch (error) {
             console.error("로그아웃 요청 중 오류 발생:", error);
             const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
