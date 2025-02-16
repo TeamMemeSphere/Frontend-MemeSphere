@@ -8,7 +8,6 @@ import {
   Community,
   DashBoard,
   LandingPage,
-  NewsFeed,
   SearchResults,
 } from "./pages";
 import Navbar from "./components/Layout/Navbar.tsx";
@@ -37,7 +36,6 @@ function App() {
             />
             <Route path="/Community" element={<Community />}></Route>
             <Route path="/DashBoard" element={<DashBoard />}></Route>
-            <Route path="/NewsFeed" element={<NewsFeed />}></Route>
             <Route path="/SearchResults" element={<SearchResults />}></Route>
             <Route path="/user/login/oauth2/kakao" element={<KakaoRedirect />}></Route>
             <Route path="/user/login/oauth2/google" element={<GoogleRedirect />}></Route>
