@@ -19,7 +19,11 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+
+  & > button {
+    margin-top: 0.125rem;
+  }
 `;
 
 export const InputContainer = styled.div`
@@ -87,10 +91,6 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &:hover {
-    // Hover 디자인 미정.
-  }
 
   @media (max-width: 480px) {
     height: 3rem; /* 버튼 높이 조정 */
