@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import AlarmButton from "../Common/Navbar/AlarmButton";
-import SettingButton from "../Common/Navbar/SettingButton";
+import GameButton from "../Common/Navbar/GameButton";
 import UserButton from "../Common/Navbar/UserButton";
 
 const NavRightModal: React.FC = () => {
@@ -8,7 +8,7 @@ const NavRightModal: React.FC = () => {
       <NavRightModals>
         <AlarmButton></AlarmButton>
         <UserButton></UserButton>
-        <SettingButton></SettingButton>
+        <GameButton></GameButton>
       </NavRightModals>
     );
 };

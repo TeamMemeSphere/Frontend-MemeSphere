@@ -37,10 +37,17 @@ const NavItem: React.FC<NavItemProps> = ({icon1, icon2, label, link, onClick, is
 
 export default NavItem;
 
+
+const Label = styled.span`
+    font-size: var(--font-size-small);
+    color: var(--white-60);
+    text-decoration: none;
+`;
+
 const StyledNavLink = styled(NavLink)<{$isSidebar: boolean}>`
     display: flex;
     align-items: center;
-    color: var(--white-10);
+    color: var(--white-60);
     text-decoration: none;
     gap: 0.188rem;
 
@@ -48,10 +55,13 @@ const StyledNavLink = styled(NavLink)<{$isSidebar: boolean}>`
     border-radius: 10px;
     transition: background-color 0.2s ease-in-out;
 
-    &:hover {
+    &:hover,
+    &.active {
         color: var(--white-100);
     }
-    &.active {
+
+    &:hover ${Label}, 
+    &.active ${Label} {
         color: var(--white-100);
     }
 `;
@@ -66,16 +76,11 @@ const StyledDiv = styled.div`
     &:hover {
         background-color: rgba(225, 225, 225, 0.1);
     }
+        
+    &:hover ${Label} {
+        color: var(--white-100);
+    }
 `;
 
 const IconWrapper = styled.div`
-    width: 1.375rem;
-    height: 1.375rem;
-`;
-
-const Label = styled.span`
-    height: 1.375rem;
-    font-size: var(--font-size-small);
-    color: inherit;
-    text-decoration: none;
 `;
