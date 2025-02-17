@@ -41,7 +41,7 @@ const AlarmButton: React.FC = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  },[isModalOpen]);
+  },[isModalOpen, isAuthenticated]);
   
   return (
     <>
