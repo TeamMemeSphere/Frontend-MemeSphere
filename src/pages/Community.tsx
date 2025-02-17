@@ -11,24 +11,24 @@ import { useQueries, useInfiniteQuery } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../api/api.ts";
 
 interface ApiResponse {
-  isSuccess: boolean,
+  isSuccess: boolean;
   result: {
-    id : number,
-    name : string,
-    symbol : string,
-    image : string,
-    chatInfo? : chatInfo
-  }
+    id: number;
+    name: string;
+    symbol: string;
+    image: string;
+    chatInfo?: chatInfo;
+  };
 }
-const fetchCoinData = async (id: number) : Promise<ApiResponse | undefined> => {
-  try{
+const fetchCoinData = async (id: number): Promise<ApiResponse | undefined> => {
+  try {
     const coinResponse = await axios.get(API_ENDPOINTS.COIN_DETAIL(id));
-    if (coinResponse.status === 200 && coinResponse.data){
+    if (coinResponse.status === 200 && coinResponse.data) {
       return coinResponse.data;
     }
   } catch (error) {
-    if(axios.isAxiosError(error) && error.response){
-      const {status, data} = error.response;
+    if (axios.isAxiosError(error) && error.response) {
+      const { status, data } = error.response;
 
       if (status === 404) {
         console.warn(`No data found for ID ${id}`);
@@ -41,43 +41,49 @@ const fetchCoinData = async (id: number) : Promise<ApiResponse | undefined> => {
 };
 
 const Community = () => {
+  const queries = useQueries({
+    queries: [1, 2, 3, 4, 5, 6].map((id) => ({
+      queryKey: ["coinData", id],
+      queryFn: () => fetchCoinData(id),
+    })),
+  });
 
-  const queries = useQueries({queries: [1,2,3,4,5,6].map((id)=>({
-    queryKey: ["coinData", id],
-    queryFn: () => fetchCoinData(id),
-  }))
-});
-  
   const {
-    data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
   } = useInfiniteQuery({
-    queryKey: ["coinData","infinite"],
-    queryFn: ({pageParam = 7}) => fetchCoinData(pageParam),
+    queryKey: ["coinData", "infinite"],
+    queryFn: ({ pageParam = 7 }) => fetchCoinData(pageParam),
     initialPageParam: 7,
     getNextPageParam: (lastPage, pages) => {
-      if(!lastPage){
+      if (!lastPage) {
         return undefined;
-      };
+      }
       return lastPage.isSuccess === false ? undefined : pages.length + 7;
     },
   });
 
   const observerRef = useRef(null);
 
-  useEffect(()=> {
-    if(!observerRef.current || !hasNextPage) return;
+  useEffect(() => {
+    if (!observerRef.current || !hasNextPage) return;
 
-    const observer = new IntersectionObserver((entries)=> {
-      if(entries[0].isIntersecting && hasNextPage && !isFetchingNextPage){
-        fetchNextPage();
-      }
-    },
-    {threshold: 1.0});
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1.0 },
+    );
 
     observer.observe(observerRef.current);
     return () => observer.disconnect();
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <Container>
@@ -90,32 +96,41 @@ const Community = () => {
           <FearGreedIndex />
           <NewsCards />
         </LeftSide>
-        <RightSide>{queries.map((query, index)=>(
-          <div key={index}>
-            {query.isLoading ? (<SkeletonCoinChat/>)
-            : query.isError ? (<p>Error loading data</p>)
-            : !query.data ? (<p>no data...</p>)
-            : (<CoinTalk 
-                key={query.data.result.id}
-                id={query.data.result.id}
-                name={query.data.result.name}
-                symbol={query.data.result.symbol}
-                image={query.data.result.image}
-            />)}
-          </div>
-        ))}
-          {
-          data?.pages.flat().map((query)=>
-            query?.result ? (<CoinTalk 
-                key={query.result.id}
-                id={query.result.id} 
-                name={query.result.name}
-                symbol={query.result.symbol}
-                image={query.result.image}
-            />)
-          : null)}
-            <div ref={observerRef}/>
-            {isFetchingNextPage && hasNextPage && <SkeletonCoinChat/>}
+        <RightSide>
+          {queries.map((query, index) => (
+            <div key={index}>
+              {query.isLoading ? (
+                <SkeletonCoinChat />
+              ) : query.isError ? (
+                <p>Error loading data</p>
+              ) : !query.data ? (
+                <p>no data...</p>
+              ) : (
+                <CoinTalk
+                  key={query.data.result.id}
+                  id={query.data.result.id}
+                  name={query.data.result.name}
+                  symbol={query.data.result.symbol}
+                  image={query.data.result.image}
+                />
+              )}
+            </div>
+          ))}
+          {data?.pages
+            .flat()
+            .map((query) =>
+              query?.result ? (
+                <CoinTalk
+                  key={query.result.id}
+                  id={query.result.id}
+                  name={query.result.name}
+                  symbol={query.result.symbol}
+                  image={query.result.image}
+                />
+              ) : null,
+            )}
+          <div ref={observerRef} />
+          {isFetchingNextPage && hasNextPage && <SkeletonCoinChat />}
         </RightSide>
       </Content>
     </Container>

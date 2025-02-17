@@ -21,7 +21,7 @@ import { useSocialLogin } from "../../../hooks/common/useSocialLogin";
 
 interface LoginProps {
   switchToSignup: () => void;
-  onLogin: () => void;
+  onLogin?: () => void;
 }
 
 const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
