@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {BodyTypo, SubTitle1Typo, SubTitle3Typo} from "../../../styles/Typography";
-import GoogleTrendsWidget from "./googletrendswidget";
 import TrendChartList from "./TrendCharList";
 import ContentHeader from "../../Common/ContentHeader";
 import { useEffect, useState } from "react";
@@ -31,7 +30,7 @@ const DashboardTop = () => {
   }, []);
 
   return (
-    <>
+    <UpperContainer>
     <ContentHeader title="대시보드" description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."></ContentHeader>
       
     <Container>
@@ -40,7 +39,7 @@ const DashboardTop = () => {
         <Item1TextWrapper>
           <Item12Title>총 거래량 (24시간)</Item12Title>
           <StyledContent>
-            {totalVolume !== null ? `$${totalVolume.toLocaleString()}` : "Loading..."}
+            {totalVolume !== null ? `$${Math.round(totalVolume).toLocaleString()}` : "Loading..."}
           </StyledContent>
         </Item1TextWrapper>
         <Image1 src="/assets/common/dashboard-top/Total Volum 3D image.svg" alt="총 거래량" />
@@ -59,7 +58,7 @@ const DashboardTop = () => {
 
       <Item3>
         <Item34TextWrapper>연관 검색어</Item34TextWrapper>
-        <GoogleTrendsWidget />
+        // 백엔드 작업한거
       </Item3>
 
       <Item4>
@@ -67,24 +66,37 @@ const DashboardTop = () => {
         <TrendChartList />
       </Item4>
     </Container>
-    </>
+    </UpperContainer>
   );
 };
 
 export default DashboardTop;
 
-// px -> rem 수정하기
-const StyledContent = styled(SubTitle1Typo).attrs({ as: "span" })`
-  color: white;
-  margin: 0;
-  padding-top: 0.375rem;
+const UpperContainer = styled.div`
+  @media (max-width: 480px) {
+    justify-items: center;
+    max-width: 480px;
+  }
 `;
 
 const BaseItem = styled.section`
   border-radius: 20px;
+  width: 100%;
+
+  @media (max-width: 480px) {
+  }
 `;
 const BaseTextWrapper = styled(SubTitle3Typo)`
-  padding-left: 25px;
+  padding-left: 1.563rem;
+`;
+const StyledContent = styled(SubTitle1Typo).attrs({ as: "span" })`
+  color: white;
+  margin: 0;
+  padding-top: 0.375rem;
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 `;
 const StyledImage = styled.img`
   position: absolute;
@@ -94,7 +106,7 @@ const StyledImage = styled.img`
 `;
 
 const Container = styled.div`
-  gap: 25px;
+  gap: 1.563rem;
   display: grid;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: auto;
@@ -110,14 +122,17 @@ const Container = styled.div`
     "Item3"
     "Item4";
     justify-items: center;
-    }
+  }
 `;
 
 const TopItemWrapper = styled.div`
   grid-area: top;
   display: flex;
-  gap: 25px;
+  gap: 1.563rem;
   max-width: 537px;
+
+  @media (max-width: 480px) {
+  }
 `;
 
 const Item12Title = styled(BodyTypo)`
@@ -134,12 +149,20 @@ const Item1 = styled(BaseItem)`
   flex: 1;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    width: 16em;
+  }
 `;
 const Item1TextWrapper = styled.div`
-  margin-top: 69px;
-  padding-left: 27px;
+  margin-top: 4.313rem;
+  padding-left: 1.688rem;
   z-index: 1;
   position: relative;
+
+  @media (max-width: 480px) {
+    padding-left: 1rem;
+  }
 `;
 const Image1 = styled(StyledImage)`
   margin-left: 8.75rem;
@@ -152,19 +175,28 @@ const Item2 = styled(BaseItem)`
   grid-area: Item2;
   height: 143px;
   width: 100%;
-  max-width: 190px;
+  max-width: 11.875rem;
   aspect-ratio: 190 / 143;
   position: relative;
   overflow: hidden;
   flex: 1;
+
+  @media (max-width: 480px) {
+    max-width: 8.4rem;
+  }
 `;
 const Item2TextWrapper = styled.div`
-  margin-top: 69px;
-  padding-right: 25px;
+  margin-top: 4.313rem;
+  padding-right: 1.563rem;
   z-index: 1;
   position: relative;
   float: right;
   text-align: right;
+  
+  @media (max-width: 480px) {
+    max-width: 8rem;
+    padding-right: 1rem;
+  }
 `;
 const Item2StyledContent = styled(StyledContent).attrs({ as: "span"})`
 `;
@@ -183,6 +215,12 @@ const Item3 = styled(BaseItem)`
   aspect-ratio: 537/347;
   overflow: hidden;
   flex: 1;
+
+  @media (max-width: 480px) {
+    max-width: 80%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
 `;
 
 const Item4 = styled(BaseItem)`
@@ -193,6 +231,10 @@ const Item4 = styled(BaseItem)`
   max-width: 518px;
   aspect-ratio: 518/515;
   flex: 1;
+
+  @media (max-width: 480px) {
+    max-width: 80%;
+  }
 `;
 
 const Item34TextWrapper = styled(BaseTextWrapper)`

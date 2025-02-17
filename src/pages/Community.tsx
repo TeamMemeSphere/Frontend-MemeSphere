@@ -10,7 +10,17 @@ import axios from "axios";
 import { useQueries, useInfiniteQuery } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../api/api.ts";
 
-const fetchCoinData = async (id: number) : Promise<coinInfo | undefined> => {
+interface ApiResponse {
+  isSuccess: boolean,
+  result: {
+    id : number,
+    name : string,
+    symbol : string,
+    image : string,
+    chatInfo? : chatInfo
+  }
+}
+const fetchCoinData = async (id: number) : Promise<ApiResponse | undefined> => {
   try{
     const coinResponse = await axios.get(API_ENDPOINTS.COIN_DETAIL(id));
     if (coinResponse.status === 200 && coinResponse.data){
@@ -49,7 +59,6 @@ const Community = () => {
         return undefined;
       };
       return lastPage.isSuccess === false ? undefined : pages.length + 7;
-
     },
   });
 

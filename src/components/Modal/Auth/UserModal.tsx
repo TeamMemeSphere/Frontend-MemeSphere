@@ -9,8 +9,32 @@ import ProfileSetup from "./ProfileSetup";
 import GreetingModal from "../GreetingModal";
 import { useAuth } from "../../../hooks/common/useAuth";
 
+const useScrollLock = (lock: boolean) => {
+  useEffect(() => {
+    if (lock) {
+      const scrollPosition = window.pageYOffset;
+      const bodyStyle = document.body.style.cssText;
+
+      document.body.style.cssText = `
+        position: fixed;
+        top: -${scrollPosition}px;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      `;
+      
+      return () => {
+        document.body.style.cssText = bodyStyle;
+        window.scrollTo(0, scrollPosition);
+      };
+    }
+  }, [lock]);
+};
+
+
 interface ModalProps {
   closeModal: () => void;
+  onLogin: () => void;
 }
 
 const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
@@ -18,6 +42,8 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting">(isAuthenticated ? "greeting" : "login");
   const [email, setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
+
+  useScrollLock(activeTab !== "greeting");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,26 +65,13 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
     }
   };
 
-  // 유저 모달창 열리면 스크롤 비활성화
-  useEffect(() => {
-    if (activeTab !== "login") {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    
-    return() => {
-      document.body.style.overflow = "auto";
-    };
-  }, [activeTab]);
-
   return (
     <>
     {activeTab === "greeting" && <GreetingModal closeModal={closeModal}/>}
     {activeTab !== "greeting" && (
       <>
       <Overlay onClick={handleOverlayClick} />
-      <ModalContent>
+      <ModalContent activeTab={activeTab}>
         <FlexContainer>
           <Title>
             {activeTab === "login" && "로그인"}
@@ -102,32 +115,35 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 export default UserModal;
 
-// px -> rem 수정하기
-const ModalContent = styled.div`
+const ModalContent = styled.div<{activeTab: string}>`
   position: fixed;
   top: 50%;
   left: 50%; 
   transform: translate(-50%, -50%);
   z-index: 999;
 
-  margin-top: 5.813rem;
-  margin-right: 3.95rem;
-
-  width: 680px;
-  height: 800px;
+  width: 42.5rem;
+  height: ${({ activeTab }) => (activeTab === "login" ? "45rem" : "50rem")};  // 로그인일 때 높이 줄이기
   max-width: 90vw;
   max-height: 90vw;
   
   background-color: var(--grey-100);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.25);
   border-radius: 20px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+    max-height: 80vh; /* 최대 높이를 화면의 90%로 설정 */
+    margin-top: 0.1rem;
+    overflow-y: auto;
+  }
 `;
 
 const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 2.188rem;
-  margin-left: 50px;
+  margin-left: 3.125rem;
   gap: 0.875rem;
   align-items: center;
 `;
@@ -138,12 +154,19 @@ const Title = styled(SubTitle1Typo)`
 
 const CloseButton = styled.img`
   cursor: pointer;
-  margin-right: 56px;
+  margin-right: 3.5rem
 `;
 
 const ContentContainer = styled.div`
-  margin-top: 36px;
-  margin-left: 146px;
+  margin-top: 2.25rem;
+  margin-left: 9.125rem;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 480px) {
+    margin-top: 1.5rem;
+    margin-left: 3rem; 
+    margin-right: 3rem;
+    margin-bottom: 1.5rem;
+  }
 `;

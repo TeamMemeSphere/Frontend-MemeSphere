@@ -1,19 +1,78 @@
 import styled from "styled-components";
 import ChatContent from "./ChatContent";
-import chatDummy from "../../data/chatDummy.json";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import useIntersectionObserver from "../../hooks/CoinDetailPage/useIntersectionObserver";
+import { useQueryClient } from "@tanstack/react-query";
 
-const ChatList = forwardRef<HTMLDivElement>((props, chatListRef) => {
+interface ChatMessage {
+    id: number,
+    message: string,
+    nickname: string,
+    memeCoin: string,
+    likes: number,
+    created_at: string
+}
+
+interface ChatListProps {
+    messages: any[],
+    fetchNextPage: () => void,
+    hasNextPage: boolean,
+    isFetching: boolean
+}
+
+const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching }, chatListRef) => {
+    const [chatList, setChatList] = useState<any>(null);
+    const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [prevHeight, setPrevHeight] = useState(0);
+    const queryClient = useQueryClient();
+
+    const observerRef = useRef<HTMLDivElement>(null);
+
+    useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, isFetching, chatListRef, chatList });
+
+    useEffect(() => {
+        if (chatListRef && 'current' in chatListRef && chatListRef.current && !isMounted && !isFetching) {
+            scrollToEnd();
+            setIsMounted(true);
+        }
+        setChatList(flattenedMessages);
+    }, [messages]);
+
+    const scrollToEnd = () => {
+        if (chatListRef && 'current' in chatListRef && chatListRef.current) {
+            chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+            chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+        }
+    }
+
+    useEffect(() => {
+        if (isFetching) return;
+        chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight - prevHeight });
+    }, [isFetching]);
+
+
+    // 나갔다 들어왔을 때 페이지 초기화
+    useEffect(() => {
+        return () => {
+            queryClient.removeQueries({ queryKey: ["LiveChatCard"] });
+        };
+    }, []);
+
+    const flattenedMessages = messages?.flatMap((page) => page.result.content) || [];
+
     return (
         <>
             <Container ref={chatListRef}>
-                {chatDummy.map((chat, index) => (
+                <ChatTopDiv ref={observerRef} />
+                {flattenedMessages.map((chat, index) => (
                     <ChatContent
                         key={index}
+                        id={chat.id}
                         message={chat.message}
                         nickname={chat.nickname}
                         likes={chat.likes}
-                        created_at={chat.created_at}
+                        createdAt={chat.createdAt}
+                        scrollToEnd={scrollToEnd}
                     />
                 ))}
             </Container>
@@ -48,4 +107,10 @@ const Container = styled.div`
         background: var(--white-30);
         border-radius: 2.5px;
     }
+`
+
+const ChatTopDiv = styled.div`
+    width: 100%;
+    height: 1rem;
+    flex-shrink: 0;
 `
