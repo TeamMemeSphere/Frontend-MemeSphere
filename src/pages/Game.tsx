@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
-import FilterSelect from "../components/common/FilterSelect";
+import FilterSelect from "../components/Common/FilterSelect";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import { TitleTypo, SubTitle3Typo } from "../styles/Typography";
 import ReactConfetti from "react-confetti";
 
 const COIN_SYMBOL_MAP: Record<string, string> = {
-  "도지코인": "DOGEUSDT",
-  "페페": "PEPEUSDT",
-  "시바이누": "SHIBUSDT"
+  도지코인: "DOGEUSDT",
+  페페: "PEPEUSDT",
+  시바이누: "SHIBUSDT",
 };
 
 const formatPrice = (price: string) => {
   return parseFloat(price).toString(); // 불필요한 0 제거
-}; 
+};
 
 const GamePage: React.FC = () => {
   const options = ["도지코인", "페페", "시바이누"];
   const [selectedCoin, setSelectedCoin] = useState<string>("도지코인");
-  const [selectedOption, setSelectedOption] = useState<"홀수" | "짝수" | null>(null);
+  const [selectedOption, setSelectedOption] = useState<"홀수" | "짝수" | null>(
+    null,
+  );
   const [result, setResult] = useState<"none" | "success" | "fail">("none");
   const [isSpinning, setIsSpinning] = useState(false);
   const [resultTitle, setResultTitle] = useState<string>("");
@@ -49,12 +51,12 @@ const GamePage: React.FC = () => {
   const animateSlotMachine = (finalPrice: number) => {
     let counter = 0;
     const finalPriceStr = finalPrice.toString();
-    
+
     const interval = setInterval(() => {
-      const randomDigits = (Math.random().toFixed(6));
+      const randomDigits = Math.random().toFixed(6);
       setDisplayedPrice(randomDigits);
       counter++;
-      
+
       if (counter > 20) {
         clearInterval(interval);
         setDisplayedPrice(finalPriceStr);
@@ -70,35 +72,38 @@ const GamePage: React.FC = () => {
     setTimeout(() => {
       setIsHandleRotated(false);
     }, 300);
-    
+
     try {
       const symbol = COIN_SYMBOL_MAP[selectedCoin];
       const response = await axios.get(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`,
       );
       console.log("바이낸스 응답 데이터:", response.data);
-      
+
       if (response.data && response.data.price) {
-        const price = response.data.price;    
+        const price = response.data.price;
         const formatPrice = (price: string) => {
           return parseFloat(price).toString();
-        }; 
+        };
         const formattedPrice = formatPrice(price);
-        
+
         animateSlotMachine(price);
-        
+
         // 가격의 마지막 자리 확인
         const priceStr = formattedPrice.toString();
         const lastDigit = parseInt(priceStr[priceStr.length - 1]);
         const isOdd = lastDigit % 2 === 1;
-        
+
         const correctAnswer = isOdd ? "홀수" : "짝수";
-        
+
         // 결과 표시 전 지연시간
         setTimeout(() => {
           setButtonText("처음으로 돌아가기");
-          
-          if ((isOdd && selectedOption === "홀수") || (!isOdd && selectedOption === "짝수")) {
+
+          if (
+            (isOdd && selectedOption === "홀수") ||
+            (!isOdd && selectedOption === "짝수")
+          ) {
             setResult("success");
             setResultTitle(`정답은 ${correctAnswer}! 와, 정답이에요`);
             setConfettiTriggered(true);
@@ -107,9 +112,11 @@ const GamePage: React.FC = () => {
             }, 3000);
           } else {
             setResult("fail");
-            setResultTitle(`정답은 ${correctAnswer}! 아쉽게 실패! 다시 도전해볼까요?`);
+            setResultTitle(
+              `정답은 ${correctAnswer}! 아쉽게 실패! 다시 도전해볼까요?`,
+            );
           }
-          
+
           setIsSpinning(false);
         }, 3000);
       }
@@ -126,7 +133,7 @@ const GamePage: React.FC = () => {
     setButtonText("결과 확인하기");
     setDisplayedPrice("");
   };
-  
+
   return (
     <>
       <TitleWrapper>
@@ -138,78 +145,93 @@ const GamePage: React.FC = () => {
             <ResultSubtitle>{resultTitle.split("!")[1]}</ResultSubtitle>
           </ResultMessage>
         )}
-          <SelectWrapper>
-            <FilterSelect options={options} onChange={handleOptionChange} />
-          </SelectWrapper>
-        </TitleWrapper>
+        <SelectWrapper>
+          <FilterSelect options={options} onChange={handleOptionChange} />
+        </SelectWrapper>
+      </TitleWrapper>
 
-    <GameContainer>
-    {confettiTriggered && (
-        <ReactConfetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          colors={["#345DFD", "#7061F0", "#DE8DFA", "#4FFC91", "#D6F84C", "#FB6571"]}
-          numberOfPieces={100}
-          gravity={0.5} 
-        />
-      )}
-      <RouletteImageContainer>
-        <RouletteImage src="../../public/assets/common/RouletteMachineWithoutHandler.svg" alt="Roulette Machine"/>
-          <RouletteHandle 
-            src="../../public/assets/common/RouletteMachineHandler.svg" 
+      <GameContainer>
+        {confettiTriggered && (
+          <ReactConfetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            colors={[
+              "#345DFD",
+              "#7061F0",
+              "#DE8DFA",
+              "#4FFC91",
+              "#D6F84C",
+              "#FB6571",
+            ]}
+            numberOfPieces={100}
+            gravity={0.5}
+          />
+        )}
+        <RouletteImageContainer>
+          <RouletteImage
+            src="../../public/assets/common/RouletteMachineWithoutHandler.svg"
+            alt="Roulette Machine"
+          />
+          <RouletteHandle
+            src="../../public/assets/common/RouletteMachineHandler.svg"
             alt="Handle"
             $isRotated={isHandleRotated}
-            />
-      </RouletteImageContainer>
-      <GameContent>
-        <RouletteSection>
-          <Roulette className={isSpinning ? "spinning" : ""}>
-            {displayedPrice ? (
-              <>
-                <PriceDisplayTitle>{selectedCoin}의 현재 가격</PriceDisplayTitle>
-                <PriceDisplay className={isSpinning ? "animating" : ""}>
-                  $ {formatPrice(displayedPrice)}
-                </PriceDisplay>
-              </>
-            ) : (
-              <RouletteInner className={isSpinning ? "spinning" : ""} />
-            )}
-          </Roulette>
-        </RouletteSection>
-        
-        <ControlSection>
-          <OptionButtons>
-            <OptionButton 
-              $selected={selectedOption === "홀수"} 
-              onClick={() => handleSelectOption("홀수")}
-              disabled={isSpinning || buttonText === "처음으로 돌아가기"}
-              $hasSelection={!!selectedOption}
-              $optionType="홀수"
-              $buttonText={buttonText}
+          />
+        </RouletteImageContainer>
+        <GameContent>
+          <RouletteSection>
+            <Roulette className={isSpinning ? "spinning" : ""}>
+              {displayedPrice ? (
+                <>
+                  <PriceDisplayTitle>
+                    {selectedCoin}의 현재 가격
+                  </PriceDisplayTitle>
+                  <PriceDisplay className={isSpinning ? "animating" : ""}>
+                    $ {formatPrice(displayedPrice)}
+                  </PriceDisplay>
+                </>
+              ) : (
+                <RouletteInner className={isSpinning ? "spinning" : ""} />
+              )}
+            </Roulette>
+          </RouletteSection>
+
+          <ControlSection>
+            <OptionButtons>
+              <OptionButton
+                $selected={selectedOption === "홀수"}
+                onClick={() => handleSelectOption("홀수")}
+                disabled={isSpinning || buttonText === "처음으로 돌아가기"}
+                $hasSelection={!!selectedOption}
+                $optionType="홀수"
+                $buttonText={buttonText}
+              >
+                홀수
+              </OptionButton>
+              <OptionButton
+                $selected={selectedOption === "짝수"}
+                onClick={() => handleSelectOption("짝수")}
+                disabled={isSpinning || buttonText === "처음으로 돌아가기"}
+                $hasSelection={!!selectedOption}
+                $optionType="짝수"
+                $buttonText={buttonText}
+              >
+                짝수
+              </OptionButton>
+            </OptionButtons>
+
+            <CheckButton
+              onClick={buttonText === "결과 확인하기" ? checkResult : resetGame}
+              disabled={
+                (!selectedOption && buttonText === "결과 확인하기") ||
+                isSpinning
+              }
             >
-              홀수
-            </OptionButton>
-            <OptionButton 
-              $selected={selectedOption === "짝수"} 
-              onClick={() => handleSelectOption("짝수")}
-              disabled={isSpinning || buttonText === "처음으로 돌아가기"}
-              $hasSelection={!!selectedOption}
-              $optionType="짝수"
-              $buttonText={buttonText}
-            >
-              짝수
-            </OptionButton>
-          </OptionButtons>
-          
-          <CheckButton 
-            onClick={buttonText === "결과 확인하기" ? checkResult : resetGame} 
-            disabled={!selectedOption && buttonText === "결과 확인하기" || isSpinning}
-          >
-            {buttonText}
-          </CheckButton>
-        </ControlSection>
-      </GameContent>
-    </GameContainer>
+              {buttonText}
+            </CheckButton>
+          </ControlSection>
+        </GameContent>
+      </GameContainer>
     </>
   );
 };
@@ -291,15 +313,14 @@ const ResultTitle = styled(TitleTypo)`
   margin-bottom: 0.813rem;
   text-align: center;
 `;
-const ResultSubtitle = styled(SubTitle3Typo)`
-`;
+const ResultSubtitle = styled(SubTitle3Typo)``;
 const SelectWrapper = styled.div`
   position: absolute;
   right: 4rem;
   top: 8rem;
 
   @media (min-width: 1300px) {
-    right: 20rem; 
+    right: 20rem;
   }
 
   @media (max-width: 1300px) {
@@ -326,7 +347,7 @@ const RouletteImageContainer = styled.div`
   position: absolute;
   z-index: 0;
   transform: translate(-47%, -21%);
-  left: 50%; 
+  left: 50%;
 `;
 const RouletteImage = styled.img`
   width: 28.188rem;
@@ -339,10 +360,13 @@ const RouletteHandle = styled.img<{ $isRotated: boolean }>`
   transition: all 0.3s ease-in-out;
   top: 29%;
   right: 2.1%;
-  ${props => props.$isRotated ? `
+  ${(props) =>
+    props.$isRotated
+      ? `
     transform: scaleY(-1);
     top: 50%;
-  ` : `
+  `
+      : `
   `}
 `;
 // const RouletteHandle = styled.img`
@@ -385,7 +409,7 @@ const Roulette = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
+
   &.spinning {
     animation: ${blink} 0.5s ease-in-out infinite;
   }
@@ -397,9 +421,9 @@ const RouletteInner = styled.div`
   border-radius: 50%;
   background: var(--white-50);
   position: relative;
-  
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -409,7 +433,7 @@ const RouletteInner = styled.div`
     border-radius: 50%;
     background-color: var(--grey-80);
   }
-  
+
   &.spinning {
     animation: ${spin} 0.5s linear infinite;
   }
@@ -443,35 +467,53 @@ type ButtonStyleProps = {
   $hasSelection: boolean;
   $buttonText: string;
 };
-const OptionButton = styled(SubTitle3Typo).attrs({ as: "button"})<ButtonStyleProps>`
+const OptionButton = styled(SubTitle3Typo).attrs({
+  as: "button",
+})<ButtonStyleProps>`
   border: none;
-  box-shadow: ${({ $selected }) => ($selected ? "0 0 0 2px white inset" : "none")};
+  box-shadow: ${({ $selected }) =>
+    $selected ? "0 0 0 2px white inset" : "none"};
   border-radius: 8px;
   padding: 10px 20px;
   width: 9.625rem;
   cursor: pointer;
-  transition: background-color 0.3s, border 0.3s;
+  transition:
+    background-color 0.3s,
+    border 0.3s;
 
-  background-color: ${({ $selected, $optionType, $hasSelection }) => 
-    $hasSelection 
-      ? ($selected ? ($optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
-      : ($optionType === "홀수" ? "var(--green)" : "var(--red)")};
+  background-color: ${({ $selected, $optionType, $hasSelection }) =>
+    $hasSelection
+      ? $selected
+        ? $optionType === "홀수"
+          ? "var(--green)"
+          : "var(--red)"
+        : "gray"
+      : $optionType === "홀수"
+        ? "var(--green)"
+        : "var(--red)"};
 
   &:hover {
     box-shadow: 0 0 0 2px white inset;
   }
 
   &:disabled {
-    background-color: ${({ $selected, $optionType, $hasSelection }) => 
-      $hasSelection 
-      ? ($selected ? ($optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
-      : ($optionType === "홀수" ? "var(--green)" : "var(--red)")};
+    background-color: ${({ $selected, $optionType, $hasSelection }) =>
+      $hasSelection
+        ? $selected
+          ? $optionType === "홀수"
+            ? "var(--green)"
+            : "var(--red)"
+          : "gray"
+        : $optionType === "홀수"
+          ? "var(--green)"
+          : "var(--red)"};
 
-    color: ${({ $buttonText }) => $buttonText === "처음으로 돌아가기" ? "black" : "white"};
+    color: ${({ $buttonText }) =>
+      $buttonText === "처음으로 돌아가기" ? "black" : "white"};
   }
 `;
 
-const CheckButton = styled(SubTitle3Typo).attrs({ as: "button"})`
+const CheckButton = styled(SubTitle3Typo).attrs({ as: "button" })`
   width: 20.063rem;
   padding: 1rem;
   border-radius: 8px;
@@ -482,7 +524,7 @@ const CheckButton = styled(SubTitle3Typo).attrs({ as: "button"})`
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s;
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
