@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import CoinList from "../components/common/CoinList.tsx";
+import CoinList from "../components/Common/CoinList.tsx";
 import { useRef, useState } from "react";
-import PageSelector from "../components/common/PageSeletor.tsx";
+import PageSelector from "../components/Common/PageSeletor.tsx";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
-import CoinListHeader from "../components/common/CoinListHeader.tsx";
+import CoinListHeader from "../components/Common/CoinListHeader.tsx";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import useChangeSortType from "../hooks/common/useChangeSortType";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton.tsx";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton.tsx";
-import { Icon } from "../components/common/Icon.tsx";
+import CoinCardListSkeleton from "../components/Common/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/Common/CoinRowListSkeleton.tsx";
+import { Icon } from "../components/Common/Icon.tsx";
 import { API_ENDPOINTS } from "../api/api.ts";
 import { useAuth } from "../hooks/common/useAuth.ts";
 

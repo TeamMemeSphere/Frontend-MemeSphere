@@ -1,7 +1,7 @@
 import FearGreedIndex from "../components/Community/FearGreedIndex";
 import NewsCards from "../components/Community/NewsCards.tsx";
 import CoinTalk from "../components/Community/CoinTalk.tsx";
-import ContentHeader from "../components/common/ContentHeader.tsx";
+import ContentHeader from "../components/Common/ContentHeader.tsx";
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import { chatInfo, coinInfo } from "../components/Community/communityTypes.ts";

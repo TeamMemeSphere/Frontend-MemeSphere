@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import {BodyTypo, SubTitle1Typo, SubTitle3Typo} from "../../../styles/Typography";
+import {
+  BodyTypo,
+  SubTitle1Typo,
+  SubTitle3Typo,
+} from "../../../styles/Typography";
 import TrendChartList from "./TrendCharList";
-import ContentHeader from "../../common/ContentHeader";
+import ContentHeader from "../../Common/ContentHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../../api/api";
@@ -32,41 +36,52 @@ const DashboardTop = () => {
 
   return (
     <UpperContainer>
-    <ContentHeader title="대시보드" description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."></ContentHeader>
-      
-    <Container>
-      <TopItemWrapper>
-      <Item1>
-        <Item1TextWrapper>
-          <Item12Title>총 거래량 (24시간)</Item12Title>
-          <StyledContent>
-            {totalVolume !== null ? `$${Math.round(totalVolume).toLocaleString()}` : "Loading..."}
-          </StyledContent>
-        </Item1TextWrapper>
-        <Image1 src="/assets/common/dashboard-top/Total Volum 3D image.svg" alt="총 거래량" />
-      </Item1>
+      <ContentHeader
+        title="대시보드"
+        description="각 코인의 성과와 비즈니스 성장을 위한 인사이트를 제공합니다."
+      ></ContentHeader>
 
-      <Item2>
-        <Image2 src="/assets/common/dashboard-top/Trade coin 3D image 2.svg" alt="거래된 코인" />
-        <Item2TextWrapper>
-          <Item12Title>거래된 밈 코인</Item12Title>
-          <Item2StyledContent>
-            {totalCoin !== null ? `${totalCoin}개` : "Loading..."}
-          </Item2StyledContent>
-        </Item2TextWrapper>
-      </Item2>
-      </TopItemWrapper>
+      <Container>
+        <TopItemWrapper>
+          <Item1>
+            <Item1TextWrapper>
+              <Item12Title>총 거래량 (24시간)</Item12Title>
+              <StyledContent>
+                {totalVolume !== null
+                  ? `$${Math.round(totalVolume).toLocaleString()}`
+                  : "Loading..."}
+              </StyledContent>
+            </Item1TextWrapper>
+            <Image1
+              src="/assets/common/dashboard-top/Total Volum 3D image.svg"
+              alt="총 거래량"
+            />
+          </Item1>
 
-      <Item3>
-        <Item34TextWrapper>검색량</Item34TextWrapper>
-        <NaverSearchTrend />
-      </Item3>
+          <Item2>
+            <Image2
+              src="/assets/common/dashboard-top/Trade coin 3D image 2.svg"
+              alt="거래된 코인"
+            />
+            <Item2TextWrapper>
+              <Item12Title>거래된 밈 코인</Item12Title>
+              <Item2StyledContent>
+                {totalCoin !== null ? `${totalCoin}개` : "Loading..."}
+              </Item2StyledContent>
+            </Item2TextWrapper>
+          </Item2>
+        </TopItemWrapper>
 
-      <Item4>
-        <Item34TextWrapper>트렌드</Item34TextWrapper>
-        <TrendChartList />
-      </Item4>
-    </Container>
+        <Item3>
+          <Item34TextWrapper>검색량</Item34TextWrapper>
+          <NaverSearchTrend />
+        </Item3>
+
+        <Item4>
+          <Item34TextWrapper>트렌드</Item34TextWrapper>
+          <TrendChartList />
+        </Item4>
+      </Container>
     </UpperContainer>
   );
 };
@@ -119,9 +134,9 @@ const Container = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-areas:
-    "top"
-    "Item3"
-    "Item4";
+      "top"
+      "Item3"
+      "Item4";
     justify-items: center;
   }
 `;
@@ -136,8 +151,7 @@ const TopItemWrapper = styled.div`
   }
 `;
 
-const Item12Title = styled(BodyTypo)`
-`;
+const Item12Title = styled(BodyTypo)``;
 
 const Item1 = styled(BaseItem)`
   background-color: var(--purple);
@@ -193,14 +207,13 @@ const Item2TextWrapper = styled.div`
   position: relative;
   float: right;
   text-align: right;
-  
+
   @media (max-width: 480px) {
     max-width: 8rem;
     padding-right: 1rem;
   }
 `;
-const Item2StyledContent = styled(StyledContent).attrs({ as: "span"})`
-`;
+const Item2StyledContent = styled(StyledContent).attrs({ as: "span" })``;
 const Image2 = styled(StyledImage)`
   margin-top: -2.563rem;
   margin-left: -1.938rem;

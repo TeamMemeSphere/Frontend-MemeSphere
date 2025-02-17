@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
-import CoinCardChart from "../common/CoinCardChart";
+import CoinCardChart from "../Common/CoinCardChart";
 import {
   BodyTypo,
   CaptionTypoRegular,
