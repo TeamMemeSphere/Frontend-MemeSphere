@@ -84,6 +84,7 @@ const SearchResults = () => {
         onTypeChange={setViewType}
         marginBottom="0.81rem"
         ref={CoinListHeaderRef}
+        setCurrentPage={setCurrentPage}
       >
       </CoinListHeader>
       {isLoading ?
@@ -105,7 +106,6 @@ const SearchResults = () => {
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}
                 totalPages={data.result.totalPage}
-                coinListHeaderRef={CoinListHeaderRef}
               >
               </PageSelector>
             </>

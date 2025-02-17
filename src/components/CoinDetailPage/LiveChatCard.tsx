@@ -7,6 +7,7 @@ import { Client } from "@stomp/stompjs";
 import { API_ENDPOINTS } from "../../api/api";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { set } from "date-fns";
 
 interface LiveChatCardProps {
   coinId: number;
@@ -15,6 +16,8 @@ interface LiveChatCardProps {
 const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
   const chatInputRef = useRef<HTMLDivElement>(null);
   const chatListRef = useRef<HTMLDivElement>(null);
+
+  const [newMessages, setNewMessages] = useState<any>([]);
 
   const { CHAT_LIST } = API_ENDPOINTS;
   useEffect(() => {
@@ -41,7 +44,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     }
   }
 
-  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [currentMessage, setCurrentMessage] = useState<any>("");
   const {
     data,
     isLoading,
@@ -51,7 +54,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     fetchNextPage,
     isFetching
   } = useInfiniteQuery<any>({
-    queryKey: ["LiveChatCard", coinId, initialPage, currentMessage],
+    queryKey: ["LiveChatCard", coinId, initialPage], // currentMessage
     queryFn: ({ pageParam = initialPage }) => getAllMessages(pageParam),
     getNextPageParam: (lastPage: any) => (lastPage ?
       lastPage.result.pageable.pageNumber >= 1 ?
@@ -94,6 +97,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
           console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setCurrentMessage(JSON.parse(message.body));
+          setNewMessages((prev) => [...prev, JSON.parse(message.body)]);
         });
         setStompClient(client);
       },
@@ -160,7 +164,9 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
               hasNextPage={hasNextPage}
               ref={chatListRef}
               currentMessage={currentMessage}
-              isFetching={isFetching} />
+              isFetching={isFetching} 
+              newMessages={newMessages}
+              />
         }
         <DownButton bottom={`${chatInputHeight}px`} onClick={() => scrollToEnd()} />
         <ChatInput ref={chatInputRef} onSend={sendMessage}></ChatInput>
