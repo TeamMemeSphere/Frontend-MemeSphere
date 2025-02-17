@@ -7,6 +7,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import ProfileSetup from "./ProfileSetup";
 import GreetingModal from "../GreetingModal";
+import ForgotPasswordModal from "../ForgotPasswordModal";
 import { useAuth } from "../../../hooks/common/useAuth";
 
 const useScrollLock = (lock: boolean) => {
@@ -39,7 +40,7 @@ interface ModalProps {
 
 const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   const { isAuthenticated } = useAuth();
-  const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting">(isAuthenticated ? "greeting" : "login");
+  const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting" | "forgotPassword">(isAuthenticated ? "greeting" : "login");
   const [email, setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
 
@@ -77,34 +78,39 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
             {activeTab === "login" && "로그인"}
             {activeTab === "signup" && "회원가입"}
             {activeTab === "profileSetup" && "회원가입"}
+            {activeTab == "forgotPassword" && "비밀번호 찾기"}
           </Title>
           <CloseButton onClick={handleClose} src="../../../public/assets/common/autentication/authentication back icon.svg" />
         </FlexContainer>
         <ContentContainer>
           {activeTab === "login" && (
-                <Login 
-                  onLogin={() => 
-                    setActiveTab("greeting")
-                  }
-                switchToSignup={() => setActiveTab("signup")} />
-              )}
-              {activeTab === "signup" && (
-                <Signup 
-                  onSignup={(email:string, password:string) => {
-                    setEmail(email);
-                    setPassword(password);
-                    setActiveTab("profileSetup");
-                }} />
-              )}
-              {activeTab === "profileSetup" && (
-                <ProfileSetup
-                  email={email}
-                  password={password}
-                  onSuccess={() => {
-                    setActiveTab("login");
-                  }}
-                />
-              )}
+            <Login 
+              onLogin={() => 
+                setActiveTab("greeting")
+              }
+              switchToSignup={() => setActiveTab("signup")}
+              switchToForgotPassword={() => setActiveTab("forgotPassword")} />
+          )}
+          {activeTab === "signup" && (
+            <Signup 
+              onSignup={(email:string, password:string) => {
+                setEmail(email);
+                setPassword(password);
+                setActiveTab("profileSetup");
+            }} />
+          )}
+          {activeTab === "profileSetup" && (
+            <ProfileSetup
+              email={email}
+              password={password}
+              onSuccess={() => {
+                setActiveTab("login");
+              }}
+            />
+          )}
+          {activeTab === "forgotPassword" && (
+            <ForgotPasswordModal />
+          )}
         </ContentContainer>
       </ModalContent>
       </>
@@ -123,7 +129,10 @@ const ModalContent = styled.div<{activeTab: string}>`
   z-index: 999;
 
   width: 42.5rem;
-  height: ${({ activeTab }) => (activeTab === "login" ? "45rem" : "50rem")};  // 로그인일 때 높이 줄이기
+  height: ${({ activeTab }) => 
+    activeTab === "login" ? "45rem" : 
+    activeTab === "forgotPassword" ? "26.25rem" : "50rem"
+  };
   max-width: 90vw;
   max-height: 90vw;
   
