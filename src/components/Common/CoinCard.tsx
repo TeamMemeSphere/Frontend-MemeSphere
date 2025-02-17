@@ -3,8 +3,6 @@ import CoinCardChart from "./CoinCardChart";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ToggleCollectionButton from "./ToggleCollectionButton";
-import axios from "axios";
-import { API_ENDPOINTS } from "../../api/api";
 
 export interface Coin {
   coinId: number;
@@ -41,7 +39,6 @@ const CoinCard = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetchDashBoardData();
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
         for (let entry of entries) {
@@ -98,7 +95,7 @@ const CoinCard = ({
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart width={chartSectionWidth} symbol={`${symbol}USDT`}/>
+        <CoinCardChart chartOptions={{width: chartSectionWidth}} symbol={`${symbol}USDT`}/>
       </ChartSection>
     </Container>
   );

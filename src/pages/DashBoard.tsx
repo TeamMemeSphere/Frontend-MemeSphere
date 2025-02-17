@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import CoinList from "../components/Common/CoinList";
+import CoinList from "../components/common/CoinList";
 import { useState } from "react";
-import PageSelector from "../components/Common/PageSeletor";
-import CoinListHeader from "../components/Common/CoinListHeader";
+import PageSelector from "../components/common/PageSeletor";
+import CoinListHeader from "../components/common/CoinListHeader";
 import { useQuery } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../api/api";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
+import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import { useAuth } from "../hooks/common/useAuth";
 //주현
@@ -66,6 +66,7 @@ const DashBoard = () => {
             viewType={viewType}
             onTypeChange={setViewType}
             marginBottom="1.5rem"
+            setCurrentPage={setCurrentPage}
           >
           </CoinListHeader>
           {isLoading ?

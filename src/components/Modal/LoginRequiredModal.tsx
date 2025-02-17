@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
-import { useState } from "react";
+import Overlay from "../Common/Overlay.tsx";
+
 type LoginRequiredModalProps = {
   isReqLogin: boolean;
   onClose: () => void;
@@ -8,11 +9,10 @@ type LoginRequiredModalProps = {
 }
 
 const LoginRequiredModal : React.FC<LoginRequiredModalProps> = ({isReqLogin, onClose, toLogin}) => {
-
-  
   return(
-    <Overlay>
-      <ModalContent>
+    <>
+    <Overlay onClick={onClose} />
+      <ModalContent onClick={(e) => e.stopPropagation()}>
         <S.BodyTypo>{isReqLogin ? "로그인 후 이용 가능한 기능입니다." :
           "잘못된 접근입니다"}</S.BodyTypo>
         <ButtonContainer>
@@ -28,26 +28,31 @@ const LoginRequiredModal : React.FC<LoginRequiredModalProps> = ({isReqLogin, onC
           </CloseButton>
         </ButtonContainer>
       </ModalContent>
-    </Overlay>
-  )
+    </>
+  );
 };
 
 export default LoginRequiredModal;
 
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex; 
-  background-color: rgba(30, 30, 32, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-`;
+// const Overlay = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100vw;
+//   height: 100vh;
+//   display: flex; 
+//   background-color: rgba(30, 30, 32, 0.8);
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 10;
+// `;
 
 const ModalContent = styled.div`
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%);
+
   display : flex;
   width: 23.625rem;
   padding: 2.563rem 1.938rem 1.75rem 1.938rem;
@@ -57,6 +62,7 @@ const ModalContent = styled.div`
   gap: 1.688rem;
   border-radius: 1.25rem;
   background: var(--grey-80, rgba(38, 38, 43, 0.80));
+  z-index: 1000;
 
   /* modal */
   box-shadow: 0px 0px 1.875rem 0px rgba(0, 0, 0, 0.25);

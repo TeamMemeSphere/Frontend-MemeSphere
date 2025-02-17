@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
-import CoinCardChart from "../Common/CoinCardChart";
+import CoinCardChart from "../common/CoinCardChart";
 import {
   BodyTypo,
   CaptionTypoRegular,
@@ -35,21 +35,24 @@ export interface CoinPriceData {
   weightedAveragePrice: number;
   highPrice: number;
   lowPrice: number;
+  symbol?: string; // symbol 에러 방지용 추가
 }
 
 const ChartCard = ({ coinId }: { coinId: number }) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
-  const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
+  const [chartSectionWidth, setChartSectionWidth] = useState<number>(626);
   const [coinData, setCoinData] = useState<CoinPriceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  console.log("으아아", coinData?.priceChangeDirection);
 
   // API에서 코인 데이터 가져오기
   const fetchCoinData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(API_ENDPOINTS.COIN_DETAIL_PRICE(coinId));
+      const response = await axios.get(API_ENDPOINTS.COIN_PRICE_INFO(coinId));
 
       console.log("ChartCard API Response:", response.data);
 
@@ -114,14 +117,21 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
               &#36; {coinData?.price?.toLocaleString() ?? "N/A"}
             </CurrentPrice>
             <CurrentPriceChange
-              $change={coinData?.priceChangeDirection ?? "EVEN"}
+              $change={
+                coinData?.priceChangeDirection === "up"
+                  ? "RISE"
+                  : coinData?.priceChangeDirection === "down"
+                    ? "FALL"
+                    : "EVEN"
+              }
             >
               {coinData?.priceChangeDirection === "EVEN" ? (
                 "⏤"
               ) : (
                 <>
                   {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
-                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}&nbsp; (
+                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}
+                  &nbsp; (
                   {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}%)
                 </>
               )}
@@ -152,8 +162,10 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
-          symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
+          // symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
+          symbol="DOGEUSDT"
           chartOptions={{
+            width: chartSectionWidth,
             disableInteraction: false,
             showXAxisTicks: true,
             zoomEnabled: true,

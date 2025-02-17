@@ -17,10 +17,11 @@ interface ChatListProps {
     messages: any[],
     fetchNextPage: () => void,
     hasNextPage: boolean,
-    isFetching: boolean
+    isFetching: boolean,
+    newMessages?: any[]
 }
 
-const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching }, chatListRef) => {
+const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching, newMessages }, chatListRef) => {
     const [chatList, setChatList] = useState<any>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const [prevHeight, setPrevHeight] = useState(0);
@@ -31,6 +32,7 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
     useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, isFetching, chatListRef, chatList });
 
     useEffect(() => {
+        if (isFetching) return;
         if (chatListRef && 'current' in chatListRef && chatListRef.current && !isMounted && !isFetching) {
             scrollToEnd();
             setIsMounted(true);
@@ -48,7 +50,7 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
     useEffect(() => {
         if (isFetching) return;
         chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight - prevHeight });
-    }, [isFetching]);
+    }, [messages.length]);
 
 
     // 나갔다 들어왔을 때 페이지 초기화
@@ -59,6 +61,8 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
     }, []);
 
     const flattenedMessages = messages?.flatMap((page) => page.result.content) || [];
+
+    console.log(newMessages);
 
     return (
         <>
@@ -72,9 +76,22 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
                         nickname={chat.nickname}
                         likes={chat.likes}
                         createdAt={chat.createdAt}
-                        scrollToEnd={scrollToEnd}
+                        chatListRef={chatListRef}
                     />
                 ))}
+                {
+                    newMessages && newMessages?.map((chat, index) => (
+                        <ChatContent
+                            key={index}
+                            id={chat.id}
+                            message={chat.message}
+                            nickname={chat.nickname}
+                            likes={chat.likes}
+                            createdAt={chat.createdAt}
+                            chatListRef={chatListRef}
+                        />
+                    ))
+                }
             </Container>
         </>
     )
