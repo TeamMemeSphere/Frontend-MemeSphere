@@ -25,6 +25,7 @@ const GamePage: React.FC = () => {
   const [buttonText, setButtonText] = useState("결과 확인하기");
   const [displayedPrice, setDisplayedPrice] = useState<string>("");
   const [confettiTriggered, setConfettiTriggered] = useState<boolean>(false);
+  const [isHandleRotated, setIsHandleRotated] = useState(false);
 
   useEffect(() => {
     setResult("none");
@@ -63,7 +64,12 @@ const GamePage: React.FC = () => {
 
   const checkResult = async () => {
     if (!selectedOption) return;
-    setIsSpinning(true); 
+    setIsSpinning(true);
+    setIsHandleRotated(true);
+
+    setTimeout(() => {
+      setIsHandleRotated(false);
+    }, 300);
     
     try {
       const symbol = COIN_SYMBOL_MAP[selectedCoin];
@@ -110,6 +116,7 @@ const GamePage: React.FC = () => {
     } catch (error) {
       console.error("바이낸스 가격 오류 발생:", error);
       setIsSpinning(false);
+      setIsHandleRotated(false);
     }
   };
 
@@ -148,7 +155,11 @@ const GamePage: React.FC = () => {
       )}
       <RouletteImageContainer>
         <RouletteImage src="../../public/assets/common/RouletteMachineWithoutHandler.svg" alt="Roulette Machine"/>
-          <RouletteHandle src="../../public/assets/common/RouletteMachineHandler.svg" alt="Handle" />
+          <RouletteHandle 
+            src="../../public/assets/common/RouletteMachineHandler.svg" 
+            alt="Handle"
+            $isRotated={isHandleRotated}
+            />
       </RouletteImageContainer>
       <GameContent>
         <RouletteSection>
@@ -169,22 +180,22 @@ const GamePage: React.FC = () => {
         <ControlSection>
           <OptionButtons>
             <OptionButton 
-              selected={selectedOption === "홀수"} 
+              $selected={selectedOption === "홀수"} 
               onClick={() => handleSelectOption("홀수")}
               disabled={isSpinning || buttonText === "처음으로 돌아가기"}
-              hasSelection={!!selectedOption}
-              optionType="홀수"
-              buttonText={buttonText}
+              $hasSelection={!!selectedOption}
+              $optionType="홀수"
+              $buttonText={buttonText}
             >
               홀수
             </OptionButton>
             <OptionButton 
-              selected={selectedOption === "짝수"} 
+              $selected={selectedOption === "짝수"} 
               onClick={() => handleSelectOption("짝수")}
               disabled={isSpinning || buttonText === "처음으로 돌아가기"}
-              hasSelection={!!selectedOption}
-              optionType="짝수"
-              buttonText={buttonText}
+              $hasSelection={!!selectedOption}
+              $optionType="짝수"
+              $buttonText={buttonText}
             >
               짝수
             </OptionButton>
@@ -322,12 +333,31 @@ const RouletteImage = styled.img`
   position: relative;
 `;
 
-const RouletteHandle = styled.img`
+const RouletteHandle = styled.img<{ $isRotated: boolean }>`
   width: 2rem;
   position: absolute;
-  right: 2%;
+  transition: all 0.3s ease-in-out;
   top: 29%;
+  right: 2.1%;
+  ${props => props.$isRotated ? `
+    transform: scaleY(-1);
+    top: 50%;
+  ` : `
+  `}
 `;
+// const RouletteHandle = styled.img`
+//   width: 2rem;
+//   position: absolute;
+//   top: 29%;
+//   right: 2%;
+// `;
+// const RouletteHandle = styled.img`
+//   width: 2rem;
+//   position: absolute;
+//   left: 97%;
+//   top: 29%;
+//   transform: rotate(30deg);
+// `;
 
 const GameContent = styled.div`
   display: flex;
@@ -407,32 +437,37 @@ const OptionButtons = styled.div`
   margin-bottom: 1.5rem;
   position: relative;
 `;
-
-const OptionButton = styled(SubTitle3Typo).attrs({ as: "button"})<{ selected: boolean; optionType: "홀수" | "짝수"; hasSelection: boolean; buttonText: string }>`
+type ButtonStyleProps = {
+  $selected: boolean;
+  $optionType: "홀수" | "짝수";
+  $hasSelection: boolean;
+  $buttonText: string;
+};
+const OptionButton = styled(SubTitle3Typo).attrs({ as: "button"})<ButtonStyleProps>`
   border: none;
-  box-shadow: ${({ selected }) => (selected ? "0 0 0 2px white inset" : "none")};
+  box-shadow: ${({ $selected }) => ($selected ? "0 0 0 2px white inset" : "none")};
   border-radius: 8px;
   padding: 10px 20px;
   width: 9.625rem;
   cursor: pointer;
   transition: background-color 0.3s, border 0.3s;
 
-  background-color: ${({ selected, optionType, hasSelection }) => 
-    hasSelection 
-      ? (selected ? (optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
-      : (optionType === "홀수" ? "var(--green)" : "var(--red)")};
+  background-color: ${({ $selected, $optionType, $hasSelection }) => 
+    $hasSelection 
+      ? ($selected ? ($optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
+      : ($optionType === "홀수" ? "var(--green)" : "var(--red)")};
 
   &:hover {
     box-shadow: 0 0 0 2px white inset;
   }
 
   &:disabled {
-    background-color: ${({ selected, optionType, hasSelection }) => 
-    hasSelection 
-      ? (selected ? (optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
-      : (optionType === "홀수" ? "var(--green)" : "var(--red)")};
+    background-color: ${({ $selected, $optionType, $hasSelection }) => 
+      $hasSelection 
+      ? ($selected ? ($optionType === "홀수" ? "var(--green)" : "var(--red)") : "gray") 
+      : ($optionType === "홀수" ? "var(--green)" : "var(--red)")};
 
-    color: ${({ buttonText }) => buttonText === "처음으로 돌아가기" ? "black" : "white"};
+    color: ${({ $buttonText }) => $buttonText === "처음으로 돌아가기" ? "black" : "white"};
   }
 `;
 
