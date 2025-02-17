@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 interface PageSelectorProps {
     currentPage: number;
-    totalPages: number;
+    totalPages: any;
     updateCurrentPage: (page: number) => void;
 }
 

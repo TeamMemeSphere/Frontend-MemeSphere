@@ -3,15 +3,15 @@ import CoinList from "../components/common/CoinList.tsx";
 import { useState } from "react";
 import PageSelector from "../components/common/PageSeletor.tsx";
 import CoinListHeader from "../components/common/CoinListHeader.tsx";
-import ContentHeader from "../components/Common/ContentHeader";
+import ContentHeader from "../components/common/ContentHeader.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import axios from "axios";
 import { API_ENDPOINTS } from "../api/api";
 import { useQuery } from "@tanstack/react-query";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
+import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton.tsx";
 import * as S from "../styles/Typography";
-import { Icon } from "../components/common/Icon";
+import { Icon } from "../components/common/Icon.tsx";
 import { useAuth } from "../hooks/common/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +34,7 @@ const CoinCollection = () => {
       return;
     };
     try {
-      const response = await axios.get(`${COLLECTION}?&page=${currentPage}`,
+      const response = await axios.get(`${COLLECTION}?&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -77,6 +77,7 @@ const CoinCollection = () => {
         viewType={viewType}
         onTypeChange={setViewType}
         marginBottom="0.813rem"
+        setCurrentPage={setCurrentPage}
       ></CoinListHeader>
       {
         isLoading ?
@@ -92,10 +93,7 @@ const CoinCollection = () => {
             :
             <>
               {data.result.totalElements === 0 && noResult()}
-              <CoinList
-                coins={data.result.collectionItems}
-                viewType={viewType}
-              ></CoinList>
+              <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
               <PageSelector
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}

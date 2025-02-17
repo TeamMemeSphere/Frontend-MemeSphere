@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import CoinList from "../components/common/CoinList";
+import CoinList from "../components/common/CoinList.tsx";
 import { useRef, useState } from "react";
 import PageSelector from "../components/common/PageSeletor";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
-import CoinListHeader from "../components/common/CoinListHeader";
+import CoinListHeader from "../components/common/CoinListHeader.tsx";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import useChangeSortType from "../hooks/common/useChangeSortType";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
-import { Icon } from "../components/common/Icon";
+import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton.tsx";
+import { Icon } from "../components/common/Icon.tsx";
 import { API_ENDPOINTS } from "../api/api.ts"
 import { useAuth } from "../hooks/common/useAuth.ts";
 
@@ -84,6 +84,7 @@ const SearchResults = () => {
         onTypeChange={setViewType}
         marginBottom="0.81rem"
         ref={CoinListHeaderRef}
+        setCurrentPage={setCurrentPage}
       >
       </CoinListHeader>
       {isLoading ?
@@ -105,7 +106,6 @@ const SearchResults = () => {
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}
                 totalPages={data.result.totalPage}
-                coinListHeaderRef={CoinListHeaderRef}
               >
               </PageSelector>
             </>

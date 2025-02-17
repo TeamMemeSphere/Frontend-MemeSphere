@@ -18,6 +18,7 @@ interface CoinDetailInfo {
   image: string;
   keywords: string[];
   collectionActive: boolean;
+  rank?: number;
 }
 
 const CoinDetailPage = () => {
@@ -100,8 +101,9 @@ const CoinDetailPage = () => {
             keywords={coinData.keywords}
             description={coinData.description}
             image={coinData.image}
+            rank={coinData.rank}
           />
-          <LiveChatCard coinId={coinId} />
+          <LiveChatCard coinId={numericCoinId} />
         </LeftColumn>
 
         <RightColumn>

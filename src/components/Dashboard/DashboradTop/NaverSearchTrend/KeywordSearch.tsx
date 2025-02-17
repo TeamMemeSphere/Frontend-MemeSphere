@@ -119,13 +119,14 @@ const Dropdown = styled.div`
   border-radius: 0.313rem;
   border: 0.063rem solid var(--white-30);
   background: var(--grey-100);
-  max-height: 15rem;
   overflow-y: auto;
+  height: 2rem;
 `;
 
 const CoinDropDown = styled(Dropdown)`
   top: 100%;
   margin-top: 0.25rem;
+  height: 2rem;
 `;
 
 const FilteredList = styled.div`

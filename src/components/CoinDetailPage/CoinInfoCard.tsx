@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { CommonCard } from "./CommonCardStyle";
 import { SubTitle2Typo, SmallCaptionTypo } from "../../styles/Typography";
 import CoinCircleImg from "../../../public/assets/DetailPage/CoinProfile.png";
+import FireIcon from "../../../public/assets/DetailPage/FireIcon.png";
 import { CaptionTypoMedium } from "../../styles/Typography";
 
 interface CoinInfoCardProps {
@@ -10,6 +11,7 @@ interface CoinInfoCardProps {
   keywords: string[];
   description: string;
   image: string;
+  rank?: number;
 }
 
 const CoinInfoCard = ({
@@ -18,6 +20,7 @@ const CoinInfoCard = ({
   keywords,
   description,
   image,
+  rank,
 }: CoinInfoCardProps) => {
   //const coin = coinDummy[0];
 
@@ -29,12 +32,14 @@ const CoinInfoCard = ({
           {keywords.map((keyword, index) => (
             <Keyword
               key={index}
-              $angle={(index / keywords.length) * 360 + 15}
+              $angle={(index / keywords.length) * 360 + 45}
               $isHighlighted={index === 0 || index === 1}
             >
               #{keyword}
             </Keyword>
           ))}
+          {rank !== null && <Rank>#{rank}</Rank>}
+          <IconImg src={FireIcon} />
         </CircleImageWrapper>
       </MarginFlexContainer>
 
@@ -99,7 +104,7 @@ const Image = styled.img`
 `;
 
 const StyledCaption = styled(CaptionTypoMedium)`
-  text-align: center;
+  text-align: left;
   width: 21.25vw;
   margin-bottom: 3.704vh;
   margin-top: 0.926vh;
@@ -110,9 +115,10 @@ const Keyword = styled.span<{ $isHighlighted: boolean; $angle: number }>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(${(props) => props.$angle}deg)
-    translate(5rem) rotate(-${(props) => props.$angle}deg);
+    translate(4.5rem) rotate(-${(props) => props.$angle}deg);
 
-  display: flex;
+  display: inline-flex;
+  white-space: nowrap;
   justify-content: center;
   align-items: center;
 
@@ -123,5 +129,31 @@ const Keyword = styled.span<{ $isHighlighted: boolean; $angle: number }>`
   font-size: 0.85rem;
   height: 33px;
   min-width: 33px;
-  padding: 4px 15px;
+  padding: 0px 15px;
+`;
+
+const Rank = styled.div`
+  position: absolute;
+  bottom: -27px;
+  left: -45px;
+
+  background-color: var(--purple);
+  color: #fff;
+  border-radius: 20px;
+  display: inline-flex;
+  height: 33px;
+  min-width: 33px;
+  padding: 4px 10px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+`;
+
+const IconImg = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2rem; /* 아이콘 크기 조절 */
+  transform: translate(20%, -20%); /* 살짝 밖으로 빼서 상단에 부착 */
+  height: auto;
 `;
