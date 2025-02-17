@@ -56,13 +56,18 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
         body: JSON.stringify(loginData),
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("로그인 실패:", response.status, errorData);
+        alert(data?.message || `로그인 실패: ${response.status}`);
+        console.error("로그인 실패:", response.status, data);
         return;
       }
 
-      const data = await response.json();
+      if (!data.isSuccess) {
+        alert(data.message);
+        return;
+      }
+      
       if (data.isSuccess && data.result) {
         login(data.result.accessToken, data.result.refreshToken, data.result.nickName);
         window.dispatchEvent(new Event("storage"));
@@ -72,6 +77,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
       }
     } catch (error) {
       console.error("로그인 요청 오류:", error);
+      alert("로그인 요청 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   }
 

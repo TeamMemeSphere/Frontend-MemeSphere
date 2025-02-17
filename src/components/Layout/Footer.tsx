@@ -36,7 +36,7 @@ const FooterWrapper = styled.footer`
   transform: translateY(0%);
 `;
 
-const Content = styled(ChatTextTypo)`
+const Content = styled(ChatTextTypo).attrs({ as: "span" })`
     color: #CCCCCC;
     text-align: center;
 `;

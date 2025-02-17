@@ -111,9 +111,9 @@ const Navbar: React.FC = () => {
           setIsAlarmOpen={setIsAlarmOpen}
           setIsUserModalOpen={handleOpenUserModal}/>
       )}
+
       {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens}/>}
       {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
-      
       {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
     </Nav>
   );

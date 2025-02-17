@@ -130,10 +130,11 @@ const ModalContent = styled.div<{activeTab: string}>`
   background-color: var(--grey-100);
   box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.25);
   border-radius: 20px;
+  overflow-y: auto;
 
   @media (max-width: 480px) {
     width: 90vw;
-    max-height: 80vh; /* 최대 높이를 화면의 90%로 설정 */
+    max-height: 80vh;
     margin-top: 0.1rem;
     overflow-y: auto;
   }
@@ -158,13 +159,16 @@ const CloseButton = styled.img`
 `;
 
 const ContentContainer = styled.div`
-  margin-top: 2.25rem;
-  margin-left: 9.125rem;
+  margin: 2.25rem 9.125rem;
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 650px) {
+    margin: 1.5rem 3rem;
+  }
+
   @media (max-width: 480px) {
-    margin-top: 1.5rem;
+    margin-top: 1.5rem ;
     margin-left: 3rem; 
     margin-right: 3rem;
     margin-bottom: 1.5rem;

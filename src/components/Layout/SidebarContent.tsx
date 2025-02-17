@@ -16,12 +16,12 @@ const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen
     const location = useLocation();
     if (!isSidebarOpen) return null;
 
+    // 각 페이지, 모달 버튼 클릭 시 사이드바 닫힘힘
     const handleNavItemClick = (link: string) => {
         navigate(link);
         setIsSidebarOpen(false);
     };
 
-    // 알람 버튼 클릭 시 사이드바 닫힘
     const handleOpenAlarm = () => {
         setIsAlarmOpen(true);
         setIsSidebarOpen(false);
@@ -29,11 +29,6 @@ const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen
 
     const handleOpenUserModal = () => {
         setIsUserModalOpen(true);
-        setIsSidebarOpen(false);
-    };
-
-    const handleOpenSettingModal = () => {
-        // setIsSettingModalOpen(true);
         setIsSidebarOpen(false);
     };
 
@@ -69,10 +64,10 @@ const SidebarContent: React.FC<SidebarProps> = ({isSidebarOpen, setIsSidebarOpen
                             isSidebar={true}
                         />
                         <NavItem 
-                            icon1={<img src="../../../public/assets/common/navbar/sidebar/sidebar setting on.svg" alt="설정 on"/>}
-                            icon2={<img src="../../../public/assets/common/navbar/sidebar/sidebar setting off.svg" alt="설정 off" />}
-                            label="설정"
-                            onClick={handleOpenSettingModal}
+                            icon1={<img src="../../../public/assets/common/navbar/sidebar/game-on.svg" alt="게임 on" style={{ padding: "1px", width: "21px" }}/>}
+                            icon2={<img src="../../../public/assets/common/navbar/sidebar/game-off.svg" alt="게임 off" style={{ padding: "1px", width: "21px" }}/>}
+                            label="게임"
+                            onClick={() => navigate("/game")}
                             isSidebar={true}
                         />
                     </NavItemsContainer>
@@ -113,12 +108,12 @@ const LogoTitle = styled(SubTitle3Typo)`
 const NavLeftPageWrapper = styled.nav<{$currentPath: string}>`
     display: flex;
     flex-direction: column;
-    gap: 0.813rem;
+    gap: 0.5rem;
     margin-bottom: 0.75rem;
 
     & > a {
         width: 100%;
-        padding: 0.625rem 0.375rem;
+        padding: 0.4rem 0.375rem;
         gap: 0.188rem;
         text-decoration: none;
     }
