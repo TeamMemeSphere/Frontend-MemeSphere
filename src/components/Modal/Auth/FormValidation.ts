@@ -38,9 +38,9 @@ export const useFormValidation = (messages?: ValidationMessages) => {
     return "";
   };
 
-  // 비밀번호:  8자 이상, 대문자 소문자 특수문자 중 2가지 조합
+  // 비밀번호:  7자 이상, 대문자 소문자 특수문자 중 2가지 조합
   const validatePassword = (password: string): string => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d|.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d|.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{7,}$/;
     if (!passwordRegex.test(password)) {
       return messages?.passwordInvalid || "비밀번호 형식 에러 메시지";
     }

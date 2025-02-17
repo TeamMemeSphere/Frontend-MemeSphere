@@ -219,18 +219,18 @@ export default ProfileSetup;
 const NicknameInputContainer = styled(InputContainer)`
   display: flex;   
   flex-direction: row;
-  gap: 16px;
+  gap: 1rem;
 `;
 
 const NicknameStyledInput = styled(StyledInput)`
-  width: 277px;
+  width: 17.313rem;
 `;
 
 const NicknameConfirmButton = styled(Button)`
   cursor: pointer;
   background-color: rgba(225, 225, 225, 0.05);
   border: 0.094rem solid var(--purple);
-  width: 96px;
+  width: 6rem;
 
   margin: 0;
   padding: 0;
@@ -247,8 +247,8 @@ const ProfileSetupContainer = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 9,313rem;
+  height: 8.75rem;
   border-radius: 50%;
   border: 1px solid var(--grey-10);
   object-fit: cover;
@@ -270,8 +270,8 @@ const CheckboxContainer = styled.div`
 
 const Check = styled.input`
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   background-color: transparent;
   border: 1px solid rgba(225, 225, 225, 0.1);
   border-radius: 5px;
@@ -284,7 +284,7 @@ const Check = styled.input`
 `;
 
 const CheckboxLabel = styled.span`
-  margin-left: 5px;
+  margin-left: 0.313rem;
   color: rgba(225, 225, 225, 0.3);
   font-size: var(--font-size-small-caption);
 `;

@@ -27,8 +27,10 @@ const CoinDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const numericCoinId = Number(coinId) || 0;
+
   // API에서 코인 데이터 가져오기
-  const fetchDetailData = async (id: string) => {
+  const fetchDetailData = async (id: number) => {
     try {
       setLoading(true);
       setError(null);
@@ -55,9 +57,9 @@ const CoinDetailPage = () => {
   useEffect(() => {
     console.log("coinData:", coinData);
     if (coinId) {
-      fetchDetailData(coinId);
+      fetchDetailData(numericCoinId);
     }
-  }, [coinId]);
+  }, [numericCoinId]);
 
   if (loading)
     return (
@@ -99,7 +101,7 @@ const CoinDetailPage = () => {
             description={coinData.description}
             image={coinData.image}
           />
-          <LiveChatCard coinId={coinId}/>
+          <LiveChatCard coinId={coinId} />
         </LeftColumn>
 
         <RightColumn>

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import { NavLink } from "react-router-dom";
 import ChatContent from "./ChatContent.tsx";
-import { coinInfo, chatInfo } from "./communityTypes.ts";
+import { coinInfo } from "./communityTypes.ts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api.ts";
 
-const fetchChatData = async (id: number): Promise<chatInfo | undefined> => {
+const fetchChatData = async (id: number) => {
     try {
         const chatResponse = await axios.get(API_ENDPOINTS.CHATTING(id));
         if (chatResponse.status === 200) {
@@ -20,7 +20,6 @@ const fetchChatData = async (id: number): Promise<chatInfo | undefined> => {
 
                 if (status === 404) {
                     console.warn(`No data found for ID ${id}`);
-                    return undefined;
                 }
             } else {
                 console.error(`Axios error occurred while fetching data for ID ${id}:`, error.message);
@@ -29,7 +28,6 @@ const fetchChatData = async (id: number): Promise<chatInfo | undefined> => {
             console.error(`Unexpected error fetching data for ID ${id}:`, error);
         }
     }
-    return undefined;
 };
 
 const CoinTalk : React.FC<coinInfo> = ({id, name, symbol, image}) => {
@@ -39,6 +37,7 @@ const CoinTalk : React.FC<coinInfo> = ({id, name, symbol, image}) => {
     });
 
     const hasChat = data && typeof data === "object" && "result" in data;
+    
 
     return <Card>
         <CoinHeader>
