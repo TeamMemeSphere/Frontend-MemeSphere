@@ -54,7 +54,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
 
   const toggleCollect = async () => {
     if (!isAuthenticated) {
-      scrollToTop();
+      // scrollToTop();
       setIsModalOpen(true);
       return;
     }

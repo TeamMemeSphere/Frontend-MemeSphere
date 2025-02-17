@@ -3,6 +3,7 @@ import * as S from "../../styles/Typography";
 import { API_ENDPOINTS } from "../../api/api";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface ChatContentProps {
   id: number;
@@ -10,9 +11,10 @@ interface ChatContentProps {
   nickname: string;
   likes: number;
   createdAt: string;
+  chatListRef: React.RefObject<HTMLDivElement>;
 }
 
-const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentProps) => {
+const ChatContent = ({ id, message, nickname, likes, createdAt, chatListRef }: ChatContentProps) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
   const createdTime = createdDate.getTime();
@@ -40,7 +42,7 @@ const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentPro
     )
     :
     createdDateStr;
-  
+
   const storageNickname = localStorage.getItem("nickName");
   const isSentByMe = nickname === storageNickname;
 
@@ -48,7 +50,12 @@ const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentPro
 
   const { CHAT_LIKE } = API_ENDPOINTS;
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   const handleLike = async () => {
+    if (chatListRef.current) {
+      setScrollPosition(chatListRef.current.scrollTop);
+    }
     try {
       const res = await fetch(`${CHAT_LIKE(coinId)}?chat_id=${id}`, {
         method: "POST",
@@ -94,13 +101,14 @@ const ChatContent = ({ id, message, nickname, likes, createdAt }: ChatContentPro
         {isSentByMe ?
           <>
             <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-            <LikeWrapper onClick={() => {}}>
+            <LikeWrapper onClick={() => { }}>
               <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
               {likes}
             </LikeWrapper>
           </>
           :
           <>
+            <NicknameWrapper>{nickname}</NicknameWrapper>
             <LikeWrapper onClick={() => mutation.mutate()}>
               <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
               {likes}
@@ -170,4 +178,8 @@ const LikeWrapper = styled(S.SmallCaptionTypo)`
     gap: 0.313rem;
     align-items: center;
     cursor: pointer;
+`
+
+const NicknameWrapper = styled(S.SmallCaptionTypo)`
+    margin-right: 1rem;
 `

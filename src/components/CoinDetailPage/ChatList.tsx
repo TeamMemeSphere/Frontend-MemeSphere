@@ -31,6 +31,7 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
     useIntersectionObserver({ observerRef: observerRef, fetchNextPage, hasNextPage, setPrevHeight, isFetching, chatListRef, chatList });
 
     useEffect(() => {
+        if (isFetching) return;
         if (chatListRef && 'current' in chatListRef && chatListRef.current && !isMounted && !isFetching) {
             scrollToEnd();
             setIsMounted(true);
@@ -45,10 +46,11 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
         }
     }
 
+    // 얘가문젠가...에혀 
     useEffect(() => {
         if (isFetching) return;
         chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight - prevHeight });
-    }, [isFetching]);
+    }, [messages.length]);
 
 
     // 나갔다 들어왔을 때 페이지 초기화
@@ -72,7 +74,7 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
                         nickname={chat.nickname}
                         likes={chat.likes}
                         createdAt={chat.createdAt}
-                        scrollToEnd={scrollToEnd}
+                        chatListRef={chatListRef}
                     />
                 ))}
             </Container>
