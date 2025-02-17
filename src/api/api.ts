@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
     DASHBOARD_SEARCH: `${BASE_URL}/naver/trends`,
     DASHBOARD_CHART: `${BASE_URL}/dashboard/chart`,
     COIN_DETAIL: (memeId: number) => `${BASE_URL}/detail/${memeId}`,
+    COIN_DETAIL_PRICE: (memeId: number) => `${BASE_URL}/detail/${memeId}/price-info`,
     CHATTING : (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/latest`,
     CHAT_LIST: (coin_id:number)=> `${BASE_URL}/chat/${coin_id}/list`,
     CHAT_LIKE: (chat_id:number)=> `${BASE_URL}/chat/${chat_id}/like`,
