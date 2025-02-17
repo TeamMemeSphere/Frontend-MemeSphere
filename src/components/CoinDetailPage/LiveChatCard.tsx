@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import { API_ENDPOINTS } from "../../api/api";
 import axios from "axios";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface LiveChatCardProps {
   coinId: number;
@@ -15,7 +15,6 @@ interface LiveChatCardProps {
 const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
   const chatInputRef = useRef<HTMLDivElement>(null);
   const chatListRef = useRef<HTMLDivElement>(null);
-  const chatListTopRef = useRef<HTMLDivElement>(null);
 
   const { CHAT_LIST } = API_ENDPOINTS;
   useEffect(() => {

@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 interface PageSelectorProps {
     currentPage: number;
-    totalPages: number;
+    totalPages: any;
     updateCurrentPage: (page: number) => void;
 }
 
