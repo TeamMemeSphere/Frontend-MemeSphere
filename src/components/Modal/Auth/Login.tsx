@@ -96,6 +96,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, o
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
             $hasError={isSubmitted && (!!email.error || !email.value)}
+            autoComplete="current-email"
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -110,6 +111,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, o
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
             $hasError={isSubmitted && (!!password.error || !password.value)}
+            autoComplete="current-password"
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>

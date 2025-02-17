@@ -121,7 +121,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 export default UserModal;
 
-const ModalContent = styled.div<{activeTab: string}>`
+const ModalContent = styled.div.withConfig({shouldForwardProp: (prop) => prop !== "activeTab",})<{activeTab: string}>`
   position: fixed;
   top: 50%;
   left: 50%; 
