@@ -1,4 +1,4 @@
-import NavItem from "../common/Navbar/NavItem";
+import NavItem from "../Common/Navbar/NavItem";
 
 interface NavLeftPageProps {
   onNavItemClick: (link: string) => void;

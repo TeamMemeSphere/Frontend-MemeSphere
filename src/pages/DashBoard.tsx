@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import CoinList from "../components/common/CoinList.tsx";
+import CoinList from "../components/Common/CoinList.tsx";
 import { useState } from "react";
-import PageSelector from "../components/common/PageSeletor.tsx";
-import CoinListHeader from "../components/common/CoinListHeader.tsx";
+import PageSelector from "../components/Common/PageSeletor.tsx";
+import CoinListHeader from "../components/Common/CoinListHeader.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../api/api";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton.tsx";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton.tsx";
+import CoinCardListSkeleton from "../components/Common/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/Common/CoinRowListSkeleton.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import { useAuth } from "../hooks/common/useAuth";
 //주현

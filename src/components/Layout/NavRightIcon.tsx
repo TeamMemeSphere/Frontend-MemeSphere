@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import AlarmButton from "../common/Navbar/AlarmButton";
-import GameButton from "../common/Navbar/GameButton";
-import UserButton from "../common/Navbar/UserButton";
+import AlarmButton from "../Common/Navbar/AlarmButton";
+import GameButton from "../Common/Navbar/GameButton";
+import UserButton from "../Common/Navbar/UserButton";
 
 const NavRightModal: React.FC = () => {
   return (

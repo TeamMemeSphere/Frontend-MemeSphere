@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
-import Overlay from "../common/Overlay.tsx";
+import Overlay from "../Common/Overlay.tsx";
 
 type LoginRequiredModalProps = {
   isReqLogin: boolean;
