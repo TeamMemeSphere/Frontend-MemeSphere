@@ -17,10 +17,11 @@ interface ChatListProps {
     messages: any[],
     fetchNextPage: () => void,
     hasNextPage: boolean,
-    isFetching: boolean
+    isFetching: boolean,
+    newMessages?: any[]
 }
 
-const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching }, chatListRef) => {
+const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNextPage, hasNextPage, isFetching, newMessages }, chatListRef) => {
     const [chatList, setChatList] = useState<any>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const [prevHeight, setPrevHeight] = useState(0);
@@ -46,7 +47,6 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
         }
     }
 
-    // 얘가문젠가...에혀 
     useEffect(() => {
         if (isFetching) return;
         chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight - prevHeight });
@@ -61,6 +61,8 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
     }, []);
 
     const flattenedMessages = messages?.flatMap((page) => page.result.content) || [];
+
+    console.log(newMessages);
 
     return (
         <>
@@ -77,6 +79,19 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(({ messages, fetchNex
                         chatListRef={chatListRef}
                     />
                 ))}
+                {
+                    newMessages && newMessages?.map((chat, index) => (
+                        <ChatContent
+                            key={index}
+                            id={chat.id}
+                            message={chat.message}
+                            nickname={chat.nickname}
+                            likes={chat.likes}
+                            createdAt={chat.createdAt}
+                            chatListRef={chatListRef}
+                        />
+                    ))
+                }
             </Container>
         </>
     )

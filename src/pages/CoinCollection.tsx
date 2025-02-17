@@ -34,7 +34,7 @@ const CoinCollection = () => {
       return;
     };
     try {
-      const response = await axios.get(`${COLLECTION}?&page=${currentPage}`,
+      const response = await axios.get(`${COLLECTION}?&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -77,6 +77,7 @@ const CoinCollection = () => {
         viewType={viewType}
         onTypeChange={setViewType}
         marginBottom="0.813rem"
+        setCurrentPage={setCurrentPage}
       ></CoinListHeader>
       {
         isLoading ?
@@ -92,10 +93,7 @@ const CoinCollection = () => {
             :
             <>
               {data.result.totalElements === 0 && noResult()}
-              <CoinList
-                coins={data.result.collectionItems}
-                viewType={viewType}
-              ></CoinList>
+              <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
               <PageSelector
                 currentPage={currentPage}
                 updateCurrentPage={setCurrentPage}

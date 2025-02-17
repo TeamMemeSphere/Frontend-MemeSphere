@@ -2,7 +2,7 @@ import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
 import ViewTypeButton from "./ViewTypeButton";
 import FilterSelect from "./FilterSelect";
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 
 interface CoinListHeaderProps {
     title?: string;
@@ -10,10 +10,16 @@ interface CoinListHeaderProps {
     onOptionChange: (value: string) => void;
     viewType: "GRID" | "LIST";
     onTypeChange: (viewType : "GRID" | "LIST") => void;
-    marginBottom: string
+    marginBottom: string;
+    setCurrentPage?: (currentPage: number) => void;
 }
 
-const CoinListHeader = forwardRef<HTMLDivElement, CoinListHeaderProps>(({ title, options, onOptionChange, viewType, onTypeChange, marginBottom }, coinListHeaderRef) => {
+const CoinListHeader = forwardRef<HTMLDivElement, CoinListHeaderProps>(({ title, options, onOptionChange, viewType, onTypeChange, marginBottom, setCurrentPage }, coinListHeaderRef) => {
+
+    useEffect(() => {
+        setCurrentPage && setCurrentPage(1);
+    }, [viewType]);
+
     return (
         <Container $marginBottom={marginBottom} ref={coinListHeaderRef}>
             <S.SubTitle1Typo>{title}</S.SubTitle1Typo>

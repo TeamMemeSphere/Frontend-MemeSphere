@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
-import CoinCardChart from "../Common/CoinCardChart";
+import CoinCardChart from "../common/CoinCardChart";
 import {
   BodyTypo,
   CaptionTypoRegular,
@@ -27,7 +27,7 @@ export interface Coin {
 
 const ChartCard = ({ coinId }: { coinId: number }) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
-  const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
+  const [chartSectionWidth, setChartSectionWidth] = useState<number>(626);
   const [coinData, setCoinData] = useState<Coin | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -140,6 +140,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <CoinCardChart
           symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
           chartOptions={{
+            width: chartSectionWidth,
             disableInteraction: false,
             showXAxisTicks: true,
             zoomEnabled: true,
