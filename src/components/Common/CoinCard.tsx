@@ -95,7 +95,7 @@ const CoinCard = ({
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart width={chartSectionWidth} symbol={`${symbol}USDT`}/>
+        <CoinCardChart chartOptions={{width: chartSectionWidth}} symbol={`${symbol}USDT`}/>
       </ChartSection>
     </Container>
   );

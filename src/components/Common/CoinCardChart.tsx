@@ -17,6 +17,7 @@ import styled from "styled-components";
 interface CoinCardChartProps {
   symbol: string;
   chartOptions?: {
+    width?: number;
     height?: number;
     margin?: { left: number; right: number; top: number; bottom: number };
     disableInteraction?: boolean;
@@ -27,9 +28,10 @@ interface CoinCardChartProps {
 
 const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number|null>(626);
+  // const [width, setWidth] = useState<number|null>(626);
 
   const {
+    width = 626,
     height = 241,
     margin = { left: 0, right: 0, top: 0, bottom: 30 },
     disableInteraction = true,
@@ -55,25 +57,25 @@ const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
     refetchInterval: 1000 * 60,
   });
 
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setWidth(containerRef.current.offsetWidth);
-      }
-    };
+  // useEffect(() => {
+  //   const updateWidth = () => {
+  //     if (containerRef.current) {
+  //       setWidth(containerRef.current.offsetWidth);
+  //     }
+  //   };
 
-    // 초기 렌더링 시 너비 설정
-    updateWidth();
+  //   // 초기 렌더링 시 너비 설정
+  //   updateWidth();
 
-    // 창 크기 변경 시 너비 업데이트
-    window.addEventListener("resize", updateWidth);
+  //   // 창 크기 변경 시 너비 업데이트
+  //   window.addEventListener("resize", updateWidth);
 
-    return () => {
-      window.removeEventListener("resize", updateWidth);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", updateWidth);
+  //   };
+  // }, []);
   
-  console.log(width);
+  // console.log(width);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
 
