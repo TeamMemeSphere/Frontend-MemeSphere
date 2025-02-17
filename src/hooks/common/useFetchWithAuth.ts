@@ -21,7 +21,11 @@ export const fetchWithAuth = async (
     });
 
     if (response.status === 401) {
+        const responseBody = await response.json();
+
+        if (responseBody?.code === "EXPIRED TOKEN") {
         console.warn("토큰 만료 감지, 갱신 시도");
+
         const success = await auth.refreshToken();
         if (!success) {
             console.error("토큰 갱신 실패, 로그아웃 진행");
@@ -43,7 +47,10 @@ export const fetchWithAuth = async (
             console.error("토큰 갱신 후에도 요청 실패:", retryResponse.status);
             return null;
         }
+
+        return retryResponse;
     }
+}
 
     return response;
 };
