@@ -27,29 +27,36 @@ const CoinCollection = () => {
   const myStorage = window.localStorage;
   const accessToken = myStorage.getItem("accessToken");
   const navigate = useNavigate();
-  
+
   const getCoinList = async () => {
     if (!accessToken) {
       navigate("/DashBoard");
       return;
-    };
+    }
     try {
-      const response = await axios.get(`${COLLECTION}?&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
+      const response = await axios.get(
+        `${COLLECTION}?&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
-      )
+        },
+      );
       return response.data;
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const { data, isLoading, isError, error } = useQuery<any>({
-    queryKey: ["CoinCollection", currentPage, viewType, sortType, isAuthenticated],
-    queryFn: getCoinList
+    queryKey: [
+      "CoinCollection",
+      currentPage,
+      viewType,
+      sortType,
+      isAuthenticated,
+    ],
+    queryFn: getCoinList,
   });
 
   console.log(data);
@@ -60,8 +67,8 @@ const CoinCollection = () => {
         <Icon src="/assets/Collection/empty-box.svg" $margin="0 0 1.125rem 0" />
         <NoResultSubTitle>컬렉션이 비어있습니다.</NoResultSubTitle>
       </NoResultWrapper>
-    )
-  }
+    );
+  };
 
   const isGridView = viewType === "GRID";
 
@@ -79,28 +86,30 @@ const CoinCollection = () => {
         marginBottom="0.813rem"
         setCurrentPage={setCurrentPage}
       ></CoinListHeader>
-      {
-        isLoading ?
-          (
-            isGridView ?
-              <CoinCardListSkeleton></CoinCardListSkeleton>
-              :
-              <CoinRowListSkeleton></CoinRowListSkeleton>
-          )
-          :
-          isError ?
-            <div>에러가 발생했습니다.</div>
-            :
-            <>
-              {data.result.totalElements === 0 && noResult()}
-              <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
-              <PageSelector
-                currentPage={currentPage}
-                updateCurrentPage={setCurrentPage}
-                totalPages={data.result.totalPage}
-              ></PageSelector>
-            </>
-      }
+      {isLoading ? (
+        isGridView ? (
+          <CoinCardListSkeleton></CoinCardListSkeleton>
+        ) : (
+          <CoinRowListSkeleton></CoinRowListSkeleton>
+        )
+      ) : isError ? (
+        <div>에러가 발생했습니다.</div>
+      ) : (
+        <>
+          {data.result.totalElements === 0 && noResult()}
+          <CoinList
+            coins={
+              isGridView ? data?.result?.gridItems : data?.result?.listItems
+            }
+            viewType={viewType}
+          ></CoinList>
+          <PageSelector
+            currentPage={currentPage}
+            updateCurrentPage={setCurrentPage}
+            totalPages={data.result.totalPage}
+          ></PageSelector>
+        </>
+      )}
     </Container>
   );
 };
@@ -124,8 +133,8 @@ const NoResultWrapper = styled.div`
   justify-content: center;
   height: 100%;
   flex-grow: 1;
-`
+`;
 
 const NoResultSubTitle = styled(S.SubTitle2Typo)`
   color: var(--white-50);
-`
+`;
