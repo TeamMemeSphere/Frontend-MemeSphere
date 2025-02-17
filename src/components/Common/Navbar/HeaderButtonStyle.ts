@@ -10,6 +10,7 @@ export const HeaderButtonWrapper = styled.div`
   flex-shrink: 0;
   border-radius: 10px;
   border: 1px solid var(--white-10, rgba(255, 255, 255, 0.1));
+  cursor: pointer;
 `;
 
 export const Icon = styled.img`
