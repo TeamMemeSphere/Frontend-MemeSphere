@@ -80,7 +80,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
             {activeTab === "profileSetup" && "회원가입"}
             {activeTab == "forgotPassword" && "비밀번호 찾기"}
           </Title>
-          <CloseButton onClick={handleClose} src="../../../public/assets/common/autentication/authentication back icon.svg" />
+          <CloseButton onClick={handleClose} src="/assets/common/autentication/authentication back icon.svg" />
         </FlexContainer>
         <ContentContainer>
           {activeTab === "login" && (

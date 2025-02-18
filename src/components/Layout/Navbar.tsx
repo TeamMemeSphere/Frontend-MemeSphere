@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
         <SearchBar></SearchBar>
         {isCompact ? (
           <MenuIcon
-            src="../../../public/assets/common/navbar/menu button.svg"
+            src="/assets/common/navbar/menu button.svg"
             onClick={() => setIsSidebarOpen(!isSibebarOpen)}
           />
         ) : (

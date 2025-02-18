@@ -10,14 +10,14 @@ const NavLeftPage: React.FC<NavLeftPageProps> = ({ onNavItemClick }) => {
       <NavItem
         icon1={
           <img
-            src="../../../public/assets/common/navbar/CollectionIcon-On.svg"
+            src="/assets/common/navbar/CollectionIcon-On.svg"
             alt="Collection Icon"
             style={{ paddingTop: "6px" }}
           />
         }
         icon2={
           <img
-            src="../../../public/assets/common/navbar/CollectionIcon-Off.svg"
+            src="/assets/common/navbar/CollectionIcon-Off.svg"
             alt="Collection Icon"
             style={{ paddingTop: "6px" }}
           />
@@ -29,14 +29,14 @@ const NavLeftPage: React.FC<NavLeftPageProps> = ({ onNavItemClick }) => {
       <NavItem
         icon1={
           <img
-            src="../../../public/assets/common/navbar/DashboradIcon-On.svg"
+            src="/assets/common/navbar/DashboradIcon-On.svg"
             alt="DashBoard Icon"
             style={{ paddingTop: "6px" }}
           />
         }
         icon2={
           <img
-            src="../../../public/assets/common/navbar/DashboradIcon-Off.svg"
+            src="/assets/common/navbar/DashboradIcon-Off.svg"
             alt="DashBoard Icon"
             style={{ paddingTop: "6px" }}
           />
@@ -48,14 +48,14 @@ const NavLeftPage: React.FC<NavLeftPageProps> = ({ onNavItemClick }) => {
       <NavItem
         icon1={
           <img
-            src="../../../public/assets/common/navbar/CommunityIcon-On.svg"
+            src="/assets/common/navbar/CommunityIcon-On.svg"
             alt="Community Icon"
             style={{ paddingTop: "6px" }}
           />
         }
         icon2={
           <img
-            src="../../../public/assets/common/navbar/CommunityIcon-Off.svg"
+            src="/assets/common/navbar/CommunityIcon-Off.svg"
             alt="Community Icon"
             style={{ paddingTop: "6px" }}
           />

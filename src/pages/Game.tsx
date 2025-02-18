@@ -169,11 +169,11 @@ const GamePage: React.FC = () => {
         )}
         <RouletteImageContainer>
           <RouletteImage
-            src="../../public/assets/common/RouletteMachineWithoutHandler.svg"
+            src="/assets/common/RouletteMachineWithoutHandler.svg"
             alt="Roulette Machine"
           />
           <RouletteHandle
-            src="../../public/assets/common/RouletteMachineHandler.svg"
+            src="/assets/common/RouletteMachineHandler.svg"
             alt="Handle"
             $isRotated={isHandleRotated}
           />

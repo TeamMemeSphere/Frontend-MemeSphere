@@ -50,7 +50,7 @@ const CoinTalk : React.FC<coinInfo> = ({id, name, symbol, image}) => {
             </HeaderLeft>
             <ViewMore to={`/CoinDetailPage/${id}`}>
                 <GoMore>자세히 보러가기</GoMore>
-                <MoreIcon src="./../../../public/assets/Community/ChatChevron.svg"></MoreIcon>
+                <MoreIcon src="/assets/Community/ChatChevron.svg"></MoreIcon>
             </ViewMore>
         </CoinHeader>
         <TalkContent>

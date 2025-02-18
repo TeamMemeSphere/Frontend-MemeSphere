@@ -17,9 +17,9 @@ const NotificationCard : React.FC<NotificationCardProps> = ({notificationId, nam
         <Typo width="2.875rem">{isRising ? "상승" : "하락"}</Typo>
         <Buttons>
             {isOn 
-            ? <ActiveBellIcon src="public/assets/Notification/Greenbell.svg" onClick={()=>toggleNotification(notificationId)}/> 
-            : <InactiveBellIcon src="public/assets/Notification/InactvieBell.svg"onClick={()=>toggleNotification(notificationId)}/>}
-            <TrashIcon src="public/assets/Notification/trash.svg" onClick={()=>deleteNotification(notificationId)}/>
+            ? <ActiveBellIcon src="/assets/Notification/Greenbell.svg" onClick={()=>toggleNotification(notificationId)}/> 
+            : <InactiveBellIcon src="/assets/Notification/InactvieBell.svg"onClick={()=>toggleNotification(notificationId)}/>}
+            <TrashIcon src="/assets/Notification/trash.svg" onClick={()=>deleteNotification(notificationId)}/>
         </Buttons>
     </Card>;
 };
