@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FilterSelect from "../components/Common/FilterSelect";
+import FilterSelect from "../components/Commons/FilterSelect";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import { TitleTypo, SubTitle3Typo } from "../styles/Typography";

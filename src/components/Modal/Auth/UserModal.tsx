@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SubTitle1Typo } from "../../../styles/Typography";
-import Overlay from "../../Common/Overlay";
+import Overlay from "../../Commons/Overlay";
 
 import Login from "./Login";
 import Signup from "./Signup";
