@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import CoinList from "../components/Common/CoinList";
+import CoinList from "../components/Commons/CoinList.tsx";
 import { useState } from "react";
-import PageSelector from "../components/Common/PageSeletor";
-import CoinListHeader from "../components/Common/CoinListHeader";
+import PageSelector from "../components/Commons/PageSeletor.tsx";
+import CoinListHeader from "../components/Commons/CoinListHeader.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../api/api";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
+import CoinCardListSkeleton from "../components/Commons/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/Commons/CoinRowListSkeleton.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import { useAuth } from "../hooks/common/useAuth";
 //주현
@@ -28,23 +28,24 @@ const DashBoard = () => {
 
   const getCoinList = async () => {
     try {
-      const response = await axios.get(`${DASHBOARD_CHART}?viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
+      const response = await axios.get(
+        `${DASHBOARD_CHART}?viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         {
           headers: {
             Authorization: accessToken && `Bearer ${accessToken}`,
           },
-        }
-      )
+        },
+      );
       console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const { data, isLoading, isError } = useQuery<any>({
     queryKey: ["DashBoard", currentPage, viewType, sortType, isAuthenticated],
-    queryFn: getCoinList
+    queryFn: getCoinList,
   });
 
   console.log(data);
@@ -56,7 +57,7 @@ const DashBoard = () => {
       <UpperContainer>
         <DashBoardTop />
       </UpperContainer>
-      
+
       <UnderContainer>
         <DashBoardUpper>
           <CoinListHeader
@@ -66,27 +67,31 @@ const DashBoard = () => {
             viewType={viewType}
             onTypeChange={setViewType}
             marginBottom="1.5rem"
-          >
-          </CoinListHeader>
-          {isLoading ?
-            (isGridView ?
+            setCurrentPage={setCurrentPage}
+          ></CoinListHeader>
+          {isLoading ? (
+            isGridView ? (
               <CoinCardListSkeleton></CoinCardListSkeleton>
-              :
+            ) : (
               <CoinRowListSkeleton></CoinRowListSkeleton>
             )
-            : isError ?
-              <div>에러가 발생했습니다...</div>
-              :
-              <>
-                <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
-                <PageSelector
-                  currentPage={currentPage}
-                  updateCurrentPage={setCurrentPage}
-                  totalPages={data.result.totalPage}
-                  >
-                </PageSelector>
-              </>
-          }
+          ) : isError ? (
+            <div>에러가 발생했습니다...</div>
+          ) : (
+            <>
+              <CoinList
+                coins={
+                  isGridView ? data?.result?.gridItems : data?.result?.listItems
+                }
+                viewType={viewType}
+              ></CoinList>
+              <PageSelector
+                currentPage={currentPage}
+                updateCurrentPage={setCurrentPage}
+                totalPages={data.result.totalPage}
+              ></PageSelector>
+            </>
+          )}
         </DashBoardUpper>
       </UnderContainer>
     </>
@@ -103,7 +108,7 @@ const UpperContainer = styled.div`
     max-width: 480px;
     overflow-x: hidden;
   }
-`; 
+`;
 
 const UnderContainer = styled.div`
   box-sizing: border-box;
@@ -112,8 +117,6 @@ const UnderContainer = styled.div`
   padding: 1.938rem 12.24vw 4.5rem 12.24vw;
   width: 100%;
   height: fit-content;
-`
-
-const DashBoardUpper = styled.div`
-
 `;
+
+const DashBoardUpper = styled.div``;

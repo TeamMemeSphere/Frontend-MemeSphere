@@ -38,8 +38,6 @@ const useIntersectionObserver = ({
             const observer = new IntersectionObserver(onIntersection);
             if (observerRef.current) {
                 observer.observe(observerRef.current);
-                console.log(chatListRef.current);
-
             }
             return () => {
                 if (observerRef.current) {

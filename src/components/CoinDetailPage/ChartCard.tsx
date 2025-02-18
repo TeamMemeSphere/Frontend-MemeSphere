@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
-import CoinCardChart from "../Common/CoinCardChart";
+import CoinCardChart from "../Commons/CoinCardChart";
 import {
   BodyTypo,
   CaptionTypoRegular,
@@ -25,10 +25,23 @@ export interface Coin {
   volume: number;
 }
 
+export interface CoinPriceData {
+  coinId: number;
+  price: number;
+  priceChange: number;
+  priceChangeAbsolute: number;
+  priceChangeDirection: string;
+  priceChangeRate: number;
+  weightedAveragePrice: number;
+  highPrice: number;
+  lowPrice: number;
+  symbol?: string; // symbol 에러 방지용 추가
+}
+
 const ChartCard = ({ coinId }: { coinId: number }) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
-  const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
-  const [coinData, setCoinData] = useState<Coin | null>(null);
+  const [chartSectionWidth, setChartSectionWidth] = useState<number>(626);
+  const [coinData, setCoinData] = useState<CoinPriceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +50,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(coinId));
+      const response = await axios.get(API_ENDPOINTS.COIN_PRICE_INFO(coinId));
 
       console.log("ChartCard API Response:", response.data);
 
@@ -99,16 +112,25 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <BodyTypo>Price</BodyTypo>
           <CurrentSection>
             <CurrentPrice>
-              &#36; {coinData?.tradePrice?.toLocaleString() ?? "N/A"}
+              &#36; {coinData?.price?.toLocaleString() ?? "N/A"}
             </CurrentPrice>
-            <CurrentPriceChange $change={coinData?.change ?? "EVEN"}>
-              {coinData?.change === "EVEN" ? (
+            <CurrentPriceChange
+              $change={
+                coinData?.priceChangeDirection === "up"
+                  ? "RISE"
+                  : coinData?.priceChangeDirection === "down"
+                    ? "FALL"
+                    : "EVEN"
+              }
+            >
+              {coinData?.priceChangeDirection === "EVEN" ? (
                 "⏤"
               ) : (
                 <>
-                  {coinData?.change === "RISE" ? "▲" : "▼"}&nbsp;
-                  {coinData?.changePrice?.toLocaleString() ?? "N/A"}&nbsp; (
-                  {coinData?.changeRate?.toLocaleString() ?? "N/A"}%)
+                  {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
+                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}
+                  &nbsp; (
+                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}%)
                 </>
               )}
             </CurrentPriceChange>
@@ -118,7 +140,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <div>
             <StyledRegularCaption>24h change</StyledRegularCaption>
             <StyledSubTitle3>
-              {coinData?.changePrice?.toLocaleString() ?? "N/A"}
+              {coinData?.priceChange?.toLocaleString() ?? "N/A"}
             </StyledSubTitle3>
           </div>
           <div>
@@ -138,8 +160,10 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
-          symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
+          // symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
+          symbol="DOGEUSDT"
           chartOptions={{
+            width: chartSectionWidth,
             disableInteraction: false,
             showXAxisTicks: true,
             zoomEnabled: true,

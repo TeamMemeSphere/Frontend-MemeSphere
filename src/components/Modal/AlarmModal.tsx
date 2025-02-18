@@ -6,17 +6,17 @@ import bellIcon from "../../../public/assets/Modal/notification-icon.svg";
 import NotificationRegister from "../Notification/NotificationRegister";
 import NotificationList from "../Notification/NotificationList";
 import NotificationHistory from "../Notification/NotificationHistory";
-import { notificationType, notificationWithoutId } from "../Notification/NotificationType";
+import { notificationWithoutId } from "../Notification/NotificationType";
 import { useNotification } from "../../hooks/common/useNotification";
 
 interface ModalProps {
   closeModal: () => void;
   accessToken : string;
-  refreshToken : string;
+  refreshToken? : string;
 }
 
 
-const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken, refreshToken }) => {
+const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken }) => {
   const [alertCount, setAlertCount] = useState(0);
 
   const {

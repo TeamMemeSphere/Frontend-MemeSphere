@@ -19,6 +19,7 @@ export const useFetchCoin = () => {
             }));
             return data;
         } catch (error) {
+            console.error(error);
         } finally {
             setIsLoading(false);
         }

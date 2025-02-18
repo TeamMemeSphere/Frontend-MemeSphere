@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import CoinList from "../components/common/CoinList";
+import CoinList from "../components/Commons/CoinList.tsx";
 import { useRef, useState } from "react";
-import PageSelector from "../components/common/PageSeletor";
+import PageSelector from "../components/Commons/PageSeletor.tsx";
 import * as S from "../styles/Typography";
 import { useLocation } from "react-router-dom";
-import CoinListHeader from "../components/common/CoinListHeader";
+import CoinListHeader from "../components/Commons/CoinListHeader.tsx";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import useChangeSortType from "../hooks/common/useChangeSortType";
-import CoinCardListSkeleton from "../components/common/CoinCardListSkeleton";
-import CoinRowListSkeleton from "../components/common/CoinRowListSkeleton";
-import { Icon } from "../components/common/Icon";
-import { API_ENDPOINTS } from "../api/api.ts"
+import CoinCardListSkeleton from "../components/Commons/CoinCardListSkeleton.tsx";
+import CoinRowListSkeleton from "../components/Commons/CoinRowListSkeleton.tsx";
+import { Icon } from "../components/Commons/Icon.tsx";
+import { API_ENDPOINTS } from "../api/api.ts";
 import { useAuth } from "../hooks/common/useAuth.ts";
 
 const SearchResults = () => {
@@ -32,39 +32,54 @@ const SearchResults = () => {
   const getSearchResult = async () => {
     try {
       if (accessToken) {
-        const response = await axios.get(`${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
+        const response = await axios.get(
+          `${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
+          },
+        );
         console.log(response.data);
         return response.data;
       } else {
-        const response = await axios.get(`${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`);
+        const response = await axios.get(
+          `${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
+        );
         console.log(response.data);
         return response.data;
       }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const { data, isLoading, isError } = useQuery<any>({
-    queryKey: ["SearchResults", searchKeyword, currentPage, viewType, sortType, isAuthenticated],
-    queryFn: getSearchResult
+    queryKey: [
+      "SearchResults",
+      searchKeyword,
+      currentPage,
+      viewType,
+      sortType,
+      isAuthenticated,
+    ],
+    queryFn: getSearchResult,
   });
 
   const noResult = () => {
     return (
       <NoResultWrapper>
-        <Icon src="/assets/SearchResults/search-magnifier-white.svg" $margin="0 0 2rem 0" />
+        <Icon
+          src="/assets/SearchResults/search-magnifier-white.svg"
+          $margin="0 0 2rem 0"
+        />
         <S.SubTitle1Typo>검색 결과가 없습니다.</S.SubTitle1Typo>
-        <NoResultSubTitle>적용된 필터나 검색어를 변경해보세요.</NoResultSubTitle>
+        <NoResultSubTitle>
+          적용된 필터나 검색어를 변경해보세요.
+        </NoResultSubTitle>
       </NoResultWrapper>
-    )
-  }
+    );
+  };
 
   const isGridView = viewType === "GRID";
 
@@ -84,32 +99,33 @@ const SearchResults = () => {
         onTypeChange={setViewType}
         marginBottom="0.81rem"
         ref={CoinListHeaderRef}
-      >
-      </CoinListHeader>
-      {isLoading ?
-        (isGridView ?
+        setCurrentPage={setCurrentPage}
+      ></CoinListHeader>
+      {isLoading ? (
+        isGridView ? (
           <CoinCardListSkeleton></CoinCardListSkeleton>
-          :
+        ) : (
           <CoinRowListSkeleton></CoinRowListSkeleton>
         )
-        :
-        isError ?
-          <div>에러가 발생했습니다...</div>
-          :
-          data.result.totalElements === 0 ?
-            noResult()
-            :
-            <>
-              <CoinList coins={isGridView ? data?.result?.gridItems : data?.result?.listItems} viewType={viewType}></CoinList>
-              <PageSelector
-                currentPage={currentPage}
-                updateCurrentPage={setCurrentPage}
-                totalPages={data.result.totalPage}
-                coinListHeaderRef={CoinListHeaderRef}
-              >
-              </PageSelector>
-            </>
-      }
+      ) : isError ? (
+        <div>에러가 발생했습니다...</div>
+      ) : data.result.totalElements === 0 ? (
+        noResult()
+      ) : (
+        <>
+          <CoinList
+            coins={
+              isGridView ? data?.result?.gridItems : data?.result?.listItems
+            }
+            viewType={viewType}
+          ></CoinList>
+          <PageSelector
+            currentPage={currentPage}
+            updateCurrentPage={setCurrentPage}
+            totalPages={data.result.totalPage}
+          ></PageSelector>
+        </>
+      )}
     </Container>
   );
 };
@@ -124,24 +140,24 @@ const Container = styled.div`
   width: 100%;
   height: fit-content;
   min-height: 100vh;
-`
+`;
 const KeyWordWrapper = styled.div`
   display: flex;
   margin-bottom: 0.91rem;
-`
+`;
 
 const ArrowIcon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 0.688rem;
   align-self: center;
-`
+`;
 
 const SearchResultType = styled(S.BodyTypo)`
   color: var(--white-50);
   margin-left: 0.5rem;
   align-self: end;
-`
+`;
 
 const NoResultWrapper = styled.div`
   display: flex;
@@ -150,9 +166,9 @@ const NoResultWrapper = styled.div`
   justify-content: center;
   height: 100%;
   flex-grow: 1;
-`
+`;
 
 const NoResultSubTitle = styled(S.BodyTypo)`
   color: var(--white-50);
   margin-top: 0.875rem;
-`
+`;

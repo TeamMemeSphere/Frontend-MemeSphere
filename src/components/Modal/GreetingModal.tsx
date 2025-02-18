@@ -2,21 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { SubTitle2Typo, BodyTypo } from "../../styles/Typography";
 import { useAuth } from "../../hooks/common/useAuth";
-import Overlay from "../Common/Overlay";
+import Overlay from "../Commons/Overlay";
 
 interface GreetingModalProps {
   closeModal: () => void;
 }
 
 const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
-  const { logout, nickName } = useAuth(); 
-
+  const { logout, nickName } = useAuth();
 
   const handleLogout = () => {
     logout();
     closeModal();
   };
-  
+
   return (
     <>
       <OverlayWrapper>
@@ -27,10 +26,15 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
         <ModalContainer onClick={(e) => e.stopPropagation()}>
           <IconMessageWrapper>
             <Icon src="../../../public/assets/common/autentication/profile button.svg" />
-            <Message><Nickname>{nickName}</Nickname>님 반갑습니다!</Message>
+            <Message>
+              <Nickname>{nickName}</Nickname>님 반갑습니다!
+            </Message>
           </IconMessageWrapper>
           <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
-          <CloseButton onClick={closeModal} src="../../../public/assets/common/navbar/close button.svg" />
+          <CloseButton
+            onClick={closeModal}
+            src="../../../public/assets/common/navbar/close button.svg"
+          />
         </ModalContainer>
       </BackDrop>
     </>
@@ -96,13 +100,13 @@ const Icon = styled.img`
   padding-left: 1.375rem;
 `;
 
-const Message = styled(BodyTypo).attrs({ as: "div"})`
+const Message = styled(BodyTypo).attrs({ as: "div" })`
   display: flex;
   align-items: center;
   color: rgba(225, 225, 225, 0.8);
 `;
 
-const Nickname = styled(SubTitle2Typo).attrs({ as: "div"})`
+const Nickname = styled(SubTitle2Typo).attrs({ as: "div" })`
   margin-right: 0.313rem;
   margin-left: 1.125rem;
   color: white;

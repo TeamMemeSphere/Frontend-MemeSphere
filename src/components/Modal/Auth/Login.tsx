@@ -22,7 +22,7 @@ import { useSocialLogin } from "../../../hooks/common/useSocialLogin";
 interface LoginProps {
   switchToForgotPassword: () => void;
   switchToSignup: () => void;
-  onLogin: () => void;
+  onLogin?: () => void;
 }
 
 const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, onLogin }) => {
@@ -72,7 +72,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, o
       if (data.isSuccess && data.result) {
         login(data.result.accessToken, data.result.refreshToken, data.result.nickName);
         window.dispatchEvent(new Event("storage"));
-        onLogin();
+        onLogin?.();
       } else {
         alert("로그인 실패:" + response.status);
       }

@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TitleTypo } from "../../styles/Typography";
 import NavLeftPage from "./NavLeftPage";
-import SearchBar from "../Common/Navbar/SearchBar";
+import SearchBar from "../Commons/Navbar/SearchBar";
 import NavRightModal from "./NavRightIcon";
 import SidebarContent from "./SidebarContent";
-import Overlay from "../Common/Overlay";
+import Overlay from "../Commons/Overlay";
 import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
 import { NavLink } from "react-router-dom";
 import LoginRequiredModal from "../Modal/LoginRequiredModal";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import useSSEAlert from "../../hooks/common/useSSEAlert";
 
 const Navbar: React.FC = () => {
@@ -20,34 +20,13 @@ const Navbar: React.FC = () => {
 
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
   const authTokens = {
     accessToken: localStorage.getItem("accessToken") ?? "",
     refreshToken: localStorage.getItem("refreshToken") ?? "",
   };
-  
+
   useSSEAlert();
-
-  useEffect(()=>{
-    setTimeout(() => {
-      const mockData = {
-        coin: "Ethereum",
-        volatility: 3,
-      };
-
-      console.log("toast 실행");
-      toast(`🔥 ${mockData.coin}, 변동성 ${mockData.volatility}% 도달!`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }, 3000); // 100ms 정도 딜레이 추가
-  }, []);
 
   // 사이드바가 열리면 스크롤이 비활성화
   useEffect(() => {
@@ -72,7 +51,7 @@ const Navbar: React.FC = () => {
     setIsSidebarOpen(false);
   };
   // 로그인 여부 확인
-  const handleLogin = () =>  {
+  const handleLogin = () => {
     setIsLoggedIn(true);
     setIsUserModalOpen(false);
   };
@@ -81,40 +60,60 @@ const Navbar: React.FC = () => {
     setIsAlarmOpen(false);
   };
 
-  const handleNavItemClick = () => {
-  };
+  const handleNavItemClick = () => {};
 
   return (
     <Nav>
       <NavLeft>
         <Logo to="/">
-            <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
-            <LogoTypo>MemeSphere</LogoTypo>
+          <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
+          <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
-        {!isCompact && <NavLeftPageWrapper><NavLeftPage onNavItemClick={handleNavItemClick} /></NavLeftPageWrapper>}
+        {!isCompact && (
+          <NavLeftPageWrapper>
+            <NavLeftPage onNavItemClick={handleNavItemClick} />
+          </NavLeftPageWrapper>
+        )}
       </NavLeft>
 
       <NavRight>
         <SearchBar></SearchBar>
         {isCompact ? (
-          <MenuIcon src="../../../public/assets/common/navbar/menu button.svg" onClick={() => setIsSidebarOpen(!isSibebarOpen)} />
-          ) : (
-            <NavRightModal />
-          )}
+          <MenuIcon
+            src="../../../public/assets/common/navbar/menu button.svg"
+            onClick={() => setIsSidebarOpen(!isSibebarOpen)}
+          />
+        ) : (
+          <NavRightModal />
+        )}
       </NavRight>
-      
+
       {isSibebarOpen && <Overlay onClick={() => setIsSidebarOpen(false)} />}
       {isSibebarOpen && (
-        <SidebarContent 
-          isSidebarOpen={isSibebarOpen} 
-          setIsSidebarOpen={setIsSidebarOpen} 
+        <SidebarContent
+          isSidebarOpen={isSibebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
           setIsAlarmOpen={setIsAlarmOpen}
-          setIsUserModalOpen={handleOpenUserModal}/>
+          setIsUserModalOpen={handleOpenUserModal}
+        />
       )}
 
-      {isAlarmOpen && isLoggedIn && <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens}/>}
-      {isAlarmOpen && !isLoggedIn && <LoginRequiredModal onClose={closeAlarmModal} isReqLogin={true} toLogin={handleOpenUserModal}/>}
-      {isUserModalOpen && !isLoggedIn && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin} />}
+      {isAlarmOpen && isLoggedIn && (
+        <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens} />
+      )}
+      {isAlarmOpen && !isLoggedIn && (
+        <LoginRequiredModal
+          onClose={closeAlarmModal}
+          isReqLogin={true}
+          toLogin={handleOpenUserModal}
+        />
+      )}
+      {isUserModalOpen && !isLoggedIn && (
+        <UserModal
+          closeModal={() => setIsUserModalOpen(false)}
+          onLogin={handleLogin}
+        />
+      )}
     </Nav>
   );
 };
@@ -135,7 +134,6 @@ const LogoImg = styled.img`
 `;
 
 const LogoTypo = styled(TitleTypo)`
-  
   color: var(--white-100);
   display: flex;
 `;
@@ -147,10 +145,9 @@ const NavLeft = styled.div`
 `;
 
 const NavLeftPageWrapper = styled.div`
-  display:flex;
+  display: flex;
   align-items: center;
   gap: 1.875rem;
-
 `;
 
 const NavRight = styled.div`

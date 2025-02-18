@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SubTitle1Typo } from "../../../styles/Typography";
-import Overlay from "../../Common/Overlay";
+import Overlay from "../../Commons/Overlay";
 
 import Login from "./Login";
 import Signup from "./Signup";
@@ -23,7 +23,7 @@ const useScrollLock = (lock: boolean) => {
         right: 0;
         overflow: hidden;
       `;
-      
+
       return () => {
         document.body.style.cssText = bodyStyle;
         window.scrollTo(0, scrollPosition);
@@ -32,7 +32,6 @@ const useScrollLock = (lock: boolean) => {
   }, [lock]);
 };
 
-
 interface ModalProps {
   closeModal: () => void;
   onLogin: () => void;
@@ -40,9 +39,10 @@ interface ModalProps {
 
 const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   const { isAuthenticated } = useAuth();
+
   const [activeTab, setActiveTab] = useState<"login" | "signup" | "profileSetup" | "greeting" | "forgotPassword">(isAuthenticated ? "greeting" : "login");
   const [email, setEmail] = useState<string>("");
-  const [password,setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   useScrollLock(activeTab !== "greeting");
 
@@ -62,7 +62,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
   const handleClose = () => {
     closeModal();
     if (!isAuthenticated) {
-      setActiveTab("login"); 
+      setActiveTab("login");
     }
   };
 
@@ -121,10 +121,11 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
 
 export default UserModal;
 
+
 const ModalContent = styled.div.withConfig({shouldForwardProp: (prop) => prop !== "activeTab",})<{activeTab: string}>`
   position: fixed;
   top: 50%;
-  left: 50%; 
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
 
@@ -133,9 +134,10 @@ const ModalContent = styled.div.withConfig({shouldForwardProp: (prop) => prop !=
     activeTab === "login" ? "45rem" : 
     activeTab === "forgotPassword" ? "26.25rem" : "50rem"
   };
+
   max-width: 90vw;
   max-height: 90vw;
-  
+
   background-color: var(--grey-100);
   box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.25);
   border-radius: 20px;
@@ -164,7 +166,7 @@ const Title = styled(SubTitle1Typo)`
 
 const CloseButton = styled.img`
   cursor: pointer;
-  margin-right: 3.5rem
+  margin-right: 3.5rem;
 `;
 
 const ContentContainer = styled.div`
@@ -177,8 +179,8 @@ const ContentContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    margin-top: 1.5rem ;
-    margin-left: 3rem; 
+    margin-top: 1.5rem;
+    margin-left: 3rem;
     margin-right: 3rem;
     margin-bottom: 1.5rem;
   }

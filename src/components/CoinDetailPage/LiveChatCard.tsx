@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import { API_ENDPOINTS } from "../../api/api";
 import axios from "axios";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { set } from "date-fns";
 
 interface LiveChatCardProps {
   coinId: number;
@@ -15,7 +16,8 @@ interface LiveChatCardProps {
 const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
   const chatInputRef = useRef<HTMLDivElement>(null);
   const chatListRef = useRef<HTMLDivElement>(null);
-  const chatListTopRef = useRef<HTMLDivElement>(null);
+
+  const [newMessages, setNewMessages] = useState<any>([]);
 
   const { CHAT_LIST } = API_ENDPOINTS;
   useEffect(() => {
@@ -42,7 +44,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     }
   }
 
-  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [currentMessage, setCurrentMessage] = useState<any>("");
   const {
     data,
     isLoading,
@@ -52,8 +54,8 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     fetchNextPage,
     isFetching
   } = useInfiniteQuery<any>({
-    queryKey: ["LiveChatCard", coinId, initialPage, currentMessage],
-    queryFn: ({ pageParam = initialPage }) => getAllMessages(pageParam),
+    queryKey: ["LiveChatCard", coinId, initialPage], // currentMessage
+    queryFn: ({ pageParam = initialPage }: any) => getAllMessages(pageParam),
     getNextPageParam: (lastPage: any) => (lastPage ?
       lastPage.result.pageable.pageNumber >= 1 ?
         lastPage.result.pageable.pageNumber - 1
@@ -95,6 +97,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
           console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setCurrentMessage(JSON.parse(message.body));
+          setNewMessages((prev: any) => [...prev, JSON.parse(message.body)]);
         });
         setStompClient(client);
       },
@@ -122,11 +125,13 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
         body: JSON.stringify(requestBody),
       });
     }
-    chatListRef.current.scrollTop = chatListRef?.current?.scrollHeight;
+    if (chatListRef.current && chatListRef.current.scrollHeight !== undefined) {
+      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+    }
   }
 
   const scrollToEnd = () => {
-    chatListRef?.current.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+    chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
   }
 
   const [chatInputHeight, setChatInputHeight] = useState(0);
@@ -155,13 +160,13 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
             <div>{error?.toString()}</div>
             :
             <ChatList
-              messages={data?.pages}
-              // messages={messages}
+              messages={data?.pages || []}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               ref={chatListRef}
-              currentMessage={currentMessage}
-              isFetching={isFetching} />
+              isFetching={isFetching} 
+              newMessages={newMessages}
+              />
         }
         <DownButton bottom={`${chatInputHeight}px`} onClick={() => scrollToEnd()} />
         <ChatInput ref={chatInputRef} onSend={sendMessage}></ChatInput>

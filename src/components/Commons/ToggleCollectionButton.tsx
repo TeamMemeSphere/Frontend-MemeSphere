@@ -17,6 +17,7 @@ interface ToggleCollectionButtonProps {
 const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { COLLECTION } = API_ENDPOINTS
 
@@ -48,8 +49,18 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
     setIsUserModalOpen(false);
   };
 
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    setIsUserModalOpen(false);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   const toggleCollect = async () => {
     if (!isAuthenticated) {
+      // scrollToTop();
       setIsModalOpen(true);
       return;
     }
@@ -121,7 +132,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
       }
       {isModalOpen &&
         (!accessToken && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
-      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()}></UserModal>}
+      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()} onLogin={() => handleLogin()}></UserModal>}
     </>
   )
 }
