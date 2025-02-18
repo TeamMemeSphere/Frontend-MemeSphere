@@ -66,8 +66,8 @@ const Navbar: React.FC = () => {
     <Nav>
       <NavLeft>
         <Logo to="/">
-          <LogoImg src={process.env.VITE_APP_PUBLIC_URL + "../../../public/assets/common/navbar/memesphere main logo.svg"} />
-          <LogoTypo>MemeSphere 수정</LogoTypo>
+          <LogoImg src={process.env.PUBLIC_URL + "../../../public/assets/common/navbar/memesphere main logo.svg"} />
+          <LogoTypo>MemeSphere 수정1</LogoTypo>
         </Logo>
         {!isCompact && (
           <NavLeftPageWrapper>
