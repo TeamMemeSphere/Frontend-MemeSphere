@@ -24,7 +24,7 @@ const ForgotPasswordModal: React.FC = () => {
                 email: email.value,
             };
 
-            const response = await fetch(API_ENDPOINTS, {
+            const response = await fetch(API_ENDPOINTS.USER_SIGNUP, {
                 headers: {
                     "Content-type" : "application/json",
                 },

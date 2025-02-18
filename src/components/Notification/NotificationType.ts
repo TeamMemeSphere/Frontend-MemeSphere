@@ -18,5 +18,6 @@ export type notificationWithoutId = {
 };
 
 export type alertHistoryType = notificationType & { 
-        receivedAt : string 
+        receivedAt : string,
+        coinId : number
 };
