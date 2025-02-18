@@ -61,13 +61,13 @@ const useSSEAlert = () => {
             const parsedData = JSON.parse(event.data);
             console.log(parsedData);
             const notificationWithTimestamp = {
-              ...event.data,
+              ...parsedData,
               receivedAt: formatDate(new Date()), // 현재 시간 추가
             };
             console.log("알림 기록 저장 전 :",notificationWithTimestamp);
             setAlertHistory((prev)=>[...prev, notificationWithTimestamp]);
 
-            toast(`🔥 ${event.data.name}, 변동성 ${event.data.volatility}% 도달!`, {
+            toast(`🔥 ${parsedData.name}, 변동성 ${parsedData.volatility}% 도달!`, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: true,
