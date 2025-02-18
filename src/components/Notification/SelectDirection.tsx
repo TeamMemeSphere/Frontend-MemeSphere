@@ -19,15 +19,15 @@ const SelectDirection :React.FC<SelectDirectionProps> = ({setValue, currentValue
         <SelectOption>
             <Option>
                 {(currentValue === true)
-                ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
-                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
+                ? <ChangeButton src="/assets/Notification/ActiveButton.svg"/>
+                : <ChangeButton src="/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }
                 <S.CaptionTypoRegular>상승</S.CaptionTypoRegular>
             </Option>
             <Option>
                 {(currentValue === false)
-                ? <ChangeButton src="public/assets/Notification/ActiveButton.svg"/>
-                : <ChangeButton src="public/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
+                ? <ChangeButton src="/assets/Notification/ActiveButton.svg"/>
+                : <ChangeButton src="/assets/Notification/InactiveButton.svg" onClick={toggleDirection}/>
                 }
                 <S.CaptionTypoRegular>하락</S.CaptionTypoRegular>
             </Option>

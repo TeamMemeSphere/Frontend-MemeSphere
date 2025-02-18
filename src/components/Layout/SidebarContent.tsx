@@ -40,12 +40,12 @@ const SidebarContent: React.FC<SidebarProps> = ({
   return (
     <SidebarContentWrapper>
       <CloseButton
-        src="../../../public/assets/common/navbar/close button.svg"
+        src="/assets/common/navbar/close button.svg"
         onClick={() => setIsSidebarOpen(false)}
       />
       <SidebarWrapper>
         <Logo>
-          <LogoImg src="../../../public/assets/common/navbar/sidebar memesphere logo.svg" />
+          <LogoImg src="/assets/common/navbar/sidebar memesphere logo.svg" />
           <LogoTitle>MemeSphere</LogoTitle>
         </Logo>
 
@@ -61,13 +61,13 @@ const SidebarContent: React.FC<SidebarProps> = ({
             <NavItem
               icon1={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/sidebar alarm on.svg"
+                  src="/assets/common/navbar/sidebar/sidebar alarm on.svg"
                   alt="알림 on"
                 />
               }
               icon2={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/sidebar alarm off.svg"
+                  src="/assets/common/navbar/sidebar/sidebar alarm off.svg"
                   alt="알림 off"
                 />
               }
@@ -78,13 +78,13 @@ const SidebarContent: React.FC<SidebarProps> = ({
             <NavItem
               icon1={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/sidebar user on.svg"
+                  src="/assets/common/navbar/sidebar/sidebar user on.svg"
                   alt="프로필 on"
                 />
               }
               icon2={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/sidebar user off.svg"
+                  src="/assets/common/navbar/sidebar/sidebar user off.svg"
                   alt="프로필 off"
                 />
               }
@@ -95,14 +95,14 @@ const SidebarContent: React.FC<SidebarProps> = ({
             <NavItem
               icon1={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/game-on.svg"
+                  src="/assets/common/navbar/sidebar/game-on.svg"
                   alt="게임 on"
                   style={{ padding: "1px", width: "21px" }}
                 />
               }
               icon2={
                 <img
-                  src="../../../public/assets/common/navbar/sidebar/game-off.svg"
+                  src="/assets/common/navbar/sidebar/game-off.svg"
                   alt="게임 off"
                   style={{ padding: "1px", width: "21px" }}
                 />

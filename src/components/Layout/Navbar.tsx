@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
     <Nav>
       <NavLeft>
         <Logo to="/">
-          <LogoImg src="../../../public/assets/common/navbar/memesphere main logo.svg" />
+          <LogoImg src= "/assets/common/navbar/memesphere-main-logo.svg" />
           <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
         {!isCompact && (
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
         <SearchBar></SearchBar>
         {isCompact ? (
           <MenuIcon
-            src="../../../public/assets/common/navbar/menu button.svg"
+            src="/assets/common/navbar/menu button.svg"
             onClick={() => setIsSidebarOpen(!isSibebarOpen)}
           />
         ) : (
