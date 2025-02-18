@@ -5,7 +5,7 @@ import {
   SubTitle3Typo,
 } from "../../../styles/Typography";
 import TrendChartList from "./TrendCharList";
-import ContentHeader from "../../Common/ContentHeader";
+import ContentHeader from "../../Commons/ContentHeader";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_ENDPOINTS } from "../../../api/api";

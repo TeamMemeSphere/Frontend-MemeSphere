@@ -9,7 +9,7 @@ type AlertHistoryBoxProps = alertHistoryType & {
     closeModal : () => void;
 }
 
-const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name, symbol, volatility, stTime, isRising, receivedAt, deleteHistory, closeModal}) => {
+const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name, symbol, volatility, stTime, isRising, receivedAt, coinId, deleteHistory, closeModal}) => {
 
     return <Container>
         <Header>
@@ -29,7 +29,7 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name,
                 <Typo width="2.813rem">{stTime}분</Typo>
                 <Typo width="1.563rem">{isRising ? "상승" : "하락"}</Typo>
             </ContentLeft>
-            <MoreButton to={`/CoinDetailPage/${notificationId}`} onClick={()=>closeModal()}>
+            <MoreButton to={`/CoinDetailPage/${coinId}`} onClick={()=>closeModal()}>
                 <Button src="public/assets/Notification/chevron-right 1.svg" size="1.188rem"/>
             </MoreButton>
         </Content>

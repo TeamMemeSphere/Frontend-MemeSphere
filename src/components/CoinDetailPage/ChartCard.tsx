@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
-import CoinCardChart from "../Common/CoinCardChart";
+import CoinCardChart from "../Commons/CoinCardChart";
 import {
   BodyTypo,
   CaptionTypoRegular,
@@ -44,8 +44,6 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
   const [coinData, setCoinData] = useState<CoinPriceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  console.log("으아아", coinData?.priceChangeDirection);
 
   // API에서 코인 데이터 가져오기
   const fetchCoinData = async () => {
