@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SubTitle3Typo, SmallCaptionTypo } from "../../styles/Typography";
 import NavLeftPage from "./NavLeftPage";
 import { useLocation, useNavigate } from "react-router-dom";
-import NavItem from "../Common/Navbar/NavItem";
+import NavItem from "../Commons/Navbar/NavItem";
 
 interface SidebarProps {
   isSidebarOpen: boolean;

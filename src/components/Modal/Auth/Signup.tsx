@@ -49,6 +49,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
             $hasError={isSubmitted && (!!email.error || !email.value)}
+            autoComplete="new-email"
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -63,6 +64,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
             $hasError={isSubmitted && (!!password.error || !password.value)}
+            autoComplete="new-password"
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>
@@ -77,6 +79,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             onChange={(e) => handleChange("passwordConfirm", e.target.value)}
             onBlur={() => handleBlur("passwordConfirm")}
             $hasError={isSubmitted && (!!passwordConfirm.error || !passwordConfirm.value)}
+            autoComplete="new-password"
           />
           {passwordConfirm.error && <ErrorMessage>{passwordConfirm.error}</ErrorMessage>}
         </InputContainer>

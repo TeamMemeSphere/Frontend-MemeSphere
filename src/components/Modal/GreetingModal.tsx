@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { SubTitle2Typo, BodyTypo } from "../../styles/Typography";
 import { useAuth } from "../../hooks/common/useAuth";
-import Overlay from "../Common/Overlay";
+import Overlay from "../Commons/Overlay";
 
 interface GreetingModalProps {
   closeModal: () => void;
