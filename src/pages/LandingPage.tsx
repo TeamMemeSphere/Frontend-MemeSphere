@@ -2,7 +2,7 @@ const LandingPage = () => {
 
   return (
     <>
-      <h3>LandingPage</h3>
+      <h3>LandingPage 제작 중</h3>
     </>
   );
 };
