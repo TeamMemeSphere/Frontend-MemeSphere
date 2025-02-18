@@ -25,7 +25,7 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
       <BackDrop onClick={closeModal}>
         <ModalContainer onClick={(e) => e.stopPropagation()}>
           <IconMessageWrapper>
-            <Icon src="../../../public/assets/common/autentication/profile button.svg" />
+            <Icon src="/assets/common/autentication/profile button.svg" />
             <Message>
               <Nickname>{nickName}</Nickname>님 반갑습니다!
             </Message>
@@ -33,7 +33,7 @@ const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
           <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
           <CloseButton
             onClick={closeModal}
-            src="../../../public/assets/common/navbar/close button.svg"
+            src="/assets/common/navbar/close button.svg"
           />
         </ModalContainer>
       </BackDrop>

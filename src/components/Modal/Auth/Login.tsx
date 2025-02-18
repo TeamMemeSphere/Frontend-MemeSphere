@@ -117,15 +117,15 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, o
         </InputContainer>
         <Button type="submit">로그인</Button>
       </Form>
-      <Separator src="../../../public/assets/common/autentication/Autentication Distinction.svg" />
+      <Separator src="/assets/common/autentication/Autentication Distinction.svg" />
       <SocialButtons>
         <SocialButton onClick={() => handleSocialLogin("kakao")}>
-          <SocialImage src="../../../public/assets/common/autentication/kakaotalk icon.svg" />
+          <SocialImage src="/assets/common/autentication/kakaotalk icon.svg" />
           카카오로 로그인하기
         </SocialButton>
 
         <SocialButton onClick={() => handleSocialLogin("google")}>
-          <SocialImage src="../../../public/assets/common/autentication/google icon.svg"/>
+          <SocialImage src="/assets/common/autentication/google icon.svg"/>
           Google로 로그인하기
           </SocialButton>
 

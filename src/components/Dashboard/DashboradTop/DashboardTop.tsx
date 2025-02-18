@@ -26,7 +26,7 @@ const DashboardTop = () => {
         console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
       }
     } catch (error) {
-      console.error("api 요청 중 오류 발생:", error);
+      console.error("총거래량/코인수 api 요청 중 오류 발생:", error);
     }
   };
 

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const DefaultProfile : React.FC = () => {
     return <Container>
-        <StyledImg src="./../../../public/assets/Community/DefaultProfile.svg" alt="img"></StyledImg>
+        <StyledImg src="/assets/Community/DefaultProfile.svg" alt="img"></StyledImg>
     </Container>;
 };
 

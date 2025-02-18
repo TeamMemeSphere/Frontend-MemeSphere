@@ -14,10 +14,10 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name,
     return <Container>
         <Header>
             <HeaderLeft>
-                <Img src="public/assets/Notification/Greenbell.svg" size="1.125rem"/>
+                <Img src="/assets/Notification/Greenbell.svg" size="1.125rem"/>
                 <Timestamp>{receivedAt}</Timestamp>
             </HeaderLeft>
-            <Button src="public/assets/Notification/Delete.svg" size="0.875rem"
+            <Button src="/assets/Notification/Delete.svg" size="0.875rem"
             onClick={()=>deleteHistory(notificationId)}
             />
         </Header>
@@ -30,7 +30,7 @@ const AlertHistoryBox : React.FC<AlertHistoryBoxProps> = ({notificationId, name,
                 <Typo width="1.563rem">{isRising ? "상승" : "하락"}</Typo>
             </ContentLeft>
             <MoreButton to={`/CoinDetailPage/${coinId}`} onClick={()=>closeModal()}>
-                <Button src="public/assets/Notification/chevron-right 1.svg" size="1.188rem"/>
+                <Button src="/assets/Notification/chevron-right 1.svg" size="1.188rem"/>
             </MoreButton>
         </Content>
     </Container>;

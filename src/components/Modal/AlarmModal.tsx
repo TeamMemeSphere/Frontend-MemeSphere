@@ -66,7 +66,7 @@ const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken }) => {
         <FlexContainer>
           <StyledImg src={bellIcon} />
           <SubTitle2Typo>알림</SubTitle2Typo>
-          <CloseButton src="public/assets/Notification/closeButton.svg" onClick={closeModal}/>
+          <CloseButton src="/assets/Notification/closeButton.svg" onClick={closeModal}/>
         </FlexContainer>
         <NotificationContainer>
           <LeftSide>

@@ -61,7 +61,7 @@ const SearchBar: React.FC = () => {
 
     {/*모바일용 검색 아이콘*/}
     <SmallSearchIcon 
-      src="../../../../public/assets/common/navbar/Search small button.svg" 
+      src="/assets/common/navbar/Search small button.svg" 
       alt="small search icon"
       onClick={() => setIsOpen(true)}/>
     {/*모바일용 검색창*/}

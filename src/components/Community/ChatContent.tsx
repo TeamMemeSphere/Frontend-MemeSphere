@@ -31,7 +31,7 @@ const ChatContent : React.FC<ChatContentProps> = ({ nickname, createdAt, message
             </Header>
             <Content>{message}</Content>
             <LikeButton>
-                <LikeImg src="public/assets/Community/LikeIcon.svg"></LikeImg>
+                <LikeImg src="/assets/Community/LikeIcon.svg"></LikeImg>
                 <LikeText>{likes}</LikeText>
             </LikeButton>
         </TextContainer>
