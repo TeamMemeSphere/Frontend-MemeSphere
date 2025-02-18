@@ -1,16 +1,19 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import { API_ENDPOINTS } from "../../api/api";
 
-const authAxios = axios.create({
-    headers: { "Content-Type": "application/json" },
-});
+const authAxios = axios.create();
 
 authAxios.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("accessToken");
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+
+        if (!config.headers) {
+            config.headers = new AxiosHeaders();
         }
+
+        if (token) {
+            config.headers.set("Authorization", `Bearer ${token}`);
+    }
         return config;
     },
     (error) => Promise.reject(error)
@@ -19,7 +22,7 @@ authAxios.interceptors.request.use(
 authAxios.interceptors.response.use(
     (response) => response,
     async (error) => {
-        if (error.response?.status === 401) {
+        if (error.response?.status === 401 && error.response?.data?.code === "EXPIRED TOKEN") {
             console.warn("401 오류 발생, 토큰 갱신 시도");
 
             const refreshToken = localStorage.getItem("refreshToken");
