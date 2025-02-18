@@ -10,7 +10,7 @@ import UserModal from "../../Modal/Auth/UserModal";
 const AlarmButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const {isAuthenticated}= useAuth();
+  const { isAuthenticated } = useAuth();
 
   const authTokens = {
     accessToken: localStorage.getItem("accessToken") ?? "",
@@ -21,10 +21,14 @@ const AlarmButton: React.FC = () => {
     setIsUserModalOpen(true);
   };
 
+  const handleLogin = () => {
+    setIsUserModalOpen(false);
+  };
+
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
-  
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -32,27 +36,27 @@ const AlarmButton: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  useEffect(()=>{
-    if(isModalOpen && !isAuthenticated){
+  useEffect(() => {
+    if (isModalOpen && !isAuthenticated) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; 
+      document.body.style.overflow = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
     };
-  },[isModalOpen, isAuthenticated]);
-  
+  }, [isModalOpen, isAuthenticated]);
+
   return (
     <>
       <StyledHeaderButton onClick={openModal}>
         <S.Icon src={bell} />
       </StyledHeaderButton>
-      {isModalOpen && 
-      (isAuthenticated
-      ? <AlarmModal closeModal={closeModal} {...authTokens} />
-      : <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal}/>)}
-      {isUserModalOpen && <UserModal closeModal={()=>closeUserModal()}></UserModal>}
+      {isModalOpen &&
+        (isAuthenticated
+          ? <AlarmModal closeModal={closeModal} {...authTokens} />
+          : <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
+      {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin}></UserModal>}
     </>
   );
 };

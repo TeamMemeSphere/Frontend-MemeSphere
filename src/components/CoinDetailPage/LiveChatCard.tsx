@@ -55,7 +55,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     isFetching
   } = useInfiniteQuery<any>({
     queryKey: ["LiveChatCard", coinId, initialPage], // currentMessage
-    queryFn: ({ pageParam = initialPage }) => getAllMessages(pageParam),
+    queryFn: ({ pageParam = initialPage }: any) => getAllMessages(pageParam),
     getNextPageParam: (lastPage: any) => (lastPage ?
       lastPage.result.pageable.pageNumber >= 1 ?
         lastPage.result.pageable.pageNumber - 1
@@ -97,7 +97,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
           console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setCurrentMessage(JSON.parse(message.body));
-          setNewMessages((prev) => [...prev, JSON.parse(message.body)]);
+          setNewMessages((prev: any) => [...prev, JSON.parse(message.body)]);
         });
         setStompClient(client);
       },
@@ -125,11 +125,13 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
         body: JSON.stringify(requestBody),
       });
     }
-    chatListRef.current.scrollTop = chatListRef?.current?.scrollHeight;
+    if (chatListRef.current && chatListRef.current.scrollHeight !== undefined) {
+      chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+    }
   }
 
   const scrollToEnd = () => {
-    chatListRef?.current.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
+    chatListRef?.current?.scrollTo({ top: chatListRef.current.scrollHeight, behavior: 'smooth' });
   }
 
   const [chatInputHeight, setChatInputHeight] = useState(0);
@@ -158,12 +160,10 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
             <div>{error?.toString()}</div>
             :
             <ChatList
-              messages={data?.pages}
-              // messages={messages}
+              messages={data?.pages || []}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               ref={chatListRef}
-              currentMessage={currentMessage}
               isFetching={isFetching} 
               newMessages={newMessages}
               />
