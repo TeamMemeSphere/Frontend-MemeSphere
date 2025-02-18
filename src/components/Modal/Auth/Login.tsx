@@ -20,11 +20,12 @@ import { useAuth } from "../../../hooks/common/useAuth";
 import { useSocialLogin } from "../../../hooks/common/useSocialLogin";
 
 interface LoginProps {
+  switchToForgotPassword: () => void;
   switchToSignup: () => void;
   onLogin?: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
+const Login: React.FC<LoginProps> = ({ switchToSignup, switchToForgotPassword, onLogin }) => {
   const { login } = useAuth();
   const { handleSocialLogin } = useSocialLogin();
   const { email, password, handleBlur, handleChange } = useFormValidation({
@@ -95,6 +96,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
             $hasError={isSubmitted && (!!email.error || !email.value)}
+            autoComplete="current-email"
           />
           {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
         </InputContainer>
@@ -109,6 +111,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
             onChange={(e) => handleChange("password", e.target.value)}
             onBlur={() => handleBlur("password")}
             $hasError={isSubmitted && (!!password.error || !password.value)}
+            autoComplete="current-password"
           />
           {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
         </InputContainer>
@@ -133,11 +136,16 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
           onClick={(e) => {
             e.preventDefault();
             switchToSignup();
-          }}
-        >
+          }}>
           회원가입
         </Link>
-        <Link href="/">비밀번호 찾기</Link>
+        <Link 
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            switchToForgotPassword();
+          }}>
+            비밀번호 찾기</Link>
       </Links>
     </FormContainer>
   );
