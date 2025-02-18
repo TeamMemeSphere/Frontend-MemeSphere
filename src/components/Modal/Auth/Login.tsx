@@ -71,7 +71,7 @@ const Login: React.FC<LoginProps> = ({ switchToSignup, onLogin }) => {
       if (data.isSuccess && data.result) {
         login(data.result.accessToken, data.result.refreshToken, data.result.nickName);
         window.dispatchEvent(new Event("storage"));
-        onLogin();
+        onLogin?.();
       } else {
         alert("로그인 실패:" + response.status);
       }
