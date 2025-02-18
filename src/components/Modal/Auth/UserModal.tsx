@@ -109,7 +109,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
             />
           )}
           {activeTab === "forgotPassword" && (
-            <ForgotPasswordModal />
+            <ForgotPasswordModal onClose={handleClose}/>
           )}
         </ContentContainer>
       </ModalContent>

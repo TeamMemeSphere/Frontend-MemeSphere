@@ -4,9 +4,10 @@ import { Form, FormContainer, InputContainer, Label, StyledInput, Button, ErrorM
 import { useFormValidation } from "./Auth/FormValidation";
 import { API_ENDPOINTS } from "../../api/api";
 
-const ForgotPasswordModal: React.FC = () => {
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
+
+const ForgotPasswordModal: React.FC<{onClose: () => void}> = ({onClose}) => {
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const {email, handleBlur, handleChange} = useFormValidation({
         emailInvalid: "이메일 형식이 아닙니다."
     });
@@ -20,19 +21,18 @@ const ForgotPasswordModal: React.FC = () => {
         }
 
         try {
-            const ForgotPasswordData = {
-                email: email.value,
-            };
+            const url = `${API_ENDPOINTS.USER_PASSWORD_SEND}?email=${encodeURIComponent(email.value)}`;
 
-            const response = await fetch(API_ENDPOINTS.USER_SIGNUP, {
+            const response = await fetch(url, {
+                method: "POST",
                 headers: {
-                    "Content-type" : "application/json",
+                    "Content-type" : "application/json"
                 },
-                method: "POST", 
-                body: JSON.stringify(ForgotPasswordData),
             });
 
             const data = await response.json();
+            console.log("비밀번호 찾기 api 응답:", data);
+
             if (!response.ok) {
                 alert (data?.message || `비밀번호 찾기 실패: ${response.status}`);
                 console.error("비밀번호 찾기 실패:", response.status, data);
@@ -43,6 +43,9 @@ const ForgotPasswordModal: React.FC = () => {
                 alert(data.message);
                 return;
             }
+
+            alert("임시 비밀번호가 이메일 주소로 전송되었습니다.");
+            onClose();
         } catch (error) {
             console.error("비밀번호 찾기 요청 오류:", error);
             alert("비밀번호 찾기 중 문제가 발생했습니다. 다시 시도해주세요.");
