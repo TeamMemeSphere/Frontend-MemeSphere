@@ -46,7 +46,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
 
     const filteredNames = nameInput
         ? Object.entries(coinMap)
-            .filter(([name])=> name.includes(nameInput))
+            .filter(([name])=> name.toUpperCase().includes(nameInput))
             .map(([name])=>name)
         : [];
 
