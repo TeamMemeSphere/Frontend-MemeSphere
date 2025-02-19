@@ -10,6 +10,7 @@
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"]
-    }
-  }
+    },
+  },
+  "include": ["node_modules/react-full-page"]
 }

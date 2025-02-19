@@ -21,12 +21,14 @@ import { ToastContainer } from "react-toastify";
 const queryClient = new QueryClient();
 
 function App() {
+  const isLandingPage = location.pathname === "/";
+
   return (
     <>
       <GlobalStyle />
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Navbar />
+          {!isLandingPage && <Navbar />}
           <Routes>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/AlertDashBoard" element={<AlertDashBoard />}></Route>
@@ -39,7 +41,7 @@ function App() {
             <Route path="/user/login/oauth2/google" element={<GoogleRedirect />}></Route>
             <Route path="/game" element={<GamePage />}></Route>
           </Routes>
-          <Footer />
+          {!isLandingPage && <Footer />}
           <ToastContainer></ToastContainer>
         </BrowserRouter>
       </QueryClientProvider>
