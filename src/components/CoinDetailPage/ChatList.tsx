@@ -101,8 +101,8 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(
               message={chat.message}
               nickname={chat.nickname}
               likes={chat.likes}
+              liked={chat.liked}
               createdAt={chat.createdAt}
-              chatListRef={chatListRef}
             />
           ))}
           {newMessages &&
@@ -113,8 +113,8 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(
                 message={chat.message}
                 nickname={chat.nickname}
                 likes={chat.likes}
+                liked={chat.liked}
                 createdAt={chat.createdAt}
-                chatListRef={chatListRef}
               />
             ))}
         </Container>
