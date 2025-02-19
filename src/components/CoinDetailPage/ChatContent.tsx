@@ -3,15 +3,18 @@ import * as S from "../../styles/Typography";
 import { API_ENDPOINTS } from "../../api/api";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/common/useAuth";
+import LoginRequiredModal from "../Modal/LoginRequiredModal";
+import UserModal from "../Modal/Auth/UserModal";
 
 interface ChatContentProps {
   id: number;
   message: string;
   nickname: string;
   likes: number;
+  liked: string;
   createdAt: string;
-  chatListRef: React.RefObject<HTMLDivElement> | null;
 }
 
 const ChatContent = ({
@@ -19,8 +22,8 @@ const ChatContent = ({
   message,
   nickname,
   likes,
+  liked,
   createdAt,
-  chatListRef,
 }: ChatContentProps) => {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
@@ -35,15 +38,13 @@ const ChatContent = ({
       ? "방금"
       : currentTime - createdTime < 3600000
         ? `${Math.floor((currentTime - createdTime) / 60000)}분`
-        : `${
-            createdDate.getHours() < 10
-              ? `0${createdDate.getHours()}`
-              : createdDate.getHours()
-          }:${
-            createdDate.getMinutes() < 10
-              ? `0${createdDate.getMinutes()}`
-              : createdDate.getMinutes()
-          }`
+        : `${createdDate.getHours() < 10
+          ? `0${createdDate.getHours()}`
+          : createdDate.getHours()
+        }:${createdDate.getMinutes() < 10
+          ? `0${createdDate.getMinutes()}`
+          : createdDate.getMinutes()
+        }`
     : createdDateStr;
 
   const storageNickname = localStorage.getItem("nickName");
@@ -53,12 +54,7 @@ const ChatContent = ({
 
   const { CHAT_LIKE } = API_ENDPOINTS;
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-
   const handleLike = async () => {
-    if (chatListRef?.current) {
-      setScrollPosition(chatListRef?.current.scrollTop);
-    }
     try {
       const res = await fetch(`${CHAT_LIKE(Number(coinId))}?chat_id=${id}`, {
         method: "POST",
@@ -78,7 +74,7 @@ const ChatContent = ({
     mutationFn: async () => {
       await handleLike();
     },
-    onMutate() {},
+    onMutate() { },
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["LiveChatCard"],
@@ -88,6 +84,49 @@ const ChatContent = ({
       console.log(error);
     },
   });
+
+  const accessToken = window.localStorage.getItem("accessToken");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const isAuthenticated = useAuth();
+
+  useEffect(() => {
+    if (isModalOpen && !isAuthenticated) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isModalOpen]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openUserModal = () => {
+    setIsUserModalOpen(true);
+  };
+
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    setIsUserModalOpen(false);
+  };
+
+  const toggleLike = async () => {
+    if (!accessToken) {
+      setIsModalOpen(true);
+      return;
+    }
+    mutation.mutate();
+  }
 
   return (
     <Container>
@@ -104,7 +143,7 @@ const ChatContent = ({
         {isSentByMe ? (
           <>
             <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
-            <LikeWrapper onClick={() => {}}>
+            <LikeWrapper onClick={() => { }}>
               <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
               {likes}
             </LikeWrapper>
@@ -112,14 +151,22 @@ const ChatContent = ({
         ) : (
           <>
             <NicknameWrapper>{nickname}</NicknameWrapper>
-            <LikeWrapper onClick={() => mutation.mutate()}>
-              <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+            <LikeWrapper onClick={toggleLike}>
+              {
+                liked ?
+                  <img src="/assets/DetailPage/like-heart-fill.svg" alt="좋아요" />
+                  :
+                  <img src="/assets/DetailPage/like-heart.svg" alt="좋아요" />
+              }
               {likes}
             </LikeWrapper>
             <S.SmallCaptionTypo>{time}</S.SmallCaptionTypo>
           </>
         )}
       </ChatInfoWrapper>
+      {isModalOpen &&
+        (!accessToken && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
+      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()} onLogin={() => handleLogin()}></UserModal>}
     </Container>
   );
 };
@@ -160,7 +207,7 @@ const ChatContentWrapper = styled.div<ChatContentWrapperProps>`
   flex-direction: ${(props) => (props.$isSentByMe ? "row-reverse" : "row")};
 `;
 
-const ChatMessage = styled(S.ChatTextTypo)<ChatContentWrapperProps>`
+const ChatMessage = styled(S.ChatTextTypo) <ChatContentWrapperProps>`
   width: 100%;
   height: fit-content;
   padding: 0.75rem;
