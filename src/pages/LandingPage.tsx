@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { FullPage, Slide } from "react-full-page";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { TitleTypo, BodyTypo } from "../styles/Typography";
-
 import gsap from "gsap";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const LandingButton = () => {
+    navigate("/dashboard", {state: {showUserModal: true}});
+  };
+
   const [animationKey, setAnimationKey] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -65,76 +69,85 @@ const LandingPage = () => {
   };
 
 
+  const [visibilityState, setVisibilityState] = useState({
+    image3: false,
+    image4: false,
+    image5: false,
+    image6: false,
+  });
   const image3Ref = useRef<HTMLImageElement | null>(null);
   const image4Ref = useRef<HTMLImageElement | null>(null);
   const image5Ref = useRef<HTMLImageElement | null>(null);
-
+  const image6Ref = useRef<HTMLImageElement | null>(null);
   const LogoBackgroundThirdRef = useRef<HTMLImageElement | null>(null);
   const LogoBackgroundFourthRef = useRef<HTMLImageElement | null>(null);
   const LogoBackgroundFifthRef = useRef<HTMLImageElement | null>(null);
+  const LogoBackgroundSixthRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    const currentImage3 = image3Ref.current;
     const currentLogoBackgroundThird = LogoBackgroundThirdRef.current;
     const currentLogoBackgroundFourth = LogoBackgroundFourthRef.current;
     const currentLogoBackgroundFifth = LogoBackgroundFifthRef.current;
-
+    const currentLogoBackgroundSixth = LogoBackgroundSixthRef.current;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target === currentLogoBackgroundThird && entry.isIntersecting) {
-            if (currentImage3) {
-              currentImage3.classList.add("slide-up");
-            }
-          } else {
-            if (image3Ref.current) {
-              image3Ref.current.classList.remove("slide-up");
-            }
+          if (entry.target === currentLogoBackgroundThird) {
+            setVisibilityState((prevState) => ({
+              ...prevState,
+              image3: entry.isIntersecting, // 이미지 3의 상태를 업데이트
+            }));
           }
 
-          if (entry.target === currentLogoBackgroundFourth && entry.isIntersecting) {
-            if (image4Ref.current) {
-              image4Ref.current.classList.add("slide-up");
-            }
-          } else {
-            if (image4Ref.current) {
-              image4Ref.current.classList.remove("slide-up");
-            }
+          if (entry.target === currentLogoBackgroundFourth) {
+            setVisibilityState((prevState) => ({
+              ...prevState,
+              image4: entry.isIntersecting, // 이미지 4의 상태를 업데이트
+            }));
           }
 
-          if (entry.target === currentLogoBackgroundFifth && entry.isIntersecting) {
-            if (image5Ref.current) {
-              image5Ref.current.classList.add("slide-up");
-            }
-          } else {
-            if (image5Ref.current) {
-              image5Ref.current.classList.remove("slide-up");
-            }
+          if (entry.target === currentLogoBackgroundFifth) {
+            setVisibilityState((prevState) => ({
+              ...prevState,
+              image5: entry.isIntersecting, // 이미지 5의 상태를 업데이트
+            }));
+          }
+
+          if (entry.target === currentLogoBackgroundSixth) {
+            setVisibilityState((prevState) => ({
+              ...prevState,
+              image6: entry.isIntersecting, // 이미지 6의 상태를 업데이트
+            }));
           }
         });
       },
       { threshold: 0.8 }
     );
 
+    // 각각의 요소를 관찰
     if (currentLogoBackgroundThird) observer.observe(currentLogoBackgroundThird);
     if (currentLogoBackgroundFourth) observer.observe(currentLogoBackgroundFourth);
     if (currentLogoBackgroundFifth) observer.observe(currentLogoBackgroundFifth);
+    if (currentLogoBackgroundSixth) observer.observe(currentLogoBackgroundSixth);
 
     return () => {
       if (currentLogoBackgroundThird) observer.unobserve(currentLogoBackgroundThird);
       if (currentLogoBackgroundFourth) observer.unobserve(currentLogoBackgroundFourth);
       if (currentLogoBackgroundFifth) observer.unobserve(currentLogoBackgroundFifth);
+      if (currentLogoBackgroundSixth) observer.unobserve(currentLogoBackgroundSixth);
     };
   }, []);
 
   return (
     <FullPage controls={false} beforeChange={beforeChange}>
+
       <LandingPageNavbar>
         <Logo to="/">
           <LogoImg src="/assets/common/navbar/memesphere-main-logo.svg" />
           <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
-        <Button>MemeSphere 시작하기</Button>
+        <NavButton onClick={LandingButton}>MemeSphere 시작하기</NavButton>
       </LandingPageNavbar>
 
       <Slide>
@@ -148,6 +161,7 @@ const LandingPage = () => {
 
       <Slide>
         <SlideContent>
+          <CircleSecond key={`circle-${animationKey}`} />
           <LogoBackground src="/assets/LandingPage/LandingSecond.svg" />
           <TabletImage ref={tabletRef} src="/assets/LandingPage/Second-First-First.svg" />
           <MobileImage ref={mobileRef} src="/assets/LandingPage/Second-First-Second.svg" />
@@ -156,22 +170,35 @@ const LandingPage = () => {
 
       <Slide>
         <SlideContent>
+          <CircleThird key={`circle-${animationKey}`} />
           <LogoBackgroundThird ref={LogoBackgroundThirdRef} src="/assets/LandingPage/LandingThird.svg" />
-          <Image3 ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
+          <Image3 isVisible={visibilityState.image3} ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent>
+          <CircleFifth key={`circle-${animationKey}`} />
           <LogoBackgroundFourth ref={LogoBackgroundFourthRef} src="/assets/LandingPage/LandingFourth.svg" />
-          <Image4 ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
+          <Image4 isVisible={visibilityState.image4} ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent>
+          <CircleSixth key={`circle-${animationKey}`} />
           <LogoBackgroundFifth ref={LogoBackgroundFifthRef} src="/assets/LandingPage/LandingFifth.svg" />
-          <Image5 ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
+          <Image5 isVisible={visibilityState.image5} ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
+        </SlideContent>
+      </Slide>
+
+      <Slide>
+        <SlideContent ref={LogoBackgroundSixthRef}>
+            <Image6 isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
+            <ButtonWrapper>
+              <NonLoginButton onClick={()=>navigate("/dashboard")}>로그인 없이 이용하기</NonLoginButton>
+              <LoginButton onClick={LandingButton}>로그인하고 더 많은 기능 이용하기</LoginButton>
+            </ButtonWrapper>
         </SlideContent>
       </Slide>
     </FullPage>
@@ -181,39 +208,41 @@ const LandingPage = () => {
 export default LandingPage;
 
 const LandingPageNavbar = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  height: 128px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  padding: 0 4.306vw;
+  
 `;
 
 const Logo = styled(NavLink)`
-  display: flex;
+  position: fixed;
+  top: 3.25rem;
+  left: 3.875rem;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 `;
-
 const LogoImg = styled.img`
   width: 1.813rem;
-  margin-right: 0.188rem;
+  margin-right: 0.3rem;
 `;
 
 const LogoTypo = styled(TitleTypo)`
   color: var(--white-100);
 `;
 
-const Button = styled(BodyTypo)`
+const NavButton = styled(BodyTypo)`
   width: 222px;
   height: 43px;
   border-radius: 15px;
   background-color: var(--blue);
   text-align: center;
   line-height: 43px;
+
+  position: fixed;
+  top: 3.25rem;
+  right: 3.875rem; 
+
+  @media (max-width: 560px) {
+    display: none;
+  }
 `;
 
 const SlideContent1 = styled.div`
@@ -232,8 +261,8 @@ const circleAnimation = keyframes`
     opacity: 0;
   }
   100% {
-    width: 500px;
-    height: 500px;
+    width: 31.25rem;
+    height: 31.25rem;
     opacity: 30%;
   }
 `;
@@ -265,10 +294,10 @@ const lineCircleAnimation = keyframes`
 const Circle = styled.div`
   margin-right: 3vw;
   margin-top: 25vh;
-  position: relative:
+  position: relative;
   z-index: 1;
-  width: 500px;
-  height: 500px;
+  width: 31.25rem;
+  height: 31.25rem;
   opacity: 30%;
   transition: opacity 1s 1s;
   background-image: radial-gradient(circle, var(--blue), rgba(255, 255, 255, 0) 70%);
@@ -323,7 +352,32 @@ const LogoBackground = styled.img`
   position: relative;
   bottom: 10%;
 `;
+const circleSecondAnimation = keyframes`
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 15rem;
+    height: 15rem;
+    opacity: 30%;
+  }
+`;
+const CircleSecond = styled.div`  
+  position: absolute;
+  margin-right: 60vw;
+  margin-top: 20vh;
+  z-index: 1;
 
+  width: 15rem;
+  height: 15rem;
+  transition: opacity 1s 1s;
+  background-image: radial-gradient(circle, var(--pink), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: ${circleSecondAnimation} 2s ease-out forwards;
+`;
 const TabletImage = styled.img`
   position: absolute;
   width: 50vw;
@@ -378,7 +432,34 @@ const slideUpAnimation = keyframes`
     opacity: 1;
   }
 `;
-const Image3 = styled.img`
+
+const circleThirdAnimation = keyframes`
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 10rem;
+    height: 10rem;
+    opacity: 20%;
+  }
+`;
+const CircleThird = styled.div`  
+  position: absolute;
+  margin-right: -60vw;
+  margin-top: -70vh;
+  z-index: 1;
+
+  width: 10rem;
+  height: 10rem;
+  transition: opacity 1s 1s;
+  background-image: radial-gradient(circle, var(--green), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: ${circleThirdAnimation} 2s ease-out forwards;
+`;
+const Image3 = styled.img<{isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -386,6 +467,7 @@ const Image3 = styled.img`
   width: 53vw;
   max-width: 700px;
 
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
@@ -394,7 +476,33 @@ const Image3 = styled.img`
   }
 `;
 
-const Image4 = styled.img`
+const circleFifthAnimation = keyframes`
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 30rem;
+    height: 30rem;
+    opacity: 20%;
+  }
+`;
+const CircleFifth = styled.div`  
+  position: absolute;
+  margin-right: -70vw;
+  margin-top: 40vh;
+  z-index: 1;
+
+  width: 30rem;
+  height: 30rem;
+  transition: opacity 1s 1s;
+  background-image: radial-gradient(circle, var(--purple), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: ${circleFifthAnimation} 2s ease-out forwards;
+`;
+const Image4 = styled.img<{isVisible: boolean}>`
   position: absolute;
   top: 37%;
   left: 50%;
@@ -402,6 +510,7 @@ const Image4 = styled.img`
   width: 60vw;
   max-width: 700px;
 
+  opacity: ${(props) => (props.isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
@@ -410,7 +519,33 @@ const Image4 = styled.img`
   }
 `;
 
-const Image5 = styled.img`
+const circleSixthAnimation = keyframes`
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 8rem;
+    height: 8rem;
+    opacity: 20%;
+  }
+`;
+const CircleSixth = styled.div`  
+  position: absolute;
+  margin-right: 70vw;
+  margin-top: 20vh;
+  z-index: 1;
+
+  width: 8rem;
+  height: 8rem;
+  transition: opacity 1s 1s;
+  background-image: radial-gradient(circle, var(--red), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: ${circleSixthAnimation} 2s ease-out forwards;
+`;
+const Image5 = styled.img<{isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -418,10 +553,49 @@ const Image5 = styled.img`
   width: 48vw;
   max-width: 630px;
 
+  opacity: ${(props) => (props.isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
     opacity: 1;
     animation: ${slideUpAnimation} 3s forwards;
   }
+`;
+
+const Image6 = styled.img<{isVisible: boolean}>`
+  position: absolute;   
+  width: 100vw;
+  max-width: 1300px;
+
+  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  transition: transform 7s ease-out, opacity 3s ease-out;
+  &.slide-up {
+    opacity: 1;
+    animation: ${slideUpAnimation} 4s forwards;
+  }
+`;
+const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 35%;
+  display: flex;
+`;
+const NonLoginButton = styled(BodyTypo)`
+  width: 12.5rem;
+  height: 3.438rem;
+  border: 1px solid var(--white-30);
+  color: white;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 3.438rem;
+  margin-right: 5rem;
+  cursor: pointer;
+`;
+const LoginButton = styled(BodyTypo)`
+  width: 17.313rem;
+  height: 3.438rem;
+  background-color: var(--purple);
+  color: white;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 3.438rem;
 `;

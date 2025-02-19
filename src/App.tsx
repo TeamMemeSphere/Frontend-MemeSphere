@@ -1,6 +1,6 @@
 //import "./App.css";
 import GlobalStyle from "./styles/GlobalStyle.ts";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import {
   AlertDashBoard,
   CoinCollection,
@@ -18,33 +18,43 @@ import GoogleRedirect from "./components/Modal/Auth/GoogleRedirect.tsx";
 import GamePage from "./pages/Game.tsx";
 import { ToastContainer } from "react-toastify";
 
+// QueryClient 설정
 const queryClient = new QueryClient();
 
 function App() {
+  return (
+    <>
+    <GlobalStyle />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <RoutesWithNavbarFooter />
+      </BrowserRouter>
+    </QueryClientProvider>
+    </>
+  );
+}
+
+function RoutesWithNavbarFooter() {
+  const location = useLocation();
   const isLandingPage = location.pathname === "/";
 
   return (
     <>
-      <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {!isLandingPage && <Navbar />}
-          <Routes>
-            <Route path="/" element={<LandingPage />}></Route>
-            <Route path="/AlertDashBoard" element={<AlertDashBoard />}></Route>
-            <Route path="/CoinCollection" element={<CoinCollection />}></Route>
-            <Route path="/CoinDetailPage/:coinId" element={<CoinDetailPage />}/>
-            <Route path="/Community" element={<Community />}></Route>
-            <Route path="/DashBoard" element={<DashBoard />}></Route>
-            <Route path="/SearchResults" element={<SearchResults />}></Route>
-            <Route path="/user/login/oauth2/kakao" element={<KakaoRedirect />}></Route>
-            <Route path="/user/login/oauth2/google" element={<GoogleRedirect />}></Route>
-            <Route path="/game" element={<GamePage />}></Route>
-          </Routes>
-          {!isLandingPage && <Footer />}
-          <ToastContainer></ToastContainer>
-        </BrowserRouter>
-      </QueryClientProvider>
+      {!isLandingPage && <Navbar />}
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/AlertDashBoard" element={<AlertDashBoard />} />
+        <Route path="/CoinCollection" element={<CoinCollection />} />
+        <Route path="/CoinDetailPage/:coinId" element={<CoinDetailPage />} />
+        <Route path="/Community" element={<Community />} />
+        <Route path="/DashBoard" element={<DashBoard />} />
+        <Route path="/SearchResults" element={<SearchResults />} />
+        <Route path="/user/login/oauth2/kakao" element={<KakaoRedirect />} />
+        <Route path="/user/login/oauth2/google" element={<GoogleRedirect />} />
+        <Route path="/game" element={<GamePage />} />
+      </Routes>
+      {!isLandingPage && <Footer />}
+      <ToastContainer />
     </>
   );
 }

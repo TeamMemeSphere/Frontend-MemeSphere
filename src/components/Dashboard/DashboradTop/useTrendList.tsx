@@ -9,11 +9,11 @@ export interface MemeCoin {
   image: string;
   name: string;
   symbol: string;
-  price: number;
-  priceChange: number;
+  price: string;
+  priceChange: string;
   priceChangeAbsolute: number;
   priceChangeDirection: "up" | "down";
-  priceChangeRate: number | null;
+  priceChangeRate: string | null;
   rankChangeDirection: "up" | "down" ;
 }
 
@@ -26,7 +26,6 @@ export const useTrendList = () => {
     const fetchTrendList = async () => {
       try {
         const response = await axios.get<{ result: { trendList: MemeCoin[] } }>(API_ENDPOINTS.DASHBOARD_TREND);
-        console.log("트렌드 api 결과:", response);
 
         if (response.data.result?.trendList) {
           const rankedList = response.data.result.trendList.slice(0, 5).map((coin, index) => ({

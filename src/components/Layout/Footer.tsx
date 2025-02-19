@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChatTextTypo } from "../../styles/Typography";
+import { useLocation } from "react-router-dom";
+import UserModal from "../Modal/Auth/UserModal";
 
 const Footer: React.FC = () => {
+  const [showUserModal, setShowUserModal] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state?.showUserModal) {
+      setShowUserModal(true);
+    }
+  }, [location]);
+  
+  const closeModal = () => {
+    setShowUserModal(false);
+  };
+
   return (
+    <>
+    {showUserModal && <UserModal closeModal={closeModal}/>}
     <FooterWrapper>
       <Content>
         <div>© MemeSphere All rights reserved.</div>
@@ -20,6 +36,7 @@ const Footer: React.FC = () => {
         </Links>
       </Content>
     </FooterWrapper>
+    </>
   );
 };
 

@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
   const handleNavItemClick = () => {};
 
   return (
+    <>
     <Nav>
       <NavLeft>
         <Logo to="/">
@@ -115,6 +116,7 @@ const Navbar: React.FC = () => {
         />
       )}
     </Nav>
+    </>
   );
 };
 

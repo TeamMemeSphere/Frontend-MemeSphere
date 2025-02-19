@@ -21,7 +21,6 @@ const DashboardTop = () => {
       if (response.data.isSuccess) {
         setTotalVolume(response.data.result.totalVolume);
         setTotalCoin(response.data.result.totalCoin);
-        console.log("총거래량/코인수 API 응답 데이터:", response.data);
       } else {
         console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
       }
