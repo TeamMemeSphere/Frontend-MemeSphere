@@ -61,8 +61,71 @@ const LandingPage = () => {
 
   const beforeChange = () => {
     setAnimationKey((prevKey) => prevKey + 1);
-    setCurrentSlide((prevSlide) => (prevSlide === 1 ? 0 : prevSlide+1));
+    setCurrentSlide((prevSlide) => (prevSlide === 1 ? 0 : prevSlide + 1));
   };
+
+
+  const image3Ref = useRef<HTMLImageElement | null>(null);
+  const image4Ref = useRef<HTMLImageElement | null>(null);
+  const image5Ref = useRef<HTMLImageElement | null>(null);
+
+  const LogoBackgroundThirdRef = useRef<HTMLImageElement | null>(null);
+  const LogoBackgroundFourthRef = useRef<HTMLImageElement | null>(null);
+  const LogoBackgroundFifthRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const currentImage3 = image3Ref.current;
+    const currentLogoBackgroundThird = LogoBackgroundThirdRef.current;
+    const currentLogoBackgroundFourth = LogoBackgroundFourthRef.current;
+    const currentLogoBackgroundFifth = LogoBackgroundFifthRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === currentLogoBackgroundThird && entry.isIntersecting) {
+            if (currentImage3) {
+              currentImage3.classList.add("slide-up");
+            }
+          } else {
+            if (image3Ref.current) {
+              image3Ref.current.classList.remove("slide-up");
+            }
+          }
+
+          if (entry.target === currentLogoBackgroundFourth && entry.isIntersecting) {
+            if (image4Ref.current) {
+              image4Ref.current.classList.add("slide-up");
+            }
+          } else {
+            if (image4Ref.current) {
+              image4Ref.current.classList.remove("slide-up");
+            }
+          }
+
+          if (entry.target === currentLogoBackgroundFifth && entry.isIntersecting) {
+            if (image5Ref.current) {
+              image5Ref.current.classList.add("slide-up");
+            }
+          } else {
+            if (image5Ref.current) {
+              image5Ref.current.classList.remove("slide-up");
+            }
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
+
+    if (currentLogoBackgroundThird) observer.observe(currentLogoBackgroundThird);
+    if (currentLogoBackgroundFourth) observer.observe(currentLogoBackgroundFourth);
+    if (currentLogoBackgroundFifth) observer.observe(currentLogoBackgroundFifth);
+
+    return () => {
+      if (currentLogoBackgroundThird) observer.unobserve(currentLogoBackgroundThird);
+      if (currentLogoBackgroundFourth) observer.unobserve(currentLogoBackgroundFourth);
+      if (currentLogoBackgroundFifth) observer.unobserve(currentLogoBackgroundFifth);
+    };
+  }, []);
 
   return (
     <FullPage controls={false} beforeChange={beforeChange}>
@@ -93,22 +156,22 @@ const LandingPage = () => {
 
       <Slide>
         <SlideContent>
-          <LogoBackground src="/assets/LandingPage/LandingThird.svg" />
-          <Image3 src="/assets/LandingPage/Image3.svg" />
+          <LogoBackgroundThird ref={LogoBackgroundThirdRef} src="/assets/LandingPage/LandingThird.svg" />
+          <Image3 ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent>
-          <LogoBackground src="/assets/LandingPage/LandingFourth.svg" />
-          <Image4 src="/assets/LandingPage/Image4.svg" />
+          <LogoBackgroundFourth ref={LogoBackgroundFourthRef} src="/assets/LandingPage/LandingFourth.svg" />
+          <Image4 ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent>
-          <LogoBackground src="/assets/LandingPage/LandingFifth.svg" />
-          <Image5 src="/assets/LandingPage/Image5.svg" />
+          <LogoBackgroundFifth ref={LogoBackgroundFifthRef} src="/assets/LandingPage/LandingFifth.svg" />
+          <Image5 ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
         </SlideContent>
       </Slide>
     </FullPage>
@@ -302,6 +365,19 @@ const MobileImage = styled.img`
   }
 `;
 
+const LogoBackgroundThird = styled(LogoBackground)``;
+const LogoBackgroundFourth = styled(LogoBackground)``;
+const LogoBackgroundFifth = styled(LogoBackground)``;
+const slideUpAnimation = keyframes`
+  0% {
+    transform: translate(-50%, -30%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+`;
 const Image3 = styled.img`
   position: absolute;
   top: 40%;
@@ -309,6 +385,13 @@ const Image3 = styled.img`
   transform: translate(-50%, -50%);
   width: 53vw;
   max-width: 700px;
+
+  transition: transform 5s ease-out, opacity 2s ease-out;
+  &.slide-up {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    animation: ${slideUpAnimation} 3s forwards;
+  }
 `;
 
 const Image4 = styled.img`
@@ -318,6 +401,13 @@ const Image4 = styled.img`
   transform: translate(-50%, -50%);
   width: 60vw;
   max-width: 700px;
+
+  transition: transform 5s ease-out, opacity 2s ease-out;
+  &.slide-up {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    animation: ${slideUpAnimation} 3s forwards;
+  }
 `;
 
 const Image5 = styled.img`
@@ -327,4 +417,11 @@ const Image5 = styled.img`
   transform: translate(-50%, -50%);
   width: 48vw;
   max-width: 630px;
+
+  transition: transform 5s ease-out, opacity 2s ease-out;
+  &.slide-up {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    animation: ${slideUpAnimation} 3s forwards;
+  }
 `;
