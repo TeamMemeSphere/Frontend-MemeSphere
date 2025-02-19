@@ -41,7 +41,7 @@ const useSSEAlert = () => {
 
     const subscribeSSE = () => {
       if (!eventSourceRef.current && authTokens.accessToken) {
-        console.log("SSE 구독 시작");
+        // console.log("SSE 구독 시작");
 
         eventSourceRef.current = new EventSourcePolyfill(
           API_ENDPOINTS.SUBSCRIBE_SSE,
@@ -52,12 +52,12 @@ const useSSEAlert = () => {
         );
 
         eventSourceRef.current.onopen = () => {
-          console.log("SSE 연결 성공");
+          // console.log("SSE 연결 성공");
         };
 
         eventSourceRef.current.onmessage = (event) => {
           try {
-            console.log("event.data",event.data);
+            // console.log("event.data",event.data);
             const parsedData = JSON.parse(event.data);
             console.log(parsedData);
             const notificationWithTimestamp = {
@@ -78,8 +78,8 @@ const useSSEAlert = () => {
               theme: "light",
             });
           } catch (error) {
-            console.log("문자열 데이터 응답 : ", event.data);
-            console.log("알림 푸시 메시지 처리 중 발생 :", error);
+            // console.log("문자열 데이터 응답 : ", event.data);
+            // console.log("알림 푸시 메시지 처리 중 발생 :", error);
           }
         };
 
@@ -100,7 +100,7 @@ const useSSEAlert = () => {
     subscribeSSE();
 
     return () => {
-      console.log("페이지 이동: SSE 유지됨");
+      // console.log("페이지 이동: SSE 유지됨");
     };
   }, [isAuthenticated, authTokens.accessToken]);
 

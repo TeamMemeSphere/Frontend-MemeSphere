@@ -10,8 +10,8 @@ import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
 import { NavLink } from "react-router-dom";
 import LoginRequiredModal from "../Modal/LoginRequiredModal";
-import { toast } from "react-toastify";
 import useSSEAlert from "../../hooks/common/useSSEAlert";
+import { useAuth } from "../../hooks/common/useAuth";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -20,6 +20,8 @@ const Navbar: React.FC = () => {
 
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const {isAuthenticated} = useAuth();
 
   const authTokens = {
     accessToken: localStorage.getItem("accessToken") ?? "",
@@ -98,10 +100,10 @@ const Navbar: React.FC = () => {
         />
       )}
 
-      {isAlarmOpen && isLoggedIn && (
+      {isAlarmOpen && isAuthenticated && (
         <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens} />
       )}
-      {isAlarmOpen && !isLoggedIn && (
+      {isAlarmOpen && !isAuthenticated && (
         <LoginRequiredModal
           onClose={closeAlarmModal}
           isReqLogin={true}

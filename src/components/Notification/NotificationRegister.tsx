@@ -12,11 +12,13 @@ type NotificationRegisterProps = {
 };
 
 const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotification}) => {
-    const { register, handleSubmit, setError, setValue, clearErrors, watch, formState: { errors }} = useForm<notificationType>({
+    const { register, handleSubmit, setError, setValue, clearErrors, watch, reset, formState: { errors }} = useForm<notificationType>({
         mode:"onChange",
         defaultValues: {
             name: "",
             symbol: "",
+            volatility: undefined,
+            stTime: undefined,
             isRising: true,
             isOn: true,
         }
@@ -84,6 +86,16 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
 
     const onSubmit = (data: notificationWithoutId) => {
         createNotification(data);
+        reset(
+            {
+                name: "",
+                symbol: "",
+                volatility: undefined,
+                stTime: undefined,
+                isRising: true,
+                isOn: true,
+            }
+        );
 };
 
     return <Container>
@@ -161,6 +173,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
                         label="변동성"
                         inputProps={{placeholder:"1-100",
                             type:"text",
+                            value: watch("volatility") ?? "",
                             ...register("volatility",{
                                 required : "변동성을 입력해주세요.",
                                 validate: (value) => {
@@ -183,6 +196,7 @@ const NotificationRegister : React.FC<NotificationRegisterProps> = ({createNotif
                         label="기준 시간"
                         inputProps={{placeholder:"1-30",
                             type:"text",
+                            value: watch("stTime") ?? "",
                             ...register("stTime",{
                                 required : "기준시간을 입력해주세요.",
                                 validate: (value) => {
