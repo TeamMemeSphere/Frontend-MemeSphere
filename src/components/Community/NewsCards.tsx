@@ -22,9 +22,9 @@ const NewsCards: React.FC = () => {
       const rawNews = await fetchNewsFromRSS();
       console.log("rawNews:", rawNews); // 여기가 빈 배열
 
-      // ❗ rawNews가 정상적인 구조인지 확인
+      // rawNews가 정상적인 구조인지 확인
       if (!Array.isArray(rawNews) || rawNews.length !== 4) {
-        console.error("❌ NewsCards.tsx에서 잘못된 뉴스 데이터 구조", rawNews);
+        console.error("NewsCards.tsx에서 잘못된 뉴스 데이터 구조", rawNews);
         setIsLoading(false);
         return;
       }

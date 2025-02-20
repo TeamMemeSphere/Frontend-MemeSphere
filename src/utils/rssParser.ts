@@ -36,7 +36,7 @@ export const fetchNewsFromRSS = async () => {
     console.log("items:", items);
 
     if (!items || items.length === 0) {
-      throw new Error("❌ 뉴스 데이터 없음!");
+      throw new Error("뉴스 데이터 없음!");
     }
 
     // 최신 뉴스 제목 5개 추출
@@ -69,7 +69,7 @@ export const fetchNewsFromRSS = async () => {
 
     return [topNewsTitles, dateList, sourceList, linkList];
   } catch (error) {
-    console.error("❌ Error fetching RSS:", error);
+    console.error("Error fetching RSS:", error);
     return [];
   }
 };
