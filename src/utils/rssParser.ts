@@ -3,7 +3,7 @@ import { parseStringPromise } from "xml2js";
 
 // 구글 뉴스 RSS 피드 URL (밈코인에 대한 최신 뉴스)
 // 프록시 서버
-const rssUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://news.google.com/rss/search?q=%EB%B0%88%EC%BD%94%EC%9D%B8&hl=ko&gl=KR&ceid=KR%3Ako");
+const rssUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://news.google.com/rss/search?q=%EB%B0%88%EC%BD%94%EC%9D%B8&hl=ko&gl=KR&ceid=KR%3Ako");
 
 interface RssItem {
   title: string[];
@@ -17,6 +17,7 @@ export const fetchNewsFromRSS = async () => {
   try {
     // RSS 피드 요청
     const response = await axios.get(rssUrl, { headers: { "Accept": "application/rss+xml" } });
+    console.log("rssParser.ts API 응답 데이터:", response.data);
 
     // XML 파싱
     const parsedData = await parseStringPromise(response.data);

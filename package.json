@@ -35,7 +35,7 @@
     "recharts": "^2.15.1",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.15",
-    "xml2js": "^0.6.2",
+    "xml2js": "^0.4.23",
     "yarn": "^1.22.22"
   },
   "devDependencies": {
