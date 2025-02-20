@@ -29,7 +29,7 @@ const NewsCards: React.FC = () => {
         return;
       }
 
-      // ✅ `rawNews`의 요소가 배열인지 확인 후 변환
+      // `rawNews`의 요소가 배열인지 확인 후 변환
       const [titles, dates, sources, links] = rawNews;
 
       if (

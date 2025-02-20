@@ -3,12 +3,17 @@ import styled from "styled-components";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
 import VolumeChart from "./VolumeChart";
 
-const TradingCard = () => {
+interface TradingCardProps {
+  coinSymbol: string;
+}
+const TradingCard = ({ coinSymbol }: TradingCardProps) => {
+  console.log(coinSymbol);
+
   return (
     <>
       <CardLayout>
         <NoMarginCardTitle>거래량</NoMarginCardTitle>
-        <VolumeChart symbol="BTCUSDT" interval="1h" />
+        <VolumeChart symbol={`${coinSymbol}USDT`} interval="1h" />
       </CardLayout>
     </>
   );

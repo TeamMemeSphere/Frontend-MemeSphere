@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface FearGreedData {
   value: number;
@@ -34,7 +34,7 @@ const FearGreedIndex: React.FC = () => {
         setIndexData({
           value: parseInt(latestData.value),
           value_classification: latestData.value_classification,
-          update_time: latestData.timestamp, // UNIX timestamp 제공됨
+          update_time: latestData.timestamp,
         });
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
@@ -47,7 +47,7 @@ const FearGreedIndex: React.FC = () => {
     fetchFearGreedIndex();
   }, []);
 
-  if (loading) return <p>데이터 로딩 중...</p>;
+  if (loading) return <SkeletonCard />; 
   if (error) return <p>{error}</p>;
 
   return (
@@ -60,6 +60,42 @@ const FearGreedIndex: React.FC = () => {
 
 export default FearGreedIndex;
 
+// Skeleton UI 애니메이션
+const loadingAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+// Skeleton UI 컴포넌트
+const SkeletonCard = styled.div`
+  width: 100%;
+  height: 3.875rem;
+  padding: 7.5rem 0rem 1.75rem 0rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: ${loadingAnimation} 2s ease-in-out infinite;
+  }
+`;
+
+//공포탐욕지수 카드 스타일
 const FGIDiv = styled.div`
   display: flex;
   width: 100%;
@@ -80,6 +116,7 @@ const FGIDiv = styled.div`
   }
 `;
 
+// 텍스트 스타일
 const FGIText = styled.p`
   color: var(--background-black, #161616);
   font-family: Pretendard;
