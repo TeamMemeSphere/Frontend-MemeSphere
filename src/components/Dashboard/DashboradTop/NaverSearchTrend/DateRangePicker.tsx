@@ -31,10 +31,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
     onDateChange(startDate, newEndDate);
   };
 
+  const isMobileorTablet = /Mobi|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+
   return (
     <Container>
       <DatePickerWrapper>
-        <DateInput
+        <DateInput 
+          isMobileorTablet={isMobileorTablet}
           type="date"
           value={format(startDate, "yyyy-MM-dd")}
           onChange={handleStartDateChange}
@@ -42,6 +45,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
         />
         <Separator>~</Separator>
         <DateInput
+          isMobileorTablet={isMobileorTablet}
           type="date"
           value={format(endDate, "yyyy-MM-dd")}
           onChange={handleEndDateChange}
@@ -62,13 +66,14 @@ const DatePickerWrapper = styled.div`
   align-items: center;
 `;
 
-const DateInput = styled.input`
+const DateInput = styled.input<{isMobileorTablet: boolean}>`
   background: var(--grey-100);
   border: 1px solid var(--white-30);
   border-radius: 0.313rem;
   padding: 0.5rem;
   color: var(--white-80);
   max-width: 6rem;
+  height: ${({ isMobileorTablet }) => (isMobileorTablet ? "29px" : "auto")};
   
   &::-webkit-calendar-picker-indicator {
     filter: invert(0.8);

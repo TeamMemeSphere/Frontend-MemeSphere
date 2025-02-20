@@ -122,7 +122,7 @@ const LandingPage = () => {
           }
         });
       },
-      { threshold: 0.8 }
+      { threshold: 0.1 }
     );
 
     if (currentLogoBackgroundThird) observer.observe(currentLogoBackgroundThird);
@@ -140,6 +140,7 @@ const LandingPage = () => {
 
   return (
     <FullPage controls={false} beforeChange={beforeChange}>
+      
       <Slide>
         <SlideContent1 key={`slide-1-${animationKey}`}>
           <Circle key={`circle-${animationKey}`} />
@@ -150,12 +151,12 @@ const LandingPage = () => {
       </Slide>
 
       <Slide>
-        <SlideContent>
+        <SlideContent2>
           <CircleSecond key={`circle-${animationKey}`} />
           <LogoBackground src="/assets/LandingPage/LandingSecond.svg" />
           <TabletImage ref={tabletRef} src="/assets/LandingPage/Second-First-First.svg" />
           <MobileImage ref={mobileRef} src="/assets/LandingPage/Second-First-Second.svg" />
-        </SlideContent>
+        </SlideContent2>
       </Slide>
 
       <Slide>
@@ -186,8 +187,8 @@ const LandingPage = () => {
         <SlideContent ref={LogoBackgroundSixthRef}>
             <Image6 isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
             <ButtonWrapper>
-              <NonLoginButton onClick={()=>navigate("/dashboard")}>로그인 없이 이용하기</NonLoginButton>
-              <LoginButton onClick={LandingButton}>로그인하고 더 많은 기능 이용하기</LoginButton>
+              <NonLoginButton onClick={() => window.location.href = "https://important-lan-091.notion.site/MemeSphere_About-Us-1a01bb3ed1c78065ba89d8d4729f6302?pvs=4"}>ABOUT US</NonLoginButton>
+              <LoginButton onClick={()=>navigate("/dashboard")}>MemeSphere 바로가기</LoginButton>
             </ButtonWrapper>
         </SlideContent>
       </Slide>
@@ -196,16 +197,6 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-const SlideContent1 = styled.div`
-  margin-top: 128px;
-  width: 98vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-`;
 
 const circleAnimation = keyframes`
   0% {
@@ -246,7 +237,7 @@ const lineCircleAnimation = keyframes`
 
 const Circle = styled.div`
   margin-right: 3vw;
-  margin-top: 25vh;
+  margin-top: 45vh;
   position: relative;
   z-index: 1;
   width: 31.25rem;
@@ -257,14 +248,38 @@ const Circle = styled.div`
   border-radius: 50%;
   filter: blur(10px);
   animation: ${circleAnimation} 2s ease-out forwards;
+
+  @media (max-width: 480px) {
+    margin-top: 20vh;
+    height: 9rem;
+  }
 `;
 
+const SlideContent1 = styled.div`
+  width: 98vw;
+  margin-top: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 480px) {
+    margin-top: 
+  }
+`;
 const LogoFirst = styled.img`
   height: 12rem;
   position: absolute;
   margin-right: 2vw;
   margin-top: 13vh;
   z-index: 2;
+
+  @media (max-width: 480px) {
+    margin-right: -1rem;
+    margin-top: -5vh;
+    height: 9rem;
+  }
 `;
 
 const Line = styled.div`
@@ -289,7 +304,15 @@ const LineCircle = styled.div`
   margin-right: 3vw;
   animation: ${lineCircleAnimation} 3s 1s forwards;
 `;
-
+const SlideContent2 = styled.div`
+  width: 98vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 8vh;
+`;
 const SlideContent = styled.div`
   width: 98vw;
   height: 100vh;
@@ -516,8 +539,11 @@ const Image5 = styled.img<{isVisible: boolean}>`
 `;
 
 const Image6 = styled.img<{isVisible: boolean}>`
-  position: absolute;   
-  width: 100vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140vw; 
   max-width: 1300px;
 
   opacity: ${(props) => (props.isVisible? 1 : 0)};
@@ -525,23 +551,39 @@ const Image6 = styled.img<{isVisible: boolean}>`
   &.slide-up {
     opacity: 1;
     animation: ${slideUpAnimation} 4s forwards;
+    transform: translate(-50%, -50%);
+  }
+
+  @media (max-width: 480px) {
+    width: 180vw;
+    top: 40%;
   }
 `;
 const ButtonWrapper = styled.div`
   position: absolute;
-  bottom: 35%;
+  bottom: 30%;
   display: flex;
+
+  @media (max-width: 480px) {
+    top: 45%;
+  }
 `;
 const NonLoginButton = styled(BodyTypo)`
-  width: 12.5rem;
+  width: 10rem;
   height: 3.438rem;
   border: 1px solid var(--white-30);
   color: white;
   border-radius: 15px;
   text-align: center;
   line-height: 3.438rem;
-  margin-right: 5rem;
+  margin-right: 3rem;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 8rem;
+    margin-right: 2rem;
+    font-size: 0.8rem; 
+  }
 `;
 const LoginButton = styled(BodyTypo)`
   width: 17.313rem;
@@ -552,4 +594,9 @@ const LoginButton = styled(BodyTypo)`
   text-align: center;
   line-height: 3.438rem;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 10rem;
+    font-size: 0.8rem;
+  }
 `;
