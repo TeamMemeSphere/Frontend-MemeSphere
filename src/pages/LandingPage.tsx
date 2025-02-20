@@ -262,7 +262,7 @@ const SlideContent1 = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 2;
+  z-index: 5;
 
   @media (max-width: 480px) {
     margin-top: 

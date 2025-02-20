@@ -11,14 +11,7 @@ interface DateRangePickerProps {
 const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, onDateChange }) => {
   const today = new Date();
 
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 480);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 480);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = new Date(e.target.value);
@@ -31,13 +24,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
     onDateChange(startDate, newEndDate);
   };
 
-  const isMobileorTablet = /Mobi|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+  const ismobileortablet = /Mobi|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   return (
     <Container>
       <DatePickerWrapper>
         <DateInput 
-          isMobileorTablet={isMobileorTablet}
+          ismobileortablet={ismobileortablet}
           type="date"
           value={format(startDate, "yyyy-MM-dd")}
           onChange={handleStartDateChange}
@@ -45,7 +38,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, o
         />
         <Separator>~</Separator>
         <DateInput
-          isMobileorTablet={isMobileorTablet}
+          ismobileortablet={ismobileortablet}
           type="date"
           value={format(endDate, "yyyy-MM-dd")}
           onChange={handleEndDateChange}
@@ -66,14 +59,14 @@ const DatePickerWrapper = styled.div`
   align-items: center;
 `;
 
-const DateInput = styled.input<{isMobileorTablet: boolean}>`
+const DateInput = styled.input<{ismobileortablet: boolean}>`
   background: var(--grey-100);
   border: 1px solid var(--white-30);
   border-radius: 0.313rem;
   padding: 0.5rem;
   color: var(--white-80);
   max-width: 6rem;
-  height: ${({ isMobileorTablet }) => (isMobileorTablet ? "29px" : "auto")};
+  height: ${({ ismobileortablet }) => (ismobileortablet ? "29px" : "auto")};
   
   &::-webkit-calendar-picker-indicator {
     filter: invert(0.8);

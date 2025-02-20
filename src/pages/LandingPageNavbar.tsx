@@ -5,6 +5,7 @@ import { BodyTypo, TitleTypo } from "../styles/Typography";
 
 const LandingPageNavbar = () => {
   const navigate = useNavigate();
+  
   const LandingButton = () => {
     navigate("/dashboard", {state: {showUserModal: true}});
   };
@@ -25,7 +26,7 @@ export default LandingPageNavbar;
 
 const Wrapper = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 999;
 `;
 
 const Logo = styled(NavLink)`
