@@ -190,7 +190,7 @@ export default LiveChatCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 24.722vw;
+  width: 100%;
   min-height: 31.5rem;
   max-height: 46.667vh;
   position: relative; 

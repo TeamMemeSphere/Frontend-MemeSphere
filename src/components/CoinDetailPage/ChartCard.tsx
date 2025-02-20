@@ -180,12 +180,20 @@ export default ChartCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 43.472vw;
+  box-sizing: border-box;
+  width: 100%;
   margin-top: 0.813rem;
   margin-bottom: 1.625rem;
-  padding-left: 2.361vw;
-  padding-right: 2.361vw;
   padding-bottom: 3.889vh;
+  padding-top: 1.688rem;
+  padding-left: 2.125rem;
+  padding-right: 2.125rem;
+  
+  @media (max-width: 737px) {
+    padding-top: 1.094rem;
+    padding-left: 1.125rem;
+    padding-right: 1.125rem;
+  }
 `;
 
 const NoMarginCardTitle = styled(StyledCardTitle)`
@@ -216,7 +224,6 @@ const FlexContainer = styled.div`
 
 const TitleSection = styled(FlexContainer)`
   justify-content: space-between;
-  margin-top: 1rem;
 `;
 
 const PriceInfoContainer = styled(FlexContainer)`
@@ -230,6 +237,7 @@ const FlexLayout = styled(FlexContainer)`
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.438rem;
+  flex-wrap: wrap;
 `;
 
 const CurrentSection = styled.div`

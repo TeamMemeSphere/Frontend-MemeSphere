@@ -57,7 +57,7 @@ const CoinCard = ({
     <Container>
       <HeaderSection
         onClick={(e) => { navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation(); }}
-        style={{cursor: "pointer"}}
+        style={{ cursor: "pointer" }}
       >
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
@@ -108,9 +108,8 @@ const CoinCard = ({
 };
 
 const Container = styled.div`
-  /* width: max(340px, 17.708vw); */
   width: 100%;
-  height: 29.563rem;
+  height: 31.2rem;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -171,7 +170,6 @@ const StarIcon = styled.div`
 const PriceInfoSection = styled.div`
   box-sizing: border-box;
   width: calc(100% - 2.125rem);
-  height: 79px;
   flex-shrink: 0;
   background-color: #ffffff0d;
   border-radius: 10px;
@@ -189,7 +187,7 @@ const CurrentSection = styled.div`
   box-sizing: border-box;
   width: 100%;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   margin: 6px 0 0 0;
 `;
 
@@ -212,7 +210,6 @@ const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
       : props.$change === "FALL"
         ? "var(--blue)"
         : "white"};
-  margin-left: 16px;
 `;
 
 // 차트

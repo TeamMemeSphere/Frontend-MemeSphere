@@ -59,7 +59,7 @@ export default CoinInfoCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 24.722vw;
+  width: 100%;
   height: auto;
   margin-top: 0.813rem;
   margin-bottom: 26px;

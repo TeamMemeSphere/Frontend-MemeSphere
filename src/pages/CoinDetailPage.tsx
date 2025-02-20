@@ -90,6 +90,7 @@ const CoinDetailPage = () => {
           onClick={() => navigate(-1)}
           style={{ cursor: "pointer" }}
         />
+        {/* <TitleTypo>무슨코인 상세 정보</TitleTypo> */}
         <TitleTypo>{coinData.name} 상세 정보</TitleTypo>
       </TitleLayout>
 
@@ -103,11 +104,20 @@ const CoinDetailPage = () => {
             image={coinData.image}
             rank={coinData.rank}
           />
+          {/* <CoinInfoCard
+            name='테스트'
+            symbol='ABCD'
+            keywords={["키워드", '키워드2']}
+            description='설명'
+            image='https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
+            rank={1}
+          /> */}
+         
           <LiveChatCard coinId={numericCoinId} />
         </LeftColumn>
 
         <RightColumn>
-          <ChartCard coinId={coinData.id} />
+          <ChartCard coinId={1} />
           <TradingCard />
         </RightColumn>
       </GridWrapper>
@@ -119,8 +129,9 @@ export default CoinDetailPage;
 
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
-  margin-left: 11.25rem;
-  margin-right: 11.25rem;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const GridWrapper = styled.div`
@@ -129,16 +140,32 @@ const GridWrapper = styled.div`
   gap: 1.563rem;
   height: auto;
   background-color: var(--background-black);
+  width: fit-content;
+  
+  @media (max-width: 737px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
+
+
+  @media (max-width: 737px) {
+    width: 80vw;
+  }
 `;
 
 const RightColumn = styled.div`
-  display: flex;
+  box-sizing: border-box;
   flex-direction: column;
+  width: 48.542vw;
+
+  @media (max-width: 737px) {
+    width: 80vw;
+  }
 `;
 
 const TitleLayout = styled.div`
