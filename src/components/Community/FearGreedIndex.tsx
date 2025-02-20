@@ -19,7 +19,16 @@ const FearGreedIndex: React.FC = () => {
       try {
         console.log("Try 구문 안");
         setLoading(true);
-        const response = await axios.get("/api/fear-greed"); // 로컬과 배포 모두에서 사용 가능
+
+        const response = await axios.get(
+          "https://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v3/fear-and-greed/latest",
+          {
+            headers: {
+              "X-CMC_PRO_API_KEY": import.meta.env.VITE_CMC_API_KEY,
+            },
+          },
+        );
+
         console.log("API 응답 데이터: ", response.data);
         setIndexData(response.data);
       } catch (err) {
