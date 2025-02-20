@@ -15,13 +15,25 @@ const FearGreedIndex: React.FC = () => {
 
   useEffect(() => {
     console.log("useEffect 실행");
+
     const fetchFearGreedIndex = async () => {
       try {
         console.log("Try 구문 안");
         setLoading(true);
-        const response = await axios.get("/api/fear-greed"); // 로컬과 배포 모두에서 사용 가능
+
+        // ✅ Vite 환경 변수 사용해서 API URL 및 API 키 설정
+        const apiUrl =
+          "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+        const apiKey = import.meta.env.VITE_CMC_API_KEY;
+
+        const response = await axios.get(apiUrl, {
+          headers: {
+            "X-CMC_PRO_API_KEY": apiKey,
+          },
+        });
+
         console.log("API 응답 데이터: ", response.data);
-        setIndexData(response.data);
+        setIndexData(response.data.data);
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
         setError("데이터를 가져오지 못했습니다.");
