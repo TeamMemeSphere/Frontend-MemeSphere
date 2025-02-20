@@ -235,6 +235,7 @@ const NavButton = styled(BodyTypo)`
   background-color: var(--blue);
   text-align: center;
   line-height: 43px;
+  cursor: pointer;
 
   position: fixed;
   top: 3.25rem;
@@ -598,4 +599,5 @@ const LoginButton = styled(BodyTypo)`
   border-radius: 15px;
   text-align: center;
   line-height: 3.438rem;
+  cursor: pointer;
 `;
