@@ -4,7 +4,7 @@ import axios from "axios";
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { data } = await axios.get(
-      "https://sandbox-api.coinmarketcap.com/v3/fear-and-greed/latest",
+      "https://pro-api.coinmarketcap.com/v3/fear-and-greed/latest",
       {
         headers: {
           "X-CMC_PRO_API_KEY": process.env.VITE_CMC_API_KEY,

@@ -38,7 +38,7 @@ const NewsCards: React.FC = () => {
         !Array.isArray(sources) ||
         !Array.isArray(links)
       ) {
-        console.error("❌ 데이터 구조 문제 발생!");
+        console.error("데이터 구조 문제 발생!");
         setIsLoading(false);
         return;
       }
