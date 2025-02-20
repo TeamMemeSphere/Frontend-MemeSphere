@@ -24,13 +24,13 @@ const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({
         </S.BodyTypo>
         <ButtonContainer>
           {isReqLogin && (
-            <GoLoginButton>
-              <S.CaptionTypoMedium
-                onClick={() => {
-                  toLogin();
-                  onClose();
-                }}
-              >
+            <GoLoginButton 
+              onClick={() => {
+                toLogin();
+                onClose();
+              }}
+            >
+              <S.CaptionTypoMedium>
                 로그인 하러 가기
               </S.CaptionTypoMedium>
             </GoLoginButton>
