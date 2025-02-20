@@ -21,7 +21,6 @@ const DashboardTop = () => {
       if (response.data.isSuccess) {
         setTotalVolume(response.data.result.totalVolume);
         setTotalCoin(response.data.result.totalCoin);
-        console.log("총거래량/코인수 API 응답 데이터:", response.data);
       } else {
         console.error("총거래량 또는 거래된코인수를 가져오는 데 실패했습니다");
       }
@@ -91,16 +90,13 @@ export default DashboardTop;
 const UpperContainer = styled.div`
   @media (max-width: 480px) {
     justify-items: center;
-    max-width: 480px;
+    max-width: 100vw;
   }
 `;
 
 const BaseItem = styled.section`
   border-radius: 20px;
   width: 100%;
-
-  @media (max-width: 480px) {
-  }
 `;
 const BaseTextWrapper = styled(SubTitle3Typo)`
   padding-left: 1.563rem;
@@ -146,9 +142,6 @@ const TopItemWrapper = styled.div`
   display: flex;
   gap: 1.563rem;
   max-width: 537px;
-
-  @media (max-width: 480px) {
-  }
 `;
 
 const Item12Title = styled(BodyTypo)``;

@@ -56,7 +56,7 @@ const AlarmButton: React.FC = () => {
         (isAuthenticated
           ? <AlarmModal closeModal={closeModal} {...authTokens} />
           : <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
-      {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)} onLogin={handleLogin}></UserModal>}
+      {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)}></UserModal>}
     </>
   );
 };

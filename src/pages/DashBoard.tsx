@@ -9,10 +9,8 @@ import CoinCardListSkeleton from "../components/Commons/CoinCardListSkeleton.tsx
 import CoinRowListSkeleton from "../components/Commons/CoinRowListSkeleton.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import { useAuth } from "../hooks/common/useAuth";
-//주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
 import axios from "axios";
-import dummyData from "../data/coinCardDummy.json";
 
 const DashBoard = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -102,11 +100,10 @@ export default DashBoard;
 
 const UpperContainer = styled.div`
   margin: auto;
+  overflow-x: hidden;
 
-  @media (max-width: 480ds) {
-    width: 100%;
-    max-width: 480px;
-    overflow-x: hidden;
+  @media (max-width: 480px) {
+    width: 100vw;
   }
 `;
 

@@ -97,7 +97,8 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input`
-  width: 12rem;
+  width: 100%;
+  max-width: 12rem;
   padding: 0.5rem;
   background: var(--grey-100);
   border: 1px solid var(--white-30);
@@ -106,6 +107,10 @@ const Input = styled.input`
   
   &::placeholder {
     color: var(--white-40);
+  }
+
+  @media (max-width: 480px) {
+    width: 5rem;
   }
 `;
 
@@ -120,13 +125,12 @@ const Dropdown = styled.div`
   border: 0.063rem solid var(--white-30);
   background: var(--grey-100);
   overflow-y: auto;
-  height: 2rem;
 `;
 
 const CoinDropDown = styled(Dropdown)`
   top: 100%;
   margin-top: 0.25rem;
-  height: 2rem;
+  height: 10rem;
 `;
 
 const FilteredList = styled.div`

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { API_ENDPOINTS } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
     // localStorage에 accessToken 여부에 따라 로그인 상태 확인
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [nickName, setNickname] = useState<string>("밈스피어");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
@@ -61,6 +63,9 @@ export const useAuth = () => {
             setIsAuthenticated(false);
             window.dispatchEvent(new Event("storage"));
             window.location.reload();
+            
+            const previousPath = sessionStorage.getItem("previousPath") || "/";
+            navigate(previousPath, {replace: true, state: {showUserModal: true}});
         } catch (error) {
             console.error("로그아웃 요청 중 오류 발생:", error);
             const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";

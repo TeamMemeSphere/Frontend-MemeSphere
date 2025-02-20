@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
   const handleNavItemClick = () => {};
 
   return (
+    <>
     <Nav>
       <NavLeft>
         <Logo to="/">
@@ -111,10 +112,10 @@ const Navbar: React.FC = () => {
       {isUserModalOpen && !isLoggedIn && (
         <UserModal
           closeModal={() => setIsUserModalOpen(false)}
-          onLogin={handleLogin}
         />
       )}
     </Nav>
+    </>
   );
 };
 
