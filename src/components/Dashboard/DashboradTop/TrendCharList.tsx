@@ -146,7 +146,7 @@ const Line = styled.img`
 
     @media (max-width: 480px) {
         margin: -1rem 1rem;
-        width: 70vw;
+        width: 87vw;
     }
 `;
 

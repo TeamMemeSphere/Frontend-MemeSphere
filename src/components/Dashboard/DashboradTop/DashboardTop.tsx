@@ -227,8 +227,8 @@ const Item3 = styled(BaseItem)`
   flex: 1;
 
   @media (max-width: 480px) {
-    max-width: 80%;
-    height: auto;
+    max-width: 95vw;
+    height: 21rem;
     aspect-ratio: 4 / 3;
   }
 `;
@@ -243,7 +243,7 @@ const Item4 = styled(BaseItem)`
   flex: 1;
 
   @media (max-width: 480px) {
-    max-width: 80%;
+    max-width: 95vw;
   }
 `;
 

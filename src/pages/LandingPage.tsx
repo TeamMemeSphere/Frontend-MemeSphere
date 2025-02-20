@@ -143,8 +143,8 @@ const LandingPage = () => {
       
       <Slide>
         <SlideContent1 key={`slide-1-${animationKey}`}>
-          <Circle key={`circle-${animationKey}`} />
           <LogoFirst src="/assets/LandingPage/LandingFirstLogo.svg " />
+          <Circle key={`circle-${animationKey}`} />
           <Line key={`line-${animationKey}`} />
           <LineCircle key={`linecircle-${animationKey}`} />
         </SlideContent1>
@@ -163,7 +163,7 @@ const LandingPage = () => {
         <SlideContent>
           <CircleThird key={`circle-${animationKey}`} />
           <LogoBackgroundThird ref={LogoBackgroundThirdRef} src="/assets/LandingPage/LandingThird.svg" />
-          <Image3 isVisible={visibilityState.image3} ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
+          <Image3 $isVisible={visibilityState.image3} ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
         </SlideContent>
       </Slide>
 
@@ -171,7 +171,7 @@ const LandingPage = () => {
         <SlideContent>
           <CircleFifth key={`circle-${animationKey}`} />
           <LogoBackgroundFourth ref={LogoBackgroundFourthRef} src="/assets/LandingPage/LandingFourth.svg" />
-          <Image4 isVisible={visibilityState.image4} ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
+          <Image4 $isVisible={visibilityState.image4} ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
         </SlideContent>
       </Slide>
 
@@ -179,13 +179,13 @@ const LandingPage = () => {
         <SlideContent>
           <CircleSixth key={`circle-${animationKey}`} />
           <LogoBackgroundFifth ref={LogoBackgroundFifthRef} src="/assets/LandingPage/LandingFifth.svg" />
-          <Image5 isVisible={visibilityState.image5} ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
+          <Image5 $isVisible={visibilityState.image5} ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent ref={LogoBackgroundSixthRef}>
-            <Image6 isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
+            <Image6 $isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
             <ButtonWrapper>
               <NonLoginButton onClick={() => window.location.href = "https://important-lan-091.notion.site/MemeSphere_About-Us-1a01bb3ed1c78065ba89d8d4729f6302?pvs=4"}>ABOUT US</NonLoginButton>
               <LoginButton onClick={()=>navigate("/dashboard")}>MemeSphere 바로가기</LoginButton>
@@ -235,9 +235,19 @@ const lineCircleAnimation = keyframes`
   }
 `;
 
+const SlideContent1 = styled.div`
+  width: 98vw;
+  margin-top: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+`;
+
 const Circle = styled.div`
   margin-right: 3vw;
-  margin-top: 45vh;
+  margin-top: 30vh; 
   position: relative;
   z-index: 1;
   width: 31.25rem;
@@ -250,35 +260,28 @@ const Circle = styled.div`
   animation: ${circleAnimation} 2s ease-out forwards;
 
   @media (max-width: 480px) {
-    margin-top: 20vh;
+    margin-top: 15vh;
     height: 9rem;
+    margin-right: 0vw;
   }
-`;
-
-const SlideContent1 = styled.div`
-  width: 98vw;
-  margin-top: 3vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 5;
-
-  @media (max-width: 480px) {
-    margin-top: 
+  @media (max-height: 790px) {
+    margin-top: 17vh;
   }
 `;
 const LogoFirst = styled.img`
   height: 12rem;
   position: absolute;
   margin-right: 2vw;
-  margin-top: 13vh;
+  margin-top: 20vh;
   z-index: 2;
 
   @media (max-width: 480px) {
     margin-right: -1rem;
-    margin-top: -5vh;
+    margin-top: 5vh;
     height: 9rem;
+  }
+  @media (max-height: 790px) {
+    margin-top: 5vh;
   }
 `;
 
@@ -291,6 +294,10 @@ const Line = styled.div`
   margin-top: 68vh;
   margin-right: 3vw;
   animation: ${lineAnimation} 3s 0.5s forwards;
+
+  @media (max-width: 480px) {
+    margin-right: -2vw;
+  }
 `;
 
 const LineCircle = styled.div`
@@ -303,6 +310,10 @@ const LineCircle = styled.div`
   margin-top: 101vh;
   margin-right: 3vw;
   animation: ${lineCircleAnimation} 3s 1s forwards;
+
+  @media (max-width: 480px) {
+    margin-right: -2vw;
+  }
 `;
 const SlideContent2 = styled.div`
   width: 98vw;
@@ -312,6 +323,13 @@ const SlideContent2 = styled.div`
   justify-content: center;
   position: relative;
   margin-top: 8vh;
+  @media (min-width: 480px) {
+    overflow-x: hidden;
+  } 
+
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 const SlideContent = styled.div`
   width: 98vw;
@@ -320,6 +338,12 @@ const SlideContent = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  @media (min-width: 480px) {
+    overflow-x: hidden;
+  } 
+  @media (max-width: 480px) {
+    width: 100vw;
+  } 
 `;
 
 const LogoBackground = styled.img`
@@ -327,6 +351,9 @@ const LogoBackground = styled.img`
   max-width: 1300px;
   position: relative;
   bottom: 10%;
+  @media (max-height: 800px) {
+    height: 70vh;
+  } 
 `;
 const circleSecondAnimation = keyframes`
   0% {
@@ -373,8 +400,12 @@ const TabletImage = styled.img`
     left: 38%;
   }
   @media (max-width: 420px) {
-    bottom: 48%;
+    bottom: 46%;
     left: 38%;
+  }
+  @media (min-height: 700px) and (max-height: 800px) {
+  height: 40vh;
+  left: 35vw;
   }
 `;
 
@@ -391,7 +422,11 @@ const MobileImage = styled.img`
     bottom: 45%;
   }
   @media (max-width: 420px) {
-    bottom: 48%;
+    bottom: 46%;
+  }
+  @media (min-height: 700px) and (max-height: 800px) {
+    height: 62vh;
+    left: 17vw;
   }
 `;
 
@@ -435,7 +470,7 @@ const CircleThird = styled.div`
   filter: blur(40px);
   animation: ${circleThirdAnimation} 2s ease-out forwards;
 `;
-const Image3 = styled.img<{isVisible: boolean}>`
+const Image3 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -443,12 +478,17 @@ const Image3 = styled.img<{isVisible: boolean}>`
   width: 53vw;
   max-width: 700px;
 
-  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
     opacity: 1;
     animation: ${slideUpAnimation} 3s forwards;
+  }
+  
+  @media (max-height: 800px) {
+    height: 41vh;
+    left: 50vw;
   }
 `;
 
@@ -478,7 +518,7 @@ const CircleFifth = styled.div`
   filter: blur(40px);
   animation: ${circleFifthAnimation} 2s ease-out forwards;
 `;
-const Image4 = styled.img<{isVisible: boolean}>`
+const Image4 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 37%;
   left: 50%;
@@ -486,12 +526,17 @@ const Image4 = styled.img<{isVisible: boolean}>`
   width: 60vw;
   max-width: 700px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
     opacity: 1;
     animation: ${slideUpAnimation} 3s forwards;
+  }
+
+  @media (max-height: 800px) {
+    height: 52vh;
+    top: 37.5vh;
   }
 `;
 
@@ -521,7 +566,7 @@ const CircleSixth = styled.div`
   filter: blur(40px);
   animation: ${circleSixthAnimation} 2s ease-out forwards;
 `;
-const Image5 = styled.img<{isVisible: boolean}>`
+const Image5 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -529,16 +574,20 @@ const Image5 = styled.img<{isVisible: boolean}>`
   width: 48vw;
   max-width: 630px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
     opacity: 1;
     animation: ${slideUpAnimation} 3s forwards;
   }
+
+  @media (max-height: 800px) {
+    height: 46vh;
+  }
 `;
 
-const Image6 = styled.img<{isVisible: boolean}>`
+const Image6 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -546,7 +595,7 @@ const Image6 = styled.img<{isVisible: boolean}>`
   width: 140vw; 
   max-width: 1300px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 7s ease-out, opacity 3s ease-out;
   &.slide-up {
     opacity: 1;
@@ -558,6 +607,11 @@ const Image6 = styled.img<{isVisible: boolean}>`
     width: 180vw;
     top: 40%;
   }
+
+  @media (max-height: 800px) {
+    height: 56vh;
+    top: 45vh;
+  }
 `;
 const ButtonWrapper = styled.div`
   position: absolute;
@@ -566,6 +620,9 @@ const ButtonWrapper = styled.div`
 
   @media (max-width: 480px) {
     top: 45%;
+  }
+  @media (max-height: 800px) {
+    top: 53vh;
   }
 `;
 const NonLoginButton = styled(BodyTypo)`
