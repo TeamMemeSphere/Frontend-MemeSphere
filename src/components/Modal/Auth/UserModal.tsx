@@ -148,6 +148,10 @@ const ModalContent = styled.div.withConfig({shouldForwardProp: (prop) => prop !=
     margin-top: 0.1rem;
     overflow-y: auto;
   }
+
+  @media (max-height: 800px) {
+    height: 80vh;
+  }
 `;
 
 const FlexContainer = styled.div`
