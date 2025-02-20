@@ -78,7 +78,6 @@ const GamePage: React.FC = () => {
       const response = await axios.get(
         `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`,
       );
-      console.log("바이낸스 응답 데이터:", response.data);
 
       if (response.data && response.data.price) {
         const price = response.data.price;

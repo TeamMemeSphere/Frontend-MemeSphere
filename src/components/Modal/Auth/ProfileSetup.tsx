@@ -50,7 +50,6 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
       });
 
       const data = await response.json();
-      console.log("presigned url api 응답:", data);
 
       return {
         presignedUrl: data.result.presignedUrl,
@@ -75,7 +74,6 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
     if (!response.ok) {
       throw new Error(`이미지 업로드 실패: ${response.status} ${response.statusText}`);
     }
-    console.log("이미지 업로드 성공:", presignedUrl);
     return true; 
   } catch (error) {
     console.error("이미지 업로드 오류:", error);
@@ -131,10 +129,8 @@ const ProfileSetup: React.FC<SignupProps> = ({email, password, onSuccess}) => {
       });
 
       const data = await response.json();
-      console.log("백엔드 응답:", data);
     
       if (response.ok) {
-        console.log("회원가입 성공:", data);
         alert("회원가입이 완료되었습니다. 로그인 창으로 이동합니다.");
         onSuccess?.();
     } else {

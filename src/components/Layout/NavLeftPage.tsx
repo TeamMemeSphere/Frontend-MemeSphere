@@ -78,7 +78,7 @@ const NavLeftPage: React.FC<NavLeftPageProps> = ({ onNavItemClick }) => {
       />
       {isModalOpen &&
         (!isAuthenticated && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
-      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()} onLogin={() => handleLogin()}></UserModal>}
+      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()}></UserModal>}
       <NavItem
         icon1={
           <img
