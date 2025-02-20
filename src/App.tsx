@@ -17,6 +17,7 @@ import KakaoRedirect from "./components/Modal/Auth/KakaoRedirect.tsx";
 import GoogleRedirect from "./components/Modal/Auth/GoogleRedirect.tsx";
 import GamePage from "./pages/Game.tsx";
 import { ToastContainer } from "react-toastify";
+import LandingPageNavbar from "./pages/LandingPageNavbar.tsx";
 
 // QueryClient 설정
 const queryClient = new QueryClient();
@@ -40,7 +41,7 @@ function RoutesWithNavbarFooter() {
 
   return (
     <>
-      {!isLandingPage && <Navbar />}
+      {isLandingPage ? <LandingPageNavbar /> : <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/AlertDashBoard" element={<AlertDashBoard />} />

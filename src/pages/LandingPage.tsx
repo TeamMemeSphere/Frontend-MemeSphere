@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { FullPage, Slide } from "react-full-page";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import { TitleTypo, BodyTypo } from "../styles/Typography";
+import { BodyTypo } from "../styles/Typography";
 import gsap from "gsap";
 
 const LandingPage = () => {
@@ -96,28 +96,28 @@ const LandingPage = () => {
           if (entry.target === currentLogoBackgroundThird) {
             setVisibilityState((prevState) => ({
               ...prevState,
-              image3: entry.isIntersecting, // 이미지 3의 상태를 업데이트
+              image3: entry.isIntersecting,
             }));
           }
 
           if (entry.target === currentLogoBackgroundFourth) {
             setVisibilityState((prevState) => ({
               ...prevState,
-              image4: entry.isIntersecting, // 이미지 4의 상태를 업데이트
+              image4: entry.isIntersecting, 
             }));
           }
 
           if (entry.target === currentLogoBackgroundFifth) {
             setVisibilityState((prevState) => ({
               ...prevState,
-              image5: entry.isIntersecting, // 이미지 5의 상태를 업데이트
+              image5: entry.isIntersecting,
             }));
           }
 
           if (entry.target === currentLogoBackgroundSixth) {
             setVisibilityState((prevState) => ({
               ...prevState,
-              image6: entry.isIntersecting, // 이미지 6의 상태를 업데이트
+              image6: entry.isIntersecting,
             }));
           }
         });
@@ -125,7 +125,6 @@ const LandingPage = () => {
       { threshold: 0.8 }
     );
 
-    // 각각의 요소를 관찰
     if (currentLogoBackgroundThird) observer.observe(currentLogoBackgroundThird);
     if (currentLogoBackgroundFourth) observer.observe(currentLogoBackgroundFourth);
     if (currentLogoBackgroundFifth) observer.observe(currentLogoBackgroundFifth);
@@ -141,15 +140,6 @@ const LandingPage = () => {
 
   return (
     <FullPage controls={false} beforeChange={beforeChange}>
-
-      <LandingPageNavbar>
-        <Logo to="/">
-          <LogoImg src="/assets/common/navbar/memesphere-main-logo.svg" />
-          <LogoTypo>MemeSphere</LogoTypo>
-        </Logo>
-        <NavButton onClick={LandingButton}>MemeSphere 시작하기</NavButton>
-      </LandingPageNavbar>
-
       <Slide>
         <SlideContent1 key={`slide-1-${animationKey}`}>
           <Circle key={`circle-${animationKey}`} />
@@ -207,45 +197,6 @@ const LandingPage = () => {
 
 export default LandingPage;
 
-const LandingPageNavbar = styled.div`
-  
-`;
-
-const Logo = styled(NavLink)`
-  position: fixed;
-  top: 3.25rem;
-  left: 3.875rem;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-`;
-const LogoImg = styled.img`
-  width: 1.813rem;
-  margin-right: 0.3rem;
-`;
-
-const LogoTypo = styled(TitleTypo)`
-  color: var(--white-100);
-`;
-
-const NavButton = styled(BodyTypo)`
-  width: 222px;
-  height: 43px;
-  border-radius: 15px;
-  background-color: var(--blue);
-  text-align: center;
-  line-height: 43px;
-  cursor: pointer;
-
-  position: fixed;
-  top: 3.25rem;
-  right: 3.875rem; 
-
-  @media (max-width: 560px) {
-    display: none;
-  }
-`;
-
 const SlideContent1 = styled.div`
   margin-top: 128px;
   width: 98vw;
@@ -253,6 +204,7 @@ const SlideContent1 = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 2;
 `;
 
 const circleAnimation = keyframes`
