@@ -104,15 +104,6 @@ const CoinDetailPage = () => {
             image={coinData.image}
             rank={coinData.rank}
           />
-          {/* <CoinInfoCard
-            name='테스트'
-            symbol='ABCD'
-            keywords={["키워드", '키워드2']}
-            description='설명'
-            image='https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
-            rank={1}
-          /> */}
-         
           <LiveChatCard coinId={numericCoinId} />
         </LeftColumn>
 
@@ -129,9 +120,10 @@ export default CoinDetailPage;
 
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
-  margin: auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  transform: translateX(9%);
 `;
 
 const GridWrapper = styled.div`
@@ -141,17 +133,18 @@ const GridWrapper = styled.div`
   height: auto;
   background-color: var(--background-black);
   width: fit-content;
-  
+  margin: 0 auto;
+
   @media (max-width: 737px) {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 `;
 
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-
 
   @media (max-width: 737px) {
     width: 80vw;

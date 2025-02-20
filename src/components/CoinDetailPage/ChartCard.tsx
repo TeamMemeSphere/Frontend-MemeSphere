@@ -28,10 +28,10 @@ export interface Coin {
 export interface CoinPriceData {
   coinId: number;
   price: number;
-  priceChange: number;
-  priceChangeAbsolute: number;
+  priceChange: string;
+  priceChangeAbsolute: string;
   priceChangeDirection: string;
-  priceChangeRate: number;
+  priceChangeRate: string;
   weightedAveragePrice: number;
   highPrice: number;
   lowPrice: number;
@@ -129,9 +129,16 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
               ) : (
                 <>
                   {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
-                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}
+                  {parseFloat(coinData?.priceChange || "0")
+                    .toFixed(8) // 8자리 고정 후
+                    .replace(/0+$/, "") // 뒤의 0 제거
+                    .toLocaleString()}
                   &nbsp; (
-                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}%)
+                  {parseFloat(coinData?.priceChangeRate || "0")
+                    .toFixed(8)
+                    .replace(/0+$/, "")
+                    .toLocaleString()}
+                  %)
                 </>
               )}
             </CurrentPriceChange>
@@ -178,20 +185,13 @@ export default ChartCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  box-sizing: border-box;
-  width: 100%;
+  width: 43.472vw;
   margin-top: 0.813rem;
   margin-bottom: 1.625rem;
+  padding-left: 2.361vw;
+  padding-right: 2.361vw;
   padding-bottom: 3.889vh;
-  padding-top: 1.688rem;
-  padding-left: 2.125rem;
-  padding-right: 2.125rem;
-  
-  @media (max-width: 737px) {
-    padding-top: 1.094rem;
-    padding-left: 1.125rem;
-    padding-right: 1.125rem;
-  }
+  padding-top: 0.4rem;
 `;
 
 const NoMarginCardTitle = styled(StyledCardTitle)`
@@ -222,6 +222,7 @@ const FlexContainer = styled.div`
 
 const TitleSection = styled(FlexContainer)`
   justify-content: space-between;
+  margin-top: 1rem;
 `;
 
 const PriceInfoContainer = styled(FlexContainer)`
@@ -235,7 +236,6 @@ const FlexLayout = styled(FlexContainer)`
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.438rem;
-  flex-wrap: wrap;
 `;
 
 const CurrentSection = styled.div`
