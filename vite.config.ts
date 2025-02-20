@@ -11,11 +11,7 @@ export default defineConfig({
         changeOrigin: true,                  // Origin 헤더 변경
         rewrite: (path) => path.replace(/^\/api\/proxy/, ""),  // 경로 수정
       },
-      "/api": {
-        target: "https://pro-api.coinmarketcap.com",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
+      
     },
   },
   define: {

@@ -83,9 +83,10 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         }
       });
       observer.observe(chartSectionRef.current);
+      console.log("현재 차트 크기:", chartSectionWidth);
       return () => observer.disconnect();
     }
-  }, []);
+  });
 
   // 로딩 상태
   if (loading) return <p>Loading...</p>;
@@ -102,8 +103,10 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
-          <img src={rightButton} />
+          <a href={`https://www.binance.com/en/trade/${coinData?.symbol}_USDT?type=spot`}>
+            <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
+            <img src={rightButton} />
+          </a>
         </FlexContainer>
       </TitleSection>
 
@@ -160,8 +163,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
-          // symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
-          symbol="DOGEUSDT"
+          symbol={coinData?.symbol ? `${coinData.symbol}USDT` : "DOGEUSDT"}
           chartOptions={{
             width: chartSectionWidth,
             disableInteraction: false,
@@ -192,7 +194,7 @@ const NoMarginCardTitle = styled(StyledCardTitle)`
 `;
 
 const ChartSection = styled.div`
-  width: 626px;
+  width: 100%;
   height: auto;
 `;
 

@@ -60,8 +60,6 @@ const CoinCollection = () => {
     queryFn: getCoinList,
   });
 
-  console.log(data);
-
   const noResult = () => {
     return (
       <NoResultWrapper>
@@ -127,30 +125,6 @@ const CoinCollection = () => {
           )
         )
       }
-      {/* {isLoading ? (
-        isGridView ? (
-          <CoinCardListSkeleton></CoinCardListSkeleton>
-        ) : (
-          <CoinRowListSkeleton></CoinRowListSkeleton>
-        )
-      ) : isError ? (
-        <div>에러가 발생했습니다.</div>
-      ) : (
-        <>
-          {data.result.totalElements === 0 && noResult()}
-          <CoinList
-            coins={
-              isGridView ? data?.result?.gridItems : data?.result?.listItems
-            }
-            viewType={viewType}
-          ></CoinList>
-          <PageSelector
-            currentPage={currentPage}
-            updateCurrentPage={setCurrentPage}
-            totalPages={data.result.totalPage}
-          ></PageSelector>
-        </>
-      )} */}
     </Container>
   );
 };
@@ -161,8 +135,9 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
-  width: 100%;
+  padding: 1.938rem 0 4.5rem 0;
+  width: min(75vw, 67.5rem);
+  margin: auto;
   height: fit-content;
   min-height: 100vh;
 `;

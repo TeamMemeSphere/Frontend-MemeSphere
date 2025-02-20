@@ -20,10 +20,12 @@ const CoinRow = ({
 
     return (
         <Container>
-            <Text $width="12.5vw" onClick={(e) => navigate(`/CoinDetailPage/${coinId}`)}>{name} ({symbol})</Text>
-            <Text $width="3.472vw">&#36;{currentPrice.toLocaleString()}</Text>
-            <Text $width="7.292vw">{priceChangeRate}%</Text>
-            {/* <Text $width="6.25vw">&#36;{marketCap?.toLocaleString()}</Text> */}
+            <Text $width="12.5vw" onClick={(e) => navigate(`/CoinDetailPage/${coinId}`)}
+                style={{ cursor: "pointer" }}>
+                {name} ({symbol})
+            </Text>
+            <Text $width="3.472vw">&#36;{parseFloat(currentPrice)}</Text>
+            <Text $width="7.292vw">{parseFloat(priceChangeRate)}%</Text>
             <Text $width="6.25vw">&#36;{volume?.toLocaleString()}</Text>
             <Text $width="3.75vw">
                 <ToggleCollectionButton coinId={coinId} isCollected={isCollected != null ? isCollected : true} />

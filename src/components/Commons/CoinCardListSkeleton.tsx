@@ -24,7 +24,7 @@ const Container = styled.div`
 const CardList = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 17.708vw));
+  grid-template-columns: repeat(auto-fill, 21.25rem);
   height: fit-content;
   place-items: center;
   gap: 39px 1.875rem;
