@@ -9,9 +9,11 @@ const Footer: React.FC = () => {
   const location = useLocation();
   useEffect(() => {
     if (location.state?.showUserModal) {
-      setShowUserModal(true);
+      window.scrollTo(0, 0);
+        setShowUserModal(true);
     }
   }, [location]);
+  
   
   const closeModal = () => {
     setShowUserModal(false);
