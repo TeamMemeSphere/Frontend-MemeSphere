@@ -38,11 +38,9 @@ const CoinDetailPage = () => {
 
       const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(Number(id)));
       console.log("서버 응답", response);
-      console.log("coinId", coinId);
 
       if (response.status === 200) {
         setCoinData(response.data.result);
-        console.log(response.data.result);
       } else {
         setError("데이터를 불러오는 데 실패했습니다.");
       }
@@ -51,12 +49,10 @@ const CoinDetailPage = () => {
       console.error("Error fetching coin details:", err);
     } finally {
       setLoading(false);
-      console.log("finally coinData:", coinData);
     }
   };
 
   useEffect(() => {
-    console.log("coinData:", coinData);
     if (coinId) {
       fetchDetailData(numericCoinId);
     }
@@ -83,19 +79,9 @@ const CoinDetailPage = () => {
 
   return (
     <Wrapper>
-      <TitleLayout>
-        <Icon
-          src={arrow}
-          alt="뒤로 가기"
-          onClick={() => navigate(-1)}
-          style={{ cursor: "pointer" }}
-        />
-        {/* <TitleTypo>무슨코인 상세 정보</TitleTypo> */}
-        <TitleTypo>{coinData.name} 상세 정보</TitleTypo>
-      </TitleLayout>
-
       <GridWrapper>
         <LeftColumn>
+          <TitleLayout coinData={coinData} navigate={navigate} />
           <CoinInfoCard
             name={coinData.name}
             symbol={coinData.symbol}
@@ -118,12 +104,37 @@ const CoinDetailPage = () => {
 
 export default CoinDetailPage;
 
+const TitleLayout = ({
+  coinData,
+  navigate,
+}: {
+  coinData: CoinDetailInfo;
+  navigate: ReturnType<typeof useNavigate>;
+}) => {
+  const isMobile = window.matchMedia("(max-width: 737px)").matches;
+
+  return (
+    <StyledTitleLayout>
+      <Icon
+        src={arrow}
+        alt="뒤로 가기"
+        onClick={() => navigate(-1)}
+        style={{ cursor: "pointer" }}
+      />
+      <TitleTypo>
+        {isMobile ? coinData.name : `${coinData.name} 상세 정보`}
+      </TitleTypo>
+    </StyledTitleLayout>
+  );
+};
+
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  transform: translateX(9%);
+  justify-content: center;
+  align-items: center;
 `;
 
 const GridWrapper = styled.div`
@@ -133,12 +144,18 @@ const GridWrapper = styled.div`
   height: auto;
   background-color: var(--background-black);
   width: fit-content;
-  margin: 0 auto;
+  margin-bottom: 100px;
 
-  @media (max-width: 737px) {
+  @media (max-width: 1200px) {
+    margin-bottom: 100px;
+  }
+
+  @media (max-width: 900px) {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 0;
+    margin-bottom: 0px;
   }
 `;
 
@@ -155,17 +172,21 @@ const RightColumn = styled.div`
   box-sizing: border-box;
   flex-direction: column;
   width: 48.542vw;
+  margin-top: 84.5px;
 
   @media (max-width: 737px) {
     width: 80vw;
   }
 `;
 
-const TitleLayout = styled.div`
+const StyledTitleLayout = styled.div`
   display: flex;
   align-items: center;
   gap: 0.688rem;
   margin-top: 2.031rem;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  white-space: nowrap;
 `;
 
 const Icon = styled.img`

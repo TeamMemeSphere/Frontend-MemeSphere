@@ -26,11 +26,12 @@ const CardLayout = styled(CommonCard)`
   padding-top: 1.688rem;
   padding-left: 2.125rem;
   padding-right: 2.125rem;
-  
+
   @media (max-width: 737px) {
     padding-top: 1.094rem;
     padding-left: 1.125rem;
     padding-right: 1.125rem;
+    margin-bottom: 100px;
   }
 `;
 
