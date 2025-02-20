@@ -19,12 +19,16 @@ const FearGreedIndex: React.FC = () => {
       try {
         console.log("Try 구문 안");
         setLoading(true);
-        const response = await axios.get("/api/v3/fear-and-greed/latest", {
-          headers: {
-            "X-CMC_PRO_API_KEY":
-              import.meta.env.VITE_CMC_API_KEY || process.env.VITE_CMC_API_KEY,
+        const response = await axios.get(
+          "https://pro-api.coinmarketcap.com/v3/fear-and-greed/latest",
+          {
+            headers: {
+              "X-CMC_PRO_API_KEY":
+                import.meta.env.VITE_CMC_API_KEY ||
+                process.env.VITE_CMC_API_KEY,
+            },
           },
-        });
+        );
         setIndexData(response.data.data);
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
