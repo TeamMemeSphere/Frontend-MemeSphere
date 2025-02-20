@@ -7,7 +7,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       "https://pro-api.coinmarketcap.com/v3/fear-and-greed/latest",
       {
         headers: {
-          "X-CMC_PRO_API_KEY": process.env.VITE_CMC_API_KEY,
+          "X-CMC_PRO_API_KEY": process.env.CMC_API_KEY,
         },
       }
     );
