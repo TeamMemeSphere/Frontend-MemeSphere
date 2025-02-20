@@ -42,13 +42,11 @@ const SearchResults = () => {
             },
           },
         );
-        console.log(response.data);
         return response.data;
       } else {
         const response = await axios.get(
           `${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         );
-        console.log(response.data);
         return response.data;
       }
     } catch (error) {

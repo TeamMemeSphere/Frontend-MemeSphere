@@ -9,11 +9,11 @@ export interface Coin {
   name: string;
   symbol: string;
   image?: string;
-  currentPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  priceChange: number;
-  priceChangeRate: number;
+  currentPrice: string;
+  highPrice: string;
+  lowPrice: string;
+  priceChange: string;
+  priceChangeRate: string;
   isCollected: boolean;
   marketCap?: number;
   volume?: number;
@@ -34,7 +34,9 @@ const CoinCard = ({
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
 
-  const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
+  const parsedPriceChange = parseFloat(priceChange);
+
+  const change = parsedPriceChange > 0 ? "RISE" : parsedPriceChange < 0 ? "FALL" : "EVEN";
 
   const navigate = useNavigate();
 
@@ -53,7 +55,10 @@ const CoinCard = ({
 
   return (
     <Container>
-      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation();}}>
+      <HeaderSection
+        onClick={(e) => { navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation(); }}
+        style={{cursor: "pointer"}}
+      >
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
@@ -71,31 +76,32 @@ const CoinCard = ({
             alt="trending-down"
             $margin="0px 6px 0px 0px"
           />
-          {lowPrice.toLocaleString()}
+          {parseFloat(lowPrice)}
           <Icon
             src="assets/common/trending-up.svg"
             alt="trending-up"
             $margin="0px 6px 0px 10.5px"
           />
-          {highPrice.toLocaleString()}
+          {parseFloat(highPrice)}
         </UpDownSection>
         <CurrentSection>
-          <CurrentPrice>&#36; {currentPrice.toLocaleString()}</CurrentPrice>
+          <CurrentPrice>&#36; {parseFloat(currentPrice)}</CurrentPrice>
           <CurrentPriceChange $change={change}>
             {change === "EVEN" ? (
               "⏤"
             ) : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
-                &nbsp;{priceChange.toLocaleString()}
-                &nbsp;({priceChangeRate.toLocaleString()}%)
+                &nbsp;{parseFloat(priceChange)}
+                {/* &nbsp;{priceChange} */}
+                &nbsp;({parseFloat(priceChangeRate)}%)
               </>
             )}
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart chartOptions={{width: chartSectionWidth}} symbol={`${symbol}USDT`}/>
+        <CoinCardChart chartOptions={{ width: chartSectionWidth }} symbol={`${symbol}USDT`} />
       </ChartSection>
     </Container>
   );

@@ -62,7 +62,6 @@ const ChatContent = ({
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
