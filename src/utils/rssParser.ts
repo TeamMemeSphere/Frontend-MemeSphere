@@ -1,19 +1,19 @@
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
 
-// Google 뉴스 RSS 프록시 URL (CORS 우회)
+// Google 뉴스 RSS 프록시 URL
 const rssUrl =
   "https://api.allorigins.win/get?url=" +
   encodeURIComponent(
-    "https://news.google.com/rss/search?q=%EB%B0%88%EC%BD%94%EC%9D%B8&hl=ko&gl=KR&ceid=KR:ko"
+    "https://news.google.com/rss/search?q=%EB%B0%88%EC%BD%94%EC%9D%B8&hl=ko&gl=KR&ceid=KR%3Ako"
   );
 
 // RSS 데이터 타입
 interface RssItem {
-  title: string;
-  pubDate?: string;
-  source?: string;
-  link: string;
+  title: string[];
+  pubDate?: string[];
+  source?: string | [{ _: string }]; // 배열이 아닐 수도 있음
+  link: string[];
 }
 
 // 뉴스 제목을 가져오는 함수
@@ -24,34 +24,47 @@ export const fetchNewsFromRSS = async () => {
       headers: { Accept: "application/rss+xml" },
     });
 
-    // 📌 XML 데이터가 `response.data.contents` 안에 있음!
+    // XML 데이터 추출
     const xmlData = response.data.contents;
     console.log("🔍 RSS 원본 데이터:", xmlData);
 
-    // 📌 XML인지 확인 (올바른 XML이 아닐 경우 에러 출력)
-    if (typeof xmlData !== "string" || !xmlData.startsWith("<?xml")) {
-      throw new Error("❌ 올바른 XML 데이터가 아닙니다. 응답 데이터를 확인하세요.");
+    // XML 파싱
+    const parsedData = await parseStringPromise(xmlData);
+    const items: RssItem[] = parsedData.rss.channel[0].item || []; // `item`이 없을 수도 있음
+
+    if (!items || items.length === 0) {
+      throw new Error("❌ 뉴스 데이터 없음!");
     }
 
-    // 📌 XML 파싱 (explicitArray: false 옵션 추가)
-    const parsedData = await parseStringPromise(xmlData, { explicitArray: false });
+    // 최신 뉴스 제목 5개 추출
+    const topNewsTitles = items.slice(0, 5).map((item) => {
+      return item.title?.[0] || "제목 없음";
+    });
 
-    // 📌 `parsedData.rss.channel.item`이 배열인지 확인 후 처리
-    const items = parsedData.rss.channel.item;
-    if (!Array.isArray(items)) {
-      throw new Error("❌ RSS 항목이 배열이 아닙니다. 데이터 구조 확인 필요!");
-    }
+    const dateList = items.slice(0, 5).map((item) => {
+      const rawDate = item.pubDate?.[0] ?? "";
+      if (!rawDate) return "날짜 없음";
+      const dateObj = new Date(rawDate);
+      return `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}.${String(dateObj.getDate()).padStart(2, "0")} ${String(
+        dateObj.getHours()
+      ).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
+    });
 
-    // 📌 최신 뉴스 5개만 추출
-    const topNews: RssItem[] = items.slice(0, 5).map((item) => ({
-      title: item.title || "제목 없음",
-      pubDate: item.pubDate || "날짜 없음",
-      source: typeof item.source === "string" ? item.source : "출처 없음",
-      link: item.link || "#",
-    }));
+    const sourceList = items.slice(0, 5).map((item) => {
+      if (typeof item.source === "string") {
+        return item.source;
+      } else if (Array.isArray(item.source) && item.source.length > 0) {
+        return item.source[0]?._ || "출처 없음";
+      }
+      return "출처 없음";
+    });
 
-    console.log("✅ 파싱된 뉴스 데이터:", topNews);
-    return topNews;
+    const linkList = items.slice(0, 5).map((item) => item.link?.[0] || "#");
+
+    return [topNewsTitles, dateList, sourceList, linkList];
   } catch (error) {
     console.error("❌ Error fetching RSS:", error);
     return [];
