@@ -4,18 +4,18 @@ import * as S from "./HeaderButtonStyle";
 import bell from "../../../../public/assets/common/navbar/bell.svg";
 import AlarmModal from "../../Modal/AlarmModal";
 import LoginRequiredModal from "../../Modal/LoginRequiredModal";
-import { useAuth } from "../../../hooks/common/useAuth";
 import UserModal from "../../Modal/Auth/UserModal";
 
 const AlarmButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  
 
   const authTokens = {
     accessToken: localStorage.getItem("accessToken") ?? "",
     refreshToken: localStorage.getItem("refreshToken") ?? "",
   };
+  const isLoggedIn = !!authTokens.accessToken;
 
   const openUserModal = () => {
     setIsUserModalOpen(true);
@@ -37,7 +37,7 @@ const AlarmButton: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isModalOpen && !isAuthenticated) {
+    if (isModalOpen && !isLoggedIn) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -45,7 +45,7 @@ const AlarmButton: React.FC = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isModalOpen, isAuthenticated]);
+  }, [isModalOpen, isLoggedIn]);
 
   return (
     <>
@@ -53,7 +53,7 @@ const AlarmButton: React.FC = () => {
         <S.Icon src={bell} />
       </StyledHeaderButton>
       {isModalOpen &&
-        (isAuthenticated
+        (isLoggedIn
           ? <AlarmModal closeModal={closeModal} {...authTokens} />
           : <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
       {isUserModalOpen && <UserModal closeModal={() => setIsUserModalOpen(false)}></UserModal>}
