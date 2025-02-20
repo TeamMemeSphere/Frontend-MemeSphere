@@ -14,14 +14,21 @@ const FearGreedIndex: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("useEffect 실행");
     const fetchFearGreedIndex = async () => {
       try {
+        console.log("Try 구문 안");
         setLoading(true);
-        const response = await axios.get("/api/v3/fear-and-greed/latest", {
-          headers: {
-            "X-CMC_PRO_API_KEY": import.meta.env.VITE_CMC_API_KEY,
+        const response = await axios.get(
+          "https://sandbox-api.coinmarketcap.com/api/v3/fear-and-greed/latest",
+          {
+            headers: {
+              "X-CMC_PRO_API_KEY":
+                import.meta.env.VITE_CMC_API_KEY ||
+                process.env.VITE_CMC_API_KEY,
+            },
           },
-        });
+        );
         setIndexData(response.data.data);
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
@@ -40,6 +47,9 @@ const FearGreedIndex: React.FC = () => {
   return (
     <FGIDiv>
       <FGIText>공포탐욕지수</FGIText>
+      <FGIText>
+        ${import.meta.env.VITE_CMC_API_KEY}, ${process.env.VITE_CMC_API_KEY}
+      </FGIText>
       <FGIndex>{indexData?.value}</FGIndex>
     </FGIDiv>
   );
