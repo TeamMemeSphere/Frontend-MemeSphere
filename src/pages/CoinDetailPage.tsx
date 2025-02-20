@@ -95,7 +95,7 @@ const CoinDetailPage = () => {
 
         <RightColumn>
           <ChartCard coinId={Number(coinId)} coinSymbol={coinData.symbol} />
-          <TradingCard />
+          <TradingCard coinSymbol={coinData.symbol} />
         </RightColumn>
       </GridWrapper>
     </Wrapper>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
 import CoinCardChart from "../Commons/CoinCardChart";
@@ -22,7 +22,7 @@ export interface CoinPriceData {
   weightedAveragePrice: number;
   highPrice: string;
   lowPrice: string;
-  symbol?: string; // symbol 에러 방지용 추가
+  symbol?: string;
 }
 
 const ChartCard = ({
@@ -38,14 +38,12 @@ const ChartCard = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // API에서 코인 데이터 가져오기
   const fetchCoinData = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(API_ENDPOINTS.COIN_PRICE_INFO(coinId));
 
-      console.log("ChartCard API Response:", response.data);
       if (response.data?.result) {
         setCoinData(response.data.result);
       } else {
@@ -55,18 +53,18 @@ const ChartCard = ({
       console.error("Error fetching coin data:", err);
       setError("데이터를 불러오는 데 실패했습니다.");
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 0);
     }
   };
 
-  // coinId가 변경될 때마다 데이터 가져오기
   useEffect(() => {
     if (coinId) {
       fetchCoinData();
     }
   }, [coinId]);
 
-  // 차트 크기 감지
   useEffect(() => {
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
@@ -79,8 +77,9 @@ const ChartCard = ({
     }
   });
 
-  // 로딩 상태
-  if (loading) return <p>Loading...</p>;
+  // 스켈레톤 UI 로딩 중 표시
+  if (loading) return <SkeletonCard />;
+
   if (error) return <p>{error}</p>;
   if (!coinData) return <p>데이터를 불러올 수 없습니다.</p>;
 
@@ -123,14 +122,12 @@ const ChartCard = ({
               <>
                 {coinData?.priceChangeDirection === "up" ? "▲" : "▼"}&nbsp; $
                 {parseFloat(coinData?.priceChange || "0")
-                  .toFixed(8) // 8자리 고정 후
-                  .replace(/0+$/, "") // 뒤의 0 제거
-                  .toLocaleString()}
+                  .toFixed(8)
+                  .replace(/0+$/, "")}
                 &nbsp; (
                 {parseFloat(coinData?.priceChangeRate || "0")
                   .toFixed(8)
-                  .replace(/0+$/, "")
-                  .toLocaleString()}
+                  .replace(/0+$/, "")}
                 %)
               </>
             )}
@@ -148,7 +145,6 @@ const ChartCard = ({
         </div>
         <div>
           <StyledRegularCaption>24h high</StyledRegularCaption>
-
           <StyledSubTitle3>
             {coinData?.highPrice
               ? parseFloat(coinData.highPrice).toFixed(8).replace(/0+$/, "")
@@ -157,7 +153,6 @@ const ChartCard = ({
         </div>
         <div>
           <StyledRegularCaption>24h low</StyledRegularCaption>
-
           <StyledSubTitle3>
             {coinData?.lowPrice
               ? parseFloat(coinData.lowPrice).toFixed(8).replace(/0+$/, "")
@@ -182,6 +177,44 @@ const ChartCard = ({
 };
 
 export default ChartCard;
+
+// Skeleton UI 애니메이션
+const loadingAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+// Skeleton UI 컴포넌트
+const SkeletonCard = styled.div`
+  width: 100%;
+  padding-left: 2.361vw;
+  padding-right: 2.361vw;
+  padding-bottom: 1.35rem;
+  padding-top: 0.4rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.625rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: ${loadingAnimation} 2s ease-in-out infinite;
+  }
+`;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
