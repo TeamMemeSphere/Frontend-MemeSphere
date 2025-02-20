@@ -3,7 +3,7 @@ import CoinList from "../components/Commons/CoinList.tsx";
 import { useRef, useState } from "react";
 import PageSelector from "../components/Commons/PageSeletor.tsx";
 import * as S from "../styles/Typography";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CoinListHeader from "../components/Commons/CoinListHeader.tsx";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -28,6 +28,8 @@ const SearchResults = () => {
   const { isAuthenticated } = useAuth();
 
   const { SEARCH } = API_ENDPOINTS;
+
+  const navigate = useNavigate();
 
   const getSearchResult = async () => {
     try {
@@ -88,7 +90,11 @@ const SearchResults = () => {
   return (
     <Container>
       <KeyWordWrapper>
-        <ArrowIcon src="/assets/SearchResults/arrow-left.svg" />
+        <ArrowIcon
+          src="/assets/SearchResults/arrow-left.svg"
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        />
         <S.SubTitle1Typo>{searchKeyword}</S.SubTitle1Typo>
         <SearchResultType>검색결과</SearchResultType>
       </KeyWordWrapper>
