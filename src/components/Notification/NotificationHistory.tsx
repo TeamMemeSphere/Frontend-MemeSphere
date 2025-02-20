@@ -10,7 +10,8 @@ type NotificationHistoryProps = {
 const NotificationHistory : React.FC<NotificationHistoryProps> = ({closeModal}) => {
     const {alertHistory, deleteHistory} = useSSEAlert();
 
-    console.log(alertHistory);
+    // console.log("notificationHistory.tsx: ",alertHistory);
+    // console.log("notificationHistory에서 로컬스토리지 값:",localStorage.getItem("alertHistory"));
     return <Container>
         <S.SubTitle3Typo>알림 내역</S.SubTitle3Typo>
         {alertHistory.length > 0
