@@ -21,16 +21,21 @@ const NewsCards: React.FC = () => {
     const getNews = async () => {
       const rawNews = await fetchNewsFromRSS(); // 데이터를 가져옴 (타이틀, 날짜 등)
 
-      // 데이터를 객체로 변환하면서 고유 ID 추가
-      const formattedNews = rawNews[0].map((title: string, index: number) => ({
-        id: `news-${index}`,
-        title,
-        time: rawNews[1][index],
-        sourceName: rawNews[2][index],
-        link: rawNews[3][index],
-      }));
+      if (Array.isArray(rawNews) && rawNews.length === 4) {
+        // ✅ 데이터를 객체 리스트로 변환
+        const formattedNews: NewsItem[] = rawNews[0].map(
+          (title: string, index: number) => ({
+            id: `news-${index}`,
+            title,
+            time: rawNews[1]?.[index] || "날짜 없음",
+            sourceName: rawNews[2]?.[index] || "출처 없음",
+            link: rawNews[3]?.[index] || "#",
+          }),
+        );
 
-      setNewsList(formattedNews);
+        setNewsList(formattedNews);
+      }
+
       setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 변경
     };
 
