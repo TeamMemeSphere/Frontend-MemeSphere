@@ -112,7 +112,6 @@ const Navbar: React.FC = () => {
       {isUserModalOpen && !isLoggedIn && (
         <UserModal
           closeModal={() => setIsUserModalOpen(false)}
-          onLogin={handleLogin}
         />
       )}
     </Nav>
