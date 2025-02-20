@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import LoginRequiredModal from "../Modal/LoginRequiredModal";
 import useSSEAlert from "../../hooks/common/useSSEAlert";
 import { useAuth } from "../../hooks/common/useAuth";
+import ReqPCModal from "../Modal/ReqPCModal";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -102,7 +103,9 @@ const Navbar: React.FC = () => {
       )}
 
       {isAlarmOpen && isAuthenticated && (
-        <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens} />
+        <ReqPCModal
+          onClose={closeAlarmModal}
+        />
       )}
       {isAlarmOpen && !isAuthenticated && (
         <LoginRequiredModal
