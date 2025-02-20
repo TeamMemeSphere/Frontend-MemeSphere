@@ -43,9 +43,6 @@ const FearGreedIndex: React.FC = () => {
   return (
     <FGIDiv>
       <FGIText>공포탐욕지수</FGIText>
-      <FGIText>
-        ${import.meta.env.VITE_CMC_API_KEY}, ${process.env.VITE_CMC_API_KEY}
-      </FGIText>
       <FGIndex>{indexData?.value}</FGIndex>
     </FGIDiv>
   );
