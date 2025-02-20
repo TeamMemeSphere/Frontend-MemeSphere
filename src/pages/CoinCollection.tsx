@@ -95,35 +95,35 @@ const CoinCollection = () => {
         setCurrentPage={setCurrentPage}
       ></CoinListHeader>
       {
-        !isAuthenticated ? 
-        notAuthenticated() 
-        : 
-        (
-          isLoading ? (
-            isGridView ? (
-              <CoinCardListSkeleton></CoinCardListSkeleton>
+        !isAuthenticated ?
+          notAuthenticated()
+          :
+          (
+            isLoading ? (
+              isGridView ? (
+                <CoinCardListSkeleton></CoinCardListSkeleton>
+              ) : (
+                <CoinRowListSkeleton></CoinRowListSkeleton>
+              )
+            ) : isError ? (
+              <div>에러가 발생했습니다.</div>
             ) : (
-              <CoinRowListSkeleton></CoinRowListSkeleton>
+              <>
+                {data.result.totalElements === 0 && noResult()}
+                <CoinList
+                  coins={
+                    isGridView ? data?.result?.gridItems : data?.result?.listItems
+                  }
+                  viewType={viewType}
+                ></CoinList>
+                <PageSelector
+                  currentPage={currentPage}
+                  updateCurrentPage={setCurrentPage}
+                  totalPages={data.result.totalPage}
+                ></PageSelector>
+              </>
             )
-          ) : isError ? (
-            <div>에러가 발생했습니다.</div>
-          ) : (
-            <>
-              {data.result.totalElements === 0 && noResult()}
-              <CoinList
-                coins={
-                  isGridView ? data?.result?.gridItems : data?.result?.listItems
-                }
-                viewType={viewType}
-              ></CoinList>
-              <PageSelector
-                currentPage={currentPage}
-                updateCurrentPage={setCurrentPage}
-                totalPages={data.result.totalPage}
-              ></PageSelector>
-            </>
           )
-        )
       }
     </Container>
   );

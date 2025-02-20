@@ -94,6 +94,12 @@ const ChatList = forwardRef<HTMLDivElement, ChatListProps>(
       <>
         <Container ref={chatListRef}>
           <ChatTopDiv ref={observerRef} />
+          {
+            // 채팅 데이터가 없을 때
+            !flattenedMessages.length && (
+              <NoChat>아직 채팅이 없습니다.</NoChat>  
+            )
+          }
           {flattenedMessages.map((chat, index) => (
             <ChatContent
               key={index}
@@ -156,4 +162,12 @@ const ChatTopDiv = styled.div`
   width: 100%;
   height: 1rem;
   flex-shrink: 0;
+`;
+
+const NoChat = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--white-50);
 `;

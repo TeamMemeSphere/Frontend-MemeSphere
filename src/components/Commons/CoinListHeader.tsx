@@ -2,7 +2,7 @@ import styled from "styled-components";
 import * as S from "../../styles/Typography.ts";
 import ViewTypeButton from "./ViewTypeButton.tsx";
 import FilterSelect from "./FilterSelect.tsx";
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 interface CoinListHeaderProps {
   title?: string;
@@ -33,15 +33,30 @@ const CoinListHeader = forwardRef<HTMLDivElement, CoinListHeaderProps>(
       }
     }, [viewType, setCurrentPage]);
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+        window.innerWidth <= 768 && onTypeChange("GRID");
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
       <Container $marginBottom={marginBottom} ref={coinListHeaderRef}>
         <S.SubTitle1Typo>{title}</S.SubTitle1Typo>
-        <ViewTypeButtonWrapper>
-          <ViewTypeButton
-            viewType={viewType}
-            onClick={onTypeChange}
-          ></ViewTypeButton>
-        </ViewTypeButtonWrapper>
+        {
+          !isMobile
+          &&
+          <ViewTypeButtonWrapper>
+            <ViewTypeButton
+              viewType={viewType}
+              onClick={onTypeChange}
+            ></ViewTypeButton>
+          </ViewTypeButtonWrapper>
+        }
         <FilterSelectWrapper>
           <FilterSelect
             options={options}
@@ -70,4 +85,8 @@ const ViewTypeButtonWrapper = styled.div`
 const FilterSelectWrapper = styled.div`
   margin-left: 1.75rem;
   align-self: center;
+
+  @media (max-width: 768px) {
+    margin-left: auto;
+  }
 `;
