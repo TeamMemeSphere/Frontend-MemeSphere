@@ -37,7 +37,7 @@ const CoinDetailPage = () => {
       setError(null);
 
       const response = await axios.get(API_ENDPOINTS.COIN_DETAIL(Number(id)));
-      console.log("서버 응답", response);
+      console.log("COIN_DETAIL 서버 응답", response);
 
       if (response.status === 200) {
         setCoinData(response.data.result);
@@ -94,7 +94,7 @@ const CoinDetailPage = () => {
         </LeftColumn>
 
         <RightColumn>
-          <ChartCard coinId={1} />
+          <ChartCard coinId={Number(coinId)} coinSymbol={coinData.symbol} />
           <TradingCard />
         </RightColumn>
       </GridWrapper>

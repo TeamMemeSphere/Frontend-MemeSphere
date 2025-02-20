@@ -12,22 +12,9 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
 import rightButton from "../../../public/assets/common/right.svg";
 
-export interface Coin {
-  name: string;
-  symbol: string;
-  tradePrice: number;
-  highPrice: number;
-  lowPrice: number;
-  change: "RISE" | "FALL" | "EVEN";
-  changePrice: number;
-  changeRate: number;
-  marketCap: number;
-  volume: number;
-}
-
 export interface CoinPriceData {
   coinId: number;
-  price: number;
+  price: string;
   priceChange: string;
   priceChangeAbsolute: string;
   priceChangeDirection: string;
@@ -38,7 +25,13 @@ export interface CoinPriceData {
   symbol?: string; // symbol 에러 방지용 추가
 }
 
-const ChartCard = ({ coinId }: { coinId: number }) => {
+const ChartCard = ({
+  coinId,
+  coinSymbol,
+}: {
+  coinId: number;
+  coinSymbol?: string;
+}) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(626);
   const [coinData, setCoinData] = useState<CoinPriceData | null>(null);
@@ -53,7 +46,6 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
       const response = await axios.get(API_ENDPOINTS.COIN_PRICE_INFO(coinId));
 
       console.log("ChartCard API Response:", response.data);
-
       if (response.data?.result) {
         setCoinData(response.data.result);
       } else {
@@ -83,7 +75,6 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         }
       });
       observer.observe(chartSectionRef.current);
-      console.log("현재 차트 크기:", chartSectionWidth);
       return () => observer.disconnect();
     }
   });
@@ -99,7 +90,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <NoMarginCardTitle>차트</NoMarginCardTitle>
         <FlexContainer
           as="a"
-          href="https://www.binance.com/en/price"
+          href={`https://www.binance.com/en/trade/${coinSymbol}_USDT?type=spot`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -112,8 +103,8 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <CurrentSection>
           <CurrentPrice>
             &#36;{" "}
-            {coinData?.price !== undefined
-              ? Number(coinData.price).toLocaleString()
+            {coinData?.price
+              ? parseFloat(coinData.price).toFixed(8).replace(/0+$/, "")
               : "N/A"}
           </CurrentPrice>
 
@@ -130,7 +121,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
               "⏤"
             ) : (
               <>
-                {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
+                {coinData?.priceChangeDirection === "up" ? "▲" : "▼"}&nbsp; $
                 {parseFloat(coinData?.priceChange || "0")
                   .toFixed(8) // 8자리 고정 후
                   .replace(/0+$/, "") // 뒤의 0 제거
@@ -151,7 +142,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <StyledRegularCaption>24h change</StyledRegularCaption>
           <StyledSubTitle3>
             {coinData?.priceChange
-              ? parseFloat(coinData.priceChange).toString()
+              ? parseFloat(coinData.priceChange).toFixed(8).replace(/0+$/, "")
               : "N/A"}
           </StyledSubTitle3>
         </div>
@@ -159,20 +150,17 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <StyledRegularCaption>24h high</StyledRegularCaption>
 
           <StyledSubTitle3>
-            {coinData?.highPrice !== undefined
-              ? Number(
-                  parseFloat(coinData.highPrice).toFixed(8).replace(/0+$/, ""),
-                ).toLocaleString()
+            {coinData?.highPrice
+              ? parseFloat(coinData.highPrice).toFixed(8).replace(/0+$/, "")
               : "N/A"}
           </StyledSubTitle3>
         </div>
         <div>
           <StyledRegularCaption>24h low</StyledRegularCaption>
+
           <StyledSubTitle3>
-            {coinData?.lowPrice !== undefined
-              ? Number(
-                  parseFloat(coinData.lowPrice).toFixed(8).replace(/0+$/, ""),
-                ).toLocaleString()
+            {coinData?.lowPrice
+              ? parseFloat(coinData.lowPrice).toFixed(8).replace(/0+$/, "")
               : "N/A"}
           </StyledSubTitle3>
         </div>
