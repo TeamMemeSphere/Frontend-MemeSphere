@@ -62,8 +62,6 @@ export const useFormValidation = (messages?: ValidationMessages) => {
   };
   // 닉네임: 중복 확인 (비동기)
   const checkNicknameAvailability = async () => {
-    console.log(`닉네임 중복 확인 요청: ${nickname.value}`);
-
     if (!nickname.value.trim()) {
       setNicknameCheckMessage("닉네임을 입력해주세요.");
       return;
@@ -84,10 +82,8 @@ export const useFormValidation = (messages?: ValidationMessages) => {
       }
 
       const data = await response.json();
-      console.log("백엔드 응답 데이터:", data);
 
       if (response.ok) {
-        console.log(nicknameCheckMessage);
         setNicknameCheckMessage(data.result);
         setIsNicknameChecked(true);
       } else {

@@ -9,10 +9,8 @@ import CoinCardListSkeleton from "../components/Commons/CoinCardListSkeleton.tsx
 import CoinRowListSkeleton from "../components/Commons/CoinRowListSkeleton.tsx";
 import useChangeSortType from "../hooks/common/useChangeSortType";
 import { useAuth } from "../hooks/common/useAuth";
-//주현
 import DashBoardTop from "../components/Dashboard/DashboradTop/DashboardTop";
 import axios from "axios";
-import dummyData from "../data/coinCardDummy.json";
 
 const DashBoard = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -36,7 +34,6 @@ const DashBoard = () => {
           },
         },
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -47,8 +44,6 @@ const DashBoard = () => {
     queryKey: ["DashBoard", currentPage, viewType, sortType, isAuthenticated],
     queryFn: getCoinList,
   });
-
-  console.log(data);
 
   const isGridView = viewType === "GRID";
 
@@ -102,11 +97,10 @@ export default DashBoard;
 
 const UpperContainer = styled.div`
   margin: auto;
+  overflow-x: hidden;
 
-  @media (max-width: 480ds) {
-    width: 100%;
-    max-width: 480px;
-    overflow-x: hidden;
+  @media (max-width: 480px) {
+    width: 100vw;
   }
 `;
 
@@ -114,8 +108,9 @@ const UnderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
-  width: 100%;
+  padding-bottom: 5.125rem;
+  width: min(75vw, 67.5rem);
+  margin: auto; 
   height: fit-content;
 `;
 

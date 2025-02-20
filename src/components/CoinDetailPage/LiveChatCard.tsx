@@ -53,7 +53,6 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
               (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
           },
         );
-        console.log(res.data);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -107,9 +106,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       brokerURL: socketUrl, // 백엔드 웹소켓 주소
       reconnectDelay: 5000, // 자동 재연결 간격 (5초)
       onConnect: (frame) => {
-        console.log(frame);
         client.subscribe(`/sub/${coinId}`, (message) => {
-          console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setNewMessages((prev: any) => [...prev, JSON.parse(message.body)]);
         });

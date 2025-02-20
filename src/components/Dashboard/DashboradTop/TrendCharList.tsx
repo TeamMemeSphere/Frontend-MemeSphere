@@ -26,12 +26,12 @@ const TrendChartList: React.FC = () => {
                                 <CoinSymbol>{data.symbol}</CoinSymbol>
                             </CoinInfo>
                             <CoinPriceWrapper>
-                                <CurrentCoinPrice>${data.price.toFixed(2)}</CurrentCoinPrice>
+                                <CurrentCoinPrice>${data.price}</CurrentCoinPrice>
                                 <PriceChange $change={data?.priceChangeDirection}>
                                     {data?.priceChangeDirection === "up" ? "▲" : "▼"}
                                     &nbsp;
-                                    {(Number(data?.priceChangeAbsolute) || 0).toFixed(3)} 
-                                    ({(Number(data?.priceChangeRate) || 0).toFixed(2)}%)
+                                    {(Number(data?.priceChangeAbsolute) || 0)} 
+                                    ({(Number(data?.priceChangeRate) || 0)}%)
                                 </PriceChange>
                             </CoinPriceWrapper>
                         </CoinDetails>
@@ -103,6 +103,7 @@ const CoinImage = styled.img`
     height: 3rem;
     margin-right: 0.875rem;
     border: 1px solid gray;
+    object-fit: cover;
 `;
 
 const CoinDetails = styled.div`

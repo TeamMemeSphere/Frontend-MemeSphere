@@ -86,7 +86,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
       console.log("현재 차트 크기:", chartSectionWidth);
       return () => observer.disconnect();
     }
-  }, []);
+  });
 
   // 로딩 상태
   if (loading) return <p>Loading...</p>;
@@ -194,7 +194,7 @@ const NoMarginCardTitle = styled(StyledCardTitle)`
 `;
 
 const ChartSection = styled.div`
-  width: 626px;
+  width: 100%;
   height: auto;
 `;
 

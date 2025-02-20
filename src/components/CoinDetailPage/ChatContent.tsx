@@ -62,7 +62,6 @@ const ChatContent = ({
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
-      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -166,7 +165,7 @@ const ChatContent = ({
       </ChatInfoWrapper>
       {isModalOpen &&
         (!accessToken && <LoginRequiredModal onClose={closeModal} isReqLogin={true} toLogin={openUserModal} />)}
-      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()} onLogin={() => handleLogin()}></UserModal>}
+      {isUserModalOpen && <UserModal closeModal={() => closeUserModal()}></UserModal>}
     </Container>
   );
 };
