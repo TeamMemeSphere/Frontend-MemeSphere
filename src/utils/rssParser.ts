@@ -39,10 +39,18 @@ export const fetchNewsFromRSS = async () => {
       throw new Error("뉴스 데이터 없음!");
     }
 
-    // 최신 뉴스 제목 5개 추출
     const topNewsTitles = items.slice(0, 5).map((item) => {
-      return item.title?.[0] || "제목 없음";
-    });
+  const rawTitle = item.title?.[0] || "제목 없음";
+  let cleanTitle = rawTitle.split(" - ")[0]; // " - "을 기준으로 나누고, 첫 번째 부분만 가져오기
+
+  // 제목이 60자 초과하면 60자까지만 표시하고 "..." 추가
+  if (cleanTitle.length > 60) {
+    cleanTitle = cleanTitle.slice(0, 60) + "...";
+  }
+
+  return cleanTitle;
+});
+
 
     const dateList = items.slice(0, 5).map((item) => {
       const rawDate = item.pubDate?.[0] ?? "";
