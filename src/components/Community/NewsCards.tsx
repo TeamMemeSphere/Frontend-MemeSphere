@@ -15,23 +15,44 @@ export type NewsItem = {
 
 const NewsCards: React.FC = () => {
   const [newsList, setNewsList] = useState<NewsItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getNews = async () => {
-      const rawNews = await fetchNewsFromRSS(); // 데이터를 가져옴 (타이틀, 날짜 등)
+      const rawNews = await fetchNewsFromRSS();
+      console.log("rawNews:", rawNews); // 여기가 빈 배열
 
-      // 데이터를 객체로 변환하면서 고유 ID 추가
-      const formattedNews = rawNews[0].map((title: string, index: number) => ({
+      // rawNews가 정상적인 구조인지 확인
+      if (!Array.isArray(rawNews) || rawNews.length !== 4) {
+        console.error("NewsCards.tsx에서 잘못된 뉴스 데이터 구조", rawNews);
+        setIsLoading(false);
+        return;
+      }
+
+      // ✅ `rawNews`의 요소가 배열인지 확인 후 변환
+      const [titles, dates, sources, links] = rawNews;
+
+      if (
+        !Array.isArray(titles) ||
+        !Array.isArray(dates) ||
+        !Array.isArray(sources) ||
+        !Array.isArray(links)
+      ) {
+        console.error("데이터 구조 문제 발생!");
+        setIsLoading(false);
+        return;
+      }
+
+      const formattedNews: NewsItem[] = titles.map((title, index) => ({
         id: `news-${index}`,
-        title,
-        time: rawNews[1][index],
-        sourceName: rawNews[2][index],
-        link: rawNews[3][index],
+        title: title || "제목 없음",
+        time: dates[index] || "날짜 없음",
+        sourceName: sources[index] || "출처 없음",
+        link: links[index] || "#",
       }));
 
       setNewsList(formattedNews);
-      setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 변경
+      setIsLoading(false);
     };
 
     getNews();
