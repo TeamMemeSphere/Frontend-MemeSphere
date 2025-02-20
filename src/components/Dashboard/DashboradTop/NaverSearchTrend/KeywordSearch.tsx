@@ -97,7 +97,8 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input`
-  width: 12rem;
+  width: 100%;
+  max-width: 12rem;
   padding: 0.5rem;
   background: var(--grey-100);
   border: 1px solid var(--white-30);
@@ -106,6 +107,10 @@ const Input = styled.input`
   
   &::placeholder {
     color: var(--white-40);
+  }
+
+  @media (max-width: 480px) {
+    width: 5rem;
   }
 `;
 

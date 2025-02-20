@@ -74,7 +74,7 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
             }
           }
         )
-        console.log(response.data)
+        console.log(response.data);
         return response.data;
       } else {
         const response = await axios.post(`${COLLECTION}/${coinId}`,
@@ -84,43 +84,43 @@ const ToggleCollectionButton = ({ coinId, isCollected }: ToggleCollectionButtonP
               Authorization: `Bearer ${accessToken}`
             }
           }
-        )
-        console.log(response.data)
+        );
+        console.log(response.data);
         return response.data;
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async () => {
-      await toggleCollect()
+      await toggleCollect();
     },
     onMutate() {
     },
     onSuccess(data) {
-      console.log(data)
+      console.log(data);
       queryClient.invalidateQueries({
         queryKey: ["DashBoard"]
-      })
+      });
       queryClient.invalidateQueries({
         queryKey: ["CoinCollection"]
-      })
+      });
       queryClient.invalidateQueries({
         queryKey: ["SearchResults"]
-      })
+      });
     },
     onError(error) {
-      console.log(error)
+      console.log(error);
     }
-  })
+  });
 
   const onToggle = (e: React.MouseEvent) => {
-    mutation.mutate()
-  }
+    mutation.mutate();
+  };
 
   return (
     <>
@@ -141,5 +141,5 @@ export default ToggleCollectionButton;
 
 const StarIcon = styled(Icon)`
   cursor: pointer;
-`
+`;
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
 
@@ -10,6 +10,16 @@ interface DateRangePickerProps {
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({ startDate, endDate, onDateChange }) => {
   const today = new Date();
+
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 480);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 480);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = new Date(e.target.value);
     onDateChange(newStartDate, endDate);
@@ -58,7 +68,7 @@ const DateInput = styled.input`
   border-radius: 0.313rem;
   padding: 0.5rem;
   color: var(--white-80);
-  width: 6rem;
+  max-width: 6rem;
   
   &::-webkit-calendar-picker-indicator {
     filter: invert(0.8);

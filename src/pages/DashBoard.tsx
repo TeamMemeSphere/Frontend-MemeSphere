@@ -100,8 +100,9 @@ export default DashBoard;
 
 const UpperContainer = styled.div`
   margin: auto;
+  width: 100%;
 
-  @media (max-width: 480ds) {
+  @media (max-width: 480px) {
     width: 100%;
     max-width: 480px;
     overflow-x: hidden;
