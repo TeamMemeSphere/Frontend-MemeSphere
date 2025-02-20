@@ -163,7 +163,7 @@ const LandingPage = () => {
         <SlideContent>
           <CircleThird key={`circle-${animationKey}`} />
           <LogoBackgroundThird ref={LogoBackgroundThirdRef} src="/assets/LandingPage/LandingThird.svg" />
-          <Image3 isVisible={visibilityState.image3} ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
+          <Image3 $isVisible={visibilityState.image3} ref={image3Ref} src="/assets/LandingPage/Image3.svg" />
         </SlideContent>
       </Slide>
 
@@ -171,7 +171,7 @@ const LandingPage = () => {
         <SlideContent>
           <CircleFifth key={`circle-${animationKey}`} />
           <LogoBackgroundFourth ref={LogoBackgroundFourthRef} src="/assets/LandingPage/LandingFourth.svg" />
-          <Image4 isVisible={visibilityState.image4} ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
+          <Image4 $isVisible={visibilityState.image4} ref={image4Ref} src="/assets/LandingPage/Image4.svg" />
         </SlideContent>
       </Slide>
 
@@ -179,13 +179,13 @@ const LandingPage = () => {
         <SlideContent>
           <CircleSixth key={`circle-${animationKey}`} />
           <LogoBackgroundFifth ref={LogoBackgroundFifthRef} src="/assets/LandingPage/LandingFifth.svg" />
-          <Image5 isVisible={visibilityState.image5} ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
+          <Image5 $isVisible={visibilityState.image5} ref={image5Ref} src="/assets/LandingPage/Image5.svg" />
         </SlideContent>
       </Slide>
 
       <Slide>
         <SlideContent ref={LogoBackgroundSixthRef}>
-            <Image6 isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
+            <Image6 $isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
             <ButtonWrapper>
               <NonLoginButton onClick={() => window.location.href = "https://important-lan-091.notion.site/MemeSphere_About-Us-1a01bb3ed1c78065ba89d8d4729f6302?pvs=4"}>ABOUT US</NonLoginButton>
               <LoginButton onClick={()=>navigate("/dashboard")}>MemeSphere 바로가기</LoginButton>
@@ -470,7 +470,7 @@ const CircleThird = styled.div`
   filter: blur(40px);
   animation: ${circleThirdAnimation} 2s ease-out forwards;
 `;
-const Image3 = styled.img<{isVisible: boolean}>`
+const Image3 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -478,7 +478,7 @@ const Image3 = styled.img<{isVisible: boolean}>`
   width: 53vw;
   max-width: 700px;
 
-  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
@@ -518,7 +518,7 @@ const CircleFifth = styled.div`
   filter: blur(40px);
   animation: ${circleFifthAnimation} 2s ease-out forwards;
 `;
-const Image4 = styled.img<{isVisible: boolean}>`
+const Image4 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 37%;
   left: 50%;
@@ -526,7 +526,7 @@ const Image4 = styled.img<{isVisible: boolean}>`
   width: 60vw;
   max-width: 700px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
@@ -566,7 +566,7 @@ const CircleSixth = styled.div`
   filter: blur(40px);
   animation: ${circleSixthAnimation} 2s ease-out forwards;
 `;
-const Image5 = styled.img<{isVisible: boolean}>`
+const Image5 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 40%;
   left: 50%;
@@ -574,7 +574,7 @@ const Image5 = styled.img<{isVisible: boolean}>`
   width: 48vw;
   max-width: 630px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 5s ease-out, opacity 2s ease-out;
   &.slide-up {
     transform: translate(-50%, -50%);
@@ -587,7 +587,7 @@ const Image5 = styled.img<{isVisible: boolean}>`
   }
 `;
 
-const Image6 = styled.img<{isVisible: boolean}>`
+const Image6 = styled.img<{$isVisible: boolean}>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -595,7 +595,7 @@ const Image6 = styled.img<{isVisible: boolean}>`
   width: 140vw; 
   max-width: 1300px;
 
-  opacity: ${(props) => (props.isVisible? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible? 1 : 0)};
   transition: transform 7s ease-out, opacity 3s ease-out;
   &.slide-up {
     opacity: 1;
