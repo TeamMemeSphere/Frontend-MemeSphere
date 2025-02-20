@@ -26,13 +26,13 @@ export const fetchNewsFromRSS = async () => {
 
     // XML 데이터 추출
     const xmlData = response.data.contents;
-    console.log("🔍 RSS 원본 데이터:", xmlData);
+    console.log("🔍 RSS 원본 데이터:", xmlData); // 여기 잘 나옴
 
     // XML 파싱
     const parsedData = await parseStringPromise(xmlData);
-    const items: RssItem[] = parsedData.rss.channel[0].item || []; // `item`이 없을 수도 있음
-
     console.log("parsedData:", parsedData);
+
+    const items: RssItem[] = parsedData.rss.channel[0].item || []; // `item`이 없을 수도 있음
     console.log("items:", items);
 
     if (!items || items.length === 0) {
