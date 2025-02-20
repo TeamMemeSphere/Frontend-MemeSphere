@@ -22,7 +22,7 @@ const UserButton: React.FC = () => {
       <StyledHeaderButton onClick={toggleModal}>
         <S.Icon src={user} />
       </StyledHeaderButton>
-      {isUserModalOpen && !isAuthenticated && <UserModal closeModal={closeModal}/>}
+      {isUserModalOpen && <UserModal closeModal={closeModal}/>}
     </>
   );
 };
