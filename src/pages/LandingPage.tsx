@@ -187,7 +187,7 @@ const LandingPage = () => {
         <SlideContent ref={LogoBackgroundSixthRef}>
             <Image6 isVisible={visibilityState.image6} ref={image6Ref} src="/assets/LandingPage/Image6.svg" />
             <ButtonWrapper>
-              <NonLoginButton onClick={() => window.location.href = "https://tungsten-pond-650.notion.site/1a03b2e61d8880219e55fd0edcadb9b5?pvs=4"}>ABOUT US</NonLoginButton>
+              <NonLoginButton onClick={() => window.location.href = "https://important-lan-091.notion.site/MemeSphere_About-Us-1a01bb3ed1c78065ba89d8d4729f6302?pvs=4"}>ABOUT US</NonLoginButton>
               <LoginButton onClick={()=>navigate("/dashboard")}>MemeSphere 바로가기</LoginButton>
             </ButtonWrapper>
         </SlideContent>
