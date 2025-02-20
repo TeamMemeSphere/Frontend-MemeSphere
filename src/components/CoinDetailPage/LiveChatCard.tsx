@@ -29,7 +29,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
         const res = await axios.get(
           `${CHAT_LIST(1)}?page=0&size=10`,
           {
-            headers: 
+            headers:
               (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
           }
         );
@@ -49,10 +49,11 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       const res = await axios.get(
         `${CHAT_LIST(coinId)}?page=${page}&size=10`,
         {
-          headers: 
-              (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-          },
-        );
+          headers:
+            (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+      );
+      console.log(res.data);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -224,7 +225,7 @@ const DownButton = styled.button<DownButtonProps>`
     border: 0.094rem solid var(--white-100);
     box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, 0.15);
     position: absolute;
-    left: 0.625rem;
+    left: 1.25rem;
     bottom: ${props => props.bottom};
     z-index: 1;
 
