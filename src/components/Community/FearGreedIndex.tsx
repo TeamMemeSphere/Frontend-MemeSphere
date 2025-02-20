@@ -21,19 +21,21 @@ const FearGreedIndex: React.FC = () => {
         console.log("Try 구문 안");
         setLoading(true);
 
-        // ✅ Vite 환경 변수 사용해서 API URL 및 API 키 설정
-        const apiUrl =
-          "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-        const apiKey = import.meta.env.VITE_CMC_API_KEY;
+        // Alternative.me Fear & Greed Index API 사용
+        const apiUrl = "https://api.alternative.me/fng/";
 
-        const response = await axios.get(apiUrl, {
-          headers: {
-            "X-CMC_PRO_API_KEY": apiKey,
-          },
-        });
+        const response = await axios.get(apiUrl);
 
         console.log("API 응답 데이터: ", response.data);
-        setIndexData(response.data.data);
+
+        // 데이터 변환 (API 구조에 맞게 매핑)
+        const latestData = response.data.data[0]; // 최신 데이터 가져오기
+
+        setIndexData({
+          value: parseInt(latestData.value),
+          value_classification: latestData.value_classification,
+          update_time: latestData.timestamp, // UNIX timestamp 제공됨
+        });
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
         setError("데이터를 가져오지 못했습니다.");
