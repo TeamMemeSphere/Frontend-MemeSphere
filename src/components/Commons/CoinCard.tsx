@@ -9,11 +9,11 @@ export interface Coin {
   name: string;
   symbol: string;
   image?: string;
-  currentPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  priceChange: number;
-  priceChangeRate: number;
+  currentPrice: string;
+  highPrice: string;
+  lowPrice: string;
+  priceChange: string;
+  priceChangeRate: string;
   isCollected: boolean;
   marketCap?: number;
   volume?: number;
@@ -34,7 +34,9 @@ const CoinCard = ({
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(0);
 
-  const change = priceChange > 0 ? "RISE" : priceChange < 0 ? "FALL" : "EVEN";
+  const parsedPriceChange = parseFloat(priceChange);
+
+  const change = parsedPriceChange > 0 ? "RISE" : parsedPriceChange < 0 ? "FALL" : "EVEN";
 
   const navigate = useNavigate();
 
@@ -51,9 +53,28 @@ const CoinCard = ({
     }
   }, []);
 
+  function formatNumber(num: any) {
+    if (num === 0) return "0";
+
+    let str = num.toString();
+
+    // 지수 표기법인지 확인
+    if (str.includes("e")) {
+      let fixed = num.toFixed(99); // 충분히 큰 자리수로 변환
+      str = fixed.replace(/(?:\.0+|(\.\d*?[1-9])0+)$/, "$1"); // 불필요한 0 제거
+    } else {
+      str = str.replace(/(?:\.0+|(\.\d*?[1-9])0+)$/, "$1"); // 불필요한 0 제거
+    }
+
+    return str;
+  }
+
   return (
     <Container>
-      <HeaderSection onClick={(e) => {navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation();}}>
+      <HeaderSection
+        onClick={(e) => { navigate(`/CoinDetailPage/${coinId}`); e.stopPropagation(); }}
+        style={{ cursor: "pointer" }}
+      >
         <ThumbnailWrapper>
           <Thumbnail src={`${image}`} alt="thumbnail"></Thumbnail>
         </ThumbnailWrapper>
@@ -71,40 +92,40 @@ const CoinCard = ({
             alt="trending-down"
             $margin="0px 6px 0px 0px"
           />
-          {lowPrice.toLocaleString()}
+          {parseFloat(lowPrice)}
           <Icon
             src="assets/common/trending-up.svg"
             alt="trending-up"
             $margin="0px 6px 0px 10.5px"
           />
-          {highPrice.toLocaleString()}
+          {parseFloat(highPrice)}
         </UpDownSection>
         <CurrentSection>
-          <CurrentPrice>&#36; {currentPrice.toLocaleString()}</CurrentPrice>
+          <CurrentPrice>&#36; {formatNumber(currentPrice)}</CurrentPrice>
           <CurrentPriceChange $change={change}>
             {change === "EVEN" ? (
               "⏤"
             ) : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
-                &nbsp;{priceChange.toLocaleString()}
-                &nbsp;({priceChangeRate.toLocaleString()}%)
+                &nbsp;{formatNumber(priceChange)}
+                {/* &nbsp;{priceChange} */}
+                &nbsp;({formatNumber(priceChangeRate)}%)
               </>
             )}
           </CurrentPriceChange>
         </CurrentSection>
       </PriceInfoSection>
       <ChartSection ref={chartSectionRef}>
-        <CoinCardChart chartOptions={{width: chartSectionWidth}} symbol={`${symbol}USDT`}/>
+        <CoinCardChart chartOptions={{ width: chartSectionWidth }} symbol={`${symbol}USDT`} />
       </ChartSection>
     </Container>
   );
 };
 
 const Container = styled.div`
-  /* width: max(340px, 17.708vw); */
   width: 100%;
-  height: 29.563rem;
+  height: 31.2rem;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -165,7 +186,6 @@ const StarIcon = styled.div`
 const PriceInfoSection = styled.div`
   box-sizing: border-box;
   width: calc(100% - 2.125rem);
-  height: 79px;
   flex-shrink: 0;
   background-color: #ffffff0d;
   border-radius: 10px;
@@ -183,7 +203,7 @@ const CurrentSection = styled.div`
   box-sizing: border-box;
   width: 100%;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   margin: 6px 0 0 0;
 `;
 
@@ -206,7 +226,6 @@ const CurrentPriceChange = styled.div<CurrentPriceChangeProps>`
       : props.$change === "FALL"
         ? "var(--blue)"
         : "white"};
-  margin-left: 16px;
 `;
 
 // 차트

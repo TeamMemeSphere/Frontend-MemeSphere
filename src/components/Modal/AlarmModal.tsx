@@ -18,7 +18,7 @@ interface ModalProps {
 
 const AlarmModal: React.FC<ModalProps> = ({ closeModal, accessToken }) => {
   const [alertCount, setAlertCount] = useState(0);
-
+  
   const {
     data: notificationList, 
     addNotification, 

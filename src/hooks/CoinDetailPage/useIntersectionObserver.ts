@@ -24,8 +24,6 @@ const useIntersectionObserver = ({
         setIsFetchingState(isFetching);
     }, [isFetching]);
 
-    const prevChatListLength = useRef(chatList?.length ?? 0);
-
     const onIntersection = (entries: any[]) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasNextPage && !isFetchingState) {

@@ -28,10 +28,10 @@ export interface Coin {
 export interface CoinPriceData {
   coinId: number;
   price: number;
-  priceChange: number;
-  priceChangeAbsolute: number;
+  priceChange: string;
+  priceChangeAbsolute: string;
   priceChangeDirection: string;
-  priceChangeRate: number;
+  priceChangeRate: string;
   weightedAveragePrice: number;
   highPrice: number;
   lowPrice: number;
@@ -83,9 +83,10 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         }
       });
       observer.observe(chartSectionRef.current);
+      console.log("현재 차트 크기:", chartSectionWidth);
       return () => observer.disconnect();
     }
-  }, []);
+  });
 
   // 로딩 상태
   if (loading) return <p>Loading...</p>;
@@ -128,9 +129,16 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
               ) : (
                 <>
                   {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
-                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}
+                  {parseFloat(coinData?.priceChange || "0")
+                    .toFixed(8) // 8자리 고정 후
+                    .replace(/0+$/, "") // 뒤의 0 제거
+                    .toLocaleString()}
                   &nbsp; (
-                  {coinData?.priceChangeDirection?.toLocaleString() ?? "N/A"}%)
+                  {parseFloat(coinData?.priceChangeRate || "0")
+                    .toFixed(8)
+                    .replace(/0+$/, "")
+                    .toLocaleString()}
+                  %)
                 </>
               )}
             </CurrentPriceChange>
@@ -160,8 +168,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
-          // symbol={coinData?.symbol ? `${coinData.symbol}USDT` : ""}
-          symbol="DOGEUSDT"
+          symbol={coinData?.symbol ? `${coinData.symbol}USDT` : "DOGEUSDT"}
           chartOptions={{
             width: chartSectionWidth,
             disableInteraction: false,
@@ -184,6 +191,7 @@ const CardLayout = styled(CommonCard)`
   padding-left: 2.361vw;
   padding-right: 2.361vw;
   padding-bottom: 3.889vh;
+  padding-top: 0.4rem;
 `;
 
 const NoMarginCardTitle = styled(StyledCardTitle)`
@@ -192,7 +200,7 @@ const NoMarginCardTitle = styled(StyledCardTitle)`
 `;
 
 const ChartSection = styled.div`
-  width: 626px;
+  width: 100%;
   height: auto;
 `;
 

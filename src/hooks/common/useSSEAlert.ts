@@ -17,7 +17,14 @@ const formatDate = (date: Date) => {
 };
 
 const useSSEAlert = () => {
-  const [alertHistory, setAlertHistory] = useState<alertHistoryType[]>([]);
+  const [alertHistory, setAlertHistory] = useState<alertHistoryType[]>(() => {
+    const savedHistory = localStorage.getItem("alertHistory");
+    return savedHistory ? JSON.parse(savedHistory) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("alertHistory", JSON.stringify(alertHistory));
+  }, [alertHistory]);
 
   const {isAuthenticated} = useAuth();
 
@@ -32,7 +39,7 @@ const useSSEAlert = () => {
   useEffect(() => { 
     if (!isAuthenticated) {
       if (eventSourceRef.current) {
-        console.log("로그아웃 감지: SSE 연결 해제");
+        // console.log("로그아웃 감지: SSE 연결 해제");
         eventSourceRef.current.close();
         eventSourceRef.current = null;
       }
@@ -41,7 +48,7 @@ const useSSEAlert = () => {
 
     const subscribeSSE = () => {
       if (!eventSourceRef.current && authTokens.accessToken) {
-        console.log("SSE 구독 시작");
+        // console.log("SSE 구독 시작");
 
         eventSourceRef.current = new EventSourcePolyfill(
           API_ENDPOINTS.SUBSCRIBE_SSE,
@@ -52,20 +59,25 @@ const useSSEAlert = () => {
         );
 
         eventSourceRef.current.onopen = () => {
-          console.log("SSE 연결 성공");
+          // console.log("SSE 연결 성공");
         };
 
         eventSourceRef.current.onmessage = (event) => {
           try {
-            console.log("event.data",event.data);
+            // console.log("event.data",event.data);
             const parsedData = JSON.parse(event.data);
-            console.log(parsedData);
+            // console.log("파싱 후 데이터: ",parsedData);
             const notificationWithTimestamp = {
               ...parsedData,
               receivedAt: formatDate(new Date()), // 현재 시간 추가
             };
-            console.log("알림 기록 저장 전 :",notificationWithTimestamp);
-            setAlertHistory((prev)=>[...prev, notificationWithTimestamp]);
+            // console.log("알림 기록 저장 전 :",notificationWithTimestamp);
+            setAlertHistory((prev) => {
+              // console.log("이전 상태:", prev);
+              const updatedHistory = [...prev, notificationWithTimestamp];
+              // console.log("업데이트된 상태:", updatedHistory);
+              return updatedHistory;
+            });
 
             toast(`🔥 ${parsedData.name}, 변동성 ${parsedData.volatility}% 도달!`, {
               position: "top-right",
@@ -78,8 +90,8 @@ const useSSEAlert = () => {
               theme: "light",
             });
           } catch (error) {
-            console.log("문자열 데이터 응답 : ", event.data);
-            console.log("알림 푸시 메시지 처리 중 발생 :", error);
+            // console.log("문자열 데이터 응답 : ", event.data);
+            // console.log("알림 푸시 메시지 처리 중 발생 :", error);
           }
         };
 
@@ -100,9 +112,9 @@ const useSSEAlert = () => {
     subscribeSSE();
 
     return () => {
-      console.log("페이지 이동: SSE 유지됨");
+      // console.log("페이지 이동: SSE 유지됨");
     };
-  }, [isAuthenticated, authTokens.accessToken]);
+  }, [isAuthenticated]);
 
   const deleteHistory = (id : number) =>{
     setAlertHistory((prev)=>

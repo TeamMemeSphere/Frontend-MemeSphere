@@ -3,7 +3,7 @@ import CoinList from "../components/Commons/CoinList.tsx";
 import { useRef, useState } from "react";
 import PageSelector from "../components/Commons/PageSeletor.tsx";
 import * as S from "../styles/Typography";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CoinListHeader from "../components/Commons/CoinListHeader.tsx";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -29,6 +29,8 @@ const SearchResults = () => {
 
   const { SEARCH } = API_ENDPOINTS;
 
+  const navigate = useNavigate();
+
   const getSearchResult = async () => {
     try {
       if (accessToken) {
@@ -40,13 +42,11 @@ const SearchResults = () => {
             },
           },
         );
-        console.log(response.data);
         return response.data;
       } else {
         const response = await axios.get(
           `${SEARCH}?searchWord=${searchKeyword}&viewType=${viewType}&sortType=${sortType}&page=${currentPage}`,
         );
-        console.log(response.data);
         return response.data;
       }
     } catch (error) {
@@ -88,7 +88,11 @@ const SearchResults = () => {
   return (
     <Container>
       <KeyWordWrapper>
-        <ArrowIcon src="/assets/SearchResults/arrow-left.svg" />
+        <ArrowIcon
+          src="/assets/SearchResults/arrow-left.svg"
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        />
         <S.SubTitle1Typo>{searchKeyword}</S.SubTitle1Typo>
         <SearchResultType>검색결과</SearchResultType>
       </KeyWordWrapper>
@@ -136,9 +140,10 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
-  width: 100%;
+  padding: 1.938rem 0 4.5rem 0;
+  width: min(75vw, 67.5rem);
   height: fit-content;
+  margin: auto;
   min-height: 100vh;
 `;
 const KeyWordWrapper = styled.div`

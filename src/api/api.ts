@@ -21,13 +21,10 @@ export const API_ENDPOINTS = {
     USER_SIGNUP_NICKNAME: `${BASE_URL}/user/signup/nickname/validate`,
     USER_SIGNIN: `${BASE_URL}/user/sign-in`,
     USER_SIGNOUT: `${BASE_URL}/user/sign-out`,
-    USER_PASSWORD_SEND: `${BASE_URL}/user/password/send`,
     USER_KAKAO: `${BASE_URL}/user/login/oauth2/kakao`,
     USER_GOOGLE: `${BASE_URL}/user/login/oauth2/google`,
     USER_REISSUE: `${BASE_URL}/user/reissue`,
     SEARCH: `${BASE_URL}/search`,
     COLLECTION: `${BASE_URL}/collection`,
 };
-
-//console.log("api 기본 주소:", BASE_URL);
 

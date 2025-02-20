@@ -71,7 +71,6 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  height: 10.563rem;
   gap: 4.625rem;
   border-radius: 1.25rem;
   z-index: 2;
@@ -95,6 +94,7 @@ const FooterContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 1.375rem 1.25rem 1.375rem;
+  
 
   /* 태블릿, 모바일 환경에서 숨기기 */
   @media (max-width: 1024px) {

@@ -19,11 +19,20 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
 
   const [newMessages, setNewMessages] = useState<any>([]);
 
+  const localStorage = window.localStorage;
+  const accessToken = localStorage.getItem("accessToken");
+
   const { CHAT_LIST } = API_ENDPOINTS;
   useEffect(() => {
     const fetchInitialPage = async () => {
       try {
-        const res = await axios.get(`${CHAT_LIST(1)}?page=0&size=10`);
+        const res = await axios.get(
+          `${CHAT_LIST(1)}?page=0&size=10`,
+          {
+            headers:
+              (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+          }
+        );
         setInitialPage(res.data.result.totalPages - 1); // 초기 페이지 설정
       } catch (error) {
         console.error(error);
@@ -37,14 +46,20 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
 
   const getAllMessages = async (page: number) => {
     try {
-      const res = await axios.get(`${CHAT_LIST(coinId)}?page=${page}&size=10`);
+      const res = await axios.get(
+        `${CHAT_LIST(coinId)}?page=${page}&size=10`,
+        {
+          headers:
+            (accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+      );
+      console.log(res.data);
       return res.data;
     } catch (error) {
       console.error(error);
     }
   }
 
-  const [currentMessage, setCurrentMessage] = useState<any>("");
   const {
     data,
     isLoading,
@@ -54,7 +69,7 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
     fetchNextPage,
     isFetching
   } = useInfiniteQuery<any>({
-    queryKey: ["LiveChatCard", coinId, initialPage], // currentMessage
+    queryKey: ["LiveChatCard", coinId, initialPage],
     queryFn: ({ pageParam = initialPage }: any) => getAllMessages(pageParam),
     getNextPageParam: (lastPage: any) => (lastPage ?
       lastPage.result.pageable.pageNumber >= 1 ?
@@ -92,11 +107,8 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       brokerURL: socketUrl, // 백엔드 웹소켓 주소
       reconnectDelay: 5000, // 자동 재연결 간격 (5초)
       onConnect: (frame) => {
-        console.log(frame);
         client.subscribe(`/sub/${coinId}`, (message) => {
-          console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
-          setCurrentMessage(JSON.parse(message.body));
           setNewMessages((prev: any) => [...prev, JSON.parse(message.body)]);
         });
         setStompClient(client);
@@ -164,9 +176,9 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               ref={chatListRef}
-              isFetching={isFetching} 
+              isFetching={isFetching}
               newMessages={newMessages}
-              />
+            />
         }
         <DownButton bottom={`${chatInputHeight}px`} onClick={() => scrollToEnd()} />
         <ChatInput ref={chatInputRef} onSend={sendMessage}></ChatInput>
@@ -179,7 +191,7 @@ export default LiveChatCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 24.722vw;
+  width: 100%;
   min-height: 31.5rem;
   max-height: 46.667vh;
   position: relative; 
@@ -213,7 +225,7 @@ const DownButton = styled.button<DownButtonProps>`
     border: 0.094rem solid var(--white-100);
     box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, 0.15);
     position: absolute;
-    left: 0.625rem;
+    left: 1.25rem;
     bottom: ${props => props.bottom};
     z-index: 1;
 

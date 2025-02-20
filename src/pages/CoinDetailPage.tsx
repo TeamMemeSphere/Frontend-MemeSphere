@@ -90,6 +90,7 @@ const CoinDetailPage = () => {
           onClick={() => navigate(-1)}
           style={{ cursor: "pointer" }}
         />
+        {/* <TitleTypo>무슨코인 상세 정보</TitleTypo> */}
         <TitleTypo>{coinData.name} 상세 정보</TitleTypo>
       </TitleLayout>
 
@@ -107,7 +108,7 @@ const CoinDetailPage = () => {
         </LeftColumn>
 
         <RightColumn>
-          <ChartCard coinId={coinData.id} />
+          <ChartCard coinId={1} />
           <TradingCard />
         </RightColumn>
       </GridWrapper>
@@ -119,8 +120,10 @@ export default CoinDetailPage;
 
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
-  margin-left: 11.25rem;
-  margin-right: 11.25rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transform: translateX(9%);
 `;
 
 const GridWrapper = styled.div`
@@ -129,16 +132,33 @@ const GridWrapper = styled.div`
   gap: 1.563rem;
   height: auto;
   background-color: var(--background-black);
+  width: fit-content;
+  margin: 0 auto;
+
+  @media (max-width: 737px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 737px) {
+    width: 80vw;
+  }
 `;
 
 const RightColumn = styled.div`
-  display: flex;
+  box-sizing: border-box;
   flex-direction: column;
+  width: 48.542vw;
+
+  @media (max-width: 737px) {
+    width: 80vw;
+  }
 `;
 
 const TitleLayout = styled.div`

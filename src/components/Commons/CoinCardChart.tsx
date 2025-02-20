@@ -28,7 +28,6 @@ interface CoinCardChartProps {
 
 const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  // const [width, setWidth] = useState<number|null>(626);
 
   const {
     width = 626,
@@ -57,67 +56,33 @@ const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
     refetchInterval: 1000 * 60,
   });
 
-  // useEffect(() => {
-  //   const updateWidth = () => {
-  //     if (containerRef.current) {
-  //       setWidth(containerRef.current.offsetWidth);
-  //     }
-  //   };
+  const LoadingComponent = () => {
+    return (
+      <SkeletonWrapper>
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+        <ChartLine />
+      </SkeletonWrapper>
+    );
+  };
 
-  //   // 초기 렌더링 시 너비 설정
-  //   updateWidth();
+  const ChartComponent = () => {
+    const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
+      (d) => d.date,
+    );
 
-  //   // 창 크기 변경 시 너비 업데이트
-  //   window.addEventListener("resize", updateWidth);
+    const { data, xScale, xAccessor, displayXAccessor } =
+      xScaleProvider(candlestickData);
 
-  //   return () => {
-  //     window.removeEventListener("resize", updateWidth);
-  //   };
-  // }, []);
-  
-  // console.log(width);
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
-
-  const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-    (d) => d.date,
-  );
-
-  const { data, xScale, xAccessor, displayXAccessor } =
-    xScaleProvider(candlestickData);
-
-  const max = xAccessor(data[data.length - 1]);
-  const xExtents = [max - 17, max + 3];
-
-  return (
-    <ChartContainer ref={containerRef}>
-      <IntervalWrapper>
-        <IntervalButton
-          $isActive={interval === "1h"}
-          onClick={() => handleIntervalChange("1h")}
-        >
-          1h
-        </IntervalButton>
-        <IntervalButton
-          $isActive={interval === "4h"}
-          onClick={() => handleIntervalChange("4h")}
-        >
-          4h
-        </IntervalButton>
-        <IntervalButton
-          $isActive={interval === "1d"}
-          onClick={() => handleIntervalChange("1d")}
-        >
-          1D
-        </IntervalButton>
-        <IntervalButton
-          $isActive={interval === "1w"}
-          onClick={() => handleIntervalChange("1w")}
-        >
-          1W
-        </IntervalButton>
-      </IntervalWrapper>
-      {width > 0 && (
+    const max = xAccessor(data[data.length - 1]);
+    const xExtents = [max - 17, max + 3];
+    return (
+      width > 0 && (
         <ChartCanvas
           height={height}
           width={width} // 부모 컴포넌트의 너비를 동적으로 전달
@@ -163,7 +128,43 @@ const CoinCardChart = ({ symbol, chartOptions = {} }: CoinCardChartProps) => {
           </Chart>
           <CrossHairCursor />
         </ChartCanvas>
-      )}
+      )
+    );
+  };
+
+  if (error) return <div>Error loading data</div>;
+
+  return (
+    <ChartContainer ref={containerRef}>
+      <IntervalWrapper>
+        <IntervalButton
+          $isActive={interval === "1h"}
+          onClick={() => handleIntervalChange("1h")}
+        >
+          1h
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "4h"}
+          onClick={() => handleIntervalChange("4h")}
+        >
+          4h
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "1d"}
+          onClick={() => handleIntervalChange("1d")}
+        >
+          1D
+        </IntervalButton>
+        <IntervalButton
+          $isActive={interval === "1w"}
+          onClick={() => handleIntervalChange("1w")}
+        >
+          1W
+        </IntervalButton>
+      </IntervalWrapper>
+      {
+        isLoading ? <LoadingComponent /> : <ChartComponent />
+      }
     </ChartContainer>
   );
 };
@@ -198,4 +199,21 @@ const IntervalButton = styled.button<{ $isActive: boolean }>`
   font-weight: ${({ $isActive }) => ($isActive ? 600 : 400)};
   font-family: "Pretendard";
   cursor: pointer;
+`;
+
+const SkeletonWrapper = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin-top: 3.063rem;
+  border-radius: 10px;
+  display: flex;
+  gap: 1.938rem;
+  flex-direction: column;
+`;
+
+const ChartLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: var(--white-10);
 `;

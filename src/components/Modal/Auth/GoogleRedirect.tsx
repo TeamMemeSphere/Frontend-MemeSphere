@@ -8,7 +8,6 @@ const GoogleRedirect: React.FC = () => {
 
     useEffect(() => {
         const code = new URL(window.location.href).searchParams.get("code");
-        console.log("구글 로그인 인가코드:", code);
 
         if(!code) {
             console.error("구글 로그인 인가코드 발급 오류:");
@@ -17,11 +16,7 @@ const GoogleRedirect: React.FC = () => {
 
         const sendCodeToBackend = async(code: string) => {
             try {
-                console.log(`백엔드에 인가 코드 전송: ${API_ENDPOINTS.USER_GOOGLE}?code=${code}`);
-
                 const response = await axios.post(`${API_ENDPOINTS.USER_GOOGLE}?code=${code}`);
-                console.log("구글 로그인 응답:", response.data);
-                console.log("result 객체:", response.data.result);
 
                 if (response.data.isSuccess) {
                     const { accessToken, refreshToken, nickName } = response.data.result;
@@ -36,7 +31,7 @@ const GoogleRedirect: React.FC = () => {
 
                     const previousPath = sessionStorage.getItem("previousPath") || "/";
                     sessionStorage.removeItem("previousPath");
-                    navigate(previousPath, {replace: true});
+                    navigate(previousPath, {replace: true, state: {showUserModal: true}});
 
                     window.dispatchEvent(new Event ("openGreetingModal"));
                 } else {

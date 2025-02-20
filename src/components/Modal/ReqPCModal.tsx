@@ -2,39 +2,21 @@ import styled from "styled-components";
 import * as S from "./../../styles/Typography.ts";
 import Overlay from "../Commons/Overlay.tsx";
 
-type LoginRequiredModalProps = {
-  isReqLogin: boolean;
+type ReqPCModalProps = {
   onClose: () => void;
-  toLogin: () => void;
 };
 
-const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({
-  isReqLogin,
-  onClose,
-  toLogin,
+const ReqPCModal: React.FC<ReqPCModalProps> = ({
+  onClose
 }) => {
   return (
     <>
       <Overlay onClick={onClose} />
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <S.BodyTypo>
-          {isReqLogin
-            ? "로그인 후 이용 가능한 기능입니다."
-            : "잘못된 접근입니다"}
+          PC버전에서 확인해주세요!
         </S.BodyTypo>
         <ButtonContainer>
-          {isReqLogin && (
-            <GoLoginButton 
-              onClick={() => {
-                toLogin();
-                onClose();
-              }}
-            >
-              <S.CaptionTypoMedium>
-                로그인 하러 가기
-              </S.CaptionTypoMedium>
-            </GoLoginButton>
-          )}
           <CloseButton onClick={() => onClose()}>
             <S.CaptionTypoMedium>닫기</S.CaptionTypoMedium>
           </CloseButton>
@@ -44,7 +26,7 @@ const LoginRequiredModal: React.FC<LoginRequiredModalProps> = ({
   );
 };
 
-export default LoginRequiredModal;
+export default ReqPCModal;
 
 // const Overlay = styled.div`
 //   position: absolute;
@@ -99,10 +81,6 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const GoLoginButton = styled(Button)`
-  border: 1.5px solid var(--primary-purple, #7061f0);
-  color: var(--primary-purple, #7061f0);
-`;
 
 const CloseButton = styled(Button)`
   border: 1.5px solid var(--White-50, rgba(255, 255, 255, 0.5));

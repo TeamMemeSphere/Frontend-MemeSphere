@@ -34,7 +34,6 @@ const useScrollLock = (lock: boolean) => {
 
 interface ModalProps {
   closeModal: () => void;
-  onLogin: () => void;
 }
 
 const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
@@ -109,7 +108,7 @@ const UserModal: React.FC<ModalProps> = ({ closeModal }) => {
             />
           )}
           {activeTab === "forgotPassword" && (
-            <ForgotPasswordModal onClose={handleClose}/>
+            <ForgotPasswordModal />
           )}
         </ContentContainer>
       </ModalContent>

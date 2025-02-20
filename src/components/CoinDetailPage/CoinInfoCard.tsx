@@ -22,8 +22,6 @@ const CoinInfoCard = ({
   image,
   rank,
 }: CoinInfoCardProps) => {
-  //const coin = coinDummy[0];
-
   return (
     <CardLayout>
       <MarginFlexContainer>
@@ -59,7 +57,7 @@ export default CoinInfoCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 24.722vw;
+  width: 100%;
   height: auto;
   margin-top: 0.813rem;
   margin-bottom: 26px;
@@ -101,11 +99,13 @@ const Image = styled.img`
   width: 6.337rem;
   height: 6.337rem;
   border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
 `;
 
 const StyledCaption = styled(CaptionTypoMedium)`
   text-align: left;
-  width: 21.25vw;
+  width: 85%;
   margin-bottom: 3.704vh;
   margin-top: 0.926vh;
 `;

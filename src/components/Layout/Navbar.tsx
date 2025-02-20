@@ -10,8 +10,9 @@ import AlarmModal from "../Modal/AlarmModal";
 import UserModal from "../Modal/Auth/UserModal";
 import { NavLink } from "react-router-dom";
 import LoginRequiredModal from "../Modal/LoginRequiredModal";
-import { toast } from "react-toastify";
 import useSSEAlert from "../../hooks/common/useSSEAlert";
+import { useAuth } from "../../hooks/common/useAuth";
+import ReqPCModal from "../Modal/ReqPCModal";
 
 const Navbar: React.FC = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth <= 1234);
@@ -21,10 +22,13 @@ const Navbar: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const {isAuthenticated} = useAuth();
+
   const authTokens = {
     accessToken: localStorage.getItem("accessToken") ?? "",
     refreshToken: localStorage.getItem("refreshToken") ?? "",
   };
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useSSEAlert();
 
@@ -63,6 +67,7 @@ const Navbar: React.FC = () => {
   const handleNavItemClick = () => {};
 
   return (
+    <>
     <Nav>
       <NavLeft>
         <Logo to="/">
@@ -98,23 +103,28 @@ const Navbar: React.FC = () => {
         />
       )}
 
-      {isAlarmOpen && isLoggedIn && (
-        <AlarmModal closeModal={() => setIsAlarmOpen(false)} {...authTokens} />
-      )}
-      {isAlarmOpen && !isLoggedIn && (
-        <LoginRequiredModal
-          onClose={closeAlarmModal}
-          isReqLogin={true}
-          toLogin={handleOpenUserModal}
-        />
-      )}
+      {isAlarmOpen
+      ? localStorage.getItem("accessToken") 
+      ? isMobile 
+      ? <ReqPCModal onClose={closeAlarmModal}></ReqPCModal>
+      : <AlarmModal closeModal={closeAlarmModal} accessToken={authTokens.accessToken}
+      ></AlarmModal>
+      :
+      <LoginRequiredModal
+      onClose={closeAlarmModal}
+      isReqLogin={true}
+      toLogin={handleOpenUserModal}
+    />
+    :
+    undefined
+    }
       {isUserModalOpen && !isLoggedIn && (
         <UserModal
           closeModal={() => setIsUserModalOpen(false)}
-          onLogin={handleLogin}
         />
       )}
     </Nav>
+    </>
   );
 };
 

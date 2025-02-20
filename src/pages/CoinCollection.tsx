@@ -13,7 +13,7 @@ import CoinRowListSkeleton from "../components/Commons/CoinRowListSkeleton.tsx";
 import * as S from "../styles/Typography";
 import { Icon } from "../components/Commons/Icon.tsx";
 import { useAuth } from "../hooks/common/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CoinCollection = () => {
   const [viewType, setViewType] = useState<"GRID" | "LIST">("GRID");
@@ -28,9 +28,10 @@ const CoinCollection = () => {
   const accessToken = myStorage.getItem("accessToken");
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const getCoinList = async () => {
     if (!accessToken) {
-      navigate("/DashBoard");
       return;
     }
     try {
@@ -59,8 +60,6 @@ const CoinCollection = () => {
     queryFn: getCoinList,
   });
 
-  console.log(data);
-
   const noResult = () => {
     return (
       <NoResultWrapper>
@@ -69,6 +68,15 @@ const CoinCollection = () => {
       </NoResultWrapper>
     );
   };
+
+  const notAuthenticated = () => {
+    return (
+      <NoResultWrapper>
+        <Icon src="/assets/Collection/empty-box.svg" $margin="0 0 1.125rem 0" />
+        <NoResultSubTitle>로그인 후 이용해주세요.</NoResultSubTitle>
+      </NoResultWrapper>
+    );
+  }
 
   const isGridView = viewType === "GRID";
 
@@ -86,30 +94,37 @@ const CoinCollection = () => {
         marginBottom="0.813rem"
         setCurrentPage={setCurrentPage}
       ></CoinListHeader>
-      {isLoading ? (
-        isGridView ? (
-          <CoinCardListSkeleton></CoinCardListSkeleton>
-        ) : (
-          <CoinRowListSkeleton></CoinRowListSkeleton>
-        )
-      ) : isError ? (
-        <div>에러가 발생했습니다.</div>
-      ) : (
-        <>
-          {data.result.totalElements === 0 && noResult()}
-          <CoinList
-            coins={
-              isGridView ? data?.result?.gridItems : data?.result?.listItems
-            }
-            viewType={viewType}
-          ></CoinList>
-          <PageSelector
-            currentPage={currentPage}
-            updateCurrentPage={setCurrentPage}
-            totalPages={data.result.totalPage}
-          ></PageSelector>
-        </>
-      )}
+      {
+        !isAuthenticated ?
+          notAuthenticated()
+          :
+          (
+            isLoading ? (
+              isGridView ? (
+                <CoinCardListSkeleton></CoinCardListSkeleton>
+              ) : (
+                <CoinRowListSkeleton></CoinRowListSkeleton>
+              )
+            ) : isError ? (
+              <div>에러가 발생했습니다.</div>
+            ) : (
+              <>
+                {data.result.totalElements === 0 && noResult()}
+                <CoinList
+                  coins={
+                    isGridView ? data?.result?.gridItems : data?.result?.listItems
+                  }
+                  viewType={viewType}
+                ></CoinList>
+                <PageSelector
+                  currentPage={currentPage}
+                  updateCurrentPage={setCurrentPage}
+                  totalPages={data.result.totalPage}
+                ></PageSelector>
+              </>
+            )
+          )
+      }
     </Container>
   );
 };
@@ -120,8 +135,9 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
-  width: 100%;
+  padding: 1.938rem 0 4.5rem 0;
+  width: min(75vw, 67.5rem);
+  margin: auto;
   height: fit-content;
   min-height: 100vh;
 `;
