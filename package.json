@@ -37,7 +37,6 @@
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.3",
     "recharts": "^2.15.1",
-    "recharts": "^2.15.1",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.15",
     "xml2js": "^0.6.2",
