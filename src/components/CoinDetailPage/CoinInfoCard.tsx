@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { CommonCard } from "./CommonCardStyle";
 import { SubTitle2Typo, SmallCaptionTypo } from "../../styles/Typography";
 import CoinCircleImg from "../../../public/assets/DetailPage/CoinProfile.png";
@@ -26,16 +26,18 @@ const CoinInfoCard = ({
     <CardLayout>
       <MarginFlexContainer>
         <CircleImageWrapper>
+          <RotatingKeywords>
+            {keywords.map((keyword, index) => (
+              <Keyword
+                key={index}
+                $angle={(index / keywords.length) * 360 + 45}
+                $isHighlighted={index === 0 || index === 1}
+              >
+                #{keyword}
+              </Keyword>
+            ))}
+          </RotatingKeywords>
           <Image src={image || CoinCircleImg} alt={`${name} 프로필`} />
-          {keywords.map((keyword, index) => (
-            <Keyword
-              key={index}
-              $angle={(index / keywords.length) * 360 + 45}
-              $isHighlighted={index === 0 || index === 1}
-            >
-              #{keyword}
-            </Keyword>
-          ))}
           {rank !== null && <Rank>#{rank}</Rank>}
           <IconImg src={FireIcon} />
         </CircleImageWrapper>
@@ -61,6 +63,7 @@ const CardLayout = styled(CommonCard)`
   height: auto;
   margin-top: 0.813rem;
   margin-bottom: 26px;
+  padding-top: 5px;
 `;
 
 const StyledSubTitle2 = styled(SubTitle2Typo)`
@@ -82,6 +85,22 @@ const FlexContainer = styled.div`
 const MarginFlexContainer = styled(FlexContainer)`
   margin-top: 6.296vh;
   margin-bottom: 2.382rem;
+`;
+
+/** ✅ 키워드들을 감싸는 부모 컨테이너 (회전 효과 적용) */
+const RotatingKeywords = styled.div`
+  position: absolute;
+  width: 9rem;
+  height: 9rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotateAnimation 10s linear infinite;
+`;
+
+const rotateAnimation = keyframes`
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 `;
 
 const CircleImageWrapper = styled.div`
@@ -108,8 +127,14 @@ const StyledCaption = styled(CaptionTypoMedium)`
   width: 85%;
   margin-bottom: 3.704vh;
   margin-top: 0.926vh;
+  min-height: 2.4rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
+/** ✅ 키워드 개별 요소 (회전하는 부모 안에서 개별적으로 배치) */
 const Keyword = styled.span<{ $isHighlighted: boolean; $angle: number }>`
   position: absolute;
   top: 50%;
@@ -149,11 +174,12 @@ const Rank = styled.div`
   flex-shrink: 0;
 `;
 
+/** ✅ 회전의 중심 역할을 하는 아이콘 */
 const IconImg = styled.img`
   position: absolute;
   top: 0;
   right: 0;
-  width: 2rem; /* 아이콘 크기 조절 */
-  transform: translate(20%, -20%); /* 살짝 밖으로 빼서 상단에 부착 */
+  width: 2rem;
+  transform: translate(20%, -20%);
   height: auto;
 `;

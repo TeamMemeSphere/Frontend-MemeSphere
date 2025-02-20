@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { CommonCard, StyledCardTitle } from "./CommonCardStyle";
 import CoinCardChart from "../Commons/CoinCardChart";
@@ -12,47 +12,37 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../../api/api";
 import rightButton from "../../../public/assets/common/right.svg";
 
-export interface Coin {
-  name: string;
-  symbol: string;
-  tradePrice: number;
-  highPrice: number;
-  lowPrice: number;
-  change: "RISE" | "FALL" | "EVEN";
-  changePrice: number;
-  changeRate: number;
-  marketCap: number;
-  volume: number;
-}
-
 export interface CoinPriceData {
   coinId: number;
-  price: number;
+  price: string;
   priceChange: string;
   priceChangeAbsolute: string;
   priceChangeDirection: string;
   priceChangeRate: string;
   weightedAveragePrice: number;
-  highPrice: number;
-  lowPrice: number;
-  symbol?: string; // symbol 에러 방지용 추가
+  highPrice: string;
+  lowPrice: string;
+  symbol?: string;
 }
 
-const ChartCard = ({ coinId }: { coinId: number }) => {
+const ChartCard = ({
+  coinId,
+  coinSymbol,
+}: {
+  coinId: number;
+  coinSymbol?: string;
+}) => {
   const chartSectionRef = useRef<HTMLDivElement>(null);
   const [chartSectionWidth, setChartSectionWidth] = useState<number>(626);
   const [coinData, setCoinData] = useState<CoinPriceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // API에서 코인 데이터 가져오기
   const fetchCoinData = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await axios.get(API_ENDPOINTS.COIN_PRICE_INFO(coinId));
-
-      console.log("ChartCard API Response:", response.data);
 
       if (response.data?.result) {
         setCoinData(response.data.result);
@@ -63,18 +53,18 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
       console.error("Error fetching coin data:", err);
       setError("데이터를 불러오는 데 실패했습니다.");
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 0);
     }
   };
 
-  // coinId가 변경될 때마다 데이터 가져오기
   useEffect(() => {
     if (coinId) {
       fetchCoinData();
     }
   }, [coinId]);
 
-  // 차트 크기 감지
   useEffect(() => {
     if (chartSectionRef.current) {
       const observer = new ResizeObserver((entries) => {
@@ -83,13 +73,13 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         }
       });
       observer.observe(chartSectionRef.current);
-      console.log("현재 차트 크기:", chartSectionWidth);
       return () => observer.disconnect();
     }
   });
 
-  // 로딩 상태
-  if (loading) return <p>Loading...</p>;
+  // 스켈레톤 UI 로딩 중 표시
+  if (loading) return <SkeletonCard />;
+
   if (error) return <p>{error}</p>;
   if (!coinData) return <p>데이터를 불러올 수 없습니다.</p>;
 
@@ -99,7 +89,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <NoMarginCardTitle>차트</NoMarginCardTitle>
         <FlexContainer
           as="a"
-          href={`https://www.binance.com/en/trade/${coinData?.symbol}?type=spot`}
+          href={`https://www.binance.com/en/trade/${coinSymbol}_USDT?type=spot`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -107,64 +97,69 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <img src={rightButton} />
         </FlexContainer>
       </TitleSection>
+      <div>
+        <BodyTypo>Price</BodyTypo>
+        <CurrentSection>
+          <CurrentPrice>
+            &#36;{" "}
+            {coinData?.price
+              ? parseFloat(coinData.price).toFixed(8).replace(/0+$/, "")
+              : "N/A"}
+          </CurrentPrice>
 
-      <FlexLayout>
+          <CurrentPriceChange
+            $change={
+              coinData?.priceChangeDirection === "up"
+                ? "RISE"
+                : coinData?.priceChangeDirection === "down"
+                  ? "FALL"
+                  : "EVEN"
+            }
+          >
+            {coinData?.priceChangeDirection === "EVEN" ? (
+              "⏤"
+            ) : (
+              <>
+                {coinData?.priceChangeDirection === "up" ? "▲" : "▼"}&nbsp; $
+                {parseFloat(coinData?.priceChange || "0")
+                  .toFixed(8)
+                  .replace(/0+$/, "")}
+                &nbsp; (
+                {parseFloat(coinData?.priceChangeRate || "0")
+                  .toFixed(8)
+                  .replace(/0+$/, "")}
+                %)
+              </>
+            )}
+          </CurrentPriceChange>
+        </CurrentSection>
+      </div>
+      <PriceInfoContainer>
         <div>
-          <BodyTypo>Price</BodyTypo>
-          <CurrentSection>
-            <CurrentPrice>
-              &#36; {coinData?.price?.toLocaleString() ?? "N/A"}
-            </CurrentPrice>
-            <CurrentPriceChange
-              $change={
-                coinData?.priceChangeDirection === "up"
-                  ? "RISE"
-                  : coinData?.priceChangeDirection === "down"
-                    ? "FALL"
-                    : "EVEN"
-              }
-            >
-              {coinData?.priceChangeDirection === "EVEN" ? (
-                "⏤"
-              ) : (
-                <>
-                  {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
-                  {parseFloat(coinData?.priceChange || "0")
-                    .toFixed(8) // 8자리 고정 후
-                    .replace(/0+$/, "") // 뒤의 0 제거
-                    .toLocaleString()}
-                  &nbsp; (
-                  {parseFloat(coinData?.priceChangeRate || "0")
-                    .toFixed(8)
-                    .replace(/0+$/, "")
-                    .toLocaleString()}
-                  %)
-                </>
-              )}
-            </CurrentPriceChange>
-          </CurrentSection>
+          <StyledRegularCaption>24h change</StyledRegularCaption>
+          <StyledSubTitle3>
+            {coinData?.priceChange
+              ? parseFloat(coinData.priceChange).toFixed(8).replace(/0+$/, "")
+              : "N/A"}
+          </StyledSubTitle3>
         </div>
-        <PriceInfoContainer>
-          <div>
-            <StyledRegularCaption>24h change</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.priceChange?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-          <div>
-            <StyledRegularCaption>24h high</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.highPrice?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-          <div>
-            <StyledRegularCaption>24h low</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.lowPrice?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-        </PriceInfoContainer>
-      </FlexLayout>
+        <div>
+          <StyledRegularCaption>24h high</StyledRegularCaption>
+          <StyledSubTitle3>
+            {coinData?.highPrice
+              ? parseFloat(coinData.highPrice).toFixed(8).replace(/0+$/, "")
+              : "N/A"}
+          </StyledSubTitle3>
+        </div>
+        <div>
+          <StyledRegularCaption>24h low</StyledRegularCaption>
+          <StyledSubTitle3>
+            {coinData?.lowPrice
+              ? parseFloat(coinData.lowPrice).toFixed(8).replace(/0+$/, "")
+              : "N/A"}
+          </StyledSubTitle3>
+        </div>
+      </PriceInfoContainer>
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
@@ -183,20 +178,58 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
 
 export default ChartCard;
 
+// Skeleton UI 애니메이션
+const loadingAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+// Skeleton UI 컴포넌트
+const SkeletonCard = styled.div`
+  width: 100%;
+  padding-left: 2.361vw;
+  padding-right: 2.361vw;
+  padding-bottom: 1.35rem;
+  padding-top: 0.4rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.625rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: ${loadingAnimation} 2s ease-in-out infinite;
+  }
+`;
+
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 43.472vw;
   margin-top: 0.813rem;
   margin-bottom: 1.625rem;
   padding-left: 2.361vw;
   padding-right: 2.361vw;
-  padding-bottom: 3.889vh;
+  padding-bottom: 1.35rem;
   padding-top: 0.4rem;
 `;
 
 const NoMarginCardTitle = styled(StyledCardTitle)`
   padding-left: 0rem;
   padding-top: 0rem;
+  margin-bottom: 0.5rem;
 `;
 
 const ChartSection = styled.div`
@@ -229,13 +262,8 @@ const PriceInfoContainer = styled(FlexContainer)`
   gap: 2.222vw;
   margin-right: 20px;
   margin-top: 12px;
-`;
-
-const FlexLayout = styled(FlexContainer)`
-  margin-top: 22px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.438rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 `;
 
 const CurrentSection = styled.div`
