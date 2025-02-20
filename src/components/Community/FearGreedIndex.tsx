@@ -14,15 +14,28 @@ const FearGreedIndex: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("useEffect 실행");
+
     const fetchFearGreedIndex = async () => {
       try {
+        console.log("Try 구문 안");
         setLoading(true);
-        const response = await axios.get("/api/v3/fear-and-greed/latest", {
-          headers: {
-            "X-CMC_PRO_API_KEY": import.meta.env.VITE_CMC_API_KEY,
-          },
+
+        // Alternative.me Fear & Greed Index API 사용
+        const apiUrl = "https://api.alternative.me/fng/";
+
+        const response = await axios.get(apiUrl);
+
+        console.log("API 응답 데이터: ", response.data);
+
+        // 데이터 변환 (API 구조에 맞게 매핑)
+        const latestData = response.data.data[0]; // 최신 데이터 가져오기
+
+        setIndexData({
+          value: parseInt(latestData.value),
+          value_classification: latestData.value_classification,
+          update_time: latestData.timestamp, // UNIX timestamp 제공됨
         });
-        setIndexData(response.data.data);
       } catch (err) {
         console.error("API 요청 중 오류 발생:", err);
         setError("데이터를 가져오지 못했습니다.");

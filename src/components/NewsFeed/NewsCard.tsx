@@ -11,7 +11,7 @@ const NewsCardContainer = () => {
     const getNews = async () => {
       const news = await fetchNewsFromRSS();
       if (Array.isArray(news) && Array.isArray(news[0])) {
-        setNewsTitles(news[0]); // ✅ 첫 번째 배열만 저장하여 `string[]` 형식 맞춤
+        setNewsTitles(news[0]); 
       }
     };
 
