@@ -103,10 +103,8 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <a href={`https://www.binance.com/en/trade/${coinData?.symbol}_USDT?type=spot`}>
-            <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
-            <img src={rightButton} />
-          </a>
+          <StyledSmallCaptionTypo>거래소 바로가기</StyledSmallCaptionTypo>
+          <img src={rightButton} />
         </FlexContainer>
       </TitleSection>
 

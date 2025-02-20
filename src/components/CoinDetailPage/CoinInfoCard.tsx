@@ -101,6 +101,8 @@ const Image = styled.img`
   width: 6.337rem;
   height: 6.337rem;
   border-radius: 50%;
+  object-fit: cover; 
+  aspect-ratio: 1 / 1;
 `;
 
 const StyledCaption = styled(CaptionTypoMedium)`
