@@ -90,16 +90,13 @@ export default DashboardTop;
 const UpperContainer = styled.div`
   @media (max-width: 480px) {
     justify-items: center;
-    max-width: 480px;
+    max-width: 100vw;
   }
 `;
 
 const BaseItem = styled.section`
   border-radius: 20px;
   width: 100%;
-
-  @media (max-width: 480px) {
-  }
 `;
 const BaseTextWrapper = styled(SubTitle3Typo)`
   padding-left: 1.563rem;
@@ -145,9 +142,6 @@ const TopItemWrapper = styled.div`
   display: flex;
   gap: 1.563rem;
   max-width: 537px;
-
-  @media (max-width: 480px) {
-  }
 `;
 
 const Item12Title = styled(BodyTypo)``;
