@@ -99,7 +99,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <NoMarginCardTitle>차트</NoMarginCardTitle>
         <FlexContainer
           as="a"
-          href={`https://www.binance.com/en/trade/${coinData?.symbol}?type=spot`}
+          href="https://www.binance.com/en/price"
           target="_blank"
           rel="noopener noreferrer"
         >

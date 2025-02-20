@@ -112,6 +112,7 @@ const TitleLayout = ({
   navigate: ReturnType<typeof useNavigate>;
 }) => {
   const isMobile = window.matchMedia("(max-width: 737px)").matches;
+  console.log(isMobile);
 
   return (
     <StyledTitleLayout>
@@ -143,7 +144,11 @@ const GridWrapper = styled.div`
   gap: 1.563rem;
   height: auto;
   background-color: var(--background-black);
-  width: fit-content;
+
+  /* 부모 기준으로 중앙 정렬 */
+  width: 80vw; /* 적절한 크기 제한 */
+  max-width: 1200px; /* 최대 너비 제한 */
+  margin: 0 auto; /* 중앙 정렬 */
   margin-bottom: 100px;
 
   @media (max-width: 1200px) {
@@ -154,8 +159,7 @@ const GridWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 0;
-    margin-bottom: 0px;
+    width: 100%;
   }
 `;
 
@@ -173,9 +177,12 @@ const RightColumn = styled.div`
   flex-direction: column;
   width: 48.542vw;
   margin-top: 84.5px;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 737px) {
     width: 80vw;
+    margin-top: 0px;
   }
 `;
 
