@@ -33,8 +33,8 @@ export interface CoinPriceData {
   priceChangeDirection: string;
   priceChangeRate: string;
   weightedAveragePrice: number;
-  highPrice: number;
-  lowPrice: number;
+  highPrice: string;
+  lowPrice: string;
   symbol?: string; // symbol 에러 방지용 추가
 }
 
@@ -99,7 +99,7 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
         <NoMarginCardTitle>차트</NoMarginCardTitle>
         <FlexContainer
           as="a"
-          href={`https://www.binance.com/en/trade/${coinData?.symbol}?type=spot`}
+          href="https://www.binance.com/en/price"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -107,64 +107,76 @@ const ChartCard = ({ coinId }: { coinId: number }) => {
           <img src={rightButton} />
         </FlexContainer>
       </TitleSection>
+      <div>
+        <BodyTypo>Price</BodyTypo>
+        <CurrentSection>
+          <CurrentPrice>
+            &#36;{" "}
+            {coinData?.price !== undefined
+              ? Number(coinData.price).toLocaleString()
+              : "N/A"}
+          </CurrentPrice>
 
-      <FlexLayout>
+          <CurrentPriceChange
+            $change={
+              coinData?.priceChangeDirection === "up"
+                ? "RISE"
+                : coinData?.priceChangeDirection === "down"
+                  ? "FALL"
+                  : "EVEN"
+            }
+          >
+            {coinData?.priceChangeDirection === "EVEN" ? (
+              "⏤"
+            ) : (
+              <>
+                {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
+                {parseFloat(coinData?.priceChange || "0")
+                  .toFixed(8) // 8자리 고정 후
+                  .replace(/0+$/, "") // 뒤의 0 제거
+                  .toLocaleString()}
+                &nbsp; (
+                {parseFloat(coinData?.priceChangeRate || "0")
+                  .toFixed(8)
+                  .replace(/0+$/, "")
+                  .toLocaleString()}
+                %)
+              </>
+            )}
+          </CurrentPriceChange>
+        </CurrentSection>
+      </div>
+      <PriceInfoContainer>
         <div>
-          <BodyTypo>Price</BodyTypo>
-          <CurrentSection>
-            <CurrentPrice>
-              &#36; {coinData?.price?.toLocaleString() ?? "N/A"}
-            </CurrentPrice>
-            <CurrentPriceChange
-              $change={
-                coinData?.priceChangeDirection === "up"
-                  ? "RISE"
-                  : coinData?.priceChangeDirection === "down"
-                    ? "FALL"
-                    : "EVEN"
-              }
-            >
-              {coinData?.priceChangeDirection === "EVEN" ? (
-                "⏤"
-              ) : (
-                <>
-                  {coinData?.priceChangeDirection === "RISE" ? "▲" : "▼"}&nbsp;
-                  {parseFloat(coinData?.priceChange || "0")
-                    .toFixed(8) // 8자리 고정 후
-                    .replace(/0+$/, "") // 뒤의 0 제거
-                    .toLocaleString()}
-                  &nbsp; (
-                  {parseFloat(coinData?.priceChangeRate || "0")
-                    .toFixed(8)
-                    .replace(/0+$/, "")
-                    .toLocaleString()}
-                  %)
-                </>
-              )}
-            </CurrentPriceChange>
-          </CurrentSection>
+          <StyledRegularCaption>24h change</StyledRegularCaption>
+          <StyledSubTitle3>
+            {coinData?.priceChange
+              ? parseFloat(coinData.priceChange).toString()
+              : "N/A"}
+          </StyledSubTitle3>
         </div>
-        <PriceInfoContainer>
-          <div>
-            <StyledRegularCaption>24h change</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.priceChange?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-          <div>
-            <StyledRegularCaption>24h high</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.highPrice?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-          <div>
-            <StyledRegularCaption>24h low</StyledRegularCaption>
-            <StyledSubTitle3>
-              {coinData?.lowPrice?.toLocaleString() ?? "N/A"}
-            </StyledSubTitle3>
-          </div>
-        </PriceInfoContainer>
-      </FlexLayout>
+        <div>
+          <StyledRegularCaption>24h high</StyledRegularCaption>
+
+          <StyledSubTitle3>
+            {coinData?.highPrice !== undefined
+              ? Number(
+                  parseFloat(coinData.highPrice).toFixed(8).replace(/0+$/, ""),
+                ).toLocaleString()
+              : "N/A"}
+          </StyledSubTitle3>
+        </div>
+        <div>
+          <StyledRegularCaption>24h low</StyledRegularCaption>
+          <StyledSubTitle3>
+            {coinData?.lowPrice !== undefined
+              ? Number(
+                  parseFloat(coinData.lowPrice).toFixed(8).replace(/0+$/, ""),
+                ).toLocaleString()
+              : "N/A"}
+          </StyledSubTitle3>
+        </div>
+      </PriceInfoContainer>
 
       <ChartSection ref={chartSectionRef}>
         <CoinCardChart
@@ -185,18 +197,18 @@ export default ChartCard;
 
 // Styled-Components
 const CardLayout = styled(CommonCard)`
-  width: 43.472vw;
   margin-top: 0.813rem;
   margin-bottom: 1.625rem;
   padding-left: 2.361vw;
   padding-right: 2.361vw;
-  padding-bottom: 3.889vh;
+  padding-bottom: 1.35rem;
   padding-top: 0.4rem;
 `;
 
 const NoMarginCardTitle = styled(StyledCardTitle)`
   padding-left: 0rem;
   padding-top: 0rem;
+  margin-bottom: 0.5rem;
 `;
 
 const ChartSection = styled.div`
@@ -229,13 +241,8 @@ const PriceInfoContainer = styled(FlexContainer)`
   gap: 2.222vw;
   margin-right: 20px;
   margin-top: 12px;
-`;
-
-const FlexLayout = styled(FlexContainer)`
-  margin-top: 22px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.438rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 `;
 
 const CurrentSection = styled.div`

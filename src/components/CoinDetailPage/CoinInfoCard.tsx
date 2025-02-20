@@ -108,6 +108,11 @@ const StyledCaption = styled(CaptionTypoMedium)`
   width: 85%;
   margin-bottom: 3.704vh;
   margin-top: 0.926vh;
+  min-height: 2.4rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
 const Keyword = styled.span<{ $isHighlighted: boolean; $angle: number }>`
