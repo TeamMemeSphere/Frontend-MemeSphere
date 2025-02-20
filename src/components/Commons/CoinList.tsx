@@ -4,7 +4,6 @@ import CoinRow from "./CoinRow";
 import { Coin } from "./CoinCard";
 
 const CoinList: React.FC<{ coins: Coin[], viewType: "GRID" | "LIST" }> = ({ coins, viewType }) => {
-    console.log(coins);
     return (
         <Container>
             {
@@ -81,7 +80,6 @@ const Container = styled.div`
 const CardList = styled.div`
     display: grid;
     width: 100%;
-    /* grid-template-columns: repeat(auto-fill, minmax(340px, 17.708vw)); */
     grid-template-columns: repeat(auto-fill, 21.25rem);
     height: fit-content;
     place-items: center;
@@ -112,7 +110,6 @@ interface RowHeaderItemProps {
 const RowHeaderItem = styled.span<RowHeaderItemProps>`
     font-size: var(--font-size-body);
     font-weight: var(--font-weight-bold);
-    /* width: ${(props) => props.$width}; */
     width: 100%;
     justify-self: center;
     text-align: center;

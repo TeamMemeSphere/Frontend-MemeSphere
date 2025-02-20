@@ -109,7 +109,6 @@ const LiveChatCard = ({ coinId }: LiveChatCardProps) => {
       onConnect: (frame) => {
         console.log(frame);
         client.subscribe(`/sub/${coinId}`, (message) => {
-          console.log(message.body);
           setMessages((prev) => [...prev, message.body]);
           setNewMessages((prev: any) => [...prev, JSON.parse(message.body)]);
         });

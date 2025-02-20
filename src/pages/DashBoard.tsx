@@ -48,8 +48,6 @@ const DashBoard = () => {
     queryFn: getCoinList,
   });
 
-  console.log(data);
-
   const isGridView = viewType === "GRID";
 
   return (
@@ -114,8 +112,6 @@ const UnderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* padding: 1.938rem 12.24vw 4.5rem 12.24vw; */
-  /* width: 100%; */
   padding-bottom: 5.125rem;
   width: min(75vw, 67.5rem);
   margin: auto; 

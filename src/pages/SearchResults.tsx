@@ -142,9 +142,7 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* padding: 1.938rem 12.24vw 4.5rem 12.24vw; */
   padding: 1.938rem 0 4.5rem 0;
-  /* width: 100%; */
   width: min(75vw, 67.5rem);
   height: fit-content;
   margin: auto;
