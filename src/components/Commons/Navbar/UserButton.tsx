@@ -7,7 +7,6 @@ import { useAuth } from "../../../hooks/common/useAuth";
 
 const UserButton: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const {isAuthenticated} = useAuth();
 
   const toggleModal = () => {
     setIsUserModalOpen((prev) => !prev);
@@ -22,7 +21,7 @@ const UserButton: React.FC = () => {
       <StyledHeaderButton onClick={toggleModal}>
         <S.Icon src={user} />
       </StyledHeaderButton>
-      {isUserModalOpen && !isAuthenticated && <UserModal closeModal={closeModal}/>}
+      {isUserModalOpen && <UserModal closeModal={closeModal}/>}
     </>
   );
 };

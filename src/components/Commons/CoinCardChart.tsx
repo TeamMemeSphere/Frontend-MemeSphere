@@ -216,4 +216,4 @@ const ChartLine = styled.div`
   width: 100%;
   height: 1px;
   background-color: var(--white-10);
-`
+`;
