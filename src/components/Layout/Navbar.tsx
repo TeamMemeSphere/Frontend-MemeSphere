@@ -28,6 +28,7 @@ const Navbar: React.FC = () => {
     accessToken: localStorage.getItem("accessToken") ?? "",
     refreshToken: localStorage.getItem("refreshToken") ?? "",
   };
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useSSEAlert();
 
@@ -102,18 +103,21 @@ const Navbar: React.FC = () => {
         />
       )}
 
-      {isAlarmOpen && isAuthenticated && (
-        <ReqPCModal
-          onClose={closeAlarmModal}
-        />
-      )}
-      {isAlarmOpen && !isAuthenticated && (
-        <LoginRequiredModal
-          onClose={closeAlarmModal}
-          isReqLogin={true}
-          toLogin={handleOpenUserModal}
-        />
-      )}
+      {isAlarmOpen
+      ? localStorage.getItem("accessToken") 
+      ? isMobile 
+      ? <ReqPCModal onClose={closeAlarmModal}></ReqPCModal>
+      : <AlarmModal closeModal={closeAlarmModal} accessToken={authTokens.accessToken}
+      ></AlarmModal>
+      :
+      <LoginRequiredModal
+      onClose={closeAlarmModal}
+      isReqLogin={true}
+      toLogin={handleOpenUserModal}
+    />
+    :
+    undefined
+    }
       {isUserModalOpen && !isLoggedIn && (
         <UserModal
           closeModal={() => setIsUserModalOpen(false)}

@@ -88,9 +88,14 @@ const News = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 777px;
+  /* height: 777px; */
+  height: fit-content;
   flex-shrink: 0;
   margin-bottom: 25.488vh;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const Header = styled.div`

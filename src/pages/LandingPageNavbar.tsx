@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { BodyTypo, TitleTypo } from "../styles/Typography";
 
 const LandingPageNavbar = () => {
-
   const navigate = useNavigate();
+  
   const LandingButton = () => {
     navigate("/dashboard", {state: {showUserModal: true}});
   };
@@ -16,7 +16,8 @@ const LandingPageNavbar = () => {
             <LogoImg src="/assets/common/navbar/memesphere-main-logo.svg" />
             <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
-        <NavButton onClick={LandingButton}>MemeSphere 시작하기</NavButton>
+        <NavButtonOne onClick={LandingButton}>Memesphere 시작하기</NavButtonOne>
+        <NavButtonTwo onClick={LandingButton}>시작하기</NavButtonTwo>
     </Wrapper>
   );
 };
@@ -25,7 +26,7 @@ export default LandingPageNavbar;
 
 const Wrapper = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 999;
 `;
 
 const Logo = styled(NavLink)`
@@ -35,6 +36,10 @@ const Logo = styled(NavLink)`
   text-decoration: none;
   display: flex;
   align-items: center;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 const LogoImg = styled.img`
   width: 1.813rem;
@@ -46,13 +51,13 @@ const LogoTypo = styled(TitleTypo)`
   z-index: 2;
 `;
 
-const NavButton = styled(BodyTypo)`
-  width: 222px;
-  height: 43px;
+const NavButtonOne = styled(BodyTypo)`
+  width: 13.875rem;
+  height: 2.688rem;
   border-radius: 15px;
   background-color: var(--blue);
   text-align: center;
-  line-height: 43px;
+  line-height: 2.688rem;
   cursor: pointer;
 
   position: fixed;
@@ -60,7 +65,31 @@ const NavButton = styled(BodyTypo)`
   right: 3.875rem; 
   z-index: 1;
 
-  @media (max-width: 560px) {
+  @media (max-width: 480px) {
+    display: none;
+  }
+`;
+
+const NavButtonTwo = styled(BodyTypo)`
+  width: 13.875rem;
+  height: 2.688rem;
+  border-radius: 15px;
+  background-color: var(--blue);
+  text-align: center;
+  line-height: 2.688rem;
+  cursor: pointer;
+
+  position: fixed;
+  top: 3.25rem;
+  right: 3.875rem; 
+  z-index: 1;
+
+  @media (max-width: 480px) {
+    width: 8rem;
+    right: 1rem;
+    top: 2.5rem;
+  }
+  @media (min-width: 480px) {
     display: none;
   }
 `;

@@ -53,6 +53,22 @@ const CoinCard = ({
     }
   }, []);
 
+  function formatNumber(num: any) {
+    if (num === 0) return "0";
+
+    let str = num.toString();
+
+    // 지수 표기법인지 확인
+    if (str.includes("e")) {
+      let fixed = num.toFixed(99); // 충분히 큰 자리수로 변환
+      str = fixed.replace(/(?:\.0+|(\.\d*?[1-9])0+)$/, "$1"); // 불필요한 0 제거
+    } else {
+      str = str.replace(/(?:\.0+|(\.\d*?[1-9])0+)$/, "$1"); // 불필요한 0 제거
+    }
+
+    return str;
+  }
+
   return (
     <Container>
       <HeaderSection
@@ -85,16 +101,16 @@ const CoinCard = ({
           {parseFloat(highPrice)}
         </UpDownSection>
         <CurrentSection>
-          <CurrentPrice>&#36; {parseFloat(currentPrice)}</CurrentPrice>
+          <CurrentPrice>&#36; {formatNumber(currentPrice)}</CurrentPrice>
           <CurrentPriceChange $change={change}>
             {change === "EVEN" ? (
               "⏤"
             ) : (
               <>
                 {change === "RISE" ? "▲" : "▼"}
-                &nbsp;{parseFloat(priceChange)}
+                &nbsp;{formatNumber(priceChange)}
                 {/* &nbsp;{priceChange} */}
-                &nbsp;({parseFloat(priceChangeRate)}%)
+                &nbsp;({formatNumber(priceChangeRate)}%)
               </>
             )}
           </CurrentPriceChange>

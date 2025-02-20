@@ -142,6 +142,9 @@ const TopItemWrapper = styled.div`
   display: flex;
   gap: 1.563rem;
   max-width: 537px;
+  @media (max-width: 480px) {
+    gap: 0.5rem;
+  }
 `;
 
 const Item12Title = styled(BodyTypo)``;
@@ -159,7 +162,7 @@ const Item1 = styled(BaseItem)`
   overflow: hidden;
 
   @media (max-width: 480px) {
-    width: 16em;
+    width: 60vw;
   }
 `;
 const Item1TextWrapper = styled.div`
@@ -190,7 +193,7 @@ const Item2 = styled(BaseItem)`
   flex: 1;
 
   @media (max-width: 480px) {
-    max-width: 8.4rem;
+    max-width: 35vw;
   }
 `;
 const Item2TextWrapper = styled.div`

@@ -7,7 +7,6 @@ import { useAuth } from "../../../hooks/common/useAuth";
 
 const UserButton: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const {isAuthenticated} = useAuth();
 
   const toggleModal = () => {
     setIsUserModalOpen((prev) => !prev);

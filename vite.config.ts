@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true, // 주현아 여기 삭제해야돼
     port: 3000, // 로컬 개발 환경의 포트 번호 통일
     proxy: {
       "/api/proxy": {
