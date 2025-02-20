@@ -20,10 +20,12 @@ const NewsCards: React.FC = () => {
   useEffect(() => {
     const getNews = async () => {
       const rawNews = await fetchNewsFromRSS();
+      console.log("rawNews:", rawNews);
+      console.log("length", rawNews.length);
 
       // ❗ rawNews가 정상적인 구조인지 확인
       if (!Array.isArray(rawNews) || rawNews.length !== 4) {
-        console.error("❌ NewsCards.tsx: 잘못된 뉴스 데이터 구조", rawNews);
+        console.error("❌ NewsCards.tsx에서 잘못된 뉴스 데이터 구조", rawNews);
         setIsLoading(false);
         return;
       }

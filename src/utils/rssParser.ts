@@ -32,6 +32,9 @@ export const fetchNewsFromRSS = async () => {
     const parsedData = await parseStringPromise(xmlData);
     const items: RssItem[] = parsedData.rss.channel[0].item || []; // `item`이 없을 수도 있음
 
+    console.log("parsedData:", parsedData);
+    console.log("items:", items);
+
     if (!items || items.length === 0) {
       throw new Error("❌ 뉴스 데이터 없음!");
     }
