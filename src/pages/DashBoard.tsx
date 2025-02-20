@@ -34,7 +34,6 @@ const DashBoard = () => {
           },
         },
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -45,8 +44,6 @@ const DashBoard = () => {
     queryKey: ["DashBoard", currentPage, viewType, sortType, isAuthenticated],
     queryFn: getCoinList,
   });
-
-  console.log(data);
 
   const isGridView = viewType === "GRID";
 
@@ -111,8 +108,9 @@ const UnderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 1.938rem 12.24vw 4.5rem 12.24vw;
-  width: 100%;
+  padding-bottom: 5.125rem;
+  width: min(75vw, 67.5rem);
+  margin: auto; 
   height: fit-content;
 `;
 
