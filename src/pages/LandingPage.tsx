@@ -376,12 +376,9 @@ const CircleSecond = styled.div`
 
 const LogoBackground = styled.img`
   width: 100vw;
-  max-width: 1300px;
+  max-width: 1214px;
   position: relative;
   bottom: 10%;
-  @media (max-height: 800px) {
-    height: 70vh;
-  } 
 `;
 const LogoBackgroundSecond = styled(LogoBackground)`
   @media (max-width: 500px) {
