@@ -153,7 +153,8 @@ const LandingPage = () => {
       <Slide>
         <SlideContent2>
           <CircleSecond key={`circle-${animationKey}`} />
-          <LogoBackground src="/assets/LandingPage/LandingSecond.svg" />
+          <LogoBackgroundSecond src="/assets/LandingPage/LandingSecond.svg" />
+          <MobileLogoBackground src="/assets/LandingPage/MobileLogoBackground.svg" />
           <TabletImage ref={tabletRef} src="/assets/LandingPage/Second-First-First.svg" />
           <MobileImage ref={mobileRef} src="/assets/LandingPage/Second-First-Second.svg" />
         </SlideContent2>
@@ -346,15 +347,6 @@ const SlideContent = styled.div`
   } 
 `;
 
-const LogoBackground = styled.img`
-  width: 100vw;
-  max-width: 1300px;
-  position: relative;
-  bottom: 10%;
-  @media (max-height: 800px) {
-    height: 70vh;
-  } 
-`;
 const circleSecondAnimation = keyframes`
   0% {
     width: 0;
@@ -381,31 +373,51 @@ const CircleSecond = styled.div`
   filter: blur(40px);
   animation: ${circleSecondAnimation} 2s ease-out forwards;
 `;
+
+const LogoBackground = styled.img`
+  width: 100vw;
+  max-width: 1300px;
+  position: relative;
+  bottom: 10%;
+  @media (max-height: 800px) {
+    height: 70vh;
+  } 
+`;
+const LogoBackgroundSecond = styled(LogoBackground)`
+  @media (max-width: 500px) {
+    display:none;
+  }
+`;
+const MobileLogoBackground = styled.img`
+  width: 100vw;
+  max-width: 1300px;
+  position: relative;
+  bottom: 10%;
+  @media (max-height: 800px) {
+    height: 70vh;
+  } 
+  @media (min-width: 500px) {
+    display:none;
+  }
+`;
 const TabletImage = styled.img`
   position: absolute;
+  left: 40%;
+  
   width: 50vw;
   max-width: 650px;
-  @media (min-width: 1600px) {
-    left: 42%;
+
+  @media (max-width: 840px) {
+    bottom: 40%;
   }
-  @media (max-width: 1600px) {
-    left: 42%;
+  @media (max-width: 620px) {
+    bottom: 45%;
   }
-  @media (max-width: 1000px) {
-    bottom: 35%;
-    left: 38%;
+  @media (max-width: 500px) {
+    display:none;
   }
-  @media (max-width: 760px) {
-    bottom: 42%;
-    left: 38%;
-  }
-  @media (max-width: 420px) {
-    bottom: 46%;
-    left: 38%;
-  }
-  @media (min-height: 700px) and (max-height: 800px) {
-  height: 40vh;
-  left: 35vw;
+  @media (min-height: 720px) and (max-height: 800px) {
+    width: 38vw;
   }
 `;
 
@@ -421,8 +433,8 @@ const MobileImage = styled.img`
   @media (max-width: 760px) {
     bottom: 45%;
   }
-  @media (max-width: 420px) {
-    bottom: 46%;
+  @media (max-width: 500px) {
+    display: none;
   }
   @media (min-height: 700px) and (max-height: 800px) {
     height: 62vh;

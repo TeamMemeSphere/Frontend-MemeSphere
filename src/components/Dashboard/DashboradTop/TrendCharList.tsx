@@ -31,7 +31,7 @@ const TrendChartList: React.FC = () => {
                                 <CoinSymbol>{data.symbol}</CoinSymbol>
                             </CoinInfo>
                             <CoinPriceWrapper>
-                                <CurrentCoinPrice>${data.price}</CurrentCoinPrice>
+                                <CurrentCoinPrice>${parseFloat(data.price).toString()}</CurrentCoinPrice>
                                 <PriceChange $change={data?.priceChangeDirection}>
                                     {data?.priceChangeDirection === "up" ? "▲" : "▼"}
                                     &nbsp;
