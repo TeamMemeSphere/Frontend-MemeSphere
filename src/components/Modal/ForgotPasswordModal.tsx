@@ -20,32 +20,23 @@ const ForgotPasswordModal: React.FC = () => {
         }
 
         try {
-            const ForgotPasswordData = {
-                email: email.value,
-            };
+            const emailValue = encodeURIComponent(email.value); // URL 인코딩 (필수)
+    const url = `${API_ENDPOINTS.FORGET_PASSWORD}?email=${emailValue}`;
 
-            const response = await fetch(API_ENDPOINTS.USER_SIGNUP, {
+    // console.log("📌 요청 URL:", url); // 디버깅용
+
+            const response = await fetch(url, {
+                method: "POST",
                 headers: {
-                    "Content-type" : "application/json",
+                    "Content-Type": "application/json",
                 },
-                method: "POST", 
-                body: JSON.stringify(ForgotPasswordData),
             });
-
+        
             const data = await response.json();
-            if (!response.ok) {
-                alert (data?.message || `비밀번호 찾기 실패: ${response.status}`);
-                console.error("비밀번호 찾기 실패:", response.status, data);
-                return;
-            }
-
-            if(!data.isSuccess) {
-                alert(data.message);
-                return;
-            }
+            // console.log("📌 응답 데이터:", data);
         } catch (error) {
-            console.error("비밀번호 찾기 요청 오류:", error);
-            alert("비밀번호 찾기 중 문제가 발생했습니다. 다시 시도해주세요.");
+            // console.error("📌 요청 중 오류 발생:", error);
+            
         }
     }
 

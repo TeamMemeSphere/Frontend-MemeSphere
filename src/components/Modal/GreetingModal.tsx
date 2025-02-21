@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { SubTitle2Typo, BodyTypo } from "../../styles/Typography";
 import { useAuth } from "../../hooks/common/useAuth";
 import Overlay from "../Commons/Overlay";
+import { useNavigate } from "react-router-dom";
 
 interface GreetingModalProps {
   closeModal: () => void;
@@ -10,10 +11,11 @@ interface GreetingModalProps {
 
 const GreetingModal: React.FC<GreetingModalProps> = ({ closeModal }) => {
   const { logout, nickName } = useAuth();
-
+  const nav = useNavigate();
   const handleLogout = () => {
     logout();
     closeModal();
+    nav("/");
   };
 
   return (

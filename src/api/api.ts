@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
     USER_SIGNIN: `${BASE_URL}/user/sign-in`,
     USER_SIGNOUT: `${BASE_URL}/user/sign-out`,
     USER_KAKAO: `${BASE_URL}/user/login/oauth2/kakao`,
+    FORGET_PASSWORD :`${BASE_URL}/user/password/send`,
     USER_GOOGLE: `${BASE_URL}/user/login/oauth2/google`,
     USER_REISSUE: `${BASE_URL}/user/reissue`,
     SEARCH: `${BASE_URL}/search`,
