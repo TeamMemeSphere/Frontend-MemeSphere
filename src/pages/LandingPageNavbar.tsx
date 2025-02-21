@@ -6,9 +6,9 @@ import { BodyTypo, TitleTypo } from "../styles/Typography";
 const LandingPageNavbar = () => {
   const navigate = useNavigate();
   
-  const LandingButton = () => {
-    navigate("/dashboard", {state: {showUserModal: true}});
-  };
+  // const LandingButton = () => {
+  //   navigate("/dashboard", {state: {showUserModal: true}});
+  // };
 
   return (
     <Wrapper>
@@ -16,8 +16,8 @@ const LandingPageNavbar = () => {
             <LogoImg src="/assets/common/navbar/memesphere-main-logo.svg" />
             <LogoTypo>MemeSphere</LogoTypo>
         </Logo>
-        <NavButtonOne onClick={LandingButton}>Memesphere 시작하기</NavButtonOne>
-        <NavButtonTwo onClick={LandingButton}>시작하기</NavButtonTwo>
+        <NavButtonOne onClick={()=>navigate("/dashboard")}>Memesphere 시작하기</NavButtonOne> 
+        <NavButtonTwo onClick={()=>navigate("/dashboard")}>시작하기</NavButtonTwo>
     </Wrapper>
   );
 };

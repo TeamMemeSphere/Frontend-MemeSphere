@@ -5,23 +5,22 @@ import { useLocation } from "react-router-dom";
 import UserModal from "../Modal/Auth/UserModal";
 
 const Footer: React.FC = () => {
-  const [showUserModal, setShowUserModal] = useState(false);
-  const location = useLocation();
-  useEffect(() => {
-    if (location.state?.showUserModal) {
-      window.scrollTo(0, 0);
-        setShowUserModal(true);
-    }
-  }, [location]);
+  // const [showUserModal, setShowUserModal] = useState(false);
+  // const location = useLocation();
+  // useEffect(() => {
+  //   if (location.state?.showUserModal) {
+  //     window.scrollTo(0, 0);
+  //       setShowUserModal(true);
+  //   }
+  // }, [location]);
   
-  
-  const closeModal = () => {
-    setShowUserModal(false);
-  };
+  // const closeModal = () => {
+  //   setShowUserModal(false);
+  // };
 
   return (
     <>
-    {showUserModal && <UserModal closeModal={closeModal}/>}
+    {/* {showUserModal && <UserModal closeModal={closeModal}/>} */}
     <FooterWrapper>
       <Content>
         <div>© MemeSphere All rights reserved.</div>
